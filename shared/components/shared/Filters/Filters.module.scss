@@ -1,0 +1,25 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.subtitle {
+  @include subtitle;
+
+  & {
+    margin-bottom: 30px;
+  }
+}
+
+.categoryTitle {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.priceInputs{
+  display: flex;
+  gap: 12px;
+}

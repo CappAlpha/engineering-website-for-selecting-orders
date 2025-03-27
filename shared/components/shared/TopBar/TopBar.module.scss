@@ -1,0 +1,18 @@
+.root {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid var(--blue-border);
+}
+
+.wrap {
+  @include wrap;
+
+  & {
+    padding-top: 24px;
+    padding-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    background: var(--black);
+  }
+}

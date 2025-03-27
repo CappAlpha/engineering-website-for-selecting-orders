@@ -1,0 +1,11 @@
+.root {
+  svg {
+    fill: var(--white);
+  }
+}
+
+.checked {
+  svg {
+    fill: var(--additional-red);
+  }
+}

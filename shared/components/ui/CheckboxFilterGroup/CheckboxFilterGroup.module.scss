@@ -1,0 +1,23 @@
+.root {
+  
+}
+
+.title{
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.input{
+  margin-bottom: 16px;
+}
+
+.items{
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 270px;
+  margin-bottom: 18px;
+}

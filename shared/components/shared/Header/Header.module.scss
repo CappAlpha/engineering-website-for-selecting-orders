@@ -1,5 +1,5 @@
 .root {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -13,6 +13,7 @@
   padding: 40px 65px;
   margin: 0 auto;
   max-width: 1440px;
+  background: var(--black);
   outline: var(--blue-border) 1px solid;
   border-radius: 0 0 40px 40px;
 }

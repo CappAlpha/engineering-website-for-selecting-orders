@@ -1,15 +1,13 @@
-.wrap {
+.wrap, .wrapCatalog {
   @include wrap;
 }
 
 .title {
   @include title;
-  & {
-  margin-bottom: 36px;
-  }
 }
 
-.mainFilter {
+.wrapCatalog{
   display: flex;
-  justify-content: space-between;
+  gap: 60px;
+  margin: 36px auto;
 }
