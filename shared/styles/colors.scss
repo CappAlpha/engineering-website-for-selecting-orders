@@ -1,0 +1,54 @@
+:root {
+  //white
+  --white: #fff;
+  --white-blur: rgba(255, 255, 255, 0.1);
+
+  //purple
+  --purple: #6d28d9;
+  --purple-dark: #6c28d9ae;
+  --purple-background: #5b1dbe8f;
+
+  //black
+  --black: #000;
+
+  //gray
+  --gray: #999;
+
+  //blue
+  --blue-border: #7088a0;
+
+  //others
+  --opacity-colors-white-10: rgba(255, 255, 255, 0.1);
+  --opacity-colors-white-24: rgba(255, 255, 255, 0.24);
+  --opacity-colors-white-50: rgba(255, 255, 255, 0.5);
+  --opacity-colors-off-white-80: rgba(245, 245, 245, 0.8);
+  --opacity-colors-white-50: rgba(255, 255, 255, 0.5);
+  --opacity-colors-black-8: rgba(0, 0, 0, 0.08);
+  --opacity-colors-black-16: rgba(0, 0, 0, 0.16);
+  --opacity-colors-black-40: rgba(0, 0, 0, 0.4);
+  --opacity-colors-black-20: rgba(0, 0, 0, 0.2);
+  --opacity-colors-black-46: rgba(0, 0, 0, 0.46);
+  --opacity-colors-black-70: rgba(0, 0, 0, 0.7);
+  --opacity-colors-black-from-bottom-to-top: linear-gradient(
+    rgba(0, 0, 0, 0.3),
+    rgba(0, 0, 0, 0) 40%,
+    rgba(0, 0, 0, 0) 75%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+  --additional-red: #ff5b45;
+  --red-hover: #de321b;
+  --grey-border-pdf: #bababa;
+
+  //padding
+  --scrollbar-width: 5px;
+
+  // --stub-padding: 35px;
+
+  // @include breakpoint(tablet) {
+  //   --stub-padding: 20px;
+  // }
+
+  // @include breakpoint(mobile-m) {
+  //   --stub-padding: 10px;
+  // }
+}

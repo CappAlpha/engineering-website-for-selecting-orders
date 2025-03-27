@@ -1,0 +1,4 @@
+export { default as ShoppingCart } from "./icons/shopping-cart.svg";
+export { default as User } from "./icons/user.svg";
+export { default as Settings } from "./icons/settings.svg";
+export { default as Arrow } from "./icons/arrow.svg";

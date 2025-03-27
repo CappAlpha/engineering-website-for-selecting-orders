@@ -1,0 +1,11 @@
+.root {
+  border-radius: 16px;
+  background-color: transparent;
+  color: var(--gray);
+}
+
+.active {
+  color: var(--white);
+  background-color: var(--purple-dark);
+  box-shadow: 1px 0px 6px 0.5px var(--blue-border);
+}

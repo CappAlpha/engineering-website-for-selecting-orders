@@ -1,0 +1,130 @@
+@use "sass:map";
+@use "sass:meta";
+
+$breakpoints: (
+  mobile: 360,
+  mobile-m: 768,
+  tablet: 1024,
+  desktop-s: 1280,
+  desktop-m: 1440,
+  desktop-l: 1600,
+);
+
+@mixin breakpoint($point, $type: max) {
+  $delta: 0;
+
+  @if $type==max {
+    $delta: 0.1;
+  }
+
+  @if meta.type-of($point) ==number {
+    @media (#{$type}-width: ($point - $delta + px)) {
+      @content;
+    }
+  } @else {
+    $breakpoint: map.get($breakpoints, #{$point});
+    $breakpointValue: $breakpoint - $delta + px;
+
+    @media (#{$type}-width: $breakpointValue) {
+      @content;
+    }
+  }
+}
+
+@mixin scrollbar {
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--white);
+    border-radius: 6px;
+    opacity: 0.1;
+  }
+}
+
+@mixin rect($size) {
+  width: $size + px;
+  height: $size + px;
+}
+
+@mixin wrap {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 40px;
+
+  @include breakpoint(desktop-s) {
+    padding: 0 32px;
+  }
+
+  @include breakpoint(mobile-m) {
+    padding: 0 16px;
+  }
+}
+
+@mixin pseudo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  content: "";
+}
+
+@mixin title {
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 64px;
+
+  @include breakpoint(desktop-s) {
+    font-size: 40px;
+    line-height: 48px;
+  }
+
+  @include breakpoint(mobile-m) {
+    font-size: 32px;
+    line-height: 40px;
+  }
+}
+
+@mixin subtitle {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28px;
+
+  @include breakpoint(mobile-m) {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+  }
+}
+
+@mixin skeleton($isWhite: false) {
+  background: var(--grey-palette-1-off-white);
+  border-radius: $borderRadius;
+  position: relative;
+
+  &:before {
+    @include pseudo;
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: 180px 100%;
+    border-radius: $borderRadius;
+
+    @if $isWhite !=false {
+      background-image: linear-gradient(90deg, #fff 0%, #dedede 50%, #fff 100%);
+    } @else {
+      background-image: linear-gradient(
+        90deg,
+        #f5f5f5 0%,
+        #dedede 50%,
+        #f5f5f5 100%
+      );
+    }
+
+    &:global {
+      animation: 1.2s linear infinite shimmer;
+    }
+  }
+}

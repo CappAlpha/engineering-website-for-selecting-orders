@@ -1,0 +1,15 @@
+.wrap {
+  @include wrap;
+}
+
+.title {
+  @include title;
+  & {
+  margin-bottom: 36px;
+  }
+}
+
+.mainFilter {
+  display: flex;
+  justify-content: space-between;
+}
