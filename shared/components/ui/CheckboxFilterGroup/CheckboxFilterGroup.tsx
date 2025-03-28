@@ -1,5 +1,5 @@
 "use client";
-import { useState, type FC } from 'react';
+import { ChangeEvent, useState, type FC } from 'react';
 
 import { FilterCheckbox, Props as FilterCheckboxProps } from "../FilterCheckbox/FilterCheckbox"
 
@@ -27,14 +27,26 @@ export const CheckboxFilterGroup: FC<Props> = ({
   defaultValue
 }) => {
   const [showAll, setShowAll] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
 
-  const list = showAll ? items : items.slice(0, limit);
+  const onChangeShowAll = () => {
+    setShowAll((prev) => !prev);
+  }
+
+  const onChangeSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+  }
+
+  const filteredItems = items.filter((item) => item.text.toLowerCase().includes(searchValue.toLowerCase()));
+
+  const list = showAll ? filteredItems : items.slice(0, limit);
+
   return (
     <div className={s.root}>
       <p className={s.title}>{title}</p>
 
       {showAll && <div className={s.input}>
-        <Input placeholder={searchInputPlaceholder} />
+        <Input onChange={onChangeSearchInput} placeholder={searchInputPlaceholder} />
       </div>}
 
       <div className={s.items}>
@@ -51,11 +63,9 @@ export const CheckboxFilterGroup: FC<Props> = ({
       </div>
 
       {items.length > limit && (
-        <div>
-          <Button onClick={() => setShowAll(!showAll)}>
-            {showAll ? 'Скрыть' : 'Показать всё'}
-          </Button>
-        </div>
+        <Button onClick={onChangeShowAll} color='transparent' noPadding>
+          {showAll ? 'Скрыть' : '+ Показать всё'}
+        </Button>
       )}
     </div>
   );

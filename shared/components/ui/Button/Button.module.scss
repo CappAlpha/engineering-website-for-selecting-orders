@@ -43,11 +43,11 @@
 
     &_transparent {
       background: transparent;
-      color: var(--grey-palette-nero-italiano);
+      color: var(--blue);
 
       &:hover {
         @media (hover: hover) and (pointer: fine) {
-          color: var(--grey-palette-6);
+          color: var(--gray);
         }
       }
     }
@@ -79,4 +79,8 @@
       }
     }
   }
+}
+
+.noPadding{
+  padding: 0;
 }

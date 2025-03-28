@@ -11,7 +11,7 @@ export interface Props {
   step?: number;
 }
 
-export const Slider: FC<Props> = ({min, max, defaultValue, step }) => {
+export const Slider: FC<Props> = ({ min, max, defaultValue, step }) => {
   return (
     <SliderMui
       className={s.root}

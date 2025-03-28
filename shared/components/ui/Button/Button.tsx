@@ -7,11 +7,11 @@ import s from "./Button.module.scss";
 export interface ButtonProps {
   color?: "grey" | "transparent";
   size?: "m" | "s";
+  noPadding?: boolean;
   onClick?: (event: MouseEvent) => void;
   children?: ReactNode;
   className?: string;
   disabled?: boolean;
-  loading?: boolean;
   href?: string;
   targetBlank?: boolean;
 }
@@ -19,23 +19,26 @@ export interface ButtonProps {
 export const Button: FC<ButtonProps> = ({
   color,
   size = "m",
+  noPadding = false,
   onClick,
   children,
   className,
   disabled,
-  loading,
   href = "",
   targetBlank = false,
 }) => {
+  const styles = cn(
+    s.root,
+    color && s[`color_${color}`],
+    size && s[`size_${size}`],
+    noPadding && s.noPadding,
+    className,
+    disabled && s.disabled,
+  );
+
   return href ? (
     <Link
-      className={cn(
-        s.root,
-        color && s[`color_${color}`],
-        size && s[`size_${size}`],
-        className,
-        disabled && s.disabled,
-      )}
+      className={styles}
       href={href}
       target={targetBlank ? "_blank" : ""}
     >
@@ -43,14 +46,7 @@ export const Button: FC<ButtonProps> = ({
     </Link>
   ) : (
     <button
-      className={cn(
-        s.root,
-        color && s[`color_${color}`],
-        size && s[`size_${size}`],
-        className,
-        disabled && s.disabled,
-        loading && s.loading,
-      )}
+      className={styles}
       onClick={onClick}
     >
       {children}
