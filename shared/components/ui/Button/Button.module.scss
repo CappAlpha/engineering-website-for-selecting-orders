@@ -1,11 +1,13 @@
 .root {
   padding: 12px 18px;
   color: var(--white);
+  fill: var(--white);
   font-size: 14px;
   line-height: 18px;
   border-radius: 8px;
   background: var(--purple);
   display: inline-flex;
+  gap: 6px;
   transition: 0.3s;
   width: max-content;
   white-space: nowrap;

@@ -1,11 +1,11 @@
 "use client";
 import { ChangeEvent, useState, type FC } from 'react';
 
+import { Input } from '../Input';
+import { Button } from '../Button';
 import { FilterCheckbox, Props as FilterCheckboxProps } from "../FilterCheckbox/FilterCheckbox"
 
 import s from './CheckboxFilterGroup.module.scss';
-import { Input } from '../Input';
-import { Button } from '../Button';
 
 type Item = FilterCheckboxProps;
 

@@ -1,0 +1,44 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 100%;
+}
+
+.imgWrap {
+  position: relative;
+  width: 285px;
+  height: 260px;
+}
+
+.img {
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.title {
+  margin-bottom: 7px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+.description {
+  color: var(--gray);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 27px;
+}
