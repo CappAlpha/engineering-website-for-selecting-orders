@@ -1,8 +1,15 @@
+@use "@/styles/animations.scss" as *;
+
 .root {
   position: sticky;
   top: 0;
   z-index: 20;
   border-bottom: 1px solid var(--blue-border);
+  transition: 0.5s transform ease-in-out;
+}
+
+.hidden {
+  transform: translateY(-100%);
 }
 
 .wrap {
@@ -15,4 +22,34 @@
     justify-content: space-between;
     background: var(--dark-gray);
   }
+}
+
+.hideBtn,
+.showBtn {
+  position: absolute;
+  right: 24px;
+  animation: 0.8s showOpacity ease-in-out;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.hideBtn {
+  top: 24px;
+
+  svg {
+    transform: rotate(180deg);
+  }
+}
+
+.showBtn {
+  bottom: -72px;
+}
+
+.hiddenBtn {
+  display: none;
+  opacity: 0;
+  animation: 0.8s hideOpacity ease-in-out;
 }
