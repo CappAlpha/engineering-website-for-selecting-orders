@@ -45,7 +45,7 @@ export default function Home() {
 
       <TopBar />
 
-      <div className={s.wrapCatalog} style={{ height: "400dvh" }}>
+      <div className={s.wrapCatalog}>
         <Filters />
         <div className={s.wrapProducts}>
           <ProductsGroupList title="Чертежи" items={PRODUCTS} categoryId={1} />
