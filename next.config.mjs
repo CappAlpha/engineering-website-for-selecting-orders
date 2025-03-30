@@ -21,9 +21,6 @@ const nextConfig = {
     deviceSizes: [360, 768, 1024, 1280, 1440, 1600],
     minimumCacheTTL: 7200,
   },
-  experimental: {
-    scrollRestoration: true,
-  },
   webpack(config) {
     // Grab the existing rule that handles SVG imports
     // @ts-ignore - rules is a private property that is not typed

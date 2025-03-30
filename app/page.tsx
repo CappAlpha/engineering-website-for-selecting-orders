@@ -50,6 +50,7 @@ export default function Home() {
         <div className={s.wrapProducts}>
           <ProductsGroupList title="Чертежи" items={PRODUCTS} categoryId={1} />
           <ProductsGroupList title="БЭМ" items={PRODUCTS} categoryId={2} />
+          <ProductsGroupList title="Геология" items={PRODUCTS} categoryId={3} />
         </div>
       </div>
     </>

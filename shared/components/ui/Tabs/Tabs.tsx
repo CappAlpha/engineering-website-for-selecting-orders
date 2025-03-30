@@ -2,23 +2,20 @@ import { type FC } from "react";
 
 import s from "./Tabs.module.scss";
 import { Tab } from "./Tab";
-
 export interface Props {
-  //
+  items: string[];
+  activeIndex: number;
 }
 
-const orders = ["Все", "Здания", "Мосты", "Геология"];
-const activeIndex = 0;
-
-export const Tabs: FC<Props> = ({}) => {
+export const Tabs: FC<Props> = ({ items, activeIndex }) => {
   return (
     <div className={s.root}>
-      {orders.map((order, index) => (
+      {items.map((item, index) => (
         <Tab
-          key={order}
-          order={order}
+          key={item}
+          name={item}
           activeIndex={activeIndex}
-          currentIndex={index}
+          currentIndex={index + 1}
         />
       ))}
     </div>

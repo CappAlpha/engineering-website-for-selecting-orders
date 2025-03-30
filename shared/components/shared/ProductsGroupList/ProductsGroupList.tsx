@@ -4,7 +4,8 @@ import { useEffect, useRef, type FC } from 'react';
 import { ProductCard } from '../ProductCard';
 
 import s from './ProductsGroupList.module.scss';
-import { useIntersectionObserver } from '@/hook/useIntersectionObserver';
+import { useIntersectionObserver } from '@/hook/useIntersectionObserver.ts';
+import { useActions } from '@/hook/useActions.ts';
 
 export interface Props {
   title: string;
@@ -13,14 +14,15 @@ export interface Props {
 }
 
 export const ProductsGroupList: FC<Props> = ({ title, items, categoryId }) => {
+  const { setActiveId } = useActions();
   const intersectionRef = useRef(null);
   const intersection = useIntersectionObserver(intersectionRef, { threshold: 0.4 });
 
-  useEffect(() =>{
-    if(intersection?.isIntersecting){
-      console.log(title, categoryId);
+  useEffect(() => {
+    if (intersection?.isIntersecting) {
+      setActiveId(categoryId);
     }
-  },[intersection?.isIntersecting])
+  }, [intersection?.isIntersecting])
 
   return (
     <div className={s.root} id={title} ref={intersectionRef}>

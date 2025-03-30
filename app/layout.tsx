@@ -4,6 +4,7 @@ import "@/styles/reset.scss";
 import "@/styles/global.scss";
 import "@/styles/colors.scss";
 import s from "./layout.module.scss";
+import StoreProvider from "./StoreProvider.tsx";
 
 export default function RootLayout({
   children,
@@ -13,8 +14,10 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={s.root}>
-        <Header />
-        <main className={s.container}>{children}</main>
+        <StoreProvider>
+          <Header />
+          <main className={s.container}>{children}</main>
+        </StoreProvider>
       </body>
     </html>
   );

@@ -5,21 +5,21 @@ import { Button } from "@/components/ui/Button";
 import cn from "classnames";
 
 export interface Props {
-  order: string;
+  name: string;
   activeIndex: number;
   currentIndex: number;
 }
 
-export const Tab: FC<Props> = ({ order, activeIndex, currentIndex }) => {
+export const Tab: FC<Props> = ({ name, activeIndex, currentIndex }) => {
   const isActive = activeIndex == currentIndex;
   return (
     <Button
-      href={"#"}
+      href={`/#${name}`}
       disabled={isActive}
       size="s"
       className={cn(s.root, isActive && s.active)}
     >
-      {order}
+      {name}
     </Button>
   );
 };

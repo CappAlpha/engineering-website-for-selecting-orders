@@ -24,8 +24,15 @@ body {
   user-select: text;
   min-height: 100dvh;
   min-width: 320px;
+  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 h1,
