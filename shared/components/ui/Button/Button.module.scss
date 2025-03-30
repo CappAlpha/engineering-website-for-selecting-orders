@@ -5,7 +5,7 @@
   font-size: 14px;
   line-height: 18px;
   border-radius: 8px;
-  background: var(--purple);
+  background: var(--dark-blue);
   display: inline-flex;
   gap: 6px;
   transition: 0.3s;
@@ -16,7 +16,7 @@
 
   &:hover {
     @media (hover: hover) and (pointer: fine) {
-      background: var(--purple-dark);
+      background: var(--blue);
       cursor: pointer;
     }
   }
