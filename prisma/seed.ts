@@ -1,16 +1,19 @@
 import { prisma } from "./prisma-client";
 import { hashSync } from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
 
 async function up() {
   await prisma.user.createMany({
     data: [
       {
+        id: uuidv4(),
         fullName: 'User',
         email: 'user@test.ru',
         password: hashSync('user123', 10),
         role: 'USER'
       },
       {
+        id: uuidv4(),
         fullName: 'Admin',
         email: 'admin@test.ru',
         password: hashSync('admin123', 10),
