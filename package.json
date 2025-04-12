@@ -54,7 +54,7 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "*.{json,md,html,css}": "prettier --write"
+    "*.{json,md,html,css,scss}": "prettier --write"
   },
   "importSort": {
     ".js, jsx, .ts, .tsx": {
