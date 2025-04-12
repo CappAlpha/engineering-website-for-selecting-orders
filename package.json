@@ -42,8 +42,12 @@
     "lint-staged": "^15.5.1",
     "prettier": "^3.3.3",
     "sass": "^1.86.0",
+    "simple-git-hooks": "^2.12.1",
     "ts-node": "^10.9.2",
     "typescript": "^5"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npm run lint-staged"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
