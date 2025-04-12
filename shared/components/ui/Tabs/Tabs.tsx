@@ -1,6 +1,5 @@
-import { type FC } from "react";
-
 import s from "./Tabs.module.scss";
+import { type FC } from "react";
 import { Tab } from "./Tab";
 export interface Props {
   items: string[];

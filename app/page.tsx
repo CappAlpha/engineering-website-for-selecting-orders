@@ -1,9 +1,8 @@
-import { TopBar } from "@/components/shared/TopBar";
-
-import s from "./page.module.scss";
-import { Filters } from "@/components/shared/Filters";
-import { ProductsGroupList } from "@/components/shared/ProductsGroupList";
 import { Props as ProductCardProps } from "@/components/shared/ProductCard";
+import { ProductsGroupList } from "@/components/shared/ProductsGroupList";
+import { Filters } from "@/components/shared/Filters";
+import { TopBar } from "@/components/shared/TopBar";
+import s from "./page.module.scss";
 
 const PRODUCTS: ProductCardProps[] = [
   {

@@ -1,10 +1,9 @@
-import { type FC } from "react";
-
-import s from "./ProductCard.module.scss";
-import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Plus } from "../../../../public/icon";
+import s from "./ProductCard.module.scss";
+import { type FC } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 export interface Props {
   id: number;

@@ -1,9 +1,7 @@
 "use client";
-import { type FC } from "react";
-
 import { Sort } from "../../../../public/icon";
-
 import s from "./SortDropdown.module.scss";
+import { type FC } from "react";
 
 export interface Props {
   //

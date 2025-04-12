@@ -1,11 +1,9 @@
 "use client";
-import { useEffect, useRef, type FC } from "react";
-
-import { ProductCard } from "../ProductCard";
-
-import s from "./ProductsGroupList.module.scss";
 import { useIntersectionObserver } from "@/hook/useIntersectionObserver.ts";
+import { useEffect, useRef, type FC } from "react";
 import { useActions } from "@/hook/useActions.ts";
+import s from "./ProductsGroupList.module.scss";
+import { ProductCard } from "../ProductCard";
 
 export interface Props {
   title: string;

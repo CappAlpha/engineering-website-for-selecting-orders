@@ -1,8 +1,7 @@
-import { type FC } from "react";
-import { Button } from "@/components/ui/Button";
 import { Arrow, Settings, ShoppingCart, User } from "../../../../public/icon/";
-
+import { Button } from "@/components/ui/Button";
 import s from "./Header.module.scss";
+import { type FC } from "react";
 
 export interface Props {
   //

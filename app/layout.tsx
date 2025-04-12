@@ -1,10 +1,9 @@
 import { Header } from "@/components/shared/Header";
-
-import "@/styles/reset.scss";
+import StoreProvider from "./StoreProvider.tsx";
+import s from "./layout.module.scss";
 import "@/styles/global.scss";
 import "@/styles/colors.scss";
-import s from "./layout.module.scss";
-import StoreProvider from "./StoreProvider.tsx";
+import "@/styles/reset.scss";
 
 export default function RootLayout({
   children,

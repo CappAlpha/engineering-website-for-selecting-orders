@@ -1,8 +1,7 @@
 "use client";
-import { type FC } from "react";
-
-import s from "./Slider.module.scss";
 import { Slider as SliderMui } from "@mui/material";
+import s from "./Slider.module.scss";
+import { type FC } from "react";
 
 export interface Props {
   min: number;

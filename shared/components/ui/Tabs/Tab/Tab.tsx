@@ -1,7 +1,6 @@
-import { type FC } from "react";
-
-import s from "./Tab.module.scss";
 import { Button } from "@/components/ui/Button";
+import s from "./Tab.module.scss";
+import { type FC } from "react";
 import cn from "classnames";
 
 export interface Props {

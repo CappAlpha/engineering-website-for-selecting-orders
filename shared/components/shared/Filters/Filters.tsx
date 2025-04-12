@@ -1,14 +1,12 @@
-import { type FC } from "react";
-
 import {
   FilterCheckbox,
   Props as FilterCheckboxProps,
 } from "../../ui/FilterCheckbox";
-import { Input } from "@/components/ui/Input";
 import { CheckboxFilterGroup } from "@/components/ui/CheckboxFilterGroup";
-
-import s from "./Filters.module.scss";
 import { Slider } from "@/components/ui/Slider";
+import { Input } from "@/components/ui/Input";
+import s from "./Filters.module.scss";
+import { type FC } from "react";
 
 export interface Props {
   //

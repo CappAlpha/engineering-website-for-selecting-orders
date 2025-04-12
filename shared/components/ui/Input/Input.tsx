@@ -1,9 +1,7 @@
 import { InputHTMLAttributes, type FC } from "react";
-import cn from "classnames";
-
 import { Input as InputMui } from "@mui/material";
-
 import s from "./Input.module.scss";
+import cn from "classnames";
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 

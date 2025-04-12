@@ -41,6 +41,7 @@
     "eslint-config-next": "15.0.3",
     "lint-staged": "^15.5.1",
     "prettier": "^3.3.3",
+    "prettier-plugin-sort-imports": "^1.8.7",
     "sass": "^1.86.0",
     "simple-git-hooks": "^2.12.1",
     "ts-node": "^10.9.2",
@@ -52,9 +53,9 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
-      "prettier --write"
+      "prettier --write ."
     ],
-    "*.{json,md,html,css,scss}": "prettier --write"
+    "*.{json,md,html,css,scss}": "prettier --write ."
   },
   "importSort": {
     ".js, jsx, .ts, .tsx": {

@@ -1,14 +1,12 @@
 "use client";
-import { useEffect, useState, type FC } from "react";
-import cn from "classnames";
-
-import { Tabs } from "@/components/ui/Tabs";
-import { SortDropdown } from "../SortDropdown";
 import { useAppSelector } from "@/hook/useAppSelector";
-import { Button } from "@/components/ui/Button";
-
-import s from "./TopBar.module.scss";
+import { useEffect, useState, type FC } from "react";
 import { AngleDown } from "../../../../public/icon";
+import { Button } from "@/components/ui/Button";
+import { SortDropdown } from "../SortDropdown";
+import { Tabs } from "@/components/ui/Tabs";
+import s from "./TopBar.module.scss";
+import cn from "classnames";
 
 export interface Props {
   //

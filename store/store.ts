@@ -1,5 +1,5 @@
-import { configureStore } from "@reduxjs/toolkit";
 import { categoriesReducers } from "./categories/categoriesSlice.ts";
+import { configureStore } from "@reduxjs/toolkit";
 
 export const makeStore = () =>
   configureStore({
