@@ -16,6 +16,25 @@
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
+  "simple-git-hooks": {
+    "pre-commit": "npm run format"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,html,css}": "prettier --write"
+  },
+  "importSort": {
+    ".js, jsx, .ts, .tsx": {
+      "options": {
+        "bottomAliases": [
+          "*.module.scss"
+        ]
+      }
+    }
+  },
   "dependencies": {
     "@prisma/client": "^6.5.0",
     "@reduxjs/toolkit": "^2.6.1",
@@ -46,24 +65,5 @@
     "simple-git-hooks": "^2.12.1",
     "ts-node": "^10.9.2",
     "typescript": "^5"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "npm run lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write ."
-    ],
-    "*.{json,md,html,css,scss}": "prettier --write ."
-  },
-  "importSort": {
-    ".js, jsx, .ts, .tsx": {
-      "options": {
-        "bottomAliases": [
-          "*.module.scss"
-        ]
-      }
-    }
   }
 }
