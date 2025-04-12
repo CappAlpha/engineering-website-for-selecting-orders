@@ -8,7 +8,7 @@ export interface Props {
   //
 }
 
-export const Header: FC<Props> = ({ }) => {
+export const Header: FC<Props> = ({}) => {
   return (
     <header className={s.root}>
       <div className={s.wrap}>
@@ -20,10 +20,13 @@ export const Header: FC<Props> = ({ }) => {
         <input className={s.search} type="search" placeholder="Поиск" />
 
         <div className={s.right}>
-          <Button><User className={s.userIcon} /> Войти</Button>
+          <Button>
+            <User className={s.userIcon} /> Войти
+          </Button>
           <Button className={s.cartBtn}>
             0 ₽ <span className={s.separator} />
-            <ShoppingCart className={s.cartIcon} /> <span className={s.count}>0</span>
+            <ShoppingCart className={s.cartIcon} />{" "}
+            <span className={s.count}>0</span>
             <Arrow className={s.arrowIcon} />
           </Button>
         </div>

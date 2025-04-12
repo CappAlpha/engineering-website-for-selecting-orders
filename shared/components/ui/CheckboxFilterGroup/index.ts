@@ -1,1 +1,1 @@
-export * from './CheckboxFilterGroup';
+export * from "./CheckboxFilterGroup";

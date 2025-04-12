@@ -1,13 +1,13 @@
 "use client";
-import { ReactNode, type FC } from 'react';
+import { ReactNode, type FC } from "react";
 
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
-import s from './FilterCheckbox.module.scss';
-import { noop } from '@/utils/noop';
-import classNames from 'classnames';
+import s from "./FilterCheckbox.module.scss";
+import { noop } from "@/utils/noop";
+import classNames from "classnames";
 
 export interface Props {
   text: string;
@@ -17,7 +17,13 @@ export interface Props {
   checked?: boolean;
 }
 
-export const FilterCheckbox: FC<Props> = ({ text, value, endAdornment, onCheckedChange, checked }) => {
+export const FilterCheckbox: FC<Props> = ({
+  text,
+  value,
+  endAdornment,
+  onCheckedChange,
+  checked,
+}) => {
   return (
     <FormGroup className={classNames(s.root, checked && s.checked)}>
       <FormControlLabel

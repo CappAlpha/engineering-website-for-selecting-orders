@@ -1,11 +1,11 @@
 "use client";
-import { useEffect, useRef, type FC } from 'react';
+import { useEffect, useRef, type FC } from "react";
 
-import { ProductCard } from '../ProductCard';
+import { ProductCard } from "../ProductCard";
 
-import s from './ProductsGroupList.module.scss';
-import { useIntersectionObserver } from '@/hook/useIntersectionObserver.ts';
-import { useActions } from '@/hook/useActions.ts';
+import s from "./ProductsGroupList.module.scss";
+import { useIntersectionObserver } from "@/hook/useIntersectionObserver.ts";
+import { useActions } from "@/hook/useActions.ts";
 
 export interface Props {
   title: string;
@@ -16,20 +16,22 @@ export interface Props {
 export const ProductsGroupList: FC<Props> = ({ title, items, categoryId }) => {
   const { setActiveId } = useActions();
   const intersectionRef = useRef(null);
-  const intersection = useIntersectionObserver(intersectionRef, { threshold: 0.4 });
+  const intersection = useIntersectionObserver(intersectionRef, {
+    threshold: 0.4,
+  });
 
   useEffect(() => {
     if (intersection?.isIntersecting) {
       setActiveId(categoryId);
     }
-  }, [intersection?.isIntersecting])
+  }, [intersection?.isIntersecting]);
 
   return (
     <div className={s.root} id={title} ref={intersectionRef}>
       <h2 className={s.title}>{title}</h2>
 
       <div className={s.list}>
-        {items.map((product) =>
+        {items.map((product) => (
           <ProductCard
             key={product.id}
             id={product.id}
@@ -38,7 +40,7 @@ export const ProductsGroupList: FC<Props> = ({ title, items, categoryId }) => {
             imageUrl={product.imageUrl}
             price={product.price}
           />
-        )}
+        ))}
       </div>
     </div>
   );

@@ -37,18 +37,11 @@ export const Button: FC<ButtonProps> = ({
   );
 
   return href ? (
-    <Link
-      className={styles}
-      href={href}
-      target={targetBlank ? "_blank" : ""}
-    >
+    <Link className={styles} href={href} target={targetBlank ? "_blank" : ""}>
       {children}
     </Link>
   ) : (
-    <button
-      className={styles}
-      onClick={onClick}
-    >
+    <button className={styles} onClick={onClick}>
       {children}
     </button>
   );

@@ -1,1 +1,1 @@
-export * from './ProductsGroupList';
+export * from "./ProductsGroupList";

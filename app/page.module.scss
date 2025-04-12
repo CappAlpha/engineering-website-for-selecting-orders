@@ -1,4 +1,5 @@
-.wrap, .wrapCatalog {
+.wrap,
+.wrapCatalog {
   @include wrap;
 }
 
@@ -6,13 +7,13 @@
   @include title;
 }
 
-.wrapCatalog{
+.wrapCatalog {
   display: flex;
   gap: 60px;
   margin: 36px auto;
 }
 
-.wrapProducts{
+.wrapProducts {
   width: 100%;
   display: flex;
   flex-direction: column;

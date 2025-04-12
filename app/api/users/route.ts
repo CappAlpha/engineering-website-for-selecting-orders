@@ -5,7 +5,7 @@ export async function GET() {
   const users = await prisma.user.findMany();
 
   return NextResponse.json(users);
-};
+}
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
@@ -15,4 +15,4 @@ export async function POST(req: NextRequest) {
   });
 
   return NextResponse.json(user);
-};
+}

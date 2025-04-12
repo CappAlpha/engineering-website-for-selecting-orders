@@ -1,11 +1,14 @@
 "use client";
-import { ChangeEvent, useState, type FC } from 'react';
+import { ChangeEvent, useState, type FC } from "react";
 
-import { Input } from '../Input';
-import { Button } from '../Button';
-import { FilterCheckbox, Props as FilterCheckboxProps } from "../FilterCheckbox/FilterCheckbox"
+import { Input } from "../Input";
+import { Button } from "../Button";
+import {
+  FilterCheckbox,
+  Props as FilterCheckboxProps,
+} from "../FilterCheckbox/FilterCheckbox";
 
-import s from './CheckboxFilterGroup.module.scss';
+import s from "./CheckboxFilterGroup.module.scss";
 
 type Item = FilterCheckboxProps;
 
@@ -24,20 +27,22 @@ export const CheckboxFilterGroup: FC<Props> = ({
   limit = 5,
   searchInputPlaceholder = "Поиск...",
   onChange,
-  defaultValue
+  defaultValue,
 }) => {
   const [showAll, setShowAll] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
 
   const onChangeShowAll = () => {
     setShowAll((prev) => !prev);
-  }
+  };
 
   const onChangeSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
-  }
+  };
 
-  const filteredItems = items.filter((item) => item.text.toLowerCase().includes(searchValue.toLowerCase()));
+  const filteredItems = items.filter((item) =>
+    item.text.toLowerCase().includes(searchValue.toLowerCase()),
+  );
 
   const list = showAll ? filteredItems : items.slice(0, limit);
 
@@ -45,12 +50,17 @@ export const CheckboxFilterGroup: FC<Props> = ({
     <div className={s.root}>
       <p className={s.title}>{title}</p>
 
-      {showAll && <div className={s.input}>
-        <Input onChange={onChangeSearchInput} placeholder={searchInputPlaceholder} />
-      </div>}
+      {showAll && (
+        <div className={s.input}>
+          <Input
+            onChange={onChangeSearchInput}
+            placeholder={searchInputPlaceholder}
+          />
+        </div>
+      )}
 
       <div className={s.items}>
-        {list.map((item) =>
+        {list.map((item) => (
           <FilterCheckbox
             key={item.text}
             text={item.text}
@@ -59,12 +69,12 @@ export const CheckboxFilterGroup: FC<Props> = ({
             checked={false}
             onCheckedChange={(ids) => console.log(ids)}
           />
-        )}
+        ))}
       </div>
 
       {items.length > limit && (
-        <Button onClick={onChangeShowAll} color='transparent' noPadding>
-          {showAll ? 'Скрыть' : '+ Показать всё'}
+        <Button onClick={onChangeShowAll} color="transparent" noPadding>
+          {showAll ? "Скрыть" : "+ Показать всё"}
         </Button>
       )}
     </div>

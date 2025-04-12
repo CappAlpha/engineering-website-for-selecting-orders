@@ -1,14 +1,14 @@
 "use client";
-import { useEffect, useState, type FC } from 'react';
-import cn from 'classnames';
+import { useEffect, useState, type FC } from "react";
+import cn from "classnames";
 
-import { Tabs } from '@/components/ui/Tabs';
-import { SortDropdown } from '../SortDropdown';
-import { useAppSelector } from '@/hook/useAppSelector';
-import { Button } from '@/components/ui/Button';
+import { Tabs } from "@/components/ui/Tabs";
+import { SortDropdown } from "../SortDropdown";
+import { useAppSelector } from "@/hook/useAppSelector";
+import { Button } from "@/components/ui/Button";
 
-import s from './TopBar.module.scss';
-import { AngleDown } from '../../../../public/icon';
+import s from "./TopBar.module.scss";
+import { AngleDown } from "../../../../public/icon";
 
 export interface Props {
   //
@@ -16,7 +16,7 @@ export interface Props {
 
 const ORDERS = ["Чертежи", "БЭМ", "Геология"];
 
-export const TopBar: FC<Props> = ({ }) => {
+export const TopBar: FC<Props> = ({}) => {
   const activeIndex = useAppSelector((state) => state.categories.activeId);
   const [isBarHidden, setIsBarHidden] = useState(false);
   const [isBtnHidden, setIsBtnHidden] = useState(true);
@@ -26,11 +26,10 @@ export const TopBar: FC<Props> = ({ }) => {
   useEffect(() => {
     if (activeIndex > 1) {
       setIsBtnHidden(false);
-    }
-    else {
+    } else {
       setIsBtnHidden(true);
     }
-  }, [activeIndex])
+  }, [activeIndex]);
 
   const isBarVisible = !isBtnHidden && isBarHidden;
 
@@ -40,8 +39,18 @@ export const TopBar: FC<Props> = ({ }) => {
         <Tabs items={ORDERS} activeIndex={activeIndex} />
         <SortDropdown />
       </div>
-      <Button className={cn(s.showBtn, (isBtnHidden || !isBarHidden) && s.hiddenBtn)} onClick={OnClickChangeVisible}><AngleDown /></Button>
-      <Button className={cn(s.hideBtn, (isBtnHidden || isBarHidden) && s.hiddenBtn)} onClick={OnClickChangeVisible}><AngleDown /></Button>
+      <Button
+        className={cn(s.showBtn, (isBtnHidden || !isBarHidden) && s.hiddenBtn)}
+        onClick={OnClickChangeVisible}
+      >
+        <AngleDown />
+      </Button>
+      <Button
+        className={cn(s.hideBtn, (isBtnHidden || isBarHidden) && s.hiddenBtn)}
+        onClick={OnClickChangeVisible}
+      >
+        <AngleDown />
+      </Button>
     </div>
   );
 };

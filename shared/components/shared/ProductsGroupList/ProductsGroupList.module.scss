@@ -1,17 +1,16 @@
 .root {
-  
 }
 
-.title{
+.title {
   @include subtitle;
 
-  &{
+  & {
     margin-bottom: 30px;
   }
 }
 
-.list{
+.list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); 
+  grid-template-columns: repeat(3, 1fr);
   gap: 60px;
 }

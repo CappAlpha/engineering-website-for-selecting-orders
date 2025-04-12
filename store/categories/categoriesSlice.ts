@@ -12,10 +12,7 @@ const categoriesSlice = createSlice({
   name: "categories",
   initialState,
   reducers: {
-    setActiveId: (
-      state,
-      action
-    ) => {
+    setActiveId: (state, action) => {
       state.activeId = action.payload;
     },
   },

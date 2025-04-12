@@ -9,7 +9,7 @@ export interface Props {
   //
 }
 
-export const SortDropdown: FC<Props> = ({ }) => {
+export const SortDropdown: FC<Props> = ({}) => {
   return (
     <div className={s.root}>
       <Sort className={s.icon} />

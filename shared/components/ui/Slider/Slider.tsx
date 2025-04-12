@@ -1,8 +1,8 @@
 "use client";
-import { type FC } from 'react';
+import { type FC } from "react";
 
-import s from './Slider.module.scss';
-import { Slider as SliderMui } from '@mui/material';
+import s from "./Slider.module.scss";
+import { Slider as SliderMui } from "@mui/material";
 
 export interface Props {
   min: number;
@@ -21,20 +21,22 @@ export const Slider: FC<Props> = ({ min, max, defaultValue, step }) => {
       min={min}
       max={max}
       step={step}
-      marks={[{
-        value: min,
-        label: min,
-      },
-      {
-        value: max,
-        label: max,
-      }]}
+      marks={[
+        {
+          value: min,
+          label: min,
+        },
+        {
+          value: max,
+          label: max,
+        },
+      ]}
       sx={{
         margin: "10px 0",
-        '& .MuiSlider-markLabel': {
-          top: '30px',
-          color: "white"
-        }
+        "& .MuiSlider-markLabel": {
+          top: "30px",
+          color: "white",
+        },
       }}
     />
   );
