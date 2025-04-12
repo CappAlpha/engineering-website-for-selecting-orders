@@ -17,7 +17,8 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "simple-git-hooks": {
-    "pre-commit": "npm run format"
+    "pre-commit": "npm run format",
+    "pre-push": "npm run format"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
