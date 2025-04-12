@@ -9,6 +9,7 @@
     "lint": "next lint",
     "lint-staged": "lint-staged",
     "format": "prettier --write .",
+    "knip": "knip",
     "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio",
     "prisma:seed": "prisma db seed"
@@ -59,6 +60,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
+    "knip": "^5.50.2",
     "lint-staged": "^15.5.1",
     "prettier": "^3.3.3",
     "prettier-plugin-sort-imports": "^1.8.7",

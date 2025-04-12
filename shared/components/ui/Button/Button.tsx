@@ -3,7 +3,7 @@ import s from "./Button.module.scss";
 import Link from "next/link";
 import cn from "classnames";
 
-export interface ButtonProps {
+interface ButtonProps {
   color?: "grey" | "transparent";
   size?: "m" | "s";
   noPadding?: boolean;
