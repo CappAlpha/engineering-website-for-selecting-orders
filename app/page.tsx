@@ -17,7 +17,7 @@ const PRODUCTS: ProductCardProps[] = [
     name: "Чертёж Мост",
     description: `123232 3213213`,
     price: 2395,
-    imageUrl: "/images/catalog/2.jpeg",
+    imageUrl: "/images/catalog/1.jpeg",
   },
   {
     id: 3,

@@ -59,7 +59,7 @@ async function up() {
         name: "Чертёж Детали",
         description: "В кратчайшие сроки по ГОСТу",
         price: generatePrice(),
-        imageUrl: "/images/catalog/1.webp",
+        imageUrl: "/images/catalog/1.jpeg",
         categoryId: 1,
       },
       {
