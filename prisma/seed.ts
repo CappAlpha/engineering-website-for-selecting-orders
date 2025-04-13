@@ -1,7 +1,21 @@
 import { prisma } from "./prisma-client";
 import { v4 as uuidv4 } from "uuid";
 import { hashSync } from "bcrypt";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 
+// const openrouter = createOpenRouter({
+//   apiKey: process.env.OPENROUTER_API_KEY || '',
+// });
+
+// const model = openrouter.languageModel('deepseek/deepseek-r1');
+
+const randomNumber = (min: number, max: number) => {
+  return Math.floor(Math.random() * (max - min) + min);
+};
+
+const generatePrice = () => randomNumber(190, 4600);
+
+//Автогенерация базы данных
 async function up() {
   await prisma.user.createMany({
     data: [
@@ -21,9 +35,77 @@ async function up() {
       },
     ],
   });
+
+  await prisma.category.createMany({
+    data: [
+      {
+        name: 'Чертёж Детали'
+      },
+      {
+        name: 'Чертёж Мост'
+      },
+      {
+        name: 'Чертёж Здания'
+      },
+      {
+        name: 'Начерт'
+      },
+    ]
+  });
+
+  await prisma.product.createMany({
+    data: [
+      {
+        name: "Чертёж Детали",
+        description: "В кратчайшие сроки по ГОСТу",
+        price: generatePrice(),
+        imageUrl: "/images/catalog/1.webp",
+        categoryId: 1,
+      },
+      {
+        name: "Чертёж Мост",
+        description: "В кратчайшие сроки по ГОСТу",
+        price: generatePrice(),
+        imageUrl: "/images/catalog/1.webp",
+        categoryId: 1,
+      },
+      {
+        name: "Чертёж Здания",
+        description: "В кратчайшие сроки по ГОСТу",
+        price: generatePrice(),
+        imageUrl: "/images/catalog/1.webp",
+        categoryId: 1,
+      },
+      {
+        name: "Начерт",
+        description: "В кратчайшие сроки",
+        price: generatePrice(),
+        imageUrl: "/images/catalog/1.webp",
+        categoryId: 1,
+      },
+      {
+        name: "Проект жилого здания",
+        description: "В кратчайшие сроки",
+        price: generatePrice(),
+        imageUrl: "/images/catalog/1.webp",
+        categoryId: 2,
+      },
+      {
+        name: "Проект коттеджа",
+        description: "В кратчайшие сроки",
+        price: generatePrice(),
+        imageUrl: "/images/catalog/1.webp",
+        categoryId: 2,
+      },
+    ]
+  });
 }
 
-async function down() {}
+//Автоочистка базы данных
+async function down() {
+  await prisma.$executeRaw`TRUNCATE TABLE "User" RESTART IDENTITY CASCADE`;
+  await prisma.$executeRaw`TRUNCATE TABLE "Product" RESTART IDENTITY CASCADE;`;
+}
 
 async function main() {
   await down();

@@ -42,7 +42,6 @@ model Product {
   imageUrl    String
   description String
   price       Int
-  promptly    Boolean
 
   categoryId Int
   category   Category @relation(fields: [categoryId], references: [id])
