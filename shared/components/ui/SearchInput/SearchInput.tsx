@@ -1,14 +1,35 @@
-"use client"
+"use client";
 import { useCallback, useEffect, useRef, useState, type FC } from 'react';
 
 import s from './SearchInput.module.scss';
-import { Autocomplete, darken, lighten, styled, TextField } from '@mui/material';
+import { Autocomplete, AutocompleteRenderGroupParams, darken, lighten, styled, TextField } from '@mui/material';
 import { useOutsideClick } from '@/hook/useOutsideHook';
 import cn from 'classnames';
+import { Api } from '../../../../services/api-client';
+import { Category, Product } from '@prisma/client';
 
 export interface Props {
   //
 }
+
+const CATEGORIES: Pick<Category, "id" | "name">[] = [
+  {
+    id: 1,
+    name: 'Чертежи',
+  },
+  {
+    id: 2,
+    name: 'БЭМ',
+  },
+  {
+    id: 3,
+    name: 'Геология',
+  },
+  {
+    id: 4,
+    name: 'Программы на C++',
+  },
+];
 
 const CssTextField = styled(TextField)({
   '& .MuiFormLabel-root': {
@@ -39,9 +60,12 @@ const GroupItems = styled('ul')({
   padding: 0,
 });
 
-export const SearchInput: FC<Props> = ({ }) => {
+export const SearchInput: FC<Props> = () => {
+  const [searchQuery, setSearchQuery] = useState('');
   const [focused, setFocused] = useState(false);
-  const ref = useRef(null);
+  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<Product[]>([]);
+  const ref = useRef<HTMLDivElement>(null);
 
   useOutsideClick({
     elementRef: ref,
@@ -56,7 +80,7 @@ export const SearchInput: FC<Props> = ({ }) => {
       setFocused(false);
     }
   }, [focused]);
-  
+
   useEffect(() => {
     document.addEventListener('keydown', closeBg);
     return () => {
@@ -64,22 +88,51 @@ export const SearchInput: FC<Props> = ({ }) => {
     };
   }, [closeBg]);
 
+  useEffect(() => {
+    if (searchQuery.trim() === '') {
+      setProducts([]);
+      setLoading(true);
+      return;
+    }
+    Api.products.search(searchQuery).then((items) => {
+      setLoading(false);
+      setProducts(items);
+    });
+  }, [searchQuery]);
+
+  const getCategoryNameById = (categoryId: number): string => {
+    const category = CATEGORIES.find(cat => cat.id === categoryId);
+    return category ? category.name : 'Без категории';
+  };
+
+  const filteredAndSortedProducts = products
+    .filter(product => CATEGORIES.some(category => category.id === product.categoryId))
+    .sort((a, b) => a.categoryId - b.categoryId);
+
+  const isProductsExist = products.length < 0;
+
+  const renderList = (params: AutocompleteRenderGroupParams) => <li key={params.key}>
+    <GroupHeader>{params.group}</GroupHeader>
+    <GroupItems>{params.children}</GroupItems>
+  </li>;
+
   return (
     <>
       <div className={cn(s.bg, !focused && s.hidden)} />
       <div ref={ref} className={s.root}>
         <Autocomplete
-          options={['123']}
-          groupBy={(option) => '123'}
+          options={filteredAndSortedProducts}
+          groupBy={(option) => getCategoryNameById(option.categoryId)}
+          getOptionLabel={(option) => option.name}
+          onFocus={() => setFocused(true)}
+          inputValue={searchQuery}
+          onInputChange={(e, value) => setSearchQuery(value)}
+          loading={loading}
+          loadingText="Загрузка..."
+          noOptionsText="Ничего не найдено"
           fullWidth
           renderInput={(params) => <CssTextField {...params} variant="filled" label="Поиск" type="search" />}
-          renderGroup={(params) => (
-            <li key={params.key}>
-              <GroupHeader>{params.group}</GroupHeader>
-              <GroupItems>{params.children}</GroupItems>
-            </li>
-          )}
-          onFocus={() => setFocused(true)}
+          renderGroup={(params) => (renderList(params))}
         />
       </div>
     </>
