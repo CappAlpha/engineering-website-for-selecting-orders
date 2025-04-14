@@ -1,12 +1,13 @@
 import s from "./Tabs.module.scss";
 import { type FC } from "react";
 import { Tab } from "./Tab";
-export interface Props {
-  items: any[];
+import { Category } from "@prisma/client";
+export interface Props<T> {
+  items: T[];
   activeIndex: number;
 }
 
-export const Tabs: FC<Props> = ({ items, activeIndex }) => {
+export const Tabs: FC<Props<Pick<Category, "id" | "name">>> = ({ items, activeIndex }) => {
   return (
     <div className={s.root}>
       {items.map((item, index) => (

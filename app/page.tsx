@@ -1,29 +1,26 @@
 import { Props as ProductCardProps } from "@/components/shared/ProductCard";
-import { ProductsGroupList, Props as Categories } from "@/components/shared/ProductsGroupList";
+import { ProductsGroupList } from "@/components/shared/ProductsGroupList";
 import { Filters } from "@/components/shared/Filters";
 import { TopBar } from "@/components/shared/TopBar";
 import s from "./page.module.scss";
+import { Category } from "@prisma/client";
 
-const CATEGORIES: Categories[] = [
+const CATEGORIES: Pick<Category, "id" | "name">[] = [
   {
     id: 1,
     name: 'Чертежи',
-    items: [],
   },
   {
     id: 2,
     name: 'БЭМ',
-    items: [],
   },
   {
     id: 3,
     name: 'Геология',
-    items: [],
   },
   {
     id: 4,
     name: 'Программы на C++',
-    items: [],
   },
 ];
 

@@ -3,17 +3,17 @@ import { useAppSelector } from "@/hook/useAppSelector";
 import { useEffect, useState, type FC } from "react";
 import { AngleDown } from "../../../../public/icon";
 import { Button } from "@/components/ui/Button";
-import { Props as Categories } from "../ProductsGroupList/ProductsGroupList.tsx";
 import { SortDropdown } from "../SortDropdown";
 import { Tabs } from "@/components/ui/Tabs";
 import s from "./TopBar.module.scss";
 import cn from "classnames";
+import { Category } from "@prisma/client";
 
-export interface Props {
-  categories: Categories[];
+export interface Props<T> {
+  categories: T[];
 }
 
-export const TopBar: FC<Props> = ({ categories }) => {
+export const TopBar: FC<Props<Pick<Category, "id" | "name">>> = ({ categories }) => {
   const activeIndex = useAppSelector((state) => state.categories.activeId);
   const [isBarHidden, setIsBarHidden] = useState(false);
   const [isBtnHidden, setIsBtnHidden] = useState(true);
