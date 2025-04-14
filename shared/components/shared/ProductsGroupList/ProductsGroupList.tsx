@@ -6,27 +6,27 @@ import s from "./ProductsGroupList.module.scss";
 import { ProductCard } from "../ProductCard";
 
 export interface Props {
-  title: string;
+  id: number;
+  name: string;
   items: any[];
-  categoryId: number;
 }
 
-export const ProductsGroupList: FC<Props> = ({ title, items, categoryId }) => {
+export const ProductsGroupList: FC<Props> = ({ id, name, items }) => {
   const { setActiveId } = useActions();
   const intersectionRef = useRef(null);
   const intersection = useIntersectionObserver(intersectionRef, {
-    threshold: 0.4,
+    threshold: 0.6,
   });
 
   useEffect(() => {
     if (intersection?.isIntersecting) {
-      setActiveId(categoryId);
+      setActiveId(id);
     }
   }, [intersection?.isIntersecting]);
 
   return (
-    <div className={s.root} id={title} ref={intersectionRef}>
-      <h2 className={s.title}>{title}</h2>
+    <div className={s.root} id={name} ref={intersectionRef}>
+      <h2 className={s.title}>{name}</h2>
 
       <div className={s.list}>
         {items.map((product) => (

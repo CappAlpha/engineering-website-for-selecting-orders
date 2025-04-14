@@ -3,18 +3,17 @@ import { useAppSelector } from "@/hook/useAppSelector";
 import { useEffect, useState, type FC } from "react";
 import { AngleDown } from "../../../../public/icon";
 import { Button } from "@/components/ui/Button";
+import { Props as Categories } from "../ProductsGroupList/ProductsGroupList.tsx";
 import { SortDropdown } from "../SortDropdown";
 import { Tabs } from "@/components/ui/Tabs";
 import s from "./TopBar.module.scss";
 import cn from "classnames";
 
 export interface Props {
-  //
+  categories: Categories[];
 }
 
-const ORDERS = ["Чертежи", "БЭМ", "Геология"];
-
-export const TopBar: FC<Props> = ({}) => {
+export const TopBar: FC<Props> = ({ categories }) => {
   const activeIndex = useAppSelector((state) => state.categories.activeId);
   const [isBarHidden, setIsBarHidden] = useState(false);
   const [isBtnHidden, setIsBtnHidden] = useState(true);
@@ -34,7 +33,7 @@ export const TopBar: FC<Props> = ({}) => {
   return (
     <div className={cn(s.root, isBarVisible && s.hidden)}>
       <div className={s.wrap}>
-        <Tabs items={ORDERS} activeIndex={activeIndex} />
+        <Tabs items={categories} activeIndex={activeIndex} />
         <SortDropdown />
       </div>
       <Button

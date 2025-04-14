@@ -39,16 +39,16 @@ async function up() {
   await prisma.category.createMany({
     data: [
       {
-        name: 'Чертёж Детали'
+        name: 'Чертежи'
       },
       {
-        name: 'Чертёж Мост'
+        name: 'БЭМ'
       },
       {
-        name: 'Чертёж Здания'
+        name: 'Геология'
       },
       {
-        name: 'Начерт'
+        name: 'Программы на C++'
       },
     ]
   });

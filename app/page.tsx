@@ -1,8 +1,31 @@
 import { Props as ProductCardProps } from "@/components/shared/ProductCard";
-import { ProductsGroupList } from "@/components/shared/ProductsGroupList";
+import { ProductsGroupList, Props as Categories } from "@/components/shared/ProductsGroupList";
 import { Filters } from "@/components/shared/Filters";
 import { TopBar } from "@/components/shared/TopBar";
 import s from "./page.module.scss";
+
+const CATEGORIES: Categories[] = [
+  {
+    id: 1,
+    name: 'Чертежи',
+    items: [],
+  },
+  {
+    id: 2,
+    name: 'БЭМ',
+    items: [],
+  },
+  {
+    id: 3,
+    name: 'Геология',
+    items: [],
+  },
+  {
+    id: 4,
+    name: 'Программы на C++',
+    items: [],
+  },
+];
 
 const PRODUCTS: ProductCardProps[] = [
   {
@@ -42,14 +65,14 @@ export default function Home() {
         <h1 className={s.title}>Все заказы</h1>
       </div>
 
-      <TopBar />
+      <TopBar categories={CATEGORIES} />
 
       <div className={s.wrapCatalog}>
         <Filters />
         <div className={s.wrapProducts}>
-          <ProductsGroupList title="Чертежи" items={PRODUCTS} categoryId={1} />
-          <ProductsGroupList title="БЭМ" items={PRODUCTS} categoryId={2} />
-          <ProductsGroupList title="Геология" items={PRODUCTS} categoryId={3} />
+          <ProductsGroupList id={CATEGORIES[0].id} name={CATEGORIES[0].name} items={PRODUCTS} />
+          <ProductsGroupList id={CATEGORIES[1].id} name={CATEGORIES[1].name} items={PRODUCTS} />
+          <ProductsGroupList id={CATEGORIES[2].id} name={CATEGORIES[2].name} items={PRODUCTS} />
         </div>
       </div>
     </>
