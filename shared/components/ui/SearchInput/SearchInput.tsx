@@ -1,12 +1,20 @@
 "use client";
-import { useCallback, useEffect, useRef, useState, type FC } from 'react';
+import { useCallback, useEffect, useRef, useState, type FC } from "react";
 
-import s from './SearchInput.module.scss';
-import { Autocomplete, AutocompleteRenderGroupParams, darken, lighten, styled, TextField } from '@mui/material';
-import { useOutsideClick } from '@/hook/useOutsideHook';
-import cn from 'classnames';
-import { Api } from '../../../../services/api-client';
-import { Category, Product } from '@prisma/client';
+import {
+  Autocomplete,
+  AutocompleteRenderGroupParams,
+  AutocompleteRenderInputParams,
+  darken,
+  lighten,
+  styled,
+  TextField,
+} from "@mui/material";
+import { useOutsideClick } from "@/hook/useOutsideHook";
+import { Api } from "../../../../services/api-client";
+import { Category, Product } from "@prisma/client";
+import s from "./SearchInput.module.scss";
+import cn from "classnames";
 
 export interface Props {
   //
@@ -15,53 +23,53 @@ export interface Props {
 const CATEGORIES: Pick<Category, "id" | "name">[] = [
   {
     id: 1,
-    name: 'Чертежи',
+    name: "Чертежи",
   },
   {
     id: 2,
-    name: 'БЭМ',
+    name: "БЭМ",
   },
   {
     id: 3,
-    name: 'Геология',
+    name: "Геология",
   },
   {
     id: 4,
-    name: 'Программы на C++',
+    name: "Программы на C++",
   },
 ];
 
 const CssTextField = styled(TextField)({
-  '& .MuiFormLabel-root': {
-    color: '#fff',
+  "& .MuiFormLabel-root": {
+    color: "#fff",
   },
-  '& .MuiInputBase-root': {
-    color: '#fff',
-    borderBottom: '1px solid #fff',
-    paddingTop: '14px',
+  "& .MuiInputBase-root": {
+    color: "#fff",
+    borderBottom: "1px solid #fff",
+    paddingTop: "14px",
   },
-  '& .MuiInputBase-input': {
-    padding: ''
-  }
+  "& .MuiInputBase-input": {
+    padding: "",
+  },
 });
 
-const GroupHeader = styled('div')(({ theme }) => ({
-  position: 'sticky',
-  top: '-8px',
-  padding: '4px 10px',
+const GroupHeader = styled("div")(({ theme }) => ({
+  position: "sticky",
+  top: "-8px",
+  padding: "4px 10px",
   color: theme.palette.primary.main,
   backgroundColor: lighten(theme.palette.primary.light, 0.85),
-  ...theme.applyStyles('dark', {
+  ...theme.applyStyles("dark", {
     backgroundColor: darken(theme.palette.primary.main, 0.8),
   }),
 }));
 
-const GroupItems = styled('ul')({
+const GroupItems = styled("ul")({
   padding: 0,
 });
 
 export const SearchInput: FC<Props> = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [focused, setFocused] = useState(false);
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
@@ -74,22 +82,25 @@ export const SearchInput: FC<Props> = () => {
     },
   });
 
-  const closeBg = useCallback((e: KeyboardEvent) => {
-    if (e.key === 'Escape' && focused === true) {
-      (document.activeElement as HTMLElement)?.blur();
-      setFocused(false);
-    }
-  }, [focused]);
+  const closeBg = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape" && focused === true) {
+        (document.activeElement as HTMLElement)?.blur();
+        setFocused(false);
+      }
+    },
+    [focused],
+  );
 
   useEffect(() => {
-    document.addEventListener('keydown', closeBg);
+    document.addEventListener("keydown", closeBg);
     return () => {
-      document.removeEventListener('keydown', closeBg);
+      document.removeEventListener("keydown", closeBg);
     };
   }, [closeBg]);
 
   useEffect(() => {
-    if (searchQuery.trim() === '') {
+    if (searchQuery.trim() === "") {
       setProducts([]);
       setLoading(true);
       return;
@@ -101,20 +112,28 @@ export const SearchInput: FC<Props> = () => {
   }, [searchQuery]);
 
   const getCategoryNameById = (categoryId: number): string => {
-    const category = CATEGORIES.find(cat => cat.id === categoryId);
-    return category ? category.name : 'Без категории';
+    const category = CATEGORIES.find((cat) => cat.id === categoryId);
+    return category ? category.name : "Без категории";
   };
 
   const filteredAndSortedProducts = products
-    .filter(product => CATEGORIES.some(category => category.id === product.categoryId))
+    .filter((product) =>
+      CATEGORIES.some((category) => category.id === product.categoryId),
+    )
     .sort((a, b) => a.categoryId - b.categoryId);
 
   const isProductsExist = products.length < 0;
 
-  const renderList = (params: AutocompleteRenderGroupParams) => <li key={params.key}>
-    <GroupHeader>{params.group}</GroupHeader>
-    <GroupItems>{params.children}</GroupItems>
-  </li>;
+  const renderInput = (params: AutocompleteRenderInputParams) => (
+    <CssTextField {...params} variant="filled" label="Поиск" type="search" />
+  );
+
+  const renderList = (params: AutocompleteRenderGroupParams) => (
+    <li key={params.key}>
+      <GroupHeader>{params.group}</GroupHeader>
+      <GroupItems>{params.children}</GroupItems>
+    </li>
+  );
 
   return (
     <>
@@ -131,8 +150,8 @@ export const SearchInput: FC<Props> = () => {
           loadingText="Загрузка..."
           noOptionsText="Ничего не найдено"
           fullWidth
-          renderInput={(params) => <CssTextField {...params} variant="filled" label="Поиск" type="search" />}
-          renderGroup={(params) => (renderList(params))}
+          renderInput={(params) => renderInput(params)}
+          renderGroup={(params) => renderList(params)}
         />
       </div>
     </>

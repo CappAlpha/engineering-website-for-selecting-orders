@@ -5,15 +5,17 @@ import { AngleDown } from "../../../../public/icon";
 import { Button } from "@/components/ui/Button";
 import { SortDropdown } from "../SortDropdown";
 import { Tabs } from "@/components/ui/Tabs";
+import { Category } from "@prisma/client";
 import s from "./TopBar.module.scss";
 import cn from "classnames";
-import { Category } from "@prisma/client";
 
 export interface Props<T> {
   categories: T[];
 }
 
-export const TopBar: FC<Props<Pick<Category, "id" | "name">>> = ({ categories }) => {
+export const TopBar: FC<Props<Pick<Category, "id" | "name">>> = ({
+  categories,
+}) => {
   const activeIndex = useAppSelector((state) => state.categories.activeId);
   const [isBarHidden, setIsBarHidden] = useState(false);
   const [isBtnHidden, setIsBtnHidden] = useState(true);

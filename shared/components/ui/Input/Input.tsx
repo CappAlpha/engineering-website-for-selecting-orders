@@ -6,5 +6,7 @@ import cn from "classnames";
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
 export const Input: FC<InputProps> = ({ className, ...props }) => {
-  return <InputMui className={cn(s.root, className)} inputProps={props} fullWidth />;
+  return (
+    <InputMui className={cn(s.root, className)} inputProps={props} fullWidth />
+  );
 };

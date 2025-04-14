@@ -2,25 +2,25 @@ import { Props as ProductCardProps } from "@/components/shared/ProductCard";
 import { ProductsGroupList } from "@/components/shared/ProductsGroupList";
 import { Filters } from "@/components/shared/Filters";
 import { TopBar } from "@/components/shared/TopBar";
-import s from "./page.module.scss";
 import { Category } from "@prisma/client";
+import s from "./page.module.scss";
 
 const CATEGORIES: Pick<Category, "id" | "name">[] = [
   {
     id: 1,
-    name: 'Чертежи',
+    name: "Чертежи",
   },
   {
     id: 2,
-    name: 'БЭМ',
+    name: "БЭМ",
   },
   {
     id: 3,
-    name: 'Геология',
+    name: "Геология",
   },
   {
     id: 4,
-    name: 'Программы на C++',
+    name: "Программы на C++",
   },
 ];
 
@@ -67,9 +67,21 @@ export default function Home() {
       <div className={s.wrapCatalog}>
         <Filters />
         <div className={s.wrapProducts}>
-          <ProductsGroupList id={CATEGORIES[0].id} name={CATEGORIES[0].name} items={PRODUCTS} />
-          <ProductsGroupList id={CATEGORIES[1].id} name={CATEGORIES[1].name} items={PRODUCTS} />
-          <ProductsGroupList id={CATEGORIES[2].id} name={CATEGORIES[2].name} items={PRODUCTS} />
+          <ProductsGroupList
+            id={CATEGORIES[0].id}
+            name={CATEGORIES[0].name}
+            items={PRODUCTS}
+          />
+          <ProductsGroupList
+            id={CATEGORIES[1].id}
+            name={CATEGORIES[1].name}
+            items={PRODUCTS}
+          />
+          <ProductsGroupList
+            id={CATEGORIES[2].id}
+            name={CATEGORIES[2].name}
+            items={PRODUCTS}
+          />
         </div>
       </div>
     </>

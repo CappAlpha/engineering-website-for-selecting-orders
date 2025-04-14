@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export const useMedia = (query: string, defaultState: boolean = false) => {
   const [state, setState] = useState(defaultState);
@@ -15,7 +15,7 @@ export const useMedia = (query: string, defaultState: boolean = false) => {
     };
 
     if (mql.addEventListener) {
-      mql.addEventListener('change', onChange);
+      mql.addEventListener("change", onChange);
     } else {
       mql.addListener(onChange);
     }
@@ -24,7 +24,7 @@ export const useMedia = (query: string, defaultState: boolean = false) => {
     return () => {
       mounted = false;
       if (mql.removeEventListener) {
-        mql.removeEventListener('change', onChange);
+        mql.removeEventListener("change", onChange);
       } else {
         mql.removeListener(onChange);
       }
@@ -35,9 +35,15 @@ export const useMedia = (query: string, defaultState: boolean = false) => {
   return state;
 };
 
-export type Breakpoint = 'mobile' | 'mobileM' | 'tablet' | 'desktopS' | 'desktop' | 'desktopL';
-export type BreakpointType = 'max' | 'min';
-export type BreakpointWithDesktopWide = Breakpoint | 'desktopWide';
+export type Breakpoint =
+  | "mobile"
+  | "mobileM"
+  | "tablet"
+  | "desktopS"
+  | "desktop"
+  | "desktopL";
+export type BreakpointType = "max" | "min";
+export type BreakpointWithDesktopWide = Breakpoint | "desktopWide";
 
 export const breakpoints: Record<Breakpoint, number> = {
   mobile: 360,
@@ -50,44 +56,48 @@ export const breakpoints: Record<Breakpoint, number> = {
 
 export const useBreakpoint = (
   breakpoint: Breakpoint,
-  type: BreakpointType = 'max',
-  defaultState: boolean = false
-) => useMedia(`(${type}-width: ${breakpoints[breakpoint] - 0.1}px)`, defaultState);
+  type: BreakpointType = "max",
+  defaultState: boolean = false,
+) =>
+  useMedia(`(${type}-width: ${breakpoints[breakpoint] - 0.1}px)`, defaultState);
 
 export const useCurrentBreakpoint = (): BreakpointWithDesktopWide => {
-  const isMobile = useBreakpoint('mobile');
-  const isMobileM = useBreakpoint('mobileM');
-  const isTablet = useBreakpoint('tablet');
-  const isDesktopS = useBreakpoint('desktop');
-  const isDesktopL = useBreakpoint('desktopL');
+  const isMobile = useBreakpoint("mobile");
+  const isMobileM = useBreakpoint("mobileM");
+  const isTablet = useBreakpoint("tablet");
+  const isDesktopS = useBreakpoint("desktop");
+  const isDesktopL = useBreakpoint("desktopL");
 
   if (isMobile) {
-    return 'mobile';
+    return "mobile";
   }
 
   if (isMobileM) {
-    return 'mobileM';
+    return "mobileM";
   }
 
   if (isTablet) {
-    return 'tablet';
+    return "tablet";
   }
 
   if (isDesktopS) {
-    return 'desktopS';
+    return "desktopS";
   }
 
   if (isDesktopL) {
-    return 'desktopL';
+    return "desktopL";
   }
 
-  return 'desktop';
+  return "desktop";
 };
 
-export const useTablet = (defaultState?: boolean) => useBreakpoint('tablet', 'max', defaultState);
-export const useMobile = (defaultState?: boolean) => useBreakpoint('mobile', 'max', defaultState);
-export const useMobileM = (defaultState?: boolean) => useBreakpoint('mobileM', 'max', defaultState);
+export const useTablet = (defaultState?: boolean) =>
+  useBreakpoint("tablet", "max", defaultState);
+export const useMobile = (defaultState?: boolean) =>
+  useBreakpoint("mobile", "max", defaultState);
+export const useMobileM = (defaultState?: boolean) =>
+  useBreakpoint("mobileM", "max", defaultState);
 export const useDesktopS = (defaultState?: boolean) =>
-  useBreakpoint('desktopS', 'max', defaultState);
+  useBreakpoint("desktopS", "max", defaultState);
 export const useDesktopL = (defaultState?: boolean) =>
-  useBreakpoint('desktopL', 'max', defaultState);
+  useBreakpoint("desktopL", "max", defaultState);

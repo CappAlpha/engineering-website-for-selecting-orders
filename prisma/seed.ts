@@ -1,7 +1,7 @@
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { prisma } from "./prisma-client";
 import { v4 as uuidv4 } from "uuid";
 import { hashSync } from "bcrypt";
-import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 
 // const openrouter = createOpenRouter({
 //   apiKey: process.env.OPENROUTER_API_KEY || '',
@@ -39,18 +39,18 @@ async function up() {
   await prisma.category.createMany({
     data: [
       {
-        name: 'Чертежи'
+        name: "Чертежи",
       },
       {
-        name: 'БЭМ'
+        name: "БЭМ",
       },
       {
-        name: 'Геология'
+        name: "Геология",
       },
       {
-        name: 'Программы на C++'
+        name: "Программы на C++",
       },
-    ]
+    ],
   });
 
   await prisma.product.createMany({
@@ -97,7 +97,7 @@ async function up() {
         imageUrl: "/images/catalog/1.webp",
         categoryId: 2,
       },
-    ]
+    ],
   });
 }
 
