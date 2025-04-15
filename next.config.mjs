@@ -24,7 +24,7 @@ const nextConfig = {
     minimumCacheTTL: 7200,
   },
   webpack(config) {
-    config.plugins.push(new BundleAnalyzerPlugin());
+    // config.plugins.push(new BundleAnalyzerPlugin());
     // Grab the existing rule that handles SVG imports
     // @ts-ignore - rules is a private property that is not typed
     const fileLoaderRule = config.module.rules.find((rule) =>

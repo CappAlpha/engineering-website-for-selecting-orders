@@ -1,6 +1,7 @@
 @use "../../../styles/animations.scss" as *;
 
 .root {
+  position: relative;
   width: 100%;
   max-width: 800px;
   z-index: 100;
@@ -32,4 +33,37 @@
   opacity: 0;
   //TODO: fix
   animation: hideOpacity 0.3s ease-in-out;
+}
+
+//TODO: не работает
+.textField {
+  .MuiFormLabel-root {
+    color: #fff;
+  }
+
+  .MuiInputBase-root {
+    color: #fff;
+    border-bottom: 1px solid #fff;
+    padding-top: 14px;
+  }
+
+  .MuiInputBase-input {
+    padding: 0;
+  }
+
+  .MuiIconButton-root {
+    color: #fff;
+  }
+}
+
+.groupHeader {
+  position: sticky;
+  top: -4px;
+  padding: 4px 10px;
+  color: #fff;
+  background-color: #0e4276;
+}
+
+.groupItems {
+  padding: 0;
 }
