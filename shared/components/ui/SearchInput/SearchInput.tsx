@@ -1,5 +1,14 @@
 "use client";
-import { HTMLAttributes, Key, useCallback, useEffect, useMemo, useRef, useState, type FC } from "react";
+import {
+  HTMLAttributes,
+  Key,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type FC,
+} from "react";
 
 import {
   Autocomplete,
@@ -12,10 +21,10 @@ import {
 import { useOutsideClick } from "@/hook/useOutsideHook";
 import { Api } from "../../../../services/api-client";
 import { Category, Product } from "@prisma/client";
-import s from "./SearchInput.module.scss";
-import cn from "classnames";
 import { useDebounce } from "@/hook/useDebounce";
-import Link from "next/link"; // Для создания ссылок в Next.js
+import s from "./SearchInput.module.scss";
+import Link from "next/link";
+import cn from "classnames";
 
 export interface Props {
   //
@@ -58,7 +67,7 @@ const CssTextField = styled(TextField)({
   },
   "& .MuiIconButton-root": {
     color: "#fff",
-  }
+  },
 });
 
 export const SearchInput: FC<Props> = () => {
@@ -75,7 +84,7 @@ export const SearchInput: FC<Props> = () => {
     handler: () => {
       setOpen(false);
     },
-    attached: open
+    attached: open,
   });
 
   const closeBg = useCallback(
@@ -128,17 +137,23 @@ export const SearchInput: FC<Props> = () => {
 
   // Рендеринг поля ввода
   const renderInput = (params: AutocompleteRenderInputParams) => (
-    <CssTextField {...params} variant="filled" label="Поиск" className={s.textField} slotProps={{
-      input: {
-        ...params.InputProps,
-        endAdornment: (
-          <>
-            {loading ? <CircularProgress color="inherit" size={20} /> : null}
-            {params.InputProps.endAdornment}
-          </>
-        ),
-      },
-    }} />
+    <CssTextField
+      {...params}
+      variant="filled"
+      label="Поиск"
+      className={s.textField}
+      slotProps={{
+        input: {
+          ...params.InputProps,
+          endAdornment: (
+            <>
+              {loading ? <CircularProgress color="inherit" size={20} /> : null}
+              {params.InputProps.endAdornment}
+            </>
+          ),
+        },
+      }}
+    />
   );
 
   // Рендеринг группы
@@ -150,10 +165,7 @@ export const SearchInput: FC<Props> = () => {
   );
 
   // Рендеринг каждого элемента списка
-  const renderOption = (
-    props: AutocompleteOptionProps,
-    option: Product,
-  ) => {
+  const renderOption = (props: AutocompleteOptionProps, option: Product) => {
     const { key, ...otherProps } = props;
     return (
       <li key={key} {...otherProps}>

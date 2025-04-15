@@ -1,11 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
 interface DebounceOptions {
   leading?: boolean; // Выполнять ли сразу при первом вызове
   trailing?: boolean; // Выполнять ли после задержки
 }
 
-export function useDebounce<T>(value: T, delay: number, options: DebounceOptions = {}): T {
+export function useDebounce<T>(
+  value: T,
+  delay: number,
+  options: DebounceOptions = {},
+): T {
   const { leading = false, trailing = true } = options;
 
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
@@ -44,7 +48,7 @@ export function useDebounce<T>(value: T, delay: number, options: DebounceOptions
 export function useDebouncedCallback<T extends (...args: any[]) => any>(
   callback: T,
   delay: number,
-  options: DebounceOptions = {}
+  options: DebounceOptions = {},
 ): T {
   const { leading = false, trailing = true } = options;
 
