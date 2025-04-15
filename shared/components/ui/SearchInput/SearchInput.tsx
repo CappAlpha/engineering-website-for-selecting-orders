@@ -141,6 +141,7 @@ export const SearchInput: FC<Props> = () => {
       {...params}
       variant="filled"
       label="Поиск"
+      /* TODO: fix style */
       className={s.textField}
       slotProps={{
         input: {
