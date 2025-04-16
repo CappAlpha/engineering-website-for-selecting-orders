@@ -24,12 +24,10 @@ export default async function ProductPage({
           fill
         />
       </div>
-      <div className={s.right}>
-        <ul>
-          <li>{name}</li>
-          <li>{description}</li>
-        </ul>
-      </div>
+      <ul className={s.right}>
+        <li><h2 className={s.title}>{name}</h2></li>
+        <li>{description}</li>
+      </ul>
     </div>
   );
 }

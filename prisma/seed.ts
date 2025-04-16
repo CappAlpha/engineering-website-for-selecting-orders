@@ -13,7 +13,7 @@ const randomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-const generatePrice = () => randomNumber(190, 4600);
+const generatePrice = () => randomNumber(500, 30000);
 
 //Автогенерация базы данных
 async function up() {
