@@ -15,11 +15,11 @@ export interface PriceProps {
   priceTo: number;
 }
 
-const MAX_PRICE = 60000;
+const MAX_PRICE = 30000;
 
 export const Filters: FC<Props> = ({ }) => {
   const { items: tags, loading, onAddId, selectedIds } = useFilterTags();
-  const [prices, setPrice] = useState<PriceProps>({ priceFrom: 0, priceTo: 5000 });
+  const [prices, setPrice] = useState<PriceProps>({ priceFrom: 0, priceTo: 15000 });
 
   const updatePrice = (name: keyof PriceProps, value: number) => {
     setPrice({ ...prices, [name]: value });

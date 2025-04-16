@@ -49,6 +49,7 @@ export const Slider: FC<Props> = ({ min, max, value, onValueChange, step = 1 }) 
           color: "white",
         },
       }}
+      disableSwap
     />
   );
 };
