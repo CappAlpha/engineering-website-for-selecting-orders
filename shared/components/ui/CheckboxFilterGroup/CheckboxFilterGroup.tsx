@@ -1,21 +1,19 @@
 "use client";
-import {
-  FilterCheckbox,
-  Props as FilterCheckboxProps,
-} from "../FilterCheckbox/FilterCheckbox";
+import { FilterCheckbox } from "../FilterCheckbox/FilterCheckbox";
 import { ChangeEvent, useState, type FC } from "react";
 import s from "./CheckboxFilterGroup.module.scss";
 import { Button } from "../Button";
 import { Input } from "../Input";
-
-type Item = FilterCheckboxProps;
+import { Tag } from "@prisma/client";
 
 export interface Props {
   title: string;
-  items: Item[];
+  items: Tag[];
   limit: number;
+  loading?: boolean;
   searchInputPlaceholder?: string;
-  onChange?: (values: string[]) => void;
+  onClickCheckbox?: (value: string) => void;
+  selectedIds?: Set<string>;
   defaultValue?: string[];
 }
 
@@ -23,8 +21,10 @@ export const CheckboxFilterGroup: FC<Props> = ({
   title,
   items,
   limit = 5,
+  loading,
   searchInputPlaceholder = "Поиск...",
-  onChange,
+  onClickCheckbox,
+  selectedIds,
   defaultValue,
 }) => {
   const [showAll, setShowAll] = useState(false);
@@ -39,10 +39,29 @@ export const CheckboxFilterGroup: FC<Props> = ({
   };
 
   const filteredItems = items.filter((item) =>
-    item.text.toLowerCase().includes(searchValue.toLowerCase()),
+    item.name.toLowerCase().includes(searchValue.toLowerCase()),
   );
 
   const list = showAll ? filteredItems : items.slice(0, limit);
+
+  {/* TODO: добавить скелетон */ }
+  const renderLoadingList = loading ? Array(limit).fill(0).map((_, index) => (
+    <li key={index}>Загрузка...</li>
+  )) :
+    list.map((item) => (
+      <FilterCheckbox
+        key={item.id}
+        name={item.name}
+        checked={selectedIds?.has(item.name) ?? false}
+        onCheckedChange={() => onClickCheckbox?.(item.name)}
+      />
+    ));
+
+  const renderShowBtn = items.length > limit && (
+    <Button onClick={onChangeShowAll} color="transparent" noPadding>
+      {showAll ? "Скрыть" : "+ Показать всё"}
+    </Button>
+  );
 
   return (
     <div className={s.root}>
@@ -58,23 +77,10 @@ export const CheckboxFilterGroup: FC<Props> = ({
       )}
 
       <div className={s.items}>
-        {list.map((item) => (
-          <FilterCheckbox
-            key={item.text}
-            text={item.text}
-            value={item.value}
-            endAdornment={item.endAdornment}
-            checked={false}
-            onCheckedChange={(ids) => console.log(ids)}
-          />
-        ))}
+        {renderLoadingList}
       </div>
 
-      {items.length > limit && (
-        <Button onClick={onChangeShowAll} color="transparent" noPadding>
-          {showAll ? "Скрыть" : "+ Показать всё"}
-        </Button>
-      )}
+      {loading ? <p>Загрузка...</p> : renderShowBtn}
     </div>
   );
 };

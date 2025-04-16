@@ -6,34 +6,32 @@ import s from "./FilterCheckbox.module.scss";
 import { ReactNode, type FC } from "react";
 import { noop } from "@/utils/noop";
 import classNames from "classnames";
+import { Tag } from "@prisma/client";
 
-export interface Props {
-  text: string;
-  value: string;
+export interface Props extends Pick<Tag, "name"> {
   endAdornment?: ReactNode;
   onCheckedChange?: (checked: boolean) => void;
   checked?: boolean;
 }
 
 export const FilterCheckbox: FC<Props> = ({
-  text,
-  value,
-  endAdornment,
+  name,
+  endAdornment = null,
   onCheckedChange,
-  checked,
+  checked = false,
 }) => {
   return (
     <FormGroup className={classNames(s.root, checked && s.checked)}>
       <FormControlLabel
         control={
           <Checkbox
+            id={`checkbox-${String(name)}`}
             onChange={onCheckedChange ?? noop}
             checked={checked}
-            value={value}
-            id={`checkbox-${String(value)}`}
+            value={name}
           />
         }
-        label={text}
+        label={name}
       />
       {endAdornment}
     </FormGroup>
