@@ -1,8 +1,8 @@
 import { ProductsGroupList } from "@/components/shared/ProductsGroupList";
 import { Filters } from "@/components/shared/Filters";
 import { TopBar } from "@/components/shared/TopBar";
-import s from "./page.module.scss";
 import { prisma } from "../prisma/prisma-client";
+import s from "./page.module.scss";
 
 export default async function Home() {
   const categories = await prisma.category.findMany({
@@ -10,12 +10,14 @@ export default async function Home() {
       products: {
         include: {
           tags: true,
-        }
-      }
-    }
+        },
+      },
+    },
   });
 
-  const filteredCategories = categories.filter((category) => category.products.length > 0);
+  const filteredCategories = categories.filter(
+    (category) => category.products.length > 0,
+  );
 
   return (
     <>
@@ -29,12 +31,7 @@ export default async function Home() {
         <Filters />
         <div className={s.wrapProducts}>
           {filteredCategories.map(({ id, name, products }) => (
-            <ProductsGroupList
-              key={id}
-              id={id}
-              name={name}
-              items={products}
-            />
+            <ProductsGroupList key={id} id={id} name={name} items={products} />
           ))}
         </div>
       </div>

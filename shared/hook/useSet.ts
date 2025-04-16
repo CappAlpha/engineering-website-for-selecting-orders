@@ -41,7 +41,7 @@ export function useSet<T>(initialValue?: Iterable<T>) {
         return set.has(item);
       },
     }),
-    [set]
+    [set],
   );
 
   return [set, actions] as const;

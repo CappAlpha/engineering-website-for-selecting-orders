@@ -1,8 +1,8 @@
 "use client";
+import { useDebouncedCallback } from "@/hook/useDebounce";
+import { useEffect, useState, type FC } from "react";
 import { Slider as SliderMui } from "@mui/material";
 import s from "./Slider.module.scss";
-import { useEffect, useState, type FC } from "react";
-import { useDebouncedCallback } from "@/hook/useDebounce";
 
 export interface Props {
   min: number;
@@ -13,17 +13,30 @@ export interface Props {
   minGap?: number;
 }
 
-export const Slider: FC<Props> = ({ min, max, value, onValueChange, step = 1, minGap = step }) => {
-  const initialValue = Array.isArray(value) && value.length === 2 ? value : [min, max];
+export const Slider: FC<Props> = ({
+  min,
+  max,
+  value,
+  onValueChange,
+  step = 1,
+  minGap = step,
+}) => {
+  const initialValue =
+    Array.isArray(value) && value.length === 2 ? value : [min, max];
   const [localValues, setLocalValues] = useState<number[]>(initialValue);
   const debouncedOnValueChange = useDebouncedCallback(onValueChange, 100);
 
   useEffect(() => {
-    const validValue = Array.isArray(value) && value.length === 2 ? value : [min, max];
+    const validValue =
+      Array.isArray(value) && value.length === 2 ? value : [min, max];
     setLocalValues(validValue);
   }, [min, max, value]);
 
-  const handleValueChange = (_event: Event, newValues: number | number[], activeThumb: number) => {
+  const handleValueChange = (
+    _event: Event,
+    newValues: number | number[],
+    activeThumb: number,
+  ) => {
     if (!Array.isArray(newValues)) return;
 
     let adjustedValues: number[] = [...newValues];
@@ -32,10 +45,16 @@ export const Slider: FC<Props> = ({ min, max, value, onValueChange, step = 1, mi
 
     if (adjustedValues[1] - adjustedValues[0] < minGap) {
       if (activeThumb === 0) {
-        const leftValue = Math.min(adjustedValues[0], adjustedValues[1] - minGap);
+        const leftValue = Math.min(
+          adjustedValues[0],
+          adjustedValues[1] - minGap,
+        );
         adjustedValues = [leftValue, leftValue + minGap];
       } else {
-        const rightValue = Math.max(adjustedValues[1], adjustedValues[0] + minGap);
+        const rightValue = Math.max(
+          adjustedValues[1],
+          adjustedValues[0] + minGap,
+        );
         adjustedValues = [rightValue - minGap, rightValue];
       }
     }

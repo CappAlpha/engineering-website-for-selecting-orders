@@ -2,9 +2,9 @@
 import { FilterCheckbox } from "../FilterCheckbox/FilterCheckbox";
 import { ChangeEvent, useState, type FC } from "react";
 import s from "./CheckboxFilterGroup.module.scss";
+import { Tag } from "@prisma/client";
 import { Button } from "../Button";
 import { Input } from "../Input";
-import { Tag } from "@prisma/client";
 
 export interface Props {
   title: string;
@@ -44,18 +44,21 @@ export const CheckboxFilterGroup: FC<Props> = ({
 
   const list = showAll ? filteredItems : items.slice(0, limit);
 
-  {/* TODO: добавить скелетон */ }
-  const renderLoadingList = loading ? Array(limit).fill(0).map((_, index) => (
-    <li key={index}>Загрузка...</li>
-  )) :
-    list.map((item) => (
-      <FilterCheckbox
-        key={item.id}
-        name={item.name}
-        checked={selected?.has(item.name) ?? false}
-        onCheckedChange={() => onClickCheckbox?.(item.name)}
-      />
-    ));
+  {
+    /* TODO: добавить скелетон */
+  }
+  const renderLoadingList = loading
+    ? Array(limit)
+        .fill(0)
+        .map((_, index) => <li key={index}>Загрузка...</li>)
+    : list.map((item) => (
+        <FilterCheckbox
+          key={item.id}
+          name={item.name}
+          checked={selected?.has(item.name) ?? false}
+          onCheckedChange={() => onClickCheckbox?.(item.name)}
+        />
+      ));
 
   const renderShowBtn = items.length > limit && (
     <Button onClick={onChangeShowAll} color="transparent" noPadding>
@@ -76,9 +79,7 @@ export const CheckboxFilterGroup: FC<Props> = ({
         </div>
       )}
 
-      <div className={s.items}>
-        {renderLoadingList}
-      </div>
+      <div className={s.items}>{renderLoadingList}</div>
 
       {loading ? <p>Загрузка...</p> : renderShowBtn}
     </div>

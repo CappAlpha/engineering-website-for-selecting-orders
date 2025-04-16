@@ -23,8 +23,7 @@ export const useFetchTags = (): ReturnProps => {
       } catch (error) {
         console.error("Ошибка при запросе тегов:", error);
         setItems([]);
-      }
-      finally {
+      } finally {
         setLoading(false);
       }
     };

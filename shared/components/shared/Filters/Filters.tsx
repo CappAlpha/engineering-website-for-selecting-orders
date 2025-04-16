@@ -1,15 +1,15 @@
 "use client";
 import { CheckboxFilterGroup } from "@/components/ui/CheckboxFilterGroup";
+import { usePriceRange } from "@/hook/usePriceRange";
+import { useFetchTags } from "@/hook/useFetchTags";
 import { Slider } from "@/components/ui/Slider";
 import { Input } from "@/components/ui/Input";
-import s from "./Filters.module.scss";
-import { useEffect, type FC } from "react";
-import { useFetchTags } from "@/hook/useFetchTags";
-import { usePriceRange } from "@/hook/usePriceRange";
-import qs from "qs";
 import { useRouter } from "next/navigation";
+import { useEffect, type FC } from "react";
+import s from "./Filters.module.scss";
+import qs from "qs";
 
-interface Props { }
+interface Props {}
 
 const PRICE_CONFIG = {
   MIN_PRICE: 0,
@@ -21,20 +21,28 @@ const PRICE_CONFIG = {
 
 export const Filters: FC<Props> = () => {
   const router = useRouter();
-  const { items: tags, loading: loadingTags, onAdd: onAddTags, selected: selectedTags } = useFetchTags();
-  const { prices, handlePriceChange, handleSliderChange } = usePriceRange({}, PRICE_CONFIG);
+  const {
+    items: tags,
+    loading: loadingTags,
+    onAdd: onAddTags,
+    selected: selectedTags,
+  } = useFetchTags();
+  const { prices, handlePriceChange, handleSliderChange } = usePriceRange(
+    {},
+    PRICE_CONFIG,
+  );
 
   useEffect(() => {
     const filters = {
       ...prices,
       tags: Array.from(selectedTags),
-    }
+    };
 
     const query = qs.stringify(filters, {
-      arrayFormat: 'comma',
+      arrayFormat: "comma",
     });
 
-    router.push(`?${query}`, { scroll: false, });
+    router.push(`?${query}`, { scroll: false });
   }, [prices, selectedTags, router]);
 
   return (
@@ -64,7 +72,10 @@ export const Filters: FC<Props> = () => {
           max={PRICE_CONFIG.MAX_PRICE}
           step={PRICE_CONFIG.SLIDER_STEP}
           minGap={PRICE_CONFIG.SLIDER_GAP}
-          value={[prices.priceFrom ?? PRICE_CONFIG.MIN_PRICE, prices.priceTo ?? PRICE_CONFIG.MAX_PRICE / 2]}
+          value={[
+            prices.priceFrom ?? PRICE_CONFIG.MIN_PRICE,
+            prices.priceTo ?? PRICE_CONFIG.MAX_PRICE / 2,
+          ]}
           onValueChange={handleSliderChange}
         />
       </div>

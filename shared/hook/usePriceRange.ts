@@ -34,9 +34,15 @@ export const usePriceRange = (
 
       if (field === "priceFrom") {
         // Ограничиваем priceFrom: от minPrice до MAX_PRICE - SLIDER_GAP
-        priceFrom = Math.max(MIN_PRICE, Math.min(newPrice, MAX_PRICE - SLIDER_GAP));
+        priceFrom = Math.max(
+          MIN_PRICE,
+          Math.min(newPrice, MAX_PRICE - SLIDER_GAP),
+        );
         // Корректируем priceTo, если нарушен минимальный зазор
-        priceTo = Math.max(priceTo, Math.min(priceFrom + SLIDER_GAP, MAX_PRICE));
+        priceTo = Math.max(
+          priceTo,
+          Math.min(priceFrom + SLIDER_GAP, MAX_PRICE),
+        );
       } else {
         // Ограничиваем priceTo: от priceFrom + SLIDER_GAP до MAX_PRICE
         priceTo = Math.min(
@@ -62,12 +68,9 @@ export const usePriceRange = (
   );
 
   // Обработчик изменения слайдера
-  const handleSliderChange = useCallback(
-    ([priceFrom, priceTo]: number[]) => {
-      setPrices({ priceFrom, priceTo });
-    },
-    [],
-  );
+  const handleSliderChange = useCallback(([priceFrom, priceTo]: number[]) => {
+    setPrices({ priceFrom, priceTo });
+  }, []);
 
   return {
     prices,
