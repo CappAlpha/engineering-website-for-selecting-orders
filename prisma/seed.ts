@@ -99,6 +99,29 @@ async function up() {
       },
     ],
   });
+
+  await prisma.tag.createMany({
+    data: [
+      {
+        name: "Чертёж",
+      },
+      {
+        name: "БЭМ",
+      },
+      {
+        name: "Геология",
+      },
+      {
+        name: "Программа",
+      },
+      {
+        name: "Здание",
+      },
+      {
+        name: "Мост",
+      },
+    ],
+  });
 }
 
 //Автоочистка базы данных
@@ -106,6 +129,7 @@ async function down() {
   await prisma.$executeRaw`TRUNCATE TABLE "User" RESTART IDENTITY CASCADE`;
   await prisma.$executeRaw`TRUNCATE TABLE "Category" RESTART IDENTITY CASCADE`;
   await prisma.$executeRaw`TRUNCATE TABLE "Product" RESTART IDENTITY CASCADE`;
+  await prisma.$executeRaw`TRUNCATE TABLE "Tag" RESTART IDENTITY CASCADE`;
 }
 
 async function main() {

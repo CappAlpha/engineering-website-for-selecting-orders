@@ -2,29 +2,9 @@ import { Props as ProductCardProps } from "@/components/shared/ProductCard";
 import { ProductsGroupList } from "@/components/shared/ProductsGroupList";
 import { Filters } from "@/components/shared/Filters";
 import { TopBar } from "@/components/shared/TopBar";
+import { Api } from "../services/api-client";
 import { Category } from "@prisma/client";
 import s from "./page.module.scss";
-import { useEffect, useState } from "react";
-import { Api } from "../services/api-client";
-
-const CATEGORIES: Pick<Category, "id" | "name">[] = [
-  {
-    id: 1,
-    name: "Чертежи",
-  },
-  {
-    id: 2,
-    name: "БЭМ",
-  },
-  {
-    id: 3,
-    name: "Геология",
-  },
-  {
-    id: 4,
-    name: "Программы на C++",
-  },
-];
 
 const PRODUCTS: ProductCardProps[] = [
   {
@@ -59,7 +39,6 @@ const PRODUCTS: ProductCardProps[] = [
 
 async function fetchCategories(): Promise<Category[]> {
   try {
-    
     const response = await Api.categories.getAll();
     return response;
   } catch (error) {
@@ -83,18 +62,18 @@ export default async function Home() {
         <Filters />
         <div className={s.wrapProducts}>
           <ProductsGroupList
-            id={CATEGORIES[0].id}
-            name={CATEGORIES[0].name}
+            id={categories[0].id}
+            name={categories[0].name}
             items={PRODUCTS}
           />
           <ProductsGroupList
-            id={CATEGORIES[1].id}
-            name={CATEGORIES[1].name}
+            id={categories[1].id}
+            name={categories[1].name}
             items={PRODUCTS}
           />
           <ProductsGroupList
-            id={CATEGORIES[2].id}
-            name={CATEGORIES[2].name}
+            id={categories[2].id}
+            name={categories[2].name}
             items={PRODUCTS}
           />
         </div>

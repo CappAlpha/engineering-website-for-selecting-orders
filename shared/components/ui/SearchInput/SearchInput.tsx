@@ -114,7 +114,7 @@ export const SearchInput: FC<Props> = () => {
         setProducts([]);
       } finally {
         setLoading(false);
-      };
+      }
     };
 
     fetchProducts();

@@ -13,9 +13,7 @@ export interface Props {
   categories: Category[];
 }
 
-export const TopBar: FC<Props> = ({
-  categories,
-}) => {
+export const TopBar: FC<Props> = ({ categories }) => {
   const activeIndex = useAppSelector((state) => state.categories.activeId);
   const [isBarHidden, setIsBarHidden] = useState(false);
   const [isBtnHidden, setIsBtnHidden] = useState(true);

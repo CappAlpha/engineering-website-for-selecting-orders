@@ -7,10 +7,7 @@ export interface Props {
   activeIndex: number;
 }
 
-export const Tabs: FC<Props> = ({
-  items,
-  activeIndex,
-}) => {
+export const Tabs: FC<Props> = ({ items, activeIndex }) => {
   return (
     <div className={s.root}>
       {items.map((item, index) => (

@@ -17,6 +17,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(products);
   } catch (error) {
     console.error("API error:", error);
-    return NextResponse.json({ error: "Failed to fetch search products" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch search products" },
+      { status: 500 },
+    );
   }
 }
