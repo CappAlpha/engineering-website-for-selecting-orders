@@ -2,12 +2,12 @@ import { Category } from "@prisma/client";
 import s from "./Tabs.module.scss";
 import { type FC } from "react";
 import { Tab } from "./Tab";
-export interface Props<T> {
-  items: T[];
+export interface Props {
+  items: Category[];
   activeIndex: number;
 }
 
-export const Tabs: FC<Props<Pick<Category, "id" | "name">>> = ({
+export const Tabs: FC<Props> = ({
   items,
   activeIndex,
 }) => {

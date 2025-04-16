@@ -9,11 +9,11 @@ import { Category } from "@prisma/client";
 import s from "./TopBar.module.scss";
 import cn from "classnames";
 
-export interface Props<T> {
-  categories: T[];
+export interface Props {
+  categories: Category[];
 }
 
-export const TopBar: FC<Props<Pick<Category, "id" | "name">>> = ({
+export const TopBar: FC<Props> = ({
   categories,
 }) => {
   const activeIndex = useAppSelector((state) => state.categories.activeId);

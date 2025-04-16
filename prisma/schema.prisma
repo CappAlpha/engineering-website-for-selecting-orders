@@ -43,6 +43,8 @@ model Product {
   description String
   price       Int
 
+  tags Tag[]
+
   categoryId Int
   category   Category @relation(fields: [categoryId], references: [id])
 
@@ -52,18 +54,28 @@ model Product {
   updatedAt DateTime @updatedAt
 }
 
+model Tag {
+  id Int @id @default(autoincrement())
+
+  name     String
+  Product  Product[]
+  cartItem CartItem[]
+
+  createdAt DateTime @default(now())
+}
+
 model Cart {
   id Int @id @default(autoincrement())
 
-  userId String  @unique
-  user   User @relation(fields: [userId], references: [id])
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
 
   token String
 
   totalAmount Int @default(0)
 
   cartItem CartItem[]
-  orders    Order[]
+  orders   Order[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -79,7 +91,9 @@ model CartItem {
   cart   Cart @relation(fields: [cartId], references: [id])
 
   userId String
-  user   User @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+
+  tags Tag[]
 
   quantity Int
 
@@ -91,7 +105,7 @@ model Order {
   id Int @id @default(autoincrement())
 
   userId String
-  user   User @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
 
   cartId Int
   cart   Cart @relation(fields: [cartId], references: [id])
@@ -107,8 +121,8 @@ model Order {
 model VerificationCode {
   id Int @id @default(autoincrement())
 
-  userId String  @unique
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   code String
 

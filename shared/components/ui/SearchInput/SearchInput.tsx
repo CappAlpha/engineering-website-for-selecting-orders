@@ -107,14 +107,14 @@ export const SearchInput: FC<Props> = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const items = await Api.products.search(debouncedSearchQuery);
-        setProducts(items);
+        const response = await Api.products.search(debouncedSearchQuery);
+        setProducts(response);
       } catch (error) {
         console.error("Ошибка при поиске продуктов:", error);
         setProducts([]);
       } finally {
         setLoading(false);
-      }
+      };
     };
 
     fetchProducts();

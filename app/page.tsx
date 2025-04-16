@@ -4,6 +4,8 @@ import { Filters } from "@/components/shared/Filters";
 import { TopBar } from "@/components/shared/TopBar";
 import { Category } from "@prisma/client";
 import s from "./page.module.scss";
+import { useEffect, useState } from "react";
+import { Api } from "../services/api-client";
 
 const CATEGORIES: Pick<Category, "id" | "name">[] = [
   {
@@ -55,14 +57,27 @@ const PRODUCTS: ProductCardProps[] = [
   },
 ];
 
-export default function Home() {
+async function fetchCategories(): Promise<Category[]> {
+  try {
+    
+    const response = await Api.categories.getAll();
+    return response;
+  } catch (error) {
+    console.error("Ошибка при получении категорий:", error);
+    return [];
+  }
+}
+
+export default async function Home() {
+  const categories = await fetchCategories();
+
   return (
     <>
       <div className={s.wrap}>
         <h1 className={s.title}>Все заказы</h1>
       </div>
 
-      <TopBar categories={CATEGORIES} />
+      <TopBar categories={categories} />
 
       <div className={s.wrapCatalog}>
         <Filters />
