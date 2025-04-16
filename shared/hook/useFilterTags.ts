@@ -6,14 +6,14 @@ import { useSet } from "./useSet";
 interface ReturnProps {
   items: Tag[];
   loading: boolean;
-  selectedIds: Set<string>;
-  onAddId: (id: string) => void;
+  selected: Set<string>;
+  onAdd: (id: string) => void;
 }
 
 export const useFilterTags = (): ReturnProps => {
   const [items, setItems] = useState<Tag[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedIds, { toggle }] = useSet<string>([]);
+  const [selected, { toggle }] = useSet<string>([]);
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -32,5 +32,5 @@ export const useFilterTags = (): ReturnProps => {
     fetchTags();
   }, []);
 
-  return { items, loading, onAddId: toggle, selectedIds };
+  return { items, loading, onAdd: toggle, selected };
 };

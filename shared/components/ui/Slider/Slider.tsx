@@ -10,9 +10,10 @@ export interface Props {
   value: number[];
   onValueChange: (value: number[]) => void;
   step?: number;
+  minGap?: number;
 }
 
-export const Slider: FC<Props> = ({ min, max, value, onValueChange, step = 1 }) => {
+export const Slider: FC<Props> = ({ min, max, value, onValueChange, step = 1, minGap = step }) => {
   const initialValue = Array.isArray(value) && value.length === 2 ? value : [min, max];
   const [localValues, setLocalValues] = useState<number[]>(initialValue);
   const debouncedOnValueChange = useDebouncedCallback(onValueChange, 100);
@@ -22,10 +23,28 @@ export const Slider: FC<Props> = ({ min, max, value, onValueChange, step = 1 }) 
     setLocalValues(validValue);
   }, [min, max, value]);
 
-  const handleValueChange = (_event: Event, newValues: number | number[], _activeThumb: number) => {
+  const handleValueChange = (_event: Event, newValues: number | number[], activeThumb: number) => {
     if (!Array.isArray(newValues)) return;
-    setLocalValues(newValues);
-    debouncedOnValueChange(newValues);
+
+    let adjustedValues: number[] = [...newValues];
+
+    adjustedValues[1] = Math.min(adjustedValues[1], max);
+
+    if (adjustedValues[1] - adjustedValues[0] < minGap) {
+      if (activeThumb === 0) {
+        const leftValue = Math.min(adjustedValues[0], adjustedValues[1] - minGap);
+        adjustedValues = [leftValue, leftValue + minGap];
+      } else {
+        const rightValue = Math.max(adjustedValues[1], adjustedValues[0] + minGap);
+        adjustedValues = [rightValue - minGap, rightValue];
+      }
+    }
+
+    adjustedValues[0] = Math.max(min, adjustedValues[0]);
+    adjustedValues[1] = Math.min(max, adjustedValues[1]);
+
+    setLocalValues(adjustedValues);
+    debouncedOnValueChange(adjustedValues);
   };
 
   return (

@@ -1,60 +1,56 @@
 "use client";
-import { FilterCheckbox } from "../../ui/FilterCheckbox";
 import { CheckboxFilterGroup } from "@/components/ui/CheckboxFilterGroup";
 import { Slider } from "@/components/ui/Slider";
 import { Input } from "@/components/ui/Input";
 import s from "./Filters.module.scss";
-import { useState, type FC } from "react";
+import { type FC } from "react";
 import { useFilterTags } from "@/hook/useFilterTags";
-export interface Props {
-  //
-}
+import { usePriceRange } from "@/hook/usePriceRange";
 
-export interface PriceProps {
-  priceFrom: number;
-  priceTo: number;
-}
+interface FiltersProps { }
 
-const MAX_PRICE = 30000;
+const PRICE_CONFIG = {
+  MIN_PRICE: 0,
+  MAX_PRICE: 30000,
+  PRICE_TO: 15000,
+  SLIDER_GAP: 1000,
+  SLIDER_STEP: 100,
+} as const;
 
-export const Filters: FC<Props> = ({ }) => {
-  const { items: tags, loading, onAddId, selectedIds } = useFilterTags();
-  const [prices, setPrice] = useState<PriceProps>({ priceFrom: 0, priceTo: 15000 });
-
-  const updatePrice = (name: keyof PriceProps, value: number) => {
-    setPrice({ ...prices, [name]: value });
-  };
+export const Filters: FC<FiltersProps> = () => {
+  const { items: tags, loading, onAdd, selected } = useFilterTags();
+  const { prices, handlePriceChange, handleSliderChange } = usePriceRange({ priceFrom: PRICE_CONFIG.MIN_PRICE, priceTo: PRICE_CONFIG.PRICE_TO }, PRICE_CONFIG);
 
   return (
     <div className={s.root}>
       <h2 className={s.subtitle}>Фильтрация</h2>
-
-      <div className={s.specialCategories}>
-        <FilterCheckbox name="Можно собирать" />
-        <FilterCheckbox name="Новинки" />
-      </div>
 
       <div className={s.priceCategory}>
         <p className={s.categoryTitle}>Цена от и до:</p>
         <div className={s.priceInputs}>
           <Input
             type="number"
-            placeholder="0"
-            min={0}
-            max={MAX_PRICE}
-            value={String(prices.priceFrom)}
-            onChange={(e) => updatePrice('priceFrom', Number(e.target.value))}
+            min={PRICE_CONFIG.MIN_PRICE}
+            max={PRICE_CONFIG.MAX_PRICE - PRICE_CONFIG.SLIDER_GAP}
+            value={prices.priceFrom}
+            onChange={(e) => handlePriceChange(e, "priceFrom")}
           />
           <Input
             type="number"
-            placeholder="3000"
-            min={100}
-            max={MAX_PRICE}
-            value={String(prices.priceTo)}
-            onChange={(e) => updatePrice('priceTo', Number(e.target.value))}
+            min={PRICE_CONFIG.SLIDER_GAP}
+            max={PRICE_CONFIG.MAX_PRICE}
+            value={prices.priceTo}
+            onChange={(e) => handlePriceChange(e, "priceTo")}
           />
         </div>
-        <Slider min={0} max={MAX_PRICE} step={100} value={[prices.priceFrom, prices.priceTo]} onValueChange={([priceFrom, priceTo]) => setPrice({ priceFrom, priceTo })} />
+        <Slider
+          min={PRICE_CONFIG.MIN_PRICE}
+          max={PRICE_CONFIG.MAX_PRICE}
+          step={PRICE_CONFIG.SLIDER_STEP}
+          minGap={PRICE_CONFIG.SLIDER_GAP}
+          value={[prices.priceFrom, prices.priceTo]}
+          onValueChange={handleSliderChange}
+        />
       </div>
 
       <CheckboxFilterGroup
@@ -62,8 +58,8 @@ export const Filters: FC<Props> = ({ }) => {
         limit={5}
         items={tags}
         loading={loading}
-        onClickCheckbox={onAddId}
-        selectedIds={selectedIds}
+        onClickCheckbox={onAdd}
+        selected={selected}
       />
     </div>
   );
