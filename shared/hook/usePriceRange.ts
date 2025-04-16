@@ -2,8 +2,8 @@ import { useState, ChangeEvent, useCallback } from "react";
 
 // Интерфейсы
 interface PriceRange {
-  priceFrom: number;
-  priceTo: number;
+  priceFrom?: number;
+  priceTo?: number;
 }
 
 interface PriceConfig {
@@ -29,8 +29,8 @@ export const usePriceRange = (
         return currentPrices; // Игнорируем нечисловой ввод
       }
 
-      let priceFrom = currentPrices.priceFrom;
-      let priceTo = currentPrices.priceTo;
+      let priceFrom = currentPrices.priceFrom ?? MIN_PRICE;
+      let priceTo = currentPrices.priceTo ?? MAX_PRICE / 2;
 
       if (field === "priceFrom") {
         // Ограничиваем priceFrom: от minPrice до MAX_PRICE - SLIDER_GAP

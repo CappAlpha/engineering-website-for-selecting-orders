@@ -3,11 +3,13 @@ import { CheckboxFilterGroup } from "@/components/ui/CheckboxFilterGroup";
 import { Slider } from "@/components/ui/Slider";
 import { Input } from "@/components/ui/Input";
 import s from "./Filters.module.scss";
-import { type FC } from "react";
-import { useFilterTags } from "@/hook/useFilterTags";
+import { useEffect, type FC } from "react";
+import { useFetchTags } from "@/hook/useFetchTags";
 import { usePriceRange } from "@/hook/usePriceRange";
+import qs from "qs";
+import { useRouter } from "next/navigation";
 
-interface FiltersProps { }
+interface Props { }
 
 const PRICE_CONFIG = {
   MIN_PRICE: 0,
@@ -17,9 +19,23 @@ const PRICE_CONFIG = {
   SLIDER_STEP: 100,
 } as const;
 
-export const Filters: FC<FiltersProps> = () => {
-  const { items: tags, loading, onAdd, selected } = useFilterTags();
-  const { prices, handlePriceChange, handleSliderChange } = usePriceRange({ priceFrom: PRICE_CONFIG.MIN_PRICE, priceTo: PRICE_CONFIG.PRICE_TO }, PRICE_CONFIG);
+export const Filters: FC<Props> = () => {
+  const router = useRouter();
+  const { items: tags, loading: loadingTags, onAdd: onAddTags, selected: selectedTags } = useFetchTags();
+  const { prices, handlePriceChange, handleSliderChange } = usePriceRange({}, PRICE_CONFIG);
+
+  useEffect(() => {
+    const filters = {
+      ...prices,
+      tags: Array.from(selectedTags),
+    }
+
+    const query = qs.stringify(filters, {
+      arrayFormat: 'comma',
+    });
+
+    router.push(`?${query}`, { scroll: false, });
+  }, [prices, selectedTags, router]);
 
   return (
     <div className={s.root}>
@@ -32,14 +48,14 @@ export const Filters: FC<FiltersProps> = () => {
             type="number"
             min={PRICE_CONFIG.MIN_PRICE}
             max={PRICE_CONFIG.MAX_PRICE - PRICE_CONFIG.SLIDER_GAP}
-            value={prices.priceFrom}
+            value={prices.priceFrom ?? PRICE_CONFIG.MIN_PRICE}
             onChange={(e) => handlePriceChange(e, "priceFrom")}
           />
           <Input
             type="number"
             min={PRICE_CONFIG.SLIDER_GAP}
             max={PRICE_CONFIG.MAX_PRICE}
-            value={prices.priceTo}
+            value={prices.priceTo ?? PRICE_CONFIG.MAX_PRICE / 2}
             onChange={(e) => handlePriceChange(e, "priceTo")}
           />
         </div>
@@ -48,18 +64,19 @@ export const Filters: FC<FiltersProps> = () => {
           max={PRICE_CONFIG.MAX_PRICE}
           step={PRICE_CONFIG.SLIDER_STEP}
           minGap={PRICE_CONFIG.SLIDER_GAP}
-          value={[prices.priceFrom, prices.priceTo]}
+          value={[prices.priceFrom ?? PRICE_CONFIG.MIN_PRICE, prices.priceTo ?? PRICE_CONFIG.MAX_PRICE / 2]}
           onValueChange={handleSliderChange}
         />
       </div>
 
+      {/* TODO: чекбоксы выбранные попадали вверх списка */}
       <CheckboxFilterGroup
         title="Категории"
         limit={5}
         items={tags}
-        loading={loading}
-        onClickCheckbox={onAdd}
-        selected={selected}
+        loading={loadingTags}
+        onClickCheckbox={onAddTags}
+        selected={selectedTags}
       />
     </div>
   );

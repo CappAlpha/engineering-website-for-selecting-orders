@@ -10,7 +10,7 @@ interface ReturnProps {
   onAdd: (id: string) => void;
 }
 
-export const useFilterTags = (): ReturnProps => {
+export const useFetchTags = (): ReturnProps => {
   const [items, setItems] = useState<Tag[]>([]);
   const [loading, setLoading] = useState(true);
   const [selected, { toggle }] = useSet<string>([]);
