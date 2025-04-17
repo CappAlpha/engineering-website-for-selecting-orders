@@ -55,7 +55,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/drawings/1.webp",
         categoryId: 1,
-        tags: ['Чертёж', 'Быстро']
+        tags: ["Чертёж", "Быстро"],
       },
       {
         name: "Чертёж Сборочной Единицы",
@@ -64,7 +64,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/drawings/1.webp",
         categoryId: 1,
-        tags: ['Чертёж', 'Быстро']
+        tags: ["Чертёж", "Быстро"],
       },
       {
         name: "Чертёж Детали Корпуса",
@@ -73,7 +73,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/drawings/1.webp",
         categoryId: 1,
-        tags: ['Чертёж', 'Быстро']
+        tags: ["Чертёж", "Быстро"],
       },
       {
         name: "Проект многоквартирного дома",
@@ -82,7 +82,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/bim/1.webp",
         categoryId: 2,
-        tags: ['BIM', 'Быстро']
+        tags: ["BIM", "Быстро"],
       },
       {
         name: "Проект загородного коттеджа",
@@ -91,7 +91,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/bim/1.webp",
         categoryId: 2,
-        tags: ['BIM', 'Быстро']
+        tags: ["BIM", "Быстро"],
       },
       {
         name: "Проект спортивного комплекса",
@@ -100,7 +100,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/bim/1.webp",
         categoryId: 2,
-        tags: ['BIM', 'Скидка']
+        tags: ["BIM", "Скидка"],
       },
       {
         name: "Проект торгово-развлекательного центра",
@@ -109,7 +109,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/bim/1.webp",
         categoryId: 2,
-        tags: ['BIM']
+        tags: ["BIM"],
       },
       {
         name: "Анализ грунта для фундамента",
@@ -118,7 +118,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/geology/1.webp",
         categoryId: 3,
-        tags: ['Геология', 'Фундамент']
+        tags: ["Геология", "Фундамент"],
       },
       {
         name: "Геологическая разведка участка",
@@ -127,7 +127,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/geology/1.webp",
         categoryId: 3,
-        tags: ['Геология', 'Разведка']
+        tags: ["Геология", "Разведка"],
       },
       {
         name: "Исследование гидрогеологии",
@@ -136,7 +136,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/geology/1.webp",
         categoryId: 3,
-        tags: ['Гидрогеология']
+        tags: ["Гидрогеология"],
       },
       {
         name: "Оценка сейсмической активности",
@@ -145,7 +145,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/geology/1.webp",
         categoryId: 3,
-        tags: ['Сейсмичность']
+        tags: ["Сейсмичность"],
       },
       {
         name: "Расчёт конструктивных нагрузок",
@@ -154,7 +154,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/program/1.webp",
         categoryId: 4,
-        tags: ['Программа', 'Нагрузки']
+        tags: ["Программа", "Нагрузки"],
       },
       {
         name: "Оптимизация инженерных вычислений",
@@ -163,7 +163,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/program/1.webp",
         categoryId: 4,
-        tags: ['Программа', 'Оптимизация']
+        tags: ["Программа", "Оптимизация"],
       },
       {
         name: "Программа для моделирования нагрузок",
@@ -172,7 +172,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/program/1.webp",
         categoryId: 4,
-        tags: ['Программа', 'Моделирование']
+        tags: ["Программа", "Моделирование"],
       },
     ],
   });

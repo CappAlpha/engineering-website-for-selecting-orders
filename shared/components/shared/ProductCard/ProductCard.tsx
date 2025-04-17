@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/Button";
 import { Plus } from "../../../../public/icon";
 import s from "./ProductCard.module.scss";
+import { Product } from "@prisma/client";
+import { Tags } from "../../ui/Tags";
 import { type FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Tags } from "../Tags";
-import { Product } from "@prisma/client";
 
 type ProductCardProps = Pick<
   Product,

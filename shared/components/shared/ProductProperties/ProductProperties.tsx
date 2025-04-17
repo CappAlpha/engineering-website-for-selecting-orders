@@ -1,24 +1,26 @@
 "use client";
-import { type FC } from 'react';
-import { Product } from '@prisma/client';
+import { Product } from "@prisma/client";
+import { type FC } from "react";
 
-import s from './ProductProperties.module.scss';
-import { Button } from '@/components/ui/Button';
-import { Tags } from '../Tags';
+import s from "./ProductProperties.module.scss";
+import { Button } from "@/components/ui/Button";
+import { Tags } from "../../ui/Tags";
 
-export interface Props extends Pick<Product, 'name' | 'description' | 'price'> {
+export interface Props extends Pick<Product, "name" | "description" | "price"> {
   name: string;
   description: string;
   price: number;
   tags: string[];
 }
 
-export const ProductProperties: FC<Props> = ({ name,
+export const ProductProperties: FC<Props> = ({
+  name,
   description,
-  price, tags }) => {
-
+  price,
+  tags,
+}) => {
   const handleClick = () => {
-    console.log({ name, price })
+    console.log({ name, price });
   };
 
   return (
@@ -27,9 +29,13 @@ export const ProductProperties: FC<Props> = ({ name,
         <li>
           <h2 className={s.title}>{name}</h2>
         </li>
-        <li><p className={s.description}>{description}</p></li>
+        <li>
+          <p className={s.description}>{description}</p>
+        </li>
         <li>Цена - {price}</li>
-        <li><Tags tags={tags} /></li>
+        <li>
+          <Tags tags={tags} />
+        </li>
       </ul>
       <Button className={s.btn} onClick={handleClick}>
         Добавить в корзину за {price}

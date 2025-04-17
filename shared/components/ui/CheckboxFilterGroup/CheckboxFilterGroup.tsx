@@ -46,16 +46,16 @@ export const CheckboxFilterGroup: FC<Props> = ({
   /* TODO: добавить скелетон */
   const renderLoadingList = loading
     ? Array(limit)
-      .fill(0)
-      .map((_, index) => <li key={index}>Загрузка...</li>)
+        .fill(0)
+        .map((_, index) => <li key={index}>Загрузка...</li>)
     : list.map((item) => (
-      <FilterCheckbox
-        key={item}
-        name={item}
-        checked={selected?.has(item) ?? false}
-        onCheckedChange={() => onClickCheckbox?.(item)}
-      />
-    ));
+        <FilterCheckbox
+          key={item}
+          name={item}
+          checked={selected?.has(item) ?? false}
+          onCheckedChange={() => onClickCheckbox?.(item)}
+        />
+      ));
 
   const renderShowBtn = items.length > limit && (
     <Button onClick={onChangeShowAll} color="transparent" noPadding>

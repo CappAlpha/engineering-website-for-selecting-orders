@@ -1,8 +1,8 @@
+import { ProductProperties } from "@/components/shared/ProductProperties";
 import { prisma } from "../../../../prisma/prisma-client";
 import { notFound } from "next/navigation";
 import s from "./page.module.scss";
 import Image from "next/image";
-import { ProductProperties } from "@/components/shared/ProductProperties";
 
 export default async function ProductPage({
   params,
@@ -27,7 +27,12 @@ export default async function ProductPage({
           fill
         />
       </div>
-      <ProductProperties name={name} description={description} price={price} tags={tags} />
+      <ProductProperties
+        name={name}
+        description={description}
+        price={price}
+        tags={tags}
+      />
     </div>
   );
 }
