@@ -143,7 +143,7 @@ export const SearchInput: FC<Props> = ({ categories }) => {
     const { key, ...otherProps } = props;
     return (
       <li key={key} {...otherProps} style={{ padding: 0 }}>
-        <Link href={pageRoutes.PRODUCT + option.id} className={s.link}>
+        <Link href={`${pageRoutes.PRODUCT}${option.id}`} className={s.link}>
           {option.name}
         </Link>
       </li>
