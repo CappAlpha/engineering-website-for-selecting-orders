@@ -1,7 +1,6 @@
 import { axiosInstance } from "./instance";
 import { ApiRoutes } from "./constants";
-import { Tag } from "@prisma/client";
 
-export const getAll = async (): Promise<Tag[]> => {
-  return (await axiosInstance.get<Tag[]>(ApiRoutes.TAGS)).data;
+export const getAll = async (): Promise<string[]> => {
+  return (await axiosInstance.get<string[]>(ApiRoutes.TAGS)).data;
 };

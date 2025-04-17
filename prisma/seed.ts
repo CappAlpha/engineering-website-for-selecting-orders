@@ -1,13 +1,6 @@
-import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { prisma } from "./prisma-client";
 import { v4 as uuidv4 } from "uuid";
 import { hashSync } from "bcrypt";
-
-// const openrouter = createOpenRouter({
-//   apiKey: process.env.OPENROUTER_API_KEY || '',
-// });
-
-// const model = openrouter.languageModel('deepseek/deepseek-r1');
 
 const randomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min) + min);
@@ -62,6 +55,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/drawings/1.webp",
         categoryId: 1,
+        tags: ['Чертёж', 'Быстро']
       },
       {
         name: "Чертёж Сборочной Единицы",
@@ -70,6 +64,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/drawings/1.webp",
         categoryId: 1,
+        tags: ['Чертёж', 'Быстро']
       },
       {
         name: "Чертёж Детали Корпуса",
@@ -78,6 +73,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/drawings/1.webp",
         categoryId: 1,
+        tags: ['Чертёж', 'Быстро']
       },
       {
         name: "Проект многоквартирного дома",
@@ -86,6 +82,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/bim/1.webp",
         categoryId: 2,
+        tags: ['BIM', 'Быстро']
       },
       {
         name: "Проект загородного коттеджа",
@@ -94,6 +91,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/bim/1.webp",
         categoryId: 2,
+        tags: ['BIM', 'Быстро']
       },
       {
         name: "Проект спортивного комплекса",
@@ -102,6 +100,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/bim/1.webp",
         categoryId: 2,
+        tags: ['BIM', 'Скидка']
       },
       {
         name: "Проект торгово-развлекательного центра",
@@ -110,6 +109,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/bim/1.webp",
         categoryId: 2,
+        tags: ['BIM']
       },
       {
         name: "Анализ грунта для фундамента",
@@ -118,6 +118,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/geology/1.webp",
         categoryId: 3,
+        tags: ['Геология', 'Фундамент']
       },
       {
         name: "Геологическая разведка участка",
@@ -126,6 +127,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/geology/1.webp",
         categoryId: 3,
+        tags: ['Геология', 'Разведка']
       },
       {
         name: "Исследование гидрогеологии",
@@ -134,6 +136,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/geology/1.webp",
         categoryId: 3,
+        tags: ['Гидрогеология']
       },
       {
         name: "Оценка сейсмической активности",
@@ -142,6 +145,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/geology/1.webp",
         categoryId: 3,
+        tags: ['Сейсмичность']
       },
       {
         name: "Расчёт конструктивных нагрузок",
@@ -150,6 +154,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/program/1.webp",
         categoryId: 4,
+        tags: ['Программа', 'Нагрузки']
       },
       {
         name: "Оптимизация инженерных вычислений",
@@ -158,6 +163,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/program/1.webp",
         categoryId: 4,
+        tags: ['Программа', 'Оптимизация']
       },
       {
         name: "Программа для моделирования нагрузок",
@@ -166,29 +172,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/program/1.webp",
         categoryId: 4,
-      },
-    ],
-  });
-
-  await prisma.tag.createMany({
-    data: [
-      {
-        name: "Чертёж",
-      },
-      {
-        name: "BIM",
-      },
-      {
-        name: "Геология",
-      },
-      {
-        name: "Программа",
-      },
-      {
-        name: "Здание",
-      },
-      {
-        name: "Мост",
+        tags: ['Программа', 'Моделирование']
       },
     ],
   });
@@ -199,7 +183,6 @@ async function down() {
   await prisma.$executeRaw`TRUNCATE TABLE "User" RESTART IDENTITY CASCADE`;
   await prisma.$executeRaw`TRUNCATE TABLE "Category" RESTART IDENTITY CASCADE`;
   await prisma.$executeRaw`TRUNCATE TABLE "Product" RESTART IDENTITY CASCADE`;
-  await prisma.$executeRaw`TRUNCATE TABLE "Tag" RESTART IDENTITY CASCADE`;
 }
 
 async function main() {

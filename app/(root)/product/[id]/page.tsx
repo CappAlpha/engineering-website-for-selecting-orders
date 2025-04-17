@@ -2,6 +2,7 @@ import { prisma } from "../../../../prisma/prisma-client";
 import { notFound } from "next/navigation";
 import s from "./page.module.scss";
 import Image from "next/image";
+import { ProductProperties } from "@/components/shared/ProductProperties";
 
 export default async function ProductPage({
   params,
@@ -13,7 +14,7 @@ export default async function ProductPage({
     return notFound();
   }
 
-  const { imageUrl, name, description } = product;
+  const { imageUrl, name, description, price } = product;
 
   return (
     <div className={s.root}>
@@ -26,12 +27,7 @@ export default async function ProductPage({
           fill
         />
       </div>
-      <ul className={s.right}>
-        <li>
-          <h2 className={s.title}>{name}</h2>
-        </li>
-        <li>{description}</li>
-      </ul>
+      <ProductProperties name={name} description={description} price={price} />
     </div>
   );
 }

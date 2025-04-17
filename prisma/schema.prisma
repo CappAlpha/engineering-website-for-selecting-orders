@@ -42,8 +42,7 @@ model Product {
   imageUrl    String
   description String
   price       Int
-
-  tags Tag[]
+  tags    String[]
 
   categoryId Int
   category   Category @relation(fields: [categoryId], references: [id])
@@ -54,16 +53,16 @@ model Product {
   updatedAt DateTime @updatedAt
 }
 
-model Tag {
-  id Int @id @default(autoincrement())
+// model AdditionalParameter {
+//   id Int @id @default(autoincrement())
 
-  name     String
-  
-  Product  Product[]
-  cartItem CartItem[]
+//   name String
 
-  createdAt DateTime @default(now())
-}
+//   Product  Product[]
+//   cartItem CartItem[]
+
+//   createdAt DateTime @default(now())
+// }
 
 model Cart {
   id Int @id @default(autoincrement())
@@ -93,8 +92,6 @@ model CartItem {
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
-
-  tags Tag[]
 
   quantity Int
 

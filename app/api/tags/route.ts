@@ -3,8 +3,11 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const tags = await prisma.tag.findMany();
-    return NextResponse.json(tags);
+    const tags = await prisma.product.findMany({
+      select: { tags: true },
+    });
+    const uniqueTags = [...new Set(tags.flatMap(item => item.tags))];
+    return NextResponse.json(uniqueTags);
   } catch (error) {
     console.error("API error:", error);
     return NextResponse.json(

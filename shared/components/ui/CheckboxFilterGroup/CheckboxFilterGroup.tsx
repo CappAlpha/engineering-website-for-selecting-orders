@@ -2,13 +2,12 @@
 import { FilterCheckbox } from "../FilterCheckbox/FilterCheckbox";
 import { ChangeEvent, useState, type FC } from "react";
 import s from "./CheckboxFilterGroup.module.scss";
-import { Tag } from "@prisma/client";
 import { Button } from "../Button";
 import { Input } from "../Input";
 
 export interface Props {
   title: string;
-  items: Tag[];
+  items: string[];
   limit: number;
   loading?: boolean;
   searchInputPlaceholder?: string;
@@ -39,7 +38,7 @@ export const CheckboxFilterGroup: FC<Props> = ({
   };
 
   const filteredItems = items.filter((item) =>
-    item.name.toLowerCase().includes(searchValue.toLowerCase()),
+    item.toLowerCase().includes(searchValue.toLowerCase()),
   );
 
   const list = showAll ? filteredItems : items.slice(0, limit);
@@ -53,10 +52,10 @@ export const CheckboxFilterGroup: FC<Props> = ({
         .map((_, index) => <li key={index}>Загрузка...</li>)
     : list.map((item) => (
         <FilterCheckbox
-          key={item.id}
-          name={item.name}
-          checked={selected?.has(item.name) ?? false}
-          onCheckedChange={() => onClickCheckbox?.(item.name)}
+          key={item}
+          name={item}
+          checked={selected?.has(item) ?? false}
+          onCheckedChange={() => onClickCheckbox?.(item)}
         />
       ));
 

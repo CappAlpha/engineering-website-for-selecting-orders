@@ -7,11 +7,7 @@ import s from "./page.module.scss";
 export default async function Home() {
   const categories = await prisma.category.findMany({
     include: {
-      products: {
-        include: {
-          tags: true,
-        },
-      },
+      products: true,
     },
   });
 

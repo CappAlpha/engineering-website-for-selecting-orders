@@ -9,8 +9,6 @@ import { useEffect, type FC } from "react";
 import s from "./Filters.module.scss";
 import qs from "qs";
 
-interface Props {}
-
 const PRICE_CONFIG = {
   MIN_PRICE: 0,
   MAX_PRICE: 30000,
@@ -19,7 +17,7 @@ const PRICE_CONFIG = {
   SLIDER_STEP: 100,
 } as const;
 
-export const Filters: FC<Props> = () => {
+export const Filters: FC = () => {
   const router = useRouter();
   const {
     items: tags,
