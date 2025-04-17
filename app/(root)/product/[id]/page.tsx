@@ -4,8 +4,9 @@ import s from "./page.module.scss";
 import Image from "next/image";
 
 export default async function ProductPage({
-  params: { id },
-}: Readonly<{ params: { id: string } }>) {
+  params,
+}: Readonly<{ params: Promise<{ id: string }> }>) {
+  const { id } = await params;
   const product = await prisma.product.findFirst({ where: { id: Number(id) } });
 
   if (!product) {
