@@ -1,8 +1,8 @@
 .container {
-  padding-top: 180px;
+  padding-top: 160px;
   box-sizing: border-box;
 
   @include breakpoint(mobile-m) {
-    padding-top: 120px;
+    padding-top: 100px;
   }
 }

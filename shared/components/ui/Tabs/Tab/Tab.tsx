@@ -9,7 +9,12 @@ export interface Props {
   onClick: (name: string, isActive: boolean) => void;
 }
 
-export const Tab: FC<Props> = ({ name, activeIndex, currentIndex, onClick }) => {
+export const Tab: FC<Props> = ({
+  name,
+  activeIndex,
+  currentIndex,
+  onClick,
+}) => {
   const isActive = activeIndex == currentIndex;
   return (
     <Button

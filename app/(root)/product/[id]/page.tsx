@@ -13,7 +13,7 @@ export default async function ProductPage({
   }
 
   const { imageUrl, name, description } = product;
-  
+
   return (
     <div className={s.root}>
       <div className={s.left}>
@@ -26,7 +26,9 @@ export default async function ProductPage({
         />
       </div>
       <ul className={s.right}>
-        <li><h2 className={s.title}>{name}</h2></li>
+        <li>
+          <h2 className={s.title}>{name}</h2>
+        </li>
         <li>{description}</li>
       </ul>
     </div>

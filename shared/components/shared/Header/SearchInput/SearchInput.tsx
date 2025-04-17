@@ -19,12 +19,12 @@ import {
 } from "@mui/material";
 import { useOutsideClick } from "@/hook/useOutsideHook";
 import { Api } from "../../../../services/api-client";
-import { Product } from "@prisma/client";
+import { categories } from "@/constants/categories";
 import { useDebounce } from "@/hook/useDebounce";
 import s from "./SearchInput.module.scss";
+import { Product } from "@prisma/client";
 import Link from "next/link";
 import cn from "classnames";
-import { categories } from "@/constants/categories";
 
 interface AutocompleteOptionProps extends HTMLAttributes<HTMLLIElement> {
   key: Key;

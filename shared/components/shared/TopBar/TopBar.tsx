@@ -42,7 +42,11 @@ export const TopBar: FC<Props> = ({ categories }) => {
   return (
     <div className={cn(s.root, isBarVisible && s.hidden)}>
       <div className={s.wrap}>
-        <Tabs items={categories} activeIndex={activeIndex} onClick={handleScroll} />
+        <Tabs
+          items={categories}
+          activeIndex={activeIndex}
+          onClick={handleScroll}
+        />
         <SortDropdown />
       </div>
       <Button
