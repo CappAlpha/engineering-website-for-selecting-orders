@@ -21,7 +21,7 @@ import { useOutsideClick } from "@/hook/useOutsideHook";
 import { Api } from "../../../../services/api-client";
 import { Category, Product } from "@prisma/client";
 import { useDebounce } from "@/hook/useDebounce";
-import { pageRoutes } from "@/constants/pages";
+import { PageRoutes } from "@/constants/pages";
 import s from "./SearchInput.module.scss";
 import Link from "next/link";
 import cn from "classnames";
@@ -143,7 +143,7 @@ export const SearchInput: FC<Props> = ({ categories }) => {
     const { key, ...otherProps } = props;
     return (
       <li key={key} {...otherProps} style={{ padding: 0 }}>
-        <Link href={`${pageRoutes.PRODUCT}${option.id}`} className={s.link}>
+        <Link href={`${PageRoutes.PRODUCT}${option.id}`} className={s.link}>
           {option.name}
         </Link>
       </li>

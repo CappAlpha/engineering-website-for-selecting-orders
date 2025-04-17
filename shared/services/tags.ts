@@ -1,6 +1,6 @@
-import { pageRoutes } from "@/constants/pages";
+import { PageRoutes } from "@/constants/pages";
 import { axiosInstance } from "./instance";
 
 export const getAll = async (): Promise<string[]> => {
-  return (await axiosInstance.get<string[]>(pageRoutes.TAGS)).data;
+  return (await axiosInstance.get<string[]>(PageRoutes.TAGS)).data;
 };
