@@ -4,8 +4,11 @@ import { Button } from "@/components/ui/Button";
 import s from "./Header.module.scss";
 import { type FC } from "react";
 import Link from "next/link";
+import { prisma } from "../../../../prisma/prisma-client";
 
-export const Header: FC = () => {
+export const Header: FC = async () => {
+  const categories = await prisma.category.findMany();
+
   return (
     <header className={s.root}>
       <div className={s.wrap}>
@@ -14,7 +17,7 @@ export const Header: FC = () => {
           <h2 className={s.title}>Engineer</h2>
         </Link>
 
-        <SearchInput />
+        <SearchInput categories={categories} />
 
         <div className={s.right}>
           <Button>

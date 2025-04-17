@@ -19,12 +19,15 @@ import {
 } from "@mui/material";
 import { useOutsideClick } from "@/hook/useOutsideHook";
 import { Api } from "../../../../services/api-client";
-import { categories } from "@/constants/categories";
 import { useDebounce } from "@/hook/useDebounce";
 import s from "./SearchInput.module.scss";
-import { Product } from "@prisma/client";
+import { Category, Product } from "@prisma/client";
 import Link from "next/link";
 import cn from "classnames";
+
+interface Props {
+  categories: Category[];
+}
 
 interface AutocompleteOptionProps extends HTMLAttributes<HTMLLIElement> {
   key: Key;
@@ -47,7 +50,7 @@ const CssTextField = styled(TextField)({
   },
 });
 
-export const SearchInput: FC = () => {
+export const SearchInput: FC<Props> = ({ categories }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -98,7 +101,7 @@ export const SearchInput: FC = () => {
   }, [debouncedSearchQuery]);
 
   const getCategoryNameById = (categoryId: number): string => {
-    const categoryName = categories[categoryId as keyof typeof categories];
+    const categoryName = categories.find((category) => category.id === categoryId)?.name;
     return categoryName ?? "Без категории";
   };
 
