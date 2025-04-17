@@ -1,7 +1,7 @@
 "use client";
-import { FilterCheckbox } from "../FilterCheckbox/FilterCheckbox";
 import { ChangeEvent, useState, type FC } from "react";
 import s from "./CheckboxFilterGroup.module.scss";
+import { FilterCheckbox } from "./FilterCheckbox";
 import { Button } from "../Button";
 import { Input } from "../Input";
 
@@ -13,7 +13,6 @@ export interface Props {
   searchInputPlaceholder?: string;
   onClickCheckbox?: (value: string) => void;
   selected?: Set<string>;
-  defaultValue?: string[];
 }
 
 export const CheckboxFilterGroup: FC<Props> = ({
@@ -24,7 +23,6 @@ export const CheckboxFilterGroup: FC<Props> = ({
   searchInputPlaceholder = "Поиск...",
   onClickCheckbox,
   selected,
-  defaultValue,
 }) => {
   const [showAll, setShowAll] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -48,12 +46,12 @@ export const CheckboxFilterGroup: FC<Props> = ({
     ? Array(limit)
         .fill(0)
         .map((_, index) => <li key={index}>Загрузка...</li>)
-    : list.map((item) => (
+    : list.map((name) => (
         <FilterCheckbox
-          key={item}
-          name={item}
-          checked={selected?.has(item) ?? false}
-          onCheckedChange={() => onClickCheckbox?.(item)}
+          key={name}
+          name={name}
+          checked={selected?.has(name) ?? false}
+          onCheckedChange={() => onClickCheckbox?.(name)}
         />
       ));
 

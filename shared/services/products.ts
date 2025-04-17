@@ -1,10 +1,10 @@
+import { pageRoutes } from "@/constants/pages";
 import { axiosInstance } from "./instance";
 import { Product } from "@prisma/client";
-import { ApiRoutes } from "./constants";
 
 export const search = async (query: string): Promise<Product[]> => {
   return (
-    await axiosInstance.get<Product[]>(ApiRoutes.SEARCH_PRODUCTS, {
+    await axiosInstance.get<Product[]>(pageRoutes.SEARCH_PRODUCTS, {
       params: { query },
     })
   ).data;

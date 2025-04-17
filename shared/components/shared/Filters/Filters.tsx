@@ -1,11 +1,11 @@
 "use client";
 import { CheckboxFilterGroup } from "@/components/ui/CheckboxFilterGroup";
 import { usePriceRange } from "@/hook/usePriceRange";
-import { useTags } from "@/hook/useTags";
 import { Slider } from "@/components/ui/Slider";
 import { Input } from "@/components/ui/Input";
 import { useRouter } from "next/navigation";
 import { useEffect, type FC } from "react";
+import { useTags } from "@/hook/useTags";
 import s from "./Filters.module.scss";
 import qs from "qs";
 

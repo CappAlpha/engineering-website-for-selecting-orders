@@ -4,11 +4,11 @@ import FormGroup from "@mui/material/FormGroup";
 import Checkbox from "@mui/material/Checkbox";
 import s from "./FilterCheckbox.module.scss";
 import { ReactNode, type FC } from "react";
-import { Tag } from "@prisma/client";
 import { noop } from "@/utils/noop";
 import classNames from "classnames";
 
-export interface Props extends Pick<Tag, "name"> {
+export interface Props {
+  name: string;
   endAdornment?: ReactNode;
   onCheckedChange?: (checked: boolean) => void;
   checked?: boolean;
