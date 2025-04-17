@@ -1,7 +1,7 @@
 "use client";
 import { CheckboxFilterGroup } from "@/components/ui/CheckboxFilterGroup";
 import { usePriceRange } from "@/hook/usePriceRange";
-import { useFetchTags } from "@/hook/useFetchTags";
+import { useTags } from "@/hook/useTags";
 import { Slider } from "@/components/ui/Slider";
 import { Input } from "@/components/ui/Input";
 import { useRouter } from "next/navigation";
@@ -24,7 +24,7 @@ export const Filters: FC = () => {
     loading: loadingTags,
     onAdd: onAddTags,
     selected: selectedTags,
-  } = useFetchTags();
+  } = useTags();
   const { prices, handlePriceChange, handleSliderChange } = usePriceRange(
     {},
     PRICE_CONFIG,
