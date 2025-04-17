@@ -1,4 +1,4 @@
-import { Api } from "../../services/api-client";
+import { Api } from "../services/api-client";
 import { useEffect, useState } from "react";
 import { Tag } from "@prisma/client";
 import { useSet } from "./useSet";

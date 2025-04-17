@@ -42,7 +42,7 @@ async function up() {
         name: "Чертежи",
       },
       {
-        name: "БЭМ",
+        name: "BIM",
       },
       {
         name: "Геология",
@@ -78,28 +78,28 @@ async function up() {
       },
       {
         name: "Проект многоквартирного дома",
-        description: "Полный проект жилого комплекса, разработанный по стандартам БЭМ в кратчайшие сроки.",
+        description: "Полный проект жилого комплекса, разработанный по стандартам BIM в кратчайшие сроки.",
         price: generatePrice(),
         imageUrl: "/images/catalog/bem/1.jpeg",
         categoryId: 2,
       },
       {
         name: "Проект загородного коттеджа",
-        description: "Индивидуальный проект коттеджа с использованием БЭМ, выполнен быстро и качественно.",
+        description: "Индивидуальный проект коттеджа с использованием BIM, выполнен быстро и качественно.",
         price: generatePrice(),
         imageUrl: "/images/catalog/bem/1.jpeg",
         categoryId: 2,
       },
       {
         name: "Проект спортивного комплекса",
-        description: "Проект современного спорткомплекса, разработанный по методологии БЭМ в сжатые сроки.",
+        description: "Проект современного спорткомплекса, разработанный по методологии BIM в сжатые сроки.",
         price: generatePrice(),
         imageUrl: "/images/catalog/bem/1.jpeg",
         categoryId: 2,
       },
       {
         name: "Проект торгово-развлекательного центра",
-        description: "Комплексный проект ТРЦ с применением БЭМ, готовый в кратчайшие сроки.",
+        description: "Комплексный проект ТРЦ с применением BIM, готовый в кратчайшие сроки.",
         price: generatePrice(),
         imageUrl: "/images/catalog/bem/1.jpeg",
         categoryId: 2,
@@ -162,7 +162,7 @@ async function up() {
         name: "Чертёж",
       },
       {
-        name: "БЭМ",
+        name: "BIM",
       },
       {
         name: "Геология",

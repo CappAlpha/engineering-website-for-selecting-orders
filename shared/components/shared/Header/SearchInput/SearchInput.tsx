@@ -4,7 +4,6 @@ import {
   Key,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
   type FC,
@@ -20,38 +19,16 @@ import {
 } from "@mui/material";
 import { useOutsideClick } from "@/hook/useOutsideHook";
 import { Api } from "../../../../services/api-client";
-import { Category, Product } from "@prisma/client";
+import { Product } from "@prisma/client";
 import { useDebounce } from "@/hook/useDebounce";
 import s from "./SearchInput.module.scss";
 import Link from "next/link";
 import cn from "classnames";
-
-export interface Props {
-  //
-}
+import { categories } from "@/constants/categories";
 
 interface AutocompleteOptionProps extends HTMLAttributes<HTMLLIElement> {
   key: Key;
 }
-
-const CATEGORIES: Pick<Category, "id" | "name">[] = [
-  {
-    id: 1,
-    name: "Чертежи",
-  },
-  {
-    id: 2,
-    name: "БЭМ",
-  },
-  {
-    id: 3,
-    name: "Геология",
-  },
-  {
-    id: 4,
-    name: "Программы на C++",
-  },
-];
 
 const CssTextField = styled(TextField)({
   "& .MuiFormLabel-root": {
@@ -70,7 +47,7 @@ const CssTextField = styled(TextField)({
   },
 });
 
-export const SearchInput: FC<Props> = () => {
+export const SearchInput: FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -121,19 +98,9 @@ export const SearchInput: FC<Props> = () => {
   }, [debouncedSearchQuery]);
 
   const getCategoryNameById = (categoryId: number): string => {
-    const category = CATEGORIES.find((cat) => cat.id === categoryId);
-    return category ? category.name : "Без категории";
+    const categoryName = categories[categoryId as keyof typeof categories];
+    return categoryName ?? "Без категории";
   };
-
-  const filteredAndSortedProducts = useMemo(
-    () =>
-      products
-        .filter((product) =>
-          CATEGORIES.some((category) => category.id === product.categoryId),
-        )
-        .sort((a, b) => a.categoryId - b.categoryId),
-    [products],
-  );
 
   // Рендеринг поля ввода
   const renderInput = (params: AutocompleteRenderInputParams) => (
@@ -169,9 +136,8 @@ export const SearchInput: FC<Props> = () => {
   const renderOption = (props: AutocompleteOptionProps, option: Product) => {
     const { key, ...otherProps } = props;
     return (
-      <li key={key} {...otherProps}>
-        {/* TODO: fix link */}
-        <Link href={`/product/${option.id}`} passHref style={{ width: "100%" }}>
+      <li key={key} {...otherProps} style={{ padding: 0 }}>
+        <Link href={`/product/${option.id}`} className={s.link}>
           {option.name}
         </Link>
       </li>
@@ -186,7 +152,7 @@ export const SearchInput: FC<Props> = () => {
           open={open}
           onOpen={() => setOpen(true)}
           onClose={() => setOpen(false)}
-          options={filteredAndSortedProducts}
+          options={products}
           groupBy={(option) => getCategoryNameById(option.categoryId)}
           getOptionLabel={(option) => option.name}
           inputValue={searchQuery}

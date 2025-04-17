@@ -1,4 +1,4 @@
-@use "../../../styles/animations.scss" as *;
+@use "../../../../styles/animations.scss" as *;
 
 .root {
   position: relative;
@@ -58,7 +58,7 @@
 
 .groupHeader {
   position: sticky;
-  top: -4px;
+  top: -8px;
   padding: 4px 10px;
   color: #fff;
   background-color: #0e4276;
@@ -66,4 +66,11 @@
 
 .groupItems {
   padding: 0;
+}
+
+.link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 6px 16px;
 }

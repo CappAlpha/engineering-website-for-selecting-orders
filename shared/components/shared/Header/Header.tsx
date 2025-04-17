@@ -1,15 +1,11 @@
 import { Arrow, Settings, ShoppingCart, User } from "../../../../public/icon/";
-import { SearchInput } from "@/components/ui/SearchInput";
+import { SearchInput } from "@/components/shared/Header/SearchInput";
 import { Button } from "@/components/ui/Button";
 import s from "./Header.module.scss";
 import { type FC } from "react";
 import Link from "next/link";
 
-export interface Props {
-  //
-}
-
-export const Header: FC<Props> = ({}) => {
+export const Header: FC = () => {
   return (
     <header className={s.root}>
       <div className={s.wrap}>

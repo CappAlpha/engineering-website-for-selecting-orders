@@ -13,6 +13,7 @@ export default async function ProductPage({
   }
 
   const { imageUrl, name, description } = product;
+  
   return (
     <div className={s.root}>
       <div className={s.left}>
