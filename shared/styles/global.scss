@@ -43,6 +43,11 @@ h4,
 h5,
 h6 {
   font-family: "Geist Mono", Helvetica, sans-serif;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 @media (prefers-color-scheme: dark) {

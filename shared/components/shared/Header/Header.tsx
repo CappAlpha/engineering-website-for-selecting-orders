@@ -1,10 +1,10 @@
 import { Arrow, Settings, ShoppingCart, User } from "../../../../public/icon/";
 import { SearchInput } from "@/components/shared/Header/SearchInput";
+import { prisma } from "../../../../prisma/prisma-client";
 import { Button } from "@/components/ui/Button";
 import s from "./Header.module.scss";
 import { type FC } from "react";
 import Link from "next/link";
-import { prisma } from "../../../../prisma/prisma-client";
 
 export const Header: FC = async () => {
   const categories = await prisma.category.findMany();

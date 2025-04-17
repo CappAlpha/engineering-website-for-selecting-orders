@@ -60,7 +60,7 @@ async function up() {
         description:
           "Точный чертёж механизма по ГОСТ, выполненный в кратчайшие сроки с учётом всех стандартов.",
         price: generatePrice(),
-        imageUrl: "/images/catalog/drawings/1.jpeg",
+        imageUrl: "/images/catalog/drawings/1.webp",
         categoryId: 1,
       },
       {
@@ -68,7 +68,7 @@ async function up() {
         description:
           "Детализированный чертёж сборочной единицы, соответствующий ГОСТ, для быстрого производства.",
         price: generatePrice(),
-        imageUrl: "/images/catalog/drawings/1.jpeg",
+        imageUrl: "/images/catalog/drawings/1.webp",
         categoryId: 1,
       },
       {
@@ -76,7 +76,7 @@ async function up() {
         description:
           "Чертёж корпуса с высокой точностью, выполнен по ГОСТ для инженерных нужд.",
         price: generatePrice(),
-        imageUrl: "/images/catalog/drawings/1.jpeg",
+        imageUrl: "/images/catalog/drawings/1.webp",
         categoryId: 1,
       },
       {
@@ -84,7 +84,7 @@ async function up() {
         description:
           "Полный проект жилого комплекса, разработанный по стандартам BIM в кратчайшие сроки.",
         price: generatePrice(),
-        imageUrl: "/images/catalog/bem/1.jpeg",
+        imageUrl: "/images/catalog/bim/1.webp",
         categoryId: 2,
       },
       {
@@ -92,7 +92,7 @@ async function up() {
         description:
           "Индивидуальный проект коттеджа с использованием BIM, выполнен быстро и качественно.",
         price: generatePrice(),
-        imageUrl: "/images/catalog/bem/1.jpeg",
+        imageUrl: "/images/catalog/bim/1.webp",
         categoryId: 2,
       },
       {
@@ -100,7 +100,7 @@ async function up() {
         description:
           "Проект современного спорткомплекса, разработанный по методологии BIM в сжатые сроки.",
         price: generatePrice(),
-        imageUrl: "/images/catalog/bem/1.jpeg",
+        imageUrl: "/images/catalog/bim/1.webp",
         categoryId: 2,
       },
       {
@@ -108,7 +108,7 @@ async function up() {
         description:
           "Комплексный проект ТРЦ с применением BIM, готовый в кратчайшие сроки.",
         price: generatePrice(),
-        imageUrl: "/images/catalog/bem/1.jpeg",
+        imageUrl: "/images/catalog/bim/1.webp",
         categoryId: 2,
       },
       {
@@ -116,7 +116,7 @@ async function up() {
         description:
           "Комплексное исследование грунта для проектирования фундамента, выполненное по стандартам в кратчайшие сроки.",
         price: generatePrice(),
-        imageUrl: "/images/catalog/geology/1.jpeg",
+        imageUrl: "/images/catalog/geology/1.webp",
         categoryId: 3,
       },
       {
@@ -124,7 +124,7 @@ async function up() {
         description:
           "Детальная геологическая разведка для строительства, проведённая быстро и профессионально.",
         price: generatePrice(),
-        imageUrl: "/images/catalog/geology/1.jpeg",
+        imageUrl: "/images/catalog/geology/1.webp",
         categoryId: 3,
       },
       {
@@ -132,7 +132,7 @@ async function up() {
         description:
           "Анализ гидрогеологических условий участка, выполненный в сжатые сроки с высокой точностью.",
         price: generatePrice(),
-        imageUrl: "/images/catalog/geology/1.jpeg",
+        imageUrl: "/images/catalog/geology/1.webp",
         categoryId: 3,
       },
       {
@@ -140,7 +140,7 @@ async function up() {
         description:
           "Исследование сейсмических рисков для безопасного строительства, проведённое оперативно.",
         price: generatePrice(),
-        imageUrl: "/images/catalog/geology/1.jpeg",
+        imageUrl: "/images/catalog/geology/1.webp",
         categoryId: 3,
       },
       {
@@ -148,7 +148,7 @@ async function up() {
         description:
           "Программа на C++ для точного расчёта нагрузок конструкций, выполненная в кратчайшие сроки.",
         price: generatePrice(),
-        imageUrl: "/images/catalog/program/1.jpeg",
+        imageUrl: "/images/catalog/program/1.webp",
         categoryId: 4,
       },
       {
@@ -156,7 +156,7 @@ async function up() {
         description:
           "Эффективная C++ программа для оптимизации инженерных расчётов, разработанная быстро и надёжно.",
         price: generatePrice(),
-        imageUrl: "/images/catalog/program/1.jpeg",
+        imageUrl: "/images/catalog/program/1.webp",
         categoryId: 4,
       },
       {
@@ -164,7 +164,7 @@ async function up() {
         description:
           "C++ приложение для моделирования и анализа нагрузок, созданное в сжатые сроки.",
         price: generatePrice(),
-        imageUrl: "/images/catalog/program/1.jpeg",
+        imageUrl: "/images/catalog/program/1.webp",
         categoryId: 4,
       },
     ],

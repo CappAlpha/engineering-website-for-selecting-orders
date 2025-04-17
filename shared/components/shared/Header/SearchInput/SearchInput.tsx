@@ -19,9 +19,9 @@ import {
 } from "@mui/material";
 import { useOutsideClick } from "@/hook/useOutsideHook";
 import { Api } from "../../../../services/api-client";
+import { Category, Product } from "@prisma/client";
 import { useDebounce } from "@/hook/useDebounce";
 import s from "./SearchInput.module.scss";
-import { Category, Product } from "@prisma/client";
 import Link from "next/link";
 import cn from "classnames";
 
@@ -101,7 +101,9 @@ export const SearchInput: FC<Props> = ({ categories }) => {
   }, [debouncedSearchQuery]);
 
   const getCategoryNameById = (categoryId: number): string => {
-    const categoryName = categories.find((category) => category.id === categoryId)?.name;
+    const categoryName = categories.find(
+      (category) => category.id === categoryId,
+    )?.name;
     return categoryName ?? "Без категории";
   };
 
