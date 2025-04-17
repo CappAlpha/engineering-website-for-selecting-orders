@@ -14,7 +14,7 @@ export default async function ProductPage({
     return notFound();
   }
 
-  const { imageUrl, name, description, price } = product;
+  const { imageUrl, name, description, price, tags } = product;
 
   return (
     <div className={s.root}>
@@ -27,7 +27,7 @@ export default async function ProductPage({
           fill
         />
       </div>
-      <ProductProperties name={name} description={description} price={price} />
+      <ProductProperties name={name} description={description} price={price} tags={tags} />
     </div>
   );
 }

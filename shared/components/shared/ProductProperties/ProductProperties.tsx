@@ -4,16 +4,18 @@ import { Product } from '@prisma/client';
 
 import s from './ProductProperties.module.scss';
 import { Button } from '@/components/ui/Button';
+import { Tags } from '../Tags';
 
 export interface Props extends Pick<Product, 'name' | 'description' | 'price'> {
   name: string;
   description: string;
   price: number;
+  tags: string[];
 }
 
 export const ProductProperties: FC<Props> = ({ name,
   description,
-  price }) => {
+  price, tags }) => {
 
   const handleClick = () => {
     console.log({ name, price })
@@ -27,6 +29,7 @@ export const ProductProperties: FC<Props> = ({ name,
         </li>
         <li><p className={s.description}>{description}</p></li>
         <li>Цена - {price}</li>
+        <li><Tags tags={tags} /></li>
       </ul>
       <Button className={s.btn} onClick={handleClick}>
         Добавить в корзину за {price}

@@ -4,11 +4,12 @@ import { useEffect, useRef, type FC } from "react";
 import { useActions } from "@/hook/useActions.ts";
 import s from "./ProductsGroupList.module.scss";
 import { ProductCard } from "../ProductCard";
+import { Product } from "@prisma/client";
 
 export interface Props {
   id: number;
   name: string;
-  items: any[];
+  items: Product[];
 }
 
 export const ProductsGroupList: FC<Props> = ({ id, name, items }) => {
@@ -37,6 +38,7 @@ export const ProductsGroupList: FC<Props> = ({ id, name, items }) => {
             description={product.description}
             imageUrl={product.imageUrl}
             price={product.price}
+            tags={product.tags}
           />
         ))}
       </div>
