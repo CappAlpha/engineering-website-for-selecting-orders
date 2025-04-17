@@ -28,12 +28,21 @@ export const TopBar: FC<Props> = ({ categories }) => {
     }
   }, [activeIndex]);
 
+  const handleScroll = (name: string, isActive: boolean) => {
+    if (!isActive) {
+      const element = document.getElementById(name);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  };
+
   const isBarVisible = !isBtnHidden && isBarHidden;
 
   return (
     <div className={cn(s.root, isBarVisible && s.hidden)}>
       <div className={s.wrap}>
-        <Tabs items={categories} activeIndex={activeIndex} />
+        <Tabs items={categories} activeIndex={activeIndex} onClick={handleScroll} />
         <SortDropdown />
       </div>
       <Button

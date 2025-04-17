@@ -5,9 +5,10 @@ import { Tab } from "./Tab";
 export interface Props {
   items: Category[];
   activeIndex: number;
+  onClick: (name: string, isActive: boolean) => void;
 }
 
-export const Tabs: FC<Props> = ({ items, activeIndex }) => {
+export const Tabs: FC<Props> = ({ items, activeIndex, onClick }) => {
   return (
     <div className={s.root}>
       {items.map((item, index) => (
@@ -16,6 +17,7 @@ export const Tabs: FC<Props> = ({ items, activeIndex }) => {
           name={item.name}
           activeIndex={activeIndex}
           currentIndex={index + 1}
+          onClick={onClick}
         />
       ))}
     </div>

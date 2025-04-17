@@ -1,4 +1,4 @@
-import { prisma } from "../../../prisma/prisma-client";
+import { prisma } from "../../../../prisma/prisma-client";
 import { notFound } from "next/navigation";
 import s from "./page.module.scss";
 import Image from "next/image";

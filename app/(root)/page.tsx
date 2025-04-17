@@ -1,7 +1,7 @@
 import { ProductsGroupList } from "@/components/shared/ProductsGroupList";
 import { Filters } from "@/components/shared/Filters";
 import { TopBar } from "@/components/shared/TopBar";
-import { prisma } from "../prisma/prisma-client";
+import { prisma } from "../../prisma/prisma-client";
 import s from "./page.module.scss";
 
 export default async function Home() {

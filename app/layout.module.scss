@@ -1,12 +1,3 @@
 .root {
   min-height: 100vh;
 }
-
-.container {
-  padding-top: 180px;
-  box-sizing: border-box;
-
-  @include breakpoint(mobile-m) {
-    padding-top: 120px;
-  }
-}
