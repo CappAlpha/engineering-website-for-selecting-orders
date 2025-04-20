@@ -1,7 +1,10 @@
-import { Button } from "@/components/ui/Button";
-import s from "./Tab.module.scss";
-import { type FC } from "react";
 import cn from "classnames";
+import { type FC } from "react";
+
+import { Button } from "@/components/ui/Button";
+
+import s from "./Tab.module.scss";
+
 export interface Props {
   name: string;
   activeIndex: number;

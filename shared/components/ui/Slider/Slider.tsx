@@ -1,7 +1,10 @@
 "use client";
-import { useDebouncedCallback } from "@/hook/useDebounce";
-import { useEffect, useState, type FC } from "react";
+
 import { Slider as SliderMui } from "@mui/material";
+import { useEffect, useState, type FC } from "react";
+
+import { useDebouncedCallback } from "@/hook/useDebounce";
+
 import s from "./Slider.module.scss";
 
 export interface Props {

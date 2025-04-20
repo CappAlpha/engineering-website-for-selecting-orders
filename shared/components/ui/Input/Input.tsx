@@ -3,6 +3,7 @@ import {
   type InputProps as MuiInputProps,
 } from "@mui/material";
 import { forwardRef, InputHTMLAttributes } from "react";
+
 import s from "./Input.module.scss";
 
 export const Input = forwardRef<

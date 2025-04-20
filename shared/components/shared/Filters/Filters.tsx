@@ -1,13 +1,16 @@
 "use client";
-import { CheckboxFilterGroup } from "@/components/ui/CheckboxFilterGroup";
-import { usePriceRange } from "@/hook/usePriceRange";
-import { Slider } from "@/components/ui/Slider";
-import { Input } from "@/components/ui/Input";
+
 import { useRouter } from "next/navigation";
-import { useEffect, type FC } from "react";
-import { useTags } from "@/hook/useTags";
-import s from "./Filters.module.scss";
 import qs from "qs";
+import { useEffect, type FC } from "react";
+
+import { CheckboxFilterGroup } from "@/components/ui/CheckboxFilterGroup";
+import { Input } from "@/components/ui/Input";
+import { Slider } from "@/components/ui/Slider";
+import { usePriceRange } from "@/hook/usePriceRange";
+import { useTags } from "@/hook/useTags";
+
+import s from "./Filters.module.scss";
 
 const PRICE_CONFIG = {
   MIN_PRICE: 0,

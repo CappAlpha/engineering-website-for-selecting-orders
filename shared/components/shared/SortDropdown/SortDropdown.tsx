@@ -1,13 +1,12 @@
 "use client";
-import { Sort } from "../../../../public/icon";
-import s from "./SortDropdown.module.scss";
+
 import { type FC } from "react";
 
-export interface Props {
-  //
-}
+import { Sort } from "../../../../public/icon";
 
-export const SortDropdown: FC<Props> = ({}) => {
+import s from "./SortDropdown.module.scss";
+
+export const SortDropdown: FC = () => {
   return (
     <div className={s.root}>
       <Sort className={s.icon} />

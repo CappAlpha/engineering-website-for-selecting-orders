@@ -1,7 +1,8 @@
-import { FC, MouseEvent, ReactNode } from "react";
-import s from "./Button.module.scss";
-import Link from "next/link";
 import cn from "classnames";
+import Link from "next/link";
+import { FC, MouseEvent, ReactNode } from "react";
+
+import s from "./Button.module.scss";
 
 interface ButtonProps {
   color?: "grey" | "transparent";

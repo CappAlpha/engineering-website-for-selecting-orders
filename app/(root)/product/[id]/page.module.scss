@@ -1,4 +1,17 @@
-.root {
+.breadcrumb {
+  @include wrap;
+
+  & {
+    margin: 0 auto 20px !important;
+    color: var(--gray) !important;
+
+    span {
+      color: var(--white) !important;
+    }
+  }
+}
+
+.wrap {
   @include wrap;
 
   & {

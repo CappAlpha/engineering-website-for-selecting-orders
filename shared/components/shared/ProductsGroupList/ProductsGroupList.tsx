@@ -1,10 +1,14 @@
 "use client";
-import { useIntersectionObserver } from "@/hook/useIntersectionObserver.ts";
-import { useEffect, useRef, type FC } from "react";
-import { useActions } from "@/hook/useActions.ts";
-import s from "./ProductsGroupList.module.scss";
-import { ProductCard } from "../ProductCard";
+
 import { Product } from "@prisma/client";
+import { useEffect, useRef, type FC } from "react";
+
+import { useActions } from "@/hook/useActions.ts";
+import { useIntersectionObserver } from "@/hook/useIntersectionObserver.ts";
+
+import { ProductCard } from "../ProductCard";
+
+import s from "./ProductsGroupList.module.scss";
 
 export interface Props {
   id: number;
@@ -23,7 +27,7 @@ export const ProductsGroupList: FC<Props> = ({ id, name, items }) => {
     if (intersection?.isIntersecting) {
       setActiveId(id);
     }
-  }, [intersection?.isIntersecting]);
+  }, [intersection?.isIntersecting, id, setActiveId]);
 
   return (
     <div className={s.root} id={name} ref={intersectionRef}>

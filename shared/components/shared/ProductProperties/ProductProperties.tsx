@@ -1,10 +1,13 @@
 "use client";
+
 import { Product } from "@prisma/client";
 import { type FC } from "react";
 
-import s from "./ProductProperties.module.scss";
 import { Button } from "@/components/ui/Button";
+
 import { Tags } from "../../ui/Tags";
+
+import s from "./ProductProperties.module.scss";
 
 export interface Props extends Pick<Product, "name" | "description" | "price"> {
   name: string;

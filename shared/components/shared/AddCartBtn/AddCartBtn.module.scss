@@ -1,0 +1,48 @@
+.root {
+  position: relative;
+  gap: 6px;
+
+  &:hover {
+    @media (hover: hover) and (pointer: fine) {
+      .cartIcon,
+      .count {
+        opacity: 0;
+      }
+
+      .arrowIcon {
+        opacity: 1;
+        right: 18px;
+      }
+    }
+  }
+}
+
+.arrowIcon,
+.cartIcon,
+.count {
+  transition: 0.3s ease;
+}
+
+.cartIcon,
+.count {
+  opacity: 1;
+}
+
+.separator {
+  height: 100%;
+  width: 1px;
+  background-color: var(--gray);
+}
+
+.arrowIcon {
+  position: absolute;
+  right: 0;
+  width: 30px;
+  height: 18px;
+  opacity: 0;
+}
+
+.cartIcon {
+  width: 16px;
+  height: 16px;
+}

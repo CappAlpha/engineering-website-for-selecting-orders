@@ -1,9 +1,14 @@
-import { ProductProperties } from "@/components/shared/ProductProperties";
-import { prisma } from "../../../../prisma/prisma-client";
-import { notFound } from "next/navigation";
-import s from "./page.module.scss";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+
+import { ProductProperties } from "@/components/shared/ProductProperties";
+
+import { prisma } from "../../../../prisma/prisma-client";
+
+import s from "./page.module.scss";
 
 async function getData(id: string) {
   const product = await prisma.product.findUnique({
@@ -68,21 +73,27 @@ export default async function ProductPage({
 
   return (
     <div className={s.root}>
-      <div className={s.left}>
-        <Image
-          className={s.img}
-          src={imageUrl}
-          alt={name}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          fill
+      <Breadcrumbs aria-label="breadcrumb" className={s.breadcrumb}>
+        <Link href="/">Главная</Link>
+        <span aria-current="page">{name}</span>
+      </Breadcrumbs>
+      <div className={s.wrap}>
+        <div className={s.left}>
+          <Image
+            className={s.img}
+            src={imageUrl}
+            alt={name}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            fill
+          />
+        </div>
+        <ProductProperties
+          name={name}
+          description={description}
+          price={price}
+          tags={tags}
         />
       </div>
-      <ProductProperties
-        name={name}
-        description={description}
-        price={price}
-        tags={tags}
-      />
     </div>
   );
 }

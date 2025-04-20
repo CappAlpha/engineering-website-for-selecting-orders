@@ -1,6 +1,7 @@
-import { categoriesActions } from "../store/categories/categoriesSlice.ts";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
+
+import { categoriesActions } from "../store/categories/categoriesSlice.ts";
 
 const actions = {
   ...categoriesActions,

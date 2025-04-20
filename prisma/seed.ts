@@ -1,6 +1,7 @@
-import { prisma } from "./prisma-client";
-import { v4 as uuidv4 } from "uuid";
 import { hashSync } from "bcrypt";
+import { v4 as uuidv4 } from "uuid";
+
+import { prisma } from "./prisma-client";
 
 const randomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min) + min);

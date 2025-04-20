@@ -19,7 +19,7 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged"
+    "pre-push": "npx lint-staged"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

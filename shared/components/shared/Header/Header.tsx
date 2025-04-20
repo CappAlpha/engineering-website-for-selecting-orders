@@ -1,10 +1,14 @@
-import { Arrow, Settings, ShoppingCart, User } from "../../../../public/icon/";
-import { SearchInput } from "@/components/shared/Header/SearchInput";
-import { prisma } from "../../../../prisma/prisma-client";
-import { Button } from "@/components/ui/Button";
-import s from "./Header.module.scss";
-import { type FC } from "react";
 import Link from "next/link";
+import { type FC } from "react";
+
+import { SearchInput } from "@/components/shared/Header/SearchInput";
+import { Button } from "@/components/ui/Button";
+
+import { prisma } from "../../../../prisma/prisma-client";
+import { Settings, User } from "../../../../public/icon/";
+import { AddCartBtn } from "../AddCartBtn";
+
+import s from "./Header.module.scss";
 
 export const Header: FC = async () => {
   const categories = await prisma.category.findMany();
@@ -23,12 +27,7 @@ export const Header: FC = async () => {
           <Button>
             <User className={s.userIcon} /> Войти
           </Button>
-          <Button className={s.cartBtn}>
-            0 ₽ <span className={s.separator} />
-            <ShoppingCart className={s.cartIcon} />{" "}
-            <span className={s.count}>0</span>
-            <Arrow className={s.arrowIcon} />
-          </Button>
+          <AddCartBtn />
         </div>
       </div>
     </header>

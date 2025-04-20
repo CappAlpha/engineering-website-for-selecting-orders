@@ -1,4 +1,5 @@
 import { PageRoutes } from "@/constants/pages";
+
 import { axiosInstance } from "./instance";
 
 export const getAll = async (): Promise<string[]> => {

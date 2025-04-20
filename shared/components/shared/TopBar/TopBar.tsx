@@ -1,13 +1,17 @@
 "use client";
-import { useAppSelector } from "@/hook/useAppSelector";
-import { useEffect, useState, type FC } from "react";
-import { AngleDown } from "../../../../public/icon";
-import { Button } from "@/components/ui/Button";
-import { SortDropdown } from "../SortDropdown";
-import { Tabs } from "@/components/ui/Tabs";
+
 import { Category } from "@prisma/client";
-import s from "./TopBar.module.scss";
 import cn from "classnames";
+import { useEffect, useState, type FC } from "react";
+
+import { Button } from "@/components/ui/Button";
+import { Tabs } from "@/components/ui/Tabs";
+import { useAppSelector } from "@/hook/useAppSelector";
+
+import { AngleDown } from "../../../../public/icon";
+import { SortDropdown } from "../SortDropdown";
+
+import s from "./TopBar.module.scss";
 
 export interface Props {
   categories: Category[];

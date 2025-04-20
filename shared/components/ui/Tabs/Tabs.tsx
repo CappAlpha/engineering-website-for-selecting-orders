@@ -1,7 +1,10 @@
 import { Category } from "@prisma/client";
-import s from "./Tabs.module.scss";
 import { type FC } from "react";
+
 import { Tab } from "./Tab";
+
+import s from "./Tabs.module.scss";
+
 export interface Props {
   items: Category[];
   activeIndex: number;

@@ -1,7 +1,8 @@
 import { type FC } from "react";
 
-import s from "./Tags.module.scss";
 import { Tag } from "./Tag";
+
+import s from "./Tags.module.scss";
 
 export interface Props {
   tags: string[];

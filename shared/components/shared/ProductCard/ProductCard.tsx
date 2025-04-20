@@ -1,12 +1,15 @@
-import { Button } from "@/components/ui/Button";
-import { Plus } from "../../../../public/icon";
-import { PageRoutes } from "@/constants/pages";
-import s from "./ProductCard.module.scss";
 import { Product } from "@prisma/client";
-import { Tags } from "../../ui/Tags";
-import { type FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { type FC } from "react";
+
+import { Button } from "@/components/ui/Button";
+import { PageRoutes } from "@/constants/pages";
+
+import { Plus } from "../../../../public/icon";
+import { Tags } from "../../ui/Tags";
+
+import s from "./ProductCard.module.scss";
 
 type ProductCardProps = Pick<
   Product,
