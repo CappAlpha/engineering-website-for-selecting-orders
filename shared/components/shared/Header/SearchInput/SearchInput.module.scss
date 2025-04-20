@@ -35,24 +35,23 @@
   animation: hideOpacity 0.3s ease-in-out;
 }
 
-//TODO: не работает
 .textField {
-  .MuiFormLabel-root {
-    color: #fff;
+  label {
+    color: var(--blue) !important;
   }
 
-  .MuiInputBase-root {
-    color: #fff;
-    border-bottom: 1px solid #fff;
-    padding-top: 14px;
+  >div {
+    color: var(--white) !important;
+    border-bottom: 1px solid var(--white) !important;
+    padding-top: 20px !important;
   }
 
-  .MuiInputBase-input {
-    padding: 0;
+  input {
+    padding: 0 !important;
   }
 
-  .MuiIconButton-root {
-    color: #fff;
+  button {
+    color: var(--white) !important;
   }
 }
 
@@ -60,8 +59,8 @@
   position: sticky;
   top: -8px;
   padding: 4px 10px;
-  color: #fff;
-  background-color: #0e4276;
+  color: var(--white);
+  background-color: var(--dark-blue);
 }
 
 .groupItems {
@@ -70,7 +69,6 @@
 
 .link {
   display: block;
-  width: 100%;
   height: 100%;
   padding: 6px 16px;
 }

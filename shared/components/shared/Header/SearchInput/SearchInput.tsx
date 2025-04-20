@@ -14,7 +14,6 @@ import {
   AutocompleteRenderGroupParams,
   AutocompleteRenderInputParams,
   CircularProgress,
-  styled,
   TextField,
 } from "@mui/material";
 import { useOutsideClick } from "@/hook/useOutsideHook";
@@ -33,23 +32,6 @@ interface Props {
 interface AutocompleteOptionProps extends HTMLAttributes<HTMLLIElement> {
   key: Key;
 }
-
-const CssTextField = styled(TextField)({
-  "& .MuiFormLabel-root": {
-    color: "#fff",
-  },
-  "& .MuiInputBase-root": {
-    color: "#fff",
-    borderBottom: "1px solid #fff",
-    paddingTop: "14px",
-  },
-  "& .MuiInputBase-input": {
-    padding: "",
-  },
-  "& .MuiIconButton-root": {
-    color: "#fff",
-  },
-});
 
 export const SearchInput: FC<Props> = ({ categories }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -109,11 +91,10 @@ export const SearchInput: FC<Props> = ({ categories }) => {
 
   // Рендеринг поля ввода
   const renderInput = (params: AutocompleteRenderInputParams) => (
-    <CssTextField
+    <TextField
       {...params}
       variant="filled"
       label="Поиск"
-      /* TODO: fix style */
       className={s.textField}
       slotProps={{
         input: {
@@ -141,7 +122,7 @@ export const SearchInput: FC<Props> = ({ categories }) => {
   const renderOption = (props: AutocompleteOptionProps, option: Product) => {
     const { key, ...otherProps } = props;
     return (
-      <li key={key} {...otherProps} style={{ padding: 0 }}>
+      <li key={key} {...otherProps} className={s.optionLi}>
         <Link href={`${PageRoutes.PRODUCT}${option.id}`} className={s.link}>
           {option.name}
         </Link>
