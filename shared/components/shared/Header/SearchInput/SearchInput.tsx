@@ -1,4 +1,15 @@
 "use client";
+
+import {
+  Autocomplete,
+  AutocompleteRenderGroupParams,
+  AutocompleteRenderInputParams,
+  CircularProgress,
+  TextField,
+} from "@mui/material";
+import { Category, Product } from "@prisma/client";
+import cn from "classnames";
+import Link from "next/link";
 import {
   HTMLAttributes,
   Key,
@@ -9,21 +20,12 @@ import {
   type FC,
 } from "react";
 
-import {
-  Autocomplete,
-  AutocompleteRenderGroupParams,
-  AutocompleteRenderInputParams,
-  CircularProgress,
-  TextField,
-} from "@mui/material";
-import { useOutsideClick } from "@/hook/useOutsideHook";
-import { Api } from "../../../../services/api-client";
-import { Category, Product } from "@prisma/client";
-import { useDebounce } from "@/hook/useDebounce";
 import { PageRoutes } from "@/constants/pages";
+import { useDebounce } from "@/hook/useDebounce";
+import { useOutsideClick } from "@/hook/useOutsideHook";
+import { Api } from "@/services/api-client";
+
 import s from "./SearchInput.module.scss";
-import Link from "next/link";
-import cn from "classnames";
 
 interface Props {
   categories: Category[];

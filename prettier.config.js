@@ -1,6 +1,12 @@
 module.exports = {
-  sortingMethod: "lineLength",
-  plugins: ["./node_modules/prettier-plugin-sort-imports/dist/index.js"],
+  plugins: ["@trivago/prettier-plugin-sort-imports"],
+  tabWidth: 2,
+  importOrder: [
+    "^@/(.*)$",
+    "^[./].*(?<!\\.module\\.scss)$",
+    "^[./].*\\.module\\.scss$",
+  ],
+  importOrderSeparation: true,
   overrides: [
     {
       files: ["*.json", "*.md", "*.scss", "*.yml", "*.yaml"],
