@@ -56,8 +56,7 @@ export const SearchInput: FC<Props> = ({ categories }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const ref = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   useOutsideClick({
@@ -163,7 +162,6 @@ export const SearchInput: FC<Props> = ({ categories }) => {
           getOptionLabel={(option) => option.name}
           inputValue={searchQuery}
           onInputChange={(e, value) => setSearchQuery(value)}
-          onChange={(e, value) => setSelectedProduct(value)}
           loading={loading}
           loadingText="Загрузка..."
           noOptionsText="Ничего не найдено"

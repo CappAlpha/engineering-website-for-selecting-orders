@@ -2,7 +2,7 @@ import { RefObject, useEffect } from "react";
 import { useLatest } from "./useLatest";
 
 interface UseOutsideClick<T extends HTMLElement = HTMLDivElement> {
-  elementRef: RefObject<T>;
+  elementRef: RefObject<T | null>;
   handler: (e: MouseEvent) => void;
   attached?: boolean;
 }

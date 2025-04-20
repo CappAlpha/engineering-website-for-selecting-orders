@@ -22,7 +22,7 @@ export const ProductCard: FC<ProductCardProps> = ({
   tags,
 }) => {
   return (
-    <Link className={s.root} href={`${PageRoutes.PRODUCT}${id}`} >
+    <Link className={s.root} href={`${PageRoutes.PRODUCT}${id}`}>
       <div className={s.imgWrap}>
         <Image
           className={s.img}
