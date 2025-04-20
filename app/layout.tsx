@@ -1,3 +1,4 @@
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import StoreProvider from "./StoreProvider.tsx";
 import s from "./layout.module.scss";
 import { ReactNode } from "react";
@@ -13,7 +14,9 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={s.root}>
-        <StoreProvider>{children}</StoreProvider>
+        <AppRouterCacheProvider>
+          <StoreProvider>{children}</StoreProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );
