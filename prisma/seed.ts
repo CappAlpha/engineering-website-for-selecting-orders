@@ -9,19 +9,24 @@ const randomNumber = (min: number, max: number) => {
 
 const generatePrice = () => randomNumber(500, 30000);
 
+// TODO: временно добавлено так
+const userId = uuidv4();
+const adminId = uuidv4();
+const productIdTest = uuidv4();
+
 //Автогенерация базы данных
 async function up() {
   await prisma.user.createMany({
     data: [
       {
-        id: uuidv4(),
+        id: userId,
         fullName: "User",
         email: "user@test.ru",
         password: hashSync("user123", 10),
         role: "USER",
       },
       {
-        id: uuidv4(),
+        id: adminId,
         fullName: "Admin",
         email: "admin@test.ru",
         password: hashSync("admin123", 10),
@@ -50,7 +55,7 @@ async function up() {
   await prisma.product.createMany({
     data: [
       {
-        id: uuidv4(),
+        id: productIdTest,
         name: "Чертёж Механизма",
         description:
           "Точный чертёж механизма по ГОСТ, выполненный в кратчайшие сроки с учётом всех стандартов.",
@@ -191,6 +196,26 @@ async function up() {
       },
     ],
   });
+
+  await prisma.cart.createMany({
+    data: [
+      {
+        userId: userId,
+      },
+      {
+        userId: adminId,
+      },
+    ],
+  });
+
+  await prisma.cartItem.create({
+    data: {
+      productId: productIdTest,
+      cartId: 1,
+      userId: userId,
+      quantity: 1,
+    },
+  });
 }
 
 //Автоочистка базы данных
@@ -198,6 +223,8 @@ async function down() {
   await prisma.$executeRaw`TRUNCATE TABLE "User" RESTART IDENTITY CASCADE`;
   await prisma.$executeRaw`TRUNCATE TABLE "Category" RESTART IDENTITY CASCADE`;
   await prisma.$executeRaw`TRUNCATE TABLE "Product" RESTART IDENTITY CASCADE`;
+  await prisma.$executeRaw`TRUNCATE TABLE "Cart" RESTART IDENTITY CASCADE`;
+  await prisma.$executeRaw`TRUNCATE TABLE "CartItem" RESTART IDENTITY CASCADE`;
 }
 
 async function main() {
