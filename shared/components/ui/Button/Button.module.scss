@@ -3,13 +3,14 @@
   color: var(--white);
   fill: var(--white);
   font-size: 14px;
-  line-height: 18px;
+  line-height: 130%;
   border-radius: 8px;
   background: var(--dark-blue);
   display: inline-flex;
   gap: 6px;
   transition: 0.3s;
   width: max-content;
+  height: fit-content;
   white-space: nowrap;
   text-align: center;
   align-items: center;
@@ -26,6 +27,11 @@
   &.size {
     &_s {
       padding: 10px 16px;
+    }
+
+    &_l {
+      padding: 16px 18px;
+      font-size: 16px;
     }
   }
 

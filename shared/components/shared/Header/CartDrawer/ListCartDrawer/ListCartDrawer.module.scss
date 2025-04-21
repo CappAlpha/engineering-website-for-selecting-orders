@@ -1,0 +1,81 @@
+.top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  margin-top: 20px;
+}
+
+.topInfo {
+  margin-left: 20px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 27px;
+}
+
+.close,
+.icon {
+  width: 20px;
+  min-width: 20px;
+}
+
+.close {
+  margin-right: 20px;
+}
+
+.icon {
+  transform: rotate(45deg);
+}
+
+.bottom {
+  width: 100%;
+  margin-top: auto;
+}
+
+.bottomWrap {
+  padding: 38px 35px 30px;
+  background: var(--dark-gray);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bottomTextWrap {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.bottomTitle,
+.bottomPrice {
+  white-space: nowrap;
+}
+
+.bottomTitle {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.line {
+  width: 100%;
+  margin: 0 10px;
+  border-bottom: 1px dashed var(--gray);
+}
+
+.bottomPrice {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 25px;
+}
+
+.orderBtn {
+  width: 100% !important;
+}
+
+.orderIcon {
+  width: 14px;
+  min-width: 14px;
+}

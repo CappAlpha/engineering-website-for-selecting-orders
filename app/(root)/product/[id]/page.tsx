@@ -12,7 +12,7 @@ import s from "./page.module.scss";
 
 async function getData(id: string) {
   const product = await prisma.product.findUnique({
-    where: { id: Number(id) },
+    where: { id: id },
     select: {
       id: true,
       name: true,
