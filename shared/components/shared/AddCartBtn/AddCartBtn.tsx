@@ -19,7 +19,7 @@ export const AddCartBtn: FC = () => {
   return (
     <>
       <Button className={s.root} onClick={toggleDrawer(true)}>
-        0 ₽ <span className={s.separator} />
+        0 &#8381; <span className={s.separator} />
         <ShoppingCart className={s.cartIcon} />
         <span className={s.count}>0</span>
         <Arrow className={s.arrowIcon} />

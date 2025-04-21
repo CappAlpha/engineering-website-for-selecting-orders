@@ -35,13 +35,13 @@ export const ProductProperties: FC<Props> = ({
         <li>
           <p className={s.description}>{description}</p>
         </li>
-        <li>Цена - {price}</li>
+        <li>Цена - {price} &#8381;</li>
         <li>
           <Tags tags={tags} />
         </li>
       </ul>
       <Button className={s.btn} onClick={handleClick}>
-        Добавить в корзину за {price}
+        Добавить в корзину за {price} &#8381;
       </Button>
     </div>
   );

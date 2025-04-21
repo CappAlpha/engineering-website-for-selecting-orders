@@ -1,0 +1,34 @@
+import { Product } from "@prisma/client";
+import Image from "next/image";
+import { type FC } from "react";
+
+import s from "./ProductCardLine.module.scss";
+
+type ProductCardLineType = Pick<
+  Product,
+  "name" | "description" | "imageUrl" | "price"
+>;
+
+interface ProductCardLineProps {
+  card: ProductCardLineType;
+}
+
+export const ProductCardLine: FC<ProductCardLineProps> = ({ card }) => {
+  const { name, description, imageUrl, price } = card;
+
+  return (
+    <div className={s.root}>
+      <div className={s.imgWrap}>
+        <Image src={imageUrl} alt={name} fill className={s.img} />
+      </div>
+
+      <div className={s.contentWrap}>
+        <h5 className={s.title}>{name}</h5>
+        <p className={s.description}>{description}</p>
+        <div className={s.bottom}>
+          <p className={s.price}>{price} &#8381;</p>
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -28,6 +28,13 @@
   transform: rotate(45deg);
 }
 
+.cards{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .bottom {
   width: 100%;
   margin-top: auto;
@@ -62,7 +69,7 @@
 .line {
   width: 100%;
   margin: 0 10px;
-  border-bottom: 1px dashed var(--gray);
+  border-bottom: 1px dashed var(--blue-border);
 }
 
 .bottomPrice {
