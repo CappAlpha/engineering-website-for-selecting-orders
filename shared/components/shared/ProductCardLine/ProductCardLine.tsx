@@ -4,8 +4,10 @@ import { Product } from "@prisma/client";
 import Image from "next/image";
 import { type FC } from "react";
 
+import { Button } from "@/components/ui/Button";
 import { noop } from "@/utils/noop";
 
+import { Trash } from "../../../../public/icon";
 import { CountBtns } from "../CountBtns";
 
 import s from "./ProductCardLine.module.scss";
@@ -33,7 +35,12 @@ export const ProductCardLine: FC<ProductCardLineProps> = ({ card }) => {
         <p className={s.description}>{description}</p>
         <div className={s.bottom}>
           <CountBtns onClick={noop} />
-          <p className={s.price}>{price} &#8381;</p>
+          <div className={s.bottomRight}>
+            <p className={s.price}>{price} &#8381;</p>
+            <Button onClick={noop} color="transparent" noPadding>
+              <Trash className={s.trash} />
+            </Button>
+          </div>
         </div>
       </div>
     </div>

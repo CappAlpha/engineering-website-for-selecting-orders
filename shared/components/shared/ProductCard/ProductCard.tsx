@@ -48,7 +48,7 @@ export const ProductCard: FC<ProductCardProps> = ({
           от <b>{price} &#8381;</b>
         </span>
         <Button>
-          <Plus /> Добавить
+          <Plus className={s.icon} /> Добавить
         </Button>
       </div>
     </Link>
