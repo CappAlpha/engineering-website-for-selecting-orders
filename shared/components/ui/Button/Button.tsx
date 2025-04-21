@@ -5,7 +5,7 @@ import { FC, MouseEvent, ReactNode } from "react";
 import s from "./Button.module.scss";
 
 interface ButtonProps {
-  color?: "grey" | "transparent";
+  color?: "grey" | "transparent" | "outline";
   size?: "m" | "s" | "l";
   noPadding?: boolean;
   onClick?: (event: MouseEvent) => void;

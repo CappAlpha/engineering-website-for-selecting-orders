@@ -1,6 +1,12 @@
+"use client";
+
 import { Product } from "@prisma/client";
 import Image from "next/image";
 import { type FC } from "react";
+
+import { noop } from "@/utils/noop";
+
+import { CountBtns } from "../CountBtns";
 
 import s from "./ProductCardLine.module.scss";
 
@@ -26,6 +32,7 @@ export const ProductCardLine: FC<ProductCardLineProps> = ({ card }) => {
         <h5 className={s.title}>{name}</h5>
         <p className={s.description}>{description}</p>
         <div className={s.bottom}>
+          <CountBtns onClick={noop} />
           <p className={s.price}>{price} &#8381;</p>
         </div>
       </div>

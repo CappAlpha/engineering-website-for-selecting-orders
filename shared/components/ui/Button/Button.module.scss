@@ -37,17 +37,17 @@
 
   &.color {
     &_grey {
-      background: var(--grey-palette-1-off-white);
-      color: var(--grey-palette-nero-italiano);
+      background: var(--grey-border-pdf);
+      color: var(--gray);
 
       &:hover {
         @media (hover: hover) and (pointer: fine) {
-          background: var(--grey-palette-2);
+          background: var(--grey-border-pdf);
         }
       }
 
       &.disabled {
-        color: var(--grey-palette-3);
+        color: var(--gray);
       }
     }
 
@@ -61,10 +61,28 @@
         }
       }
     }
+
+    &_outline {
+      background: transparent;
+      color: var(--blue);
+      outline: 1px solid var(--blue);
+
+      &:hover {
+        @media (hover: hover) and (pointer: fine) {
+          background: var(--blue);
+        }
+      }
+    }
   }
 
   &.disabled {
     pointer-events: none;
+    color: var(--semi-dark-gray);
+    outline-color: var(--semi-dark-gray);
+
+    svg{
+      color: var(--semi-dark-gray);
+    }
   }
 
   &.loading {

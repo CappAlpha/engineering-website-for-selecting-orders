@@ -4,4 +4,5 @@ export { default as Settings } from "./icons/settings.svg";
 export { default as Arrow } from "./icons/arrow.svg";
 export { default as Sort } from "./icons/sort.svg";
 export { default as Plus } from "./icons/plus.svg";
+export { default as Minus } from "./icons/minus.svg";
 export { default as AngleDown } from "./icons/angle-down.svg";
