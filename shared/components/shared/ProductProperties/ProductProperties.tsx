@@ -41,7 +41,7 @@ export const ProductProperties: FC<Props> = ({
         </li>
       </ul>
       <Button className={s.btn} onClick={handleClick}>
-        Добавить в корзину за {price} &#8381;
+        Добавить в корзину
       </Button>
     </div>
   );

@@ -69,11 +69,11 @@ model Cart {
   userId String @unique
   user   User   @relation(fields: [userId], references: [id])
 
-  // token String
+  token String
 
   totalAmount Int @default(0)
 
-  cartItem CartItem[]
+  items CartItem[]
   orders   Order[]
 
   createdAt DateTime @default(now())

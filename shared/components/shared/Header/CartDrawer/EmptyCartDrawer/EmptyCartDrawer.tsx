@@ -20,7 +20,7 @@ export const EmptyCartDrawer: FC<Pick<Props, "toggleDrawer">> = ({
       </div>
       <h3 className={s.title}>Корзина пустая</h3>
       <p className={s.description}>
-        Добавьте хотя бы одну пиццу, чтобы совершить заказ
+        Добавьте хотя бы одну услугу, чтобы совершить заказ
       </p>
       <Button onClick={toggleDrawer(false)}>
         <Arrow className={s.icon} />

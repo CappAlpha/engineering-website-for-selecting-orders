@@ -201,9 +201,11 @@ async function up() {
     data: [
       {
         userId: userId,
+        token: "user",
       },
       {
         userId: adminId,
+        token: "admin",
       },
     ],
   });
