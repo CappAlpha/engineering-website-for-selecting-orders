@@ -1,10 +1,10 @@
 "use client";
 
-import { Product } from "@prisma/client";
 import Image from "next/image";
 import { type FC } from "react";
 
 import { Button } from "@/components/ui/Button";
+import { CartStateItem } from "@/entities/cart";
 import { noop } from "@/utils/noop";
 
 import { Trash } from "../../../../public/icon";
@@ -12,17 +12,12 @@ import { CountBtns } from "../CountBtns";
 
 import s from "./ProductCardLine.module.scss";
 
-type ProductCardLineType = Pick<
-  Product,
-  "name" | "description" | "imageUrl" | "price"
->;
-
-interface ProductCardLineProps {
-  card: ProductCardLineType;
+interface Props {
+  item: CartStateItem;
 }
 
-export const ProductCardLine: FC<ProductCardLineProps> = ({ card }) => {
-  const { name, description, imageUrl, price } = card;
+export const ProductCardLine: FC<Props> = ({ item }) => {
+  const { name, description, imageUrl, price, quantity } = item;
 
   return (
     <div className={s.root}>
@@ -34,7 +29,7 @@ export const ProductCardLine: FC<ProductCardLineProps> = ({ card }) => {
         <h5 className={s.title}>{name}</h5>
         <p className={s.description}>{description}</p>
         <div className={s.bottom}>
-          <CountBtns onClick={noop} />
+          <CountBtns onClick={noop} value={quantity} />
           <div className={s.bottomRight}>
             <p className={s.price}>{price} &#8381;</p>
             <Button onClick={noop} color="transparent" noPadding>

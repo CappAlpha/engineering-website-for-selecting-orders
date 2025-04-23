@@ -20,7 +20,7 @@ import {
   type FC,
 } from "react";
 
-import { PageRoutes } from "@/constants/pages";
+import { pageConfig } from "@/constants/pages";
 import { useDebounce } from "@/hook/useDebounce";
 import { useOutsideClick } from "@/hook/useOutsideHook";
 import { Api } from "@/services/api-client";
@@ -84,7 +84,7 @@ export const SearchInput: FC<Props> = ({ categories }) => {
     if (open && products.length === 0) {
       fetchProducts();
     }
-  }, [debouncedSearchQuery, open]);
+  }, [debouncedSearchQuery, open, products.length]);
 
   const getCategoryNameById = (categoryId: number): string => {
     const categoryName = categories.find(
@@ -127,7 +127,7 @@ export const SearchInput: FC<Props> = ({ categories }) => {
     const { key, ...otherProps } = props;
     return (
       <li key={key} {...otherProps} className={s.optionLi}>
-        <Link href={`${PageRoutes.PRODUCT}${option.id}`} className={s.link}>
+        <Link href={`${pageConfig.PRODUCT}${option.id}`} className={s.link}>
           {option.name}
         </Link>
       </li>

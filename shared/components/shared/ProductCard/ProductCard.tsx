@@ -4,7 +4,7 @@ import Link from "next/link";
 import { type FC } from "react";
 
 import { Button } from "@/components/ui/Button";
-import { PageRoutes } from "@/constants/pages";
+import { pageConfig } from "@/constants/pages";
 
 import { Plus } from "../../../../public/icon";
 import { Tags } from "../../ui/Tags";
@@ -25,7 +25,7 @@ export const ProductCard: FC<ProductCardProps> = ({
   tags,
 }) => {
   return (
-    <Link className={s.root} href={`${PageRoutes.PRODUCT}${id}`}>
+    <Link className={s.root} href={`${pageConfig.PRODUCT}${id}`}>
       <div className={s.imgWrap}>
         <Image
           className={s.img}

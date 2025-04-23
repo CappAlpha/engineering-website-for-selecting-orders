@@ -1,40 +1,34 @@
 "use client";
 
-import { Product } from "@prisma/client";
 import { type FC } from "react";
 
 import { ProductCardLine } from "@/components/shared/ProductCardLine";
 import { Button } from "@/components/ui/Button";
+import { CartState } from "@/store/cart/cartSlice";
+import { pluralize } from "@/utils/pluralize";
 
 import { Arrow, Plus } from "../../../../../../public/icon";
 import { Props } from "../CartDrawer";
 
 import s from "./ListCartDrawer.module.scss";
 
-const CARDS: Pick<Product, "name" | "description" | "imageUrl" | "price">[] = [
-  {
-    name: "Чертёж моста",
-    description: "В кратчайшие сроки бла бла бла",
-    imageUrl: "/images/catalog/drawings/1.webp",
-    price: 9544,
-  },
-  {
-    name: "Чертёж здания",
-    description: "В кратчайшие сроки бла бла бла по ГОСТУ",
-    imageUrl: "/images/catalog/drawings/1.webp",
-    price: 4544,
-  },
-];
-
-export const ListCartDrawer: FC<Pick<Props, "toggleDrawer">> = ({
+export const ListCartDrawer: FC<Pick<Props, "toggleDrawer"> & CartState> = ({
   toggleDrawer,
+  totalAmount,
+  items,
 }) => {
+  const getPluralizeGoods = pluralize("товар", "товара", "товаров");
+  const productsLength = items.length;
+  const renderTopInfo = (
+    <b>
+      {productsLength} {getPluralizeGoods(productsLength)}
+    </b>
+  );
+
   return (
     <>
       <div className={s.top}>
-        <p className={s.topInfo}>
-          В корзине <b>3 товара</b>
-        </p>
+        <p className={s.topInfo}>В корзине {renderTopInfo}</p>
         <Button
           color="transparent"
           onClick={toggleDrawer(false)}
@@ -46,8 +40,8 @@ export const ListCartDrawer: FC<Pick<Props, "toggleDrawer">> = ({
       </div>
 
       <div className={s.cards}>
-        {CARDS.map((card) => (
-          <ProductCardLine key={card.name} card={card} />
+        {items.map((item) => (
+          <ProductCardLine key={item.name} item={item} />
         ))}
       </div>
 
@@ -56,12 +50,7 @@ export const ListCartDrawer: FC<Pick<Props, "toggleDrawer">> = ({
           <div className={s.bottomTextWrap}>
             <p className={s.bottomTitle}>Итого</p>
             <div className={s.line} />
-            <p className={s.bottomPrice}>2245 &#8381;</p>
-          </div>
-          <div className={s.bottomTextWrap}>
-            <p className={s.bottomTitle}>Налог 5%</p>
-            <div className={s.line} />
-            <p className={s.bottomPrice}>112 &#8381;</p>
+            <p className={s.bottomPrice}>{totalAmount}</p>
           </div>
           <Button onClick={toggleDrawer(false)} className={s.orderBtn} size="l">
             Оформить заказ

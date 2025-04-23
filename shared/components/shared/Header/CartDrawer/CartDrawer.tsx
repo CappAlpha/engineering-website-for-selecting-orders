@@ -2,7 +2,12 @@
 
 import { Drawer } from "@mui/material";
 import cn from "classnames";
-import { type FC } from "react";
+import { useEffect, type FC } from "react";
+import { useDispatch } from "react-redux";
+
+import { useAppSelector } from "@/hook/useAppSelector";
+import { fetchCartItems, cartActions } from "@/store/cart/cartSlice";
+import { AppDispatch } from "@/store/store";
 
 import { EmptyCartDrawer } from "./EmptyCartDrawer";
 import { ListCartDrawer } from "./ListCartDrawer";
@@ -15,12 +20,31 @@ export interface Props {
 }
 
 export const CartDrawer: FC<Props> = ({ open, toggleDrawer }) => {
-  const isEmpty = false;
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading, error, totalAmount, items } = useAppSelector(
+    (state) => state.cart,
+  );
+
+  useEffect(() => {
+    dispatch(fetchCartItems());
+
+    return () => {
+      dispatch(cartActions.resetError());
+    };
+  }, [dispatch]);
+
+  const isEmpty = items.length === 0;
 
   const renderDrawerContent = isEmpty ? (
     <EmptyCartDrawer toggleDrawer={toggleDrawer} />
   ) : (
-    <ListCartDrawer toggleDrawer={toggleDrawer} />
+    <ListCartDrawer
+      toggleDrawer={toggleDrawer}
+      loading={loading}
+      error={error}
+      totalAmount={totalAmount}
+      items={items}
+    />
   );
 
   return (
