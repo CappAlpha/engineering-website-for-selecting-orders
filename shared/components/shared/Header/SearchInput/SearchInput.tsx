@@ -67,8 +67,6 @@ export const SearchInput: FC<Props> = ({ categories }) => {
     };
   }, [closeBg]);
 
-  console.log(products);
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {
