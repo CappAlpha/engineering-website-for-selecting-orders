@@ -67,6 +67,8 @@ export const SearchInput: FC<Props> = ({ categories }) => {
     };
   }, [closeBg]);
 
+  console.log(products);
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -81,8 +83,10 @@ export const SearchInput: FC<Props> = ({ categories }) => {
       }
     };
 
-    fetchProducts();
-  }, [debouncedSearchQuery]);
+    if (open && products.length === 0) {
+      fetchProducts();
+    }
+  }, [debouncedSearchQuery, open]);
 
   const getCategoryNameById = (categoryId: number): string => {
     const categoryName = categories.find(

@@ -1,6 +1,6 @@
 import { type FC } from "react";
 
-import { CountBtn } from "./CountBtn/CountBtn";
+import { CountBtn } from "./CountBtn";
 
 import s from "./CountBtns.module.scss";
 
