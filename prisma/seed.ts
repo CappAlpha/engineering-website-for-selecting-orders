@@ -1,5 +1,4 @@
 import { hashSync } from "bcrypt";
-import { v4 as uuidv4 } from "uuid";
 
 import { prisma } from "./prisma-client";
 
@@ -10,9 +9,9 @@ const randomNumber = (min: number, max: number) => {
 const generatePrice = () => randomNumber(500, 30000);
 
 // TODO: временно добавлено так
-const userId = uuidv4();
-const adminId = uuidv4();
-const productIdTest = uuidv4();
+const userId = crypto.randomUUID();
+const adminId = crypto.randomUUID();
+const productIdTest = crypto.randomUUID();
 
 //Автогенерация базы данных
 async function up() {
@@ -65,7 +64,7 @@ async function up() {
         tags: ["Чертёж", "Быстро"],
       },
       {
-        id: uuidv4(),
+        id: crypto.randomUUID(),
         name: "Чертёж Сборочной Единицы",
         description:
           "Детализированный чертёж сборочной единицы, соответствующий ГОСТ, для быстрого производства.",
@@ -75,7 +74,7 @@ async function up() {
         tags: ["Чертёж", "Быстро"],
       },
       {
-        id: uuidv4(),
+        id: crypto.randomUUID(),
         name: "Чертёж Детали Корпуса",
         description:
           "Чертёж корпуса с высокой точностью, выполнен по ГОСТ для инженерных нужд.",
@@ -85,7 +84,7 @@ async function up() {
         tags: ["Чертёж", "Быстро"],
       },
       {
-        id: uuidv4(),
+        id: crypto.randomUUID(),
         name: "Проект многоквартирного дома",
         description:
           "Полный проект жилого комплекса, разработанный по стандартам BIM в кратчайшие сроки.",
@@ -95,7 +94,7 @@ async function up() {
         tags: ["BIM", "Быстро"],
       },
       {
-        id: uuidv4(),
+        id: crypto.randomUUID(),
         name: "Проект загородного коттеджа",
         description:
           "Индивидуальный проект коттеджа с использованием BIM, выполнен быстро и качественно.",
@@ -105,7 +104,7 @@ async function up() {
         tags: ["BIM", "Быстро"],
       },
       {
-        id: uuidv4(),
+        id: crypto.randomUUID(),
         name: "Проект спортивного комплекса",
         description:
           "Проект современного спорткомплекса, разработанный по методологии BIM в сжатые сроки.",
@@ -115,7 +114,7 @@ async function up() {
         tags: ["BIM", "Скидка"],
       },
       {
-        id: uuidv4(),
+        id: crypto.randomUUID(),
         name: "Проект торгово-развлекательного центра",
         description:
           "Комплексный проект ТРЦ с применением BIM, готовый в кратчайшие сроки.",
@@ -125,7 +124,7 @@ async function up() {
         tags: ["BIM"],
       },
       {
-        id: uuidv4(),
+        id: crypto.randomUUID(),
         name: "Анализ грунта для фундамента",
         description:
           "Комплексное исследование грунта для проектирования фундамента, выполненное по стандартам в кратчайшие сроки.",
@@ -135,7 +134,7 @@ async function up() {
         tags: ["Геология", "Фундамент"],
       },
       {
-        id: uuidv4(),
+        id: crypto.randomUUID(),
         name: "Геологическая разведка участка",
         description:
           "Детальная геологическая разведка для строительства, проведённая быстро и профессионально.",
@@ -145,7 +144,7 @@ async function up() {
         tags: ["Геология", "Разведка"],
       },
       {
-        id: uuidv4(),
+        id: crypto.randomUUID(),
         name: "Исследование гидрогеологии",
         description:
           "Анализ гидрогеологических условий участка, выполненный в сжатые сроки с высокой точностью.",
@@ -155,7 +154,7 @@ async function up() {
         tags: ["Гидрогеология"],
       },
       {
-        id: uuidv4(),
+        id: crypto.randomUUID(),
         name: "Оценка сейсмической активности",
         description:
           "Исследование сейсмических рисков для безопасного строительства, проведённое оперативно.",
@@ -165,7 +164,7 @@ async function up() {
         tags: ["Сейсмичность"],
       },
       {
-        id: uuidv4(),
+        id: crypto.randomUUID(),
         name: "Расчёт конструктивных нагрузок",
         description:
           "Программа на C++ для точного расчёта нагрузок конструкций, выполненная в кратчайшие сроки.",
@@ -175,7 +174,7 @@ async function up() {
         tags: ["Программа", "Нагрузки"],
       },
       {
-        id: uuidv4(),
+        id: crypto.randomUUID(),
         name: "Оптимизация инженерных вычислений",
         description:
           "Эффективная C++ программа для оптимизации инженерных расчётов, разработанная быстро и надёжно.",
@@ -185,7 +184,7 @@ async function up() {
         tags: ["Программа", "Оптимизация"],
       },
       {
-        id: uuidv4(),
+        id: crypto.randomUUID(),
         name: "Программа для моделирования нагрузок",
         description:
           "C++ приложение для моделирования и анализа нагрузок, созданное в сжатые сроки.",
@@ -197,6 +196,7 @@ async function up() {
     ],
   });
 
+  // TODO: remove
   await prisma.cart.createMany({
     data: [
       {
@@ -210,11 +210,11 @@ async function up() {
     ],
   });
 
+  // TODO: remove
   await prisma.cartItem.create({
     data: {
       productId: productIdTest,
       cartId: 1,
-      userId: userId,
       quantity: 1,
     },
   });

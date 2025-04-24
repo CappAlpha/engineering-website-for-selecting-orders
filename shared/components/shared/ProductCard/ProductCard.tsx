@@ -5,16 +5,14 @@ import { type FC } from "react";
 
 import { Button } from "@/components/ui/Button";
 import { pageConfig } from "@/constants/pages";
+import { useCart } from "@/hook/useCart";
 
 import { Plus } from "../../../../public/icon";
 import { Tags } from "../../ui/Tags";
 
 import s from "./ProductCard.module.scss";
 
-type ProductCardProps = Pick<
-  Product,
-  "id" | "name" | "description" | "price" | "imageUrl" | "tags"
->;
+type ProductCardProps = Omit<Product, "categoryId" | "createdAt" | "updatedAt">;
 
 export const ProductCard: FC<ProductCardProps> = ({
   id,
@@ -24,33 +22,37 @@ export const ProductCard: FC<ProductCardProps> = ({
   imageUrl,
   tags,
 }) => {
+  const { addToCart } = useCart();
+
   return (
-    <Link className={s.root} href={`${pageConfig.PRODUCT}${id}`}>
-      <div className={s.imgWrap}>
-        <Image
-          className={s.img}
-          src={imageUrl}
-          alt={name}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          fill
-        />
-      </div>
+    <div style={{ position: "relative" }}>
+      <Link className={s.root} href={`${pageConfig.PRODUCT}${id}`}>
+        <div className={s.imgWrap}>
+          <Image
+            className={s.img}
+            src={imageUrl}
+            alt={name}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            fill
+          />
+        </div>
 
-      <div className={s.textWrap}>
-        <h5 className={s.title}>{name}</h5>
-        <p className={s.description}>{description}</p>
-      </div>
+        <div className={s.textWrap}>
+          <h5 className={s.title}>{name}</h5>
+          <p className={s.description}>{description}</p>
+        </div>
 
-      <Tags tags={tags} />
+        <Tags tags={tags} />
 
-      <div className={s.bottom}>
-        <span className={s.price}>
-          от <b>{price} &#8381;</b>
-        </span>
-        <Button>
-          <Plus className={s.icon} /> Добавить
-        </Button>
-      </div>
-    </Link>
+        <div className={s.bottom}>
+          <span className={s.price}>
+            от <b>{price} &#8381;</b>
+          </span>
+          <Button onClick={(e) => addToCart(e, id)}>
+            <Plus className={s.icon} /> Добавить
+          </Button>
+        </div>
+      </Link>
+    </div>
   );
 };

@@ -4,27 +4,25 @@ import { Product } from "@prisma/client";
 import { type FC } from "react";
 
 import { Button } from "@/components/ui/Button";
+import { useCart } from "@/hook/useCart";
 
 import { Tags } from "../../ui/Tags";
 
 import s from "./ProductProperties.module.scss";
 
-export interface Props extends Pick<Product, "name" | "description" | "price"> {
-  name: string;
-  description: string;
-  price: number;
-  tags: string[];
-}
+type Props = Omit<
+  Product,
+  "imageUrl" | "categoryId" | "createdAt" | "updatedAt"
+>;
 
 export const ProductProperties: FC<Props> = ({
+  id,
   name,
   description,
   price,
   tags,
 }) => {
-  const handleClick = () => {
-    console.log({ name, price });
-  };
+  const { addToCart } = useCart();
 
   return (
     <div className={s.root}>
@@ -40,7 +38,7 @@ export const ProductProperties: FC<Props> = ({
           <Tags tags={tags} />
         </li>
       </ul>
-      <Button className={s.btn} onClick={handleClick}>
+      <Button className={s.btn} onClick={(e) => addToCart(e, id)}>
         Добавить в корзину
       </Button>
     </div>

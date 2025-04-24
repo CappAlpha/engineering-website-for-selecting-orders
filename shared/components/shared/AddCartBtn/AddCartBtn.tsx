@@ -1,30 +1,69 @@
 "use client";
 
-import { useState, type FC } from "react";
+import { Fragment, useEffect, useState, type FC } from "react";
+import { useDispatch } from "react-redux";
 
 import { Button } from "@/components/ui/Button";
+import { useCart } from "@/hook/useCart";
+import { fetchCartItems, cartActions } from "@/store/cart/cartSlice";
+import { AppDispatch } from "@/store/store";
 
 import { ShoppingCart, Arrow } from "../../../../public/icon";
-import { CartDrawer } from "../Header/CartDrawer";
+import { CartDrawer } from "../CartDrawer";
 
 import s from "./AddCartBtn.module.scss";
 
 export const AddCartBtn: FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const {
+    loading,
+    error,
+    totalAmount,
+    items,
+    handleQuantityChange,
+    handleRemove,
+  } = useCart();
   const [open, setOpen] = useState(false);
 
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen);
-  };
+  useEffect(() => {
+    dispatch(fetchCartItems());
+    return () => {
+      dispatch(cartActions.resetError());
+    };
+  }, [dispatch]);
+
+  const toggleDrawer = (newOpen: boolean) => () => setOpen(newOpen);
 
   return (
     <>
-      <Button className={s.root} onClick={toggleDrawer(true)}>
-        0 &#8381; <span className={s.separator} />
-        <ShoppingCart className={s.cartIcon} />
-        <span className={s.count}>0</span>
-        <Arrow className={s.arrowIcon} />
+      <Button
+        className={s.root}
+        onClick={toggleDrawer(true)}
+        aria-label={`Открыть корзину с ${items.length} товарами`}
+      >
+        {loading ? (
+          <Fragment key="layout">Загрузка...</Fragment>
+        ) : error ? (
+          <Fragment key="layout">Ошибка: {error}</Fragment>
+        ) : (
+          <Fragment key="layout">
+            {totalAmount} &#8381; <span className={s.separator} />
+            <ShoppingCart className={s.cartIcon} />
+            <span className={s.count}>{items.length}</span>
+            <Arrow className={s.arrowIcon} />
+          </Fragment>
+        )}
       </Button>
-      <CartDrawer open={open} toggleDrawer={toggleDrawer} />
+      <CartDrawer
+        open={open}
+        loading={loading}
+        error={error}
+        totalAmount={totalAmount}
+        items={items}
+        toggleDrawer={toggleDrawer}
+        handleQuantityChange={handleQuantityChange}
+        handleRemove={handleRemove}
+      />
     </>
   );
 };

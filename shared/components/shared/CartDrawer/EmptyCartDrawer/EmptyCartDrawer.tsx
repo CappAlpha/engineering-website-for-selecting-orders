@@ -5,14 +5,15 @@ import { type FC } from "react";
 
 import { Button } from "@/components/ui/Button";
 
-import { Arrow } from "../../../../../../public/icon";
-import { Props } from "../CartDrawer";
+import { Arrow } from "../../../../../public/icon";
 
 import s from "./EmptyCartDrawer.module.scss";
 
-export const EmptyCartDrawer: FC<Pick<Props, "toggleDrawer">> = ({
-  toggleDrawer,
-}) => {
+interface Props {
+  onClose: () => void;
+}
+
+export const EmptyCartDrawer: FC<Props> = ({ onClose }) => {
   return (
     <>
       <div className={s.imgWrap}>
@@ -22,7 +23,7 @@ export const EmptyCartDrawer: FC<Pick<Props, "toggleDrawer">> = ({
       <p className={s.description}>
         Добавьте хотя бы одну услугу, чтобы совершить заказ
       </p>
-      <Button onClick={toggleDrawer(false)}>
+      <Button onClick={onClose}>
         <Arrow className={s.icon} />
         Вернуться назад
       </Button>

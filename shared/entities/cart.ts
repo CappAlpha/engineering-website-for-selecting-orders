@@ -16,3 +16,7 @@ export interface CartStateItem {
   imageUrl: string;
   price: number;
 }
+
+export interface CreateCartItemValues {
+  productId: string;
+}

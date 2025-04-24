@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { CartStateItem } from "@/entities/cart";
+import { CartStateItem, CreateCartItemValues } from "@/entities/cart";
 import { Api } from "@/services/api-client";
 import { CartReturnProps, getCartDetails } from "@/utils/getCartDetails";
 
@@ -26,8 +26,8 @@ export const fetchCartItems = createAsyncThunk(
   },
 );
 
-export const updateItemsQuantity = createAsyncThunk(
-  "cart/updateItemsQuantity",
+export const updateItemQuantity = createAsyncThunk(
+  "cart/updateItemQuantity",
   async ({
     id,
     quantity,
@@ -35,31 +35,30 @@ export const updateItemsQuantity = createAsyncThunk(
     id: number;
     quantity: number;
   }): Promise<CartReturnProps> => {
-    const data = await Api.cart.updateItemsQuantity(id, quantity);
+    const data = await Api.cart.updateItemQuantity(id, quantity);
     return getCartDetails(data);
   },
 );
 
-// export const addCartItem = createAsyncThunk(
-//   'cart/addCartItem',
-//   async (values: any) => {
-//     const response = await fetch('/api/cart', {
-//       method: 'POST',
-//       body: JSON.stringify(values),
-//     });
-//     return await response.json();
-//   }
-// );
+export const addCartItem = createAsyncThunk(
+  "cart/addCartItem",
+  async ({
+    values,
+  }: {
+    values: CreateCartItemValues;
+  }): Promise<CartReturnProps> => {
+    const data = await Api.cart.addCartItem(values);
+    return getCartDetails(data);
+  },
+);
 
-// export const removeCartItem = createAsyncThunk(
-//   'cart/removeCartItem',
-//   async (id: string) => {
-//     await fetch(`/api/cart/${id}`, {
-//       method: 'DELETE',
-//     });
-//     return id;
-//   }
-// );
+export const removeCartItem = createAsyncThunk(
+  "cart/removeCartItem",
+  async ({ id }: { id: number }): Promise<CartReturnProps> => {
+    const data = await Api.cart.removeCartItem(id);
+    return getCartDetails(data);
+  },
+);
 
 const cartSlice = createSlice({
   name: "cart",
@@ -89,53 +88,59 @@ const cartSlice = createSlice({
         state.error = true;
       })
 
-      // updateItemsQuantity
-      .addCase(updateItemsQuantity.pending, (state) => {
+      // updateItemQuantity
+      .addCase(updateItemQuantity.pending, (state) => {
         state.loading = true;
         state.error = false;
       })
       .addCase(
-        updateItemsQuantity.fulfilled,
+        updateItemQuantity.fulfilled,
         (state, action: PayloadAction<CartReturnProps>) => {
           state.loading = false;
           state.items = action.payload.items;
           state.totalAmount = action.payload.totalAmount;
         },
       )
-      .addCase(updateItemsQuantity.rejected, (state) => {
+      .addCase(updateItemQuantity.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
+      })
+
+      // addCartItem
+      .addCase(addCartItem.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(
+        addCartItem.fulfilled,
+        (state, action: PayloadAction<CartReturnProps>) => {
+          state.loading = false;
+          state.items = action.payload.items;
+          state.totalAmount = action.payload.totalAmount;
+        },
+      )
+      .addCase(addCartItem.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
+      })
+
+      // removeCartItem
+      .addCase(removeCartItem.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(
+        removeCartItem.fulfilled,
+        (state, action: PayloadAction<CartReturnProps>) => {
+          state.loading = false;
+          state.items = action.payload.items;
+          state.totalAmount = action.payload.totalAmount;
+        },
+      )
+      .addCase(removeCartItem.rejected, (state) => {
         state.loading = false;
         state.error = true;
       });
-
-    // // addCartItem
-    // .addCase(addCartItem.pending, (state) => {
-    //   state.loading = true;
-    //   state.error = false;
-    // })
-    // .addCase(addCartItem.fulfilled, (state, action: PayloadAction<CartReturnProps>) => {
-    //   state.loading = false;
-    //   state.items.push(action.payload);
-    //   // Recalculate totalAmount if needed
-    // })
-    // .addCase(addCartItem.rejected, (state) => {
-    //   state.loading = false;
-    //   state.error = true;
-    // })
-
-    // // removeCartItem
-    // .addCase(removeCartItem.pending, (state) => {
-    //   state.loading = true;
-    //   state.error = false;
-    // })
-    // .addCase(removeCartItem.fulfilled, (state, action: PayloadAction<string>) => {
-    //   state.loading = false;
-    //   state.items = state.items.filter((item) => item.id !== action.payload);
-    //   // Recalculate totalAmount if needed
-    // })
-    // .addCase(removeCartItem.rejected, (state) => {
-    //   state.loading = false;
-    //   state.error = true;
-    // });
   },
 });
 

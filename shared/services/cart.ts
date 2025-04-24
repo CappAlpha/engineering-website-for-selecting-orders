@@ -1,5 +1,5 @@
 import { pageConfig } from "@/constants/pages";
-import { CartDTO } from "@/entities/cart";
+import { CartDTO, CreateCartItemValues } from "@/entities/cart";
 
 import { axiosInstance } from "./instance";
 
@@ -7,11 +7,21 @@ export const getCart = async (): Promise<CartDTO> => {
   return (await axiosInstance.get<CartDTO>(pageConfig.CART)).data;
 };
 
-export const updateItemsQuantity = async (
-  itemId: number,
+export const updateItemQuantity = async (
+  id: number,
   quantity: number,
 ): Promise<CartDTO> => {
   return (
-    await axiosInstance.patch<CartDTO>(pageConfig.CART + itemId, { quantity })
+    await axiosInstance.patch<CartDTO>(pageConfig.CART + id, { quantity })
   ).data;
+};
+
+export const removeCartItem = async (id: number): Promise<CartDTO> => {
+  return (await axiosInstance.delete<CartDTO>(pageConfig.CART + id)).data;
+};
+
+export const addCartItem = async (
+  values: CreateCartItemValues,
+): Promise<CartDTO> => {
+  return (await axiosInstance.post<CartDTO>(pageConfig.CART, values)).data;
 };

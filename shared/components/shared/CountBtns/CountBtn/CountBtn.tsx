@@ -2,6 +2,7 @@ import cn from "classnames";
 import { type FC } from "react";
 
 import { Button } from "@/components/ui/Button";
+import { QuantityAction, QuantityActionType } from "@/constants/cart";
 
 import { Minus, Plus } from "../../../../../public/icon";
 
@@ -9,18 +10,25 @@ import s from "./CountBtn.module.scss";
 
 export interface Props {
   value: number;
+  type: QuantityActionType;
   size?: "sm" | "lg";
-  type: "minus" | "plus";
-  onClick?: () => void;
+  disabled?: boolean;
+  onChangeCount: (type: QuantityActionType) => void;
 }
-export const CountBtn: FC<Props> = ({ value, type, size = "sm", onClick }) => {
+export const CountBtn: FC<Props> = ({
+  value,
+  type,
+  size = "sm",
+  onChangeCount,
+  disabled,
+}) => {
   return (
     <div className={s.root}>
-      {type === "minus" ? (
+      {type === QuantityAction.MINUS ? (
         <Button
           className={cn(s.btnMinus, size && s[`size_${size}`])}
-          onClick={onClick}
-          disabled={value === 1}
+          onClick={() => onChangeCount(QuantityAction.MINUS)}
+          disabled={value === 1 || disabled}
           color="outline"
           noPadding
         >
@@ -29,7 +37,8 @@ export const CountBtn: FC<Props> = ({ value, type, size = "sm", onClick }) => {
       ) : (
         <Button
           className={cn(s.btnPlus, size && s[`size_${size}`])}
-          onClick={onClick}
+          onClick={() => onChangeCount(QuantityAction.PLUS)}
+          disabled={disabled}
           color="outline"
           noPadding
         >

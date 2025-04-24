@@ -88,6 +88,7 @@ export default async function ProductPage({
           />
         </div>
         <ProductProperties
+          id={id}
           name={name}
           description={description}
           price={price}

@@ -10,7 +10,7 @@ export async function GET() {
     const uniqueTags = [...new Set(tags.flatMap((item) => item.tags))];
     return NextResponse.json(uniqueTags);
   } catch (error) {
-    console.error("API error:", error);
+    console.error("[TAGS_GET] API error:", error);
     return NextResponse.json(
       { error: "Failed to fetch tags" },
       { status: 500 },

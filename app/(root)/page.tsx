@@ -1,5 +1,5 @@
 import { Filters } from "@/components/shared/Filters";
-import { ProductsGroupList } from "@/components/shared/ProductsGroupList";
+import { ProductsCatalog } from "@/components/shared/ProductsCatalog";
 import { TopBar } from "@/components/shared/TopBar";
 
 import { prisma } from "../../prisma/prisma-client";
@@ -27,11 +27,7 @@ export default async function Home() {
 
       <div className={s.wrapCatalog}>
         <Filters />
-        <div className={s.wrapProducts}>
-          {filteredCategories.map(({ id, name, products }) => (
-            <ProductsGroupList key={id} id={id} name={name} items={products} />
-          ))}
-        </div>
+        <ProductsCatalog categories={filteredCategories} />
       </div>
     </>
   );
