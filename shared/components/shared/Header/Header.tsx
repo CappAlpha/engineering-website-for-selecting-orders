@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 
 import { prisma } from "../../../../prisma/prisma-client";
 import { Settings, User } from "../../../../public/icon/";
-import { AddCartBtn } from "../AddCartBtn";
+import { CartBtn } from "../CartBtn";
 
 import s from "./Header.module.scss";
 
@@ -27,7 +27,7 @@ export const Header: FC = async () => {
           <Button>
             <User className={s.userIcon} /> Войти
           </Button>
-          <AddCartBtn />
+          <CartBtn />
         </div>
       </div>
     </header>

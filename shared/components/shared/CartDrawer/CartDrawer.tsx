@@ -20,7 +20,7 @@ export interface Props extends CartState {
     quantity: number,
     type: QuantityActionType,
   ) => void;
-  handleRemove: (id: number) => void;
+  onClickRemove: (id: number) => void;
 }
 
 export const CartDrawer: FC<Props> = ({
@@ -31,7 +31,7 @@ export const CartDrawer: FC<Props> = ({
   items,
   toggleDrawer,
   handleQuantityChange,
-  handleRemove,
+  onClickRemove,
 }) => {
   const isEmpty = items.length === 0;
 
@@ -54,7 +54,7 @@ export const CartDrawer: FC<Props> = ({
               items={items}
               onClose={toggleDrawer(false)}
               onChangeCount={handleQuantityChange}
-              onClickRemove={handleRemove}
+              onClickRemove={onClickRemove}
             />
           )}
         </div>

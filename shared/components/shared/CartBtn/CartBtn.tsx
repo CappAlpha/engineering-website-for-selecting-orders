@@ -11,9 +11,9 @@ import { AppDispatch } from "@/store/store";
 import { ShoppingCart, Arrow } from "../../../../public/icon";
 import { CartDrawer } from "../CartDrawer";
 
-import s from "./AddCartBtn.module.scss";
+import s from "./CartBtn.module.scss";
 
-export const AddCartBtn: FC = () => {
+export const CartBtn: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const {
     loading,
@@ -62,7 +62,7 @@ export const AddCartBtn: FC = () => {
         items={items}
         toggleDrawer={toggleDrawer}
         handleQuantityChange={handleQuantityChange}
-        handleRemove={handleRemove}
+        onClickRemove={handleRemove}
       />
     </>
   );

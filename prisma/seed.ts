@@ -195,29 +195,6 @@ async function up() {
       },
     ],
   });
-
-  // TODO: remove
-  await prisma.cart.createMany({
-    data: [
-      {
-        userId: userId,
-        token: "user",
-      },
-      {
-        userId: adminId,
-        token: "admin",
-      },
-    ],
-  });
-
-  // TODO: remove
-  await prisma.cartItem.create({
-    data: {
-      productId: productIdTest,
-      cartId: 1,
-      quantity: 1,
-    },
-  });
 }
 
 //Автоочистка базы данных
