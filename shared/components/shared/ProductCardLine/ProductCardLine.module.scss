@@ -61,4 +61,11 @@
   width: 20px;
   min-width: 20px;
   fill: var(--gray);
+  transition: fill 0.3s ease;
+
+  &:hover {
+    @media (hover: hover) and (pointer: fine) {
+      fill: var(--white);
+    }
+  }
 }

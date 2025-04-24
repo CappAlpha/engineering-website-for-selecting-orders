@@ -1,9 +1,9 @@
 import { MouseEvent, useCallback } from "react";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 
 import { QuantityAction, QuantityActionType } from "@/constants/cart";
 import {
-  cartActions,
   updateItemQuantity,
   removeCartItem,
   addCartItem,
@@ -46,7 +46,6 @@ export const useCart = (): UseCartReturn => {
         newQuantity > CART_QUANTITY_LIMITS.MAX
       )
         return;
-      dispatch(cartActions.resetError());
       dispatch(updateItemQuantity({ id, quantity: newQuantity }));
     },
     [dispatch],
@@ -54,8 +53,11 @@ export const useCart = (): UseCartReturn => {
 
   const handleRemove = useCallback(
     (id: number) => {
-      dispatch(cartActions.resetError());
-      dispatch(removeCartItem({ id }));
+      toast.promise(dispatch(removeCartItem({ id })), {
+        loading: "Удаляем...",
+        success: "Товар удалён из корзины!",
+        error: "Ошибка удаления товара",
+      });
     },
     [dispatch],
   );
@@ -64,8 +66,11 @@ export const useCart = (): UseCartReturn => {
     (e: MouseEvent, productId: string) => {
       e.preventDefault();
       e.stopPropagation();
-      dispatch(cartActions.resetError());
-      dispatch(addCartItem({ values: { productId } }));
+      toast.promise(dispatch(addCartItem({ values: { productId } })), {
+        loading: "Добавляем...",
+        success: "Товар добавлен в корзину",
+        error: "Ошибка добавления товара",
+      });
     },
     [dispatch],
   );

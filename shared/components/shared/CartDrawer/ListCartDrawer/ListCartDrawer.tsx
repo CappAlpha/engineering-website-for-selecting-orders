@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, type FC } from "react";
+import { type FC } from "react";
 
 import { ProductCardLine } from "@/components/shared/ProductCardLine";
 import { Button } from "@/components/ui/Button";
@@ -79,15 +79,15 @@ export const ListCartDrawer: FC<Props> = ({
               onClick={onClose}
               className={s.orderBtn}
               size="l"
-              key="cartBtn"
+              disabled={loading}
             >
               {loading ? (
-                <Fragment key="cartBtnContent">Загрузка...</Fragment>
+                "Загрузка..."
               ) : (
-                <Fragment key="cartBtnContent">
+                <>
                   Оформить заказ
                   <Arrow className={s.orderIcon} />
-                </Fragment>
+                </>
               )}
             </Button>
           )}

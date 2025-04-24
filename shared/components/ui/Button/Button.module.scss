@@ -36,21 +36,6 @@
   }
 
   &.color {
-    &_grey {
-      background: var(--grey-border-pdf);
-      color: var(--gray);
-
-      &:hover {
-        @media (hover: hover) and (pointer: fine) {
-          background: var(--grey-border-pdf);
-        }
-      }
-
-      &.disabled {
-        color: var(--gray);
-      }
-    }
-
     &_transparent {
       background: transparent;
       color: var(--blue);

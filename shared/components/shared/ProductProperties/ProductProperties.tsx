@@ -22,7 +22,7 @@ export const ProductProperties: FC<Props> = ({
   price,
   tags,
 }) => {
-  const { addToCart } = useCart();
+  const { loading, error, addToCart } = useCart();
 
   return (
     <div className={s.root}>
@@ -38,9 +38,11 @@ export const ProductProperties: FC<Props> = ({
           <Tags tags={tags} />
         </li>
       </ul>
-      <Button className={s.btn} onClick={(e) => addToCart(e, id)}>
-        Добавить в корзину
-      </Button>
+      {!error && (
+        <Button className={s.btn} onClick={(e) => addToCart(e, id)}>
+          {loading ? "Загрузка..." : "Добавить в корзину"}
+        </Button>
+      )}
     </div>
   );
 };

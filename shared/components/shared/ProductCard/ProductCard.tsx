@@ -22,7 +22,7 @@ export const ProductCard: FC<ProductCardProps> = ({
   imageUrl,
   tags,
 }) => {
-  const { addToCart } = useCart();
+  const { loading, error, addToCart } = useCart();
 
   return (
     <div style={{ position: "relative" }}>
@@ -48,9 +48,17 @@ export const ProductCard: FC<ProductCardProps> = ({
           <span className={s.price}>
             от <b>{price} &#8381;</b>
           </span>
-          <Button onClick={(e) => addToCart(e, id)}>
-            <Plus className={s.icon} /> Добавить
-          </Button>
+          {!error && (
+            <Button onClick={(e) => addToCart(e, id)}>
+              {loading ? (
+                "Загрузка..."
+              ) : (
+                <>
+                  <Plus className={s.icon} /> Добавить
+                </>
+              )}
+            </Button>
+          )}
         </div>
       </Link>
     </div>

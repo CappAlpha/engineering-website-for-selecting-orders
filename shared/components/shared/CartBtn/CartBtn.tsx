@@ -38,13 +38,14 @@ export const CartBtn: FC = () => {
     <>
       <Button
         className={s.root}
+        disabled={loading || error}
         onClick={toggleDrawer(true)}
         aria-label={`Открыть корзину с ${items.length} товарами`}
       >
         {loading ? (
           <Fragment key="layout">Загрузка...</Fragment>
         ) : error ? (
-          <Fragment key="layout">Ошибка: {error}</Fragment>
+          <Fragment key="layout">Ошибка</Fragment>
         ) : (
           <Fragment key="layout">
             {totalAmount} &#8381; <span className={s.separator} />
