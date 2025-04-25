@@ -1,19 +1,16 @@
 import { Filters } from "@/components/shared/Filters";
 import { ProductsCatalog } from "@/components/shared/ProductsCatalog";
 import { TopBar } from "@/components/shared/TopBar";
-
-import { prisma } from "../../prisma/prisma-client";
+import { findProduct, GetSearchParams } from "@/utils/findProduct";
 
 import s from "./page.module.scss";
 
-export default async function Home() {
-  const categories = await prisma.category.findMany({
-    include: {
-      products: true,
-    },
-  });
+export default async function Home({
+  searchParams,
+}: Readonly<{ searchParams: GetSearchParams }>) {
+  const testCat = await findProduct(searchParams);
 
-  const filteredCategories = categories.filter(
+  const filteredCategories = testCat.filter(
     (category) => category.products.length > 0,
   );
 

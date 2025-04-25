@@ -16,7 +16,6 @@ import s from "./Filters.module.scss";
 const PRICE_CONFIG = {
   MIN_PRICE: 0,
   MAX_PRICE: 30000,
-  PRICE_TO: 15000,
   SLIDER_GAP: 1000,
   SLIDER_STEP: 100,
 } as const;

@@ -39,8 +39,12 @@ export const ProductProperties: FC<Props> = ({
         </li>
       </ul>
       {!error && (
-        <Button className={s.btn} onClick={(e) => addToCart(e, id)}>
-          {loading ? "Загрузка..." : "Добавить в корзину"}
+        <Button
+          className={s.btn}
+          onClick={(e) => addToCart(e, id)}
+          loading={loading}
+        >
+          Добавить в корзину
         </Button>
       )}
     </div>

@@ -6,14 +6,14 @@ import { CartReturnProps, getCartDetails } from "@/utils/getCartDetails";
 
 export interface CartState {
   loading: boolean;
-  error: boolean;
+  error: string | null;
   totalAmount: number;
   items: CartStateItem[];
 }
 
 const initialState: CartState = {
   loading: true,
-  error: false,
+  error: null,
   totalAmount: 0,
   items: [],
 };
@@ -21,8 +21,8 @@ const initialState: CartState = {
 export const fetchCartItems = createAsyncThunk(
   "cart/getCartItems",
   async (): Promise<CartReturnProps> => {
-    const data = await Api.cart.getCart();
-    return getCartDetails(data);
+    const response = await Api.cart.getCart();
+    return getCartDetails(response);
   },
 );
 
@@ -35,28 +35,24 @@ export const updateItemQuantity = createAsyncThunk(
     id: number;
     quantity: number;
   }): Promise<CartReturnProps> => {
-    const data = await Api.cart.updateItemQuantity(id, quantity);
-    return getCartDetails(data);
+    const response = await Api.cart.updateItemQuantity(id, quantity);
+    return getCartDetails(response);
   },
 );
 
-export const addCartItem = createAsyncThunk(
-  "cart/addCartItem",
-  async ({
-    values,
-  }: {
-    values: CreateCartItemValues;
-  }): Promise<CartReturnProps> => {
-    const data = await Api.cart.addCartItem(values);
-    return getCartDetails(data);
-  },
-);
+export const addCartItem = createAsyncThunk<
+  CartReturnProps,
+  { values: CreateCartItemValues }
+>("cart/addCartItem", async ({ values }) => {
+  const response = await Api.cart.addCartItem(values);
+  return getCartDetails(response);
+});
 
 export const removeCartItem = createAsyncThunk(
   "cart/removeCartItem",
   async ({ id }: { id: number }): Promise<CartReturnProps> => {
-    const data = await Api.cart.removeCartItem(id);
-    return getCartDetails(data);
+    const response = await Api.cart.removeCartItem(id);
+    return getCartDetails(response);
   },
 );
 
@@ -65,7 +61,7 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     resetError: (state) => {
-      state.error = false;
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -73,7 +69,7 @@ const cartSlice = createSlice({
     builder
       .addCase(fetchCartItems.pending, (state) => {
         state.loading = true;
-        state.error = false;
+        state.error = null;
       })
       .addCase(
         fetchCartItems.fulfilled,
@@ -85,13 +81,13 @@ const cartSlice = createSlice({
       )
       .addCase(fetchCartItems.rejected, (state) => {
         state.loading = false;
-        state.error = true;
+        state.error = "Ошибка получения товаров";
       })
 
       // updateItemQuantity
       .addCase(updateItemQuantity.pending, (state) => {
         state.loading = true;
-        state.error = false;
+        state.error = null;
       })
       .addCase(
         updateItemQuantity.fulfilled,
@@ -103,13 +99,13 @@ const cartSlice = createSlice({
       )
       .addCase(updateItemQuantity.rejected, (state) => {
         state.loading = false;
-        state.error = true;
+        state.error = "Ошибка обновления товаров";
       })
 
       // addCartItem
       .addCase(addCartItem.pending, (state) => {
         state.loading = true;
-        state.error = false;
+        state.error = null;
       })
       .addCase(
         addCartItem.fulfilled,
@@ -121,13 +117,13 @@ const cartSlice = createSlice({
       )
       .addCase(addCartItem.rejected, (state) => {
         state.loading = false;
-        state.error = true;
+        state.error = "Ошибка добавления товаров";
       })
 
       // removeCartItem
       .addCase(removeCartItem.pending, (state) => {
         state.loading = true;
-        state.error = false;
+        state.error = null;
       })
       .addCase(
         removeCartItem.fulfilled,
@@ -139,7 +135,7 @@ const cartSlice = createSlice({
       )
       .addCase(removeCartItem.rejected, (state) => {
         state.loading = false;
-        state.error = true;
+        state.error = state.error = "Ошибка удаления товаров";
       });
   },
 });

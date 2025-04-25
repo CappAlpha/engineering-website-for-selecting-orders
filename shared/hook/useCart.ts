@@ -41,11 +41,6 @@ export const useCart = (): UseCartReturn => {
     (id: number, quantity: number, type: QuantityActionType) => {
       const newQuantity =
         type === QuantityAction.PLUS ? quantity + 1 : quantity - 1;
-      if (
-        newQuantity < CART_QUANTITY_LIMITS.MIN ||
-        newQuantity > CART_QUANTITY_LIMITS.MAX
-      )
-        return;
       dispatch(updateItemQuantity({ id, quantity: newQuantity }));
     },
     [dispatch],

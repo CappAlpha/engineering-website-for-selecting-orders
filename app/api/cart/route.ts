@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { CreateCartItemValues } from "@/entities/cart";
+import { CART_QUANTITY_LIMITS } from "@/hook/useCart";
 import { findOrCreateCart } from "@/utils/findOrCreateCart";
 import { updateCartTotalAmount } from "@/utils/updateCartTotalAmount";
 
@@ -61,24 +62,31 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    if (findCartItem) {
-      await prisma.cartItem.update({
-        where: {
-          id: findCartItem.id,
+    //TODO: improve logic
+    // Check limit
+    if (findCartItem && findCartItem.quantity >= CART_QUANTITY_LIMITS.MAX) {
+      return NextResponse.json(
+        {
+          error: `Cannot add more items. Maximum quantity (${CART_QUANTITY_LIMITS.MAX}) reached.`,
         },
-        data: {
-          quantity: findCartItem.quantity + 1,
-        },
-      });
-    } else {
-      await prisma.cartItem.create({
-        data: {
-          cartId: userCart.id,
-          productId: data.productId,
-          quantity: 1,
-        },
-      });
+        { status: 400 },
+      );
     }
+
+    await prisma.$transaction([
+      findCartItem
+        ? prisma.cartItem.update({
+            where: { id: findCartItem.id },
+            data: { quantity: findCartItem.quantity + 1 },
+          })
+        : prisma.cartItem.create({
+            data: {
+              cartId: userCart.id,
+              productId: data.productId,
+              quantity: 1,
+            },
+          }),
+    ]);
 
     const updateUserCart = await updateCartTotalAmount(token);
 
