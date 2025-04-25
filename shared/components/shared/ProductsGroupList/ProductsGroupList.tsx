@@ -20,7 +20,7 @@ export const ProductsGroupList: FC<Props> = ({ id, name, items }) => {
   const { setActiveId } = useActions();
   const intersectionRef = useRef(null);
   const intersection = useIntersectionObserver(intersectionRef, {
-    threshold: 0.6,
+    threshold: 0.4,
   });
 
   useEffect(() => {

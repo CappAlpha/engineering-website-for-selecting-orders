@@ -23,11 +23,15 @@ export const useTags = (
 
   const fetchTags = async (signal: AbortSignal) => {
     try {
-      console.log("fetchTags");
-
       const response = await Api.tags.getAll(signal);
       setItems(response);
-    } catch (error) {
+    } catch (error: unknown) {
+      if (
+        error instanceof Error &&
+        (error.name === "CanceledError" || error.message.includes("canceled"))
+      ) {
+        return;
+      }
       console.error("Ошибка при запросе тегов:", error);
       setIsReset(true);
       setItems([]);

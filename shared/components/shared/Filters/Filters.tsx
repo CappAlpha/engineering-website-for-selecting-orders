@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import qs from "qs";
-import { useEffect, useState, type FC } from "react";
+import { useEffect, type FC } from "react";
 
 import { Button } from "@/components/ui/Button";
 import { CheckboxFilterGroup } from "@/components/ui/CheckboxFilterGroup";
@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/Input";
 import { Slider } from "@/components/ui/Slider";
 import { useDebouncedCallback } from "@/hook/useDebounce";
 import { usePriceRange } from "@/hook/usePriceRange";
+import { useResetFilters } from "@/hook/useResetFilters";
 import { useTags } from "@/hook/useTags";
 
 import s from "./Filters.module.scss";
@@ -23,7 +24,8 @@ const PRICE_CONFIG = {
 
 export const Filters: FC = () => {
   const router = useRouter();
-  const [isReset, setIsReset] = useState(false);
+  const { isReset, setIsReset, onClickResetFilters } = useResetFilters();
+
   const {
     items: tags,
     selected: selectedTags,
@@ -57,15 +59,16 @@ export const Filters: FC = () => {
       tags: Array.from(selectedTags),
     };
 
-    updateUrl(filters);
-  }, [isReset, prices, selectedTags, router]);
+    console.log("wtf");
 
-  // TODO: связать с кнопкой в ProductList
-  const onClickResetFilters = () => {
-    setIsReset(true);
-    onClearTags();
-    router.push("/", { scroll: false });
-  };
+    updateUrl(filters);
+  }, [actualPrice, selectedTags, router]);
+
+  useEffect(() => {
+    if (isReset) {
+      onClearTags();
+    }
+  }, [isReset]);
 
   return (
     <div className={s.root}>
@@ -112,7 +115,7 @@ export const Filters: FC = () => {
         selected={selectedTags}
       />
 
-      <Button onClick={onClickResetFilters}>Сбросить фильтры</Button>
+      <Button onClick={onClickResetFilters(router)}>Сбросить фильтры</Button>
     </div>
   );
 };

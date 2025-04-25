@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 
 import { Button } from "@/components/ui/Button";
 import { useCart } from "@/hook/useCart";
-import { fetchCartItems, cartActions } from "@/store/cart/cartSlice";
+import { fetchCartItems } from "@/store/cart/cartSlice";
 import { AppDispatch } from "@/store/store";
 
 import { ShoppingCart, Arrow } from "../../../../public/icon";
@@ -27,9 +27,6 @@ export const CartBtn: FC = () => {
 
   useEffect(() => {
     dispatch(fetchCartItems());
-    return () => {
-      dispatch(cartActions.resetError());
-    };
   }, [dispatch]);
 
   const toggleDrawer = (newOpen: boolean) => () => setOpen(newOpen);
@@ -39,7 +36,7 @@ export const CartBtn: FC = () => {
       <Button
         className={s.root}
         loading={loading}
-        disabled={error}
+        disabled={Boolean(error)}
         onClick={toggleDrawer(true)}
         aria-label={`Открыть корзину с ${items.length} товарами`}
       >
