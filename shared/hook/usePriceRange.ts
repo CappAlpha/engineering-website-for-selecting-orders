@@ -1,8 +1,8 @@
 import { useState, ChangeEvent, useCallback } from "react";
 
 interface PriceRange {
-  priceFrom: number;
-  priceTo: number;
+  priceFrom?: number;
+  priceTo?: number;
 }
 
 interface PriceConfig {
@@ -12,8 +12,8 @@ interface PriceConfig {
 }
 
 export const usePriceRange = (
-  initialPrices: PriceRange,
   config: PriceConfig,
+  initialPrices: PriceRange,
 ) => {
   const [prices, setPrices] = useState<PriceRange>(initialPrices);
 
@@ -27,8 +27,8 @@ export const usePriceRange = (
         return prices;
       }
 
-      let priceFrom = prices.priceFrom;
-      let priceTo = prices.priceTo;
+      let priceFrom = prices.priceFrom ?? MIN_PRICE;
+      let priceTo = prices.priceTo ?? MAX_PRICE;
 
       if (field === "priceFrom") {
         priceFrom = Math.max(
@@ -49,7 +49,7 @@ export const usePriceRange = (
 
       return { priceFrom: Math.round(priceFrom), priceTo: Math.round(priceTo) };
     },
-    [prices],
+    [config, prices],
   );
 
   const handlePriceChange = useCallback(

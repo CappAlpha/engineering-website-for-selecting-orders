@@ -28,7 +28,7 @@ export const ProductCard: FC<ProductCardProps> = ({
     <div style={{ position: "relative" }}>
       <Link
         className={s.root}
-        href={loading ? "#" : `${pageConfig.PRODUCT}${id}`}
+        href={loading ? "" : `${pageConfig.PRODUCT}${id}`}
       >
         <div className={s.imgWrap}>
           <Image

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import qs from "qs";
-import { useEffect, useRef, type FC } from "react";
+import { useEffect, type FC } from "react";
 
 import { CheckboxFilterGroup } from "@/components/ui/CheckboxFilterGroup";
 import { Input } from "@/components/ui/Input";
@@ -20,11 +20,6 @@ const PRICE_CONFIG = {
   SLIDER_STEP: 100,
 } as const;
 
-const DEFAULT_PRICES = {
-  priceFrom: PRICE_CONFIG.MIN_PRICE,
-  priceTo: PRICE_CONFIG.MAX_PRICE / 2,
-} as const;
-
 export const Filters: FC = () => {
   const router = useRouter();
   const {
@@ -35,13 +30,14 @@ export const Filters: FC = () => {
     selected: selectedTags,
   } = useTags(true);
   const { prices, handlePriceChange, handleSliderChange } = usePriceRange(
-    DEFAULT_PRICES,
     PRICE_CONFIG,
+    {},
   );
-  const isInitialRender = useRef(true);
+
+  console.log(prices);
 
   const updateUrl = useDebouncedCallback(
-    (filters: { priceFrom: number; priceTo: number; tags: string[] }) => {
+    (filters: { priceFrom?: number; priceTo?: number; tags: string[] }) => {
       const query = qs.stringify(filters, {
         arrayFormat: "comma",
         skipNulls: true,
@@ -52,11 +48,6 @@ export const Filters: FC = () => {
   );
 
   useEffect(() => {
-    if (isInitialRender.current) {
-      isInitialRender.current = false;
-      return;
-    }
-
     const filters = {
       ...prices,
       tags: Array.from(selectedTags),
@@ -76,14 +67,14 @@ export const Filters: FC = () => {
             type="number"
             min={PRICE_CONFIG.MIN_PRICE}
             max={PRICE_CONFIG.MAX_PRICE - PRICE_CONFIG.SLIDER_GAP}
-            value={prices.priceFrom}
+            value={prices.priceFrom ?? PRICE_CONFIG.MIN_PRICE}
             onChange={(e) => handlePriceChange(e, "priceFrom")}
           />
           <Input
             type="number"
             min={PRICE_CONFIG.SLIDER_GAP}
             max={PRICE_CONFIG.MAX_PRICE}
-            value={prices.priceTo}
+            value={prices.priceTo ?? PRICE_CONFIG.MAX_PRICE}
             onChange={(e) => handlePriceChange(e, "priceTo")}
           />
         </div>
