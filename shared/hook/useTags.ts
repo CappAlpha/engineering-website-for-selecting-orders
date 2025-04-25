@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { Api } from "../services/api-client";
+import { Api } from "../services/apiClient";
 import { useSet } from "./useSet";
 
 interface ReturnProps {

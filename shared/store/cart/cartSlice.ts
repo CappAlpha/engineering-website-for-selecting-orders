@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { CartStateItem, CreateCartItemValues } from "@/entities/cart";
-import { Api } from "@/services/api-client";
+import { Api } from "@/services/apiClient";
 import { CartReturnProps, getCartDetails } from "@/utils/getCartDetails";
 
 export interface CartState {

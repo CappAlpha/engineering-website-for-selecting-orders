@@ -23,7 +23,7 @@ import {
 import { pageConfig } from "@/constants/pages";
 import { useDebounce } from "@/hook/useDebounce";
 import { useOutsideClick } from "@/hook/useOutsideHook";
-import { Api } from "@/services/api-client";
+import { Api } from "@/services/apiClient";
 
 import s from "./SearchInput.module.scss";
 
