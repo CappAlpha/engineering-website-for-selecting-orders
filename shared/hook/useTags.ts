@@ -23,8 +23,23 @@ export const useTags = (
 
   const fetchTags = async (signal: AbortSignal) => {
     try {
+      const cachedData = localStorage.getItem("tagsData");
+      if (cachedData) {
+        const { tags, timestamp } = JSON.parse(cachedData);
+        // Кэш валиден 1 день
+        if (Date.now() - timestamp < 86400000) {
+          setItems(tags);
+          setLoading(false);
+          return;
+        }
+      }
+
       const response = await Api.tags.getAll(signal);
       setItems(response);
+      localStorage.setItem(
+        "tagsData",
+        JSON.stringify({ tags: response, timestamp: Date.now() }),
+      );
     } catch (error: unknown) {
       if (
         error instanceof Error &&

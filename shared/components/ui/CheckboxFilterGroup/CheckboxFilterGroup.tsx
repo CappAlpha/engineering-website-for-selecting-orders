@@ -63,12 +63,6 @@ export const CheckboxFilterGroup: FC<Props> = ({
         />
       ));
 
-  const renderShowBtn = items.length > limit && (
-    <Button onClick={onChangeShowAll} color="transparent" noPadding>
-      {showAll ? "Скрыть" : "+ Показать всё"}
-    </Button>
-  );
-
   return (
     <div className={s.root}>
       <p className={s.title}>{title}</p>
@@ -92,7 +86,15 @@ export const CheckboxFilterGroup: FC<Props> = ({
       ) : (
         <>
           <div className={s.items}>{renderLoadingList}</div>
-          {loading ? <p>Загрузка...</p> : renderShowBtn}
+          {loading ? (
+            <p>Загрузка...</p>
+          ) : (
+            items.length > limit && (
+              <Button onClick={onChangeShowAll} color="transparent" noPadding>
+                {showAll ? "Скрыть" : "+ Показать всё"}
+              </Button>
+            )
+          )}
         </>
       )}
     </div>

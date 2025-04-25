@@ -59,7 +59,7 @@ export const Filters: FC = () => {
       tags: Array.from(selectedTags),
     };
 
-    console.log("wtf");
+    console.log(isReset);
 
     updateUrl(filters);
   }, [actualPrice, selectedTags, router]);
