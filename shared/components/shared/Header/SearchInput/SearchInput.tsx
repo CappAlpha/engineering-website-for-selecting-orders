@@ -42,6 +42,7 @@ export const SearchInput: FC<Props> = ({ categories }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const ref = useRef<HTMLDivElement>(null);
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
+  const controller = new AbortController();
 
   useOutsideClick({
     elementRef: ref,
@@ -67,23 +68,27 @@ export const SearchInput: FC<Props> = ({ categories }) => {
     };
   }, [closeBg]);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        const response = await Api.products.search(debouncedSearchQuery);
-        setProducts(response);
-      } catch (error) {
-        console.error("Ошибка при поиске продуктов:", error);
-        setProducts([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchProducts = async () => {
+    const signal = controller.signal;
 
+    try {
+      setLoading(true);
+      const response = await Api.products.search(debouncedSearchQuery, signal);
+      setProducts(response);
+    } catch (error) {
+      console.error("Ошибка при поиске продуктов:", error);
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     if (open && products.length === 0) {
       fetchProducts();
     }
+
+    return () => controller.abort();
   }, [debouncedSearchQuery, open, products.length]);
 
   const getCategoryNameById = (categoryId: number): string => {
