@@ -2,6 +2,7 @@ import { Category, Product } from "@prisma/client";
 import { type FC } from "react";
 
 import { ProductsGroupList } from "../ProductsGroupList";
+import { ProductNotFound } from "./ProductNotFound";
 
 import s from "./ProductsCatalog.module.scss";
 
@@ -16,9 +17,13 @@ interface Props {
 export const ProductsCatalog: FC<Props> = ({ categories }) => {
   return (
     <div className={s.root}>
-      {categories.map(({ id, name, products }) => (
-        <ProductsGroupList key={id} id={id} name={name} items={products} />
-      ))}
+      {categories.length !== 0 ? (
+        categories.map(({ id, name, products }) => (
+          <ProductsGroupList key={id} id={id} name={name} items={products} />
+        ))
+      ) : (
+        <ProductNotFound />
+      )}
     </div>
   );
 };

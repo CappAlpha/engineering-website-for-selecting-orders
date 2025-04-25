@@ -14,6 +14,7 @@ interface PriceConfig {
 export const usePriceRange = (
   config: PriceConfig,
   initialPrices: PriceRange,
+  setIsReset: (value: boolean) => void,
 ) => {
   const [prices, setPrices] = useState<PriceRange>(initialPrices);
 
@@ -55,6 +56,7 @@ export const usePriceRange = (
   const handlePriceChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>, field: keyof PriceRange) => {
       const value = Number(e.target.value);
+      setIsReset(false);
       setPrices(validateAndUpdatePrices(value, field));
     },
     [validateAndUpdatePrices],
@@ -63,6 +65,7 @@ export const usePriceRange = (
   const handleSliderChange = useCallback((values: number[]) => {
     const [priceFrom, priceTo] = values;
     if (priceTo - priceFrom >= config.SLIDER_GAP) {
+      setIsReset(false);
       setPrices({
         priceFrom: Math.round(priceFrom),
         priceTo: Math.round(priceTo),

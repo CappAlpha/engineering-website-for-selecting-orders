@@ -5,24 +5,31 @@ import { useSet } from "./useSet";
 
 interface ReturnProps {
   items: string[];
+  selected: Set<string>;
   loading: boolean;
   error: boolean;
-  selected: Set<string>;
   toggle: (id: string) => void;
+  clear: () => void;
 }
 
-export const useTags = (sortedToTop?: boolean): ReturnProps => {
+export const useTags = (
+  setIsReset: (value: boolean) => void,
+  sortedToTop?: boolean,
+): ReturnProps => {
   const [items, setItems] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [selected, { toggle }] = useSet<string>([]);
+  const [selected, { toggle, clear }] = useSet<string>([]);
 
   const fetchTags = async (signal: AbortSignal) => {
     try {
+      console.log("fetchTags");
+
       const response = await Api.tags.getAll(signal);
       setItems(response);
     } catch (error) {
       console.error("Ошибка при запросе тегов:", error);
+      setIsReset(true);
       setItems([]);
       setError(true);
     } finally {
@@ -35,6 +42,8 @@ export const useTags = (sortedToTop?: boolean): ReturnProps => {
     const signal = controller.signal;
 
     fetchTags(signal);
+
+    return () => controller.abort();
   }, []);
 
   const sortedTags = useMemo(() => {
@@ -46,5 +55,5 @@ export const useTags = (sortedToTop?: boolean): ReturnProps => {
     });
   }, [items, selected, sortedToTop]);
 
-  return { items: sortedTags, loading, error, toggle, selected };
+  return { items: sortedTags, loading, error, toggle, clear, selected };
 };

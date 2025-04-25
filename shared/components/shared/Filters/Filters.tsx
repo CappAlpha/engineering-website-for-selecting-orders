@@ -2,8 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import qs from "qs";
-import { useEffect, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 
+import { Button } from "@/components/ui/Button";
 import { CheckboxFilterGroup } from "@/components/ui/CheckboxFilterGroup";
 import { Input } from "@/components/ui/Input";
 import { Slider } from "@/components/ui/Slider";
@@ -22,19 +23,22 @@ const PRICE_CONFIG = {
 
 export const Filters: FC = () => {
   const router = useRouter();
+  const [isReset, setIsReset] = useState(false);
   const {
     items: tags,
+    selected: selectedTags,
     loading: loadingTags,
     error: errorTags,
     toggle: onAddTags,
-    selected: selectedTags,
-  } = useTags(true);
+    clear: onClearTags,
+  } = useTags(setIsReset, true);
   const { prices, handlePriceChange, handleSliderChange } = usePriceRange(
     PRICE_CONFIG,
     {},
+    setIsReset,
   );
 
-  console.log(prices);
+  const actualPrice = isReset ? {} : prices;
 
   const updateUrl = useDebouncedCallback(
     (filters: { priceFrom?: number; priceTo?: number; tags: string[] }) => {
@@ -49,12 +53,19 @@ export const Filters: FC = () => {
 
   useEffect(() => {
     const filters = {
-      ...prices,
+      ...actualPrice,
       tags: Array.from(selectedTags),
     };
 
     updateUrl(filters);
-  }, [prices, selectedTags, router]);
+  }, [isReset, prices, selectedTags, router]);
+
+  // TODO: связать с кнопкой в ProductList
+  const onClickResetFilters = () => {
+    setIsReset(true);
+    onClearTags();
+    router.push("/", { scroll: false });
+  };
 
   return (
     <div className={s.root}>
@@ -67,14 +78,14 @@ export const Filters: FC = () => {
             type="number"
             min={PRICE_CONFIG.MIN_PRICE}
             max={PRICE_CONFIG.MAX_PRICE - PRICE_CONFIG.SLIDER_GAP}
-            value={prices.priceFrom ?? PRICE_CONFIG.MIN_PRICE}
+            value={actualPrice.priceFrom ?? PRICE_CONFIG.MIN_PRICE}
             onChange={(e) => handlePriceChange(e, "priceFrom")}
           />
           <Input
             type="number"
             min={PRICE_CONFIG.SLIDER_GAP}
             max={PRICE_CONFIG.MAX_PRICE}
-            value={prices.priceTo ?? PRICE_CONFIG.MAX_PRICE}
+            value={actualPrice.priceTo ?? PRICE_CONFIG.MAX_PRICE}
             onChange={(e) => handlePriceChange(e, "priceTo")}
           />
         </div>
@@ -84,8 +95,8 @@ export const Filters: FC = () => {
           step={PRICE_CONFIG.SLIDER_STEP}
           minGap={PRICE_CONFIG.SLIDER_GAP}
           value={[
-            prices.priceFrom ?? PRICE_CONFIG.MIN_PRICE,
-            prices.priceTo ?? PRICE_CONFIG.MAX_PRICE / 2,
+            actualPrice.priceFrom ?? PRICE_CONFIG.MIN_PRICE,
+            actualPrice.priceTo ?? PRICE_CONFIG.MAX_PRICE / 2,
           ]}
           onValueChange={handleSliderChange}
         />
@@ -100,6 +111,8 @@ export const Filters: FC = () => {
         onClickCheckbox={onAddTags}
         selected={selectedTags}
       />
+
+      <Button onClick={onClickResetFilters}>Сбросить фильтры</Button>
     </div>
   );
 };

@@ -58,7 +58,12 @@ export const findProduct = async (params: GetSearchParams) => {
         },
       },
     });
-    return categories;
+
+    const filteredCategories = categories.filter(
+      (category) => category.products.length > 0,
+    );
+
+    return filteredCategories;
   } catch (error) {
     console.error("Error fetching products:", error);
     return [];
