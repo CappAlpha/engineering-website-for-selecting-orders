@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useState, type FC } from "react";
 
 import { Button } from "../Button";
@@ -8,11 +9,13 @@ import { FilterCheckbox } from "./FilterCheckbox";
 
 import s from "./CheckboxFilterGroup.module.scss";
 
+//TODO: refactor component
 export interface Props {
   title: string;
   items: string[];
   limit: number;
   loading?: boolean;
+  error?: boolean;
   searchInputPlaceholder?: string;
   onClickCheckbox?: (value: string) => void;
   selected?: Set<string>;
@@ -22,11 +25,13 @@ export const CheckboxFilterGroup: FC<Props> = ({
   title,
   items,
   limit = 5,
-  loading,
+  loading = false,
+  error = false,
   searchInputPlaceholder = "Поиск...",
   onClickCheckbox,
   selected,
 }) => {
+  const router = useRouter();
   const [showAll, setShowAll] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
@@ -77,9 +82,19 @@ export const CheckboxFilterGroup: FC<Props> = ({
         </div>
       )}
 
-      <div className={s.items}>{renderLoadingList}</div>
-
-      {loading ? <p>Загрузка...</p> : renderShowBtn}
+      {error ? (
+        <>
+          <p>Ошибка загрузки тегов</p>
+          <Button className={s.retry} onClick={() => router.refresh()}>
+            Повторить
+          </Button>
+        </>
+      ) : (
+        <>
+          <div className={s.items}>{renderLoadingList}</div>
+          {loading ? <p>Загрузка...</p> : renderShowBtn}
+        </>
+      )}
     </div>
   );
 };

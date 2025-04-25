@@ -2,11 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import qs from "qs";
-import { useEffect, type FC } from "react";
+import { useEffect, useRef, type FC } from "react";
 
 import { CheckboxFilterGroup } from "@/components/ui/CheckboxFilterGroup";
 import { Input } from "@/components/ui/Input";
 import { Slider } from "@/components/ui/Slider";
+import { useDebouncedCallback } from "@/hook/useDebounce";
 import { usePriceRange } from "@/hook/usePriceRange";
 import { useTags } from "@/hook/useTags";
 
@@ -20,30 +21,49 @@ const PRICE_CONFIG = {
   SLIDER_STEP: 100,
 } as const;
 
+const DEFAULT_PRICES = {
+  priceFrom: PRICE_CONFIG.MIN_PRICE,
+  priceTo: PRICE_CONFIG.MAX_PRICE / 2,
+} as const;
+
 export const Filters: FC = () => {
   const router = useRouter();
   const {
     items: tags,
     loading: loadingTags,
-    onAdd: onAddTags,
+    error: errorTags,
+    toggle: onAddTags,
     selected: selectedTags,
-  } = useTags();
+  } = useTags(true);
   const { prices, handlePriceChange, handleSliderChange } = usePriceRange(
-    {},
+    DEFAULT_PRICES,
     PRICE_CONFIG,
+  );
+  const isInitialRender = useRef(true);
+
+  const updateUrl = useDebouncedCallback(
+    (filters: { priceFrom: number; priceTo: number; tags: string[] }) => {
+      const query = qs.stringify(filters, {
+        arrayFormat: "comma",
+        skipNulls: true,
+      });
+      router.push(`?${query}`, { scroll: false });
+    },
+    300,
   );
 
   useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
+
     const filters = {
       ...prices,
       tags: Array.from(selectedTags),
     };
 
-    const query = qs.stringify(filters, {
-      arrayFormat: "comma",
-    });
-
-    router.push(`?${query}`, { scroll: false });
+    updateUrl(filters);
   }, [prices, selectedTags, router]);
 
   return (
@@ -57,14 +77,14 @@ export const Filters: FC = () => {
             type="number"
             min={PRICE_CONFIG.MIN_PRICE}
             max={PRICE_CONFIG.MAX_PRICE - PRICE_CONFIG.SLIDER_GAP}
-            value={prices.priceFrom ?? PRICE_CONFIG.MIN_PRICE}
+            value={prices.priceFrom}
             onChange={(e) => handlePriceChange(e, "priceFrom")}
           />
           <Input
             type="number"
             min={PRICE_CONFIG.SLIDER_GAP}
             max={PRICE_CONFIG.MAX_PRICE}
-            value={prices.priceTo ?? PRICE_CONFIG.MAX_PRICE / 2}
+            value={prices.priceTo}
             onChange={(e) => handlePriceChange(e, "priceTo")}
           />
         </div>
@@ -81,12 +101,12 @@ export const Filters: FC = () => {
         />
       </div>
 
-      {/* TODO: чекбоксы выбранные попадали вверх списка */}
       <CheckboxFilterGroup
         title="Категории"
         limit={5}
         items={tags}
         loading={loadingTags}
+        error={errorTags}
         onClickCheckbox={onAddTags}
         selected={selectedTags}
       />
