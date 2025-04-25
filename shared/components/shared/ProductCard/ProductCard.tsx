@@ -26,7 +26,10 @@ export const ProductCard: FC<ProductCardProps> = ({
 
   return (
     <div style={{ position: "relative" }}>
-      <Link className={s.root} href={`${pageConfig.PRODUCT}${id}`}>
+      <Link
+        className={s.root}
+        href={loading ? "#" : `${pageConfig.PRODUCT}${id}`}
+      >
         <div className={s.imgWrap}>
           <Image
             className={s.img}
@@ -42,23 +45,18 @@ export const ProductCard: FC<ProductCardProps> = ({
           <p className={s.description}>{description}</p>
         </div>
 
-        <Tags tags={tags} />
-
         <div className={s.bottom}>
-          <span className={s.price}>
-            от <b>{price} &#8381;</b>
-          </span>
-          {!error && (
-            <Button onClick={(e) => addToCart(e, id)}>
-              {loading ? (
-                "Загрузка..."
-              ) : (
-                <>
-                  <Plus className={s.icon} /> Добавить
-                </>
-              )}
-            </Button>
-          )}
+          <Tags tags={tags} />
+          <div className={s.bottomWrap}>
+            <span className={s.price}>
+              от <b>{price} &#8381;</b>
+            </span>
+            {!error && (
+              <Button onClick={(e) => addToCart(e, id)} loading={loading}>
+                <Plus className={s.icon} /> Добавить
+              </Button>
+            )}
+          </div>
         </div>
       </Link>
     </div>

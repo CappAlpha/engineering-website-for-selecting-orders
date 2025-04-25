@@ -1,3 +1,5 @@
+@use "../../../styles/animations.scss" as *;
+
 .root {
   padding: 12px 18px;
   color: var(--white);
@@ -8,7 +10,7 @@
   background: var(--dark-blue);
   display: inline-flex;
   gap: 6px;
-  transition: 0.3s;
+  transition: all 0.3s;
   width: max-content;
   height: fit-content;
   white-space: nowrap;
@@ -27,6 +29,11 @@
   &.size {
     &_s {
       padding: 10px 16px;
+
+      svg {
+        min-width: 30px;
+        width: 30px;
+      }
     }
 
     &_l {
@@ -72,8 +79,9 @@
 
   &.loading {
     position: relative;
-    color: transparent;
     pointer-events: none;
+    color: transparent;
+    fill: transparent;
 
     &::after {
       display: block;
@@ -84,12 +92,9 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      border: 2px solid #fff;
+      border: 2px solid var(--white);
       border-top-color: transparent;
-
-      &:global {
-        animation: infinite 1.5s linear loaderSpin;
-      }
+      animation: infinite 1s linear loaderSpin;
     }
   }
 }

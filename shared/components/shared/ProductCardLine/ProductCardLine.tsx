@@ -6,6 +6,7 @@ import { type FC } from "react";
 import { Button } from "@/components/ui/Button";
 import { QuantityActionType } from "@/constants/cart";
 import { CartStateItem } from "@/entities/cart";
+import { CART_QUANTITY_LIMITS } from "@/hook/useCart";
 
 import { Trash } from "../../../../public/icon";
 import { CountBtns } from "../CountBtns";
@@ -40,6 +41,8 @@ export const ProductCardLine: FC<Props> = ({
           <CountBtns
             onChangeCount={onChangeCount}
             value={quantity}
+            minValue={CART_QUANTITY_LIMITS.MIN}
+            maxValue={CART_QUANTITY_LIMITS.MAX}
             loading={loading}
           />
           <div className={s.bottomRight}>

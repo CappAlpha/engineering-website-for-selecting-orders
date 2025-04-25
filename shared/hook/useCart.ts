@@ -13,7 +13,7 @@ import { AppDispatch } from "@/store/store";
 
 import { useAppSelector } from "./useAppSelector";
 
-const CART_QUANTITY_LIMITS = {
+export const CART_QUANTITY_LIMITS = {
   MIN: 1,
   MAX: 20,
 };

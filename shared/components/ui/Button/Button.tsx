@@ -12,6 +12,7 @@ interface ButtonProps {
   children?: ReactNode;
   className?: string;
   disabled?: boolean;
+  loading?: boolean;
   href?: string;
   targetBlank?: boolean;
 }
@@ -24,6 +25,7 @@ export const Button: FC<ButtonProps> = ({
   children,
   className,
   disabled,
+  loading,
   href = "",
   targetBlank = false,
 }) => {
@@ -33,6 +35,7 @@ export const Button: FC<ButtonProps> = ({
     size && s[`size_${size}`],
     noPadding && s.noPadding,
     className,
+    loading && s.loading,
     disabled && s.disabled,
   );
 

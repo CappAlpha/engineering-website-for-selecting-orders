@@ -38,7 +38,8 @@ export const CartBtn: FC = () => {
     <>
       <Button
         className={s.root}
-        disabled={loading || error}
+        loading={loading}
+        disabled={error}
         onClick={toggleDrawer(true)}
         aria-label={`Открыть корзину с ${items.length} товарами`}
       >

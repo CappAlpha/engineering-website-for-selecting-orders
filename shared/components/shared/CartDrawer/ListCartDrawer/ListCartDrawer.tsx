@@ -79,16 +79,10 @@ export const ListCartDrawer: FC<Props> = ({
               onClick={onClose}
               className={s.orderBtn}
               size="l"
-              disabled={loading}
+              loading={loading}
             >
-              {loading ? (
-                "Загрузка..."
-              ) : (
-                <>
-                  Оформить заказ
-                  <Arrow className={s.orderIcon} />
-                </>
-              )}
+              Оформить заказ
+              <Arrow className={s.orderIcon} />
             </Button>
           )}
         </div>

@@ -10,41 +10,49 @@ import s from "./CountBtn.module.scss";
 
 export interface Props {
   value: number;
+  minValue?: number;
+  maxValue?: number;
   type: QuantityActionType;
   size?: "sm" | "lg";
   disabled?: boolean;
+  loading?: boolean;
   onChangeCount: (type: QuantityActionType) => void;
 }
 export const CountBtn: FC<Props> = ({
   value,
+  minValue,
+  maxValue,
   type,
   size = "sm",
+  disabled = false,
+  loading = false,
   onChangeCount,
-  disabled,
 }) => {
+  const isMinus = type === QuantityAction.MINUS;
+  const isDisabled =
+    disabled || loading || (isMinus ? value === minValue : value === maxValue);
+
   return (
     <div className={s.root}>
-      {type === QuantityAction.MINUS ? (
-        <Button
-          className={cn(s.btnMinus, size && s[`size_${size}`])}
-          onClick={() => onChangeCount(QuantityAction.MINUS)}
-          disabled={value === 1 || disabled}
-          color="outline"
-          noPadding
-        >
-          <Minus className={s.icon} />
-        </Button>
-      ) : (
-        <Button
-          className={cn(s.btnPlus, size && s[`size_${size}`])}
-          onClick={() => onChangeCount(QuantityAction.PLUS)}
-          disabled={disabled}
-          color="outline"
-          noPadding
-        >
-          <Plus className={s.icon} />
-        </Button>
-      )}
+      <Button
+        className={cn(
+          isMinus ? s.btnMinus : s.btnPlus,
+          size && s[`size_${size}`],
+        )}
+        onClick={() =>
+          onChangeCount(isMinus ? QuantityAction.MINUS : QuantityAction.PLUS)
+        }
+        disabled={isDisabled}
+        color="outline"
+        noPadding
+        aria-label={
+          isMinus
+            ? "Понизить количество товаров"
+            : "Повысить количество товаров"
+        }
+      >
+        {isMinus ? <Minus className={s.icon} /> : <Plus className={s.icon} />}
+      </Button>
     </div>
   );
 };

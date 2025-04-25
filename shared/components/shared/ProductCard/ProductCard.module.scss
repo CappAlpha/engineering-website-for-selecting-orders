@@ -41,7 +41,11 @@
   line-height: 21px;
 }
 
-.bottom {
+.bottom{
+  margin-top: auto;
+}
+
+.bottomWrap {
   display: flex;
   align-items: center;
   justify-content: space-between;

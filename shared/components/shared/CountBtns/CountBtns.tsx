@@ -7,15 +7,19 @@ import { CountBtn } from "./CountBtn";
 import s from "./CountBtns.module.scss";
 
 export interface Props {
-  value?: number;
+  value: number;
+  minValue: number;
+  maxValue: number;
   size?: "sm" | "lg";
   loading?: boolean;
   onChangeCount: (type: QuantityActionType) => void;
 }
 
 export const CountBtns: FC<Props> = ({
-  value = 1,
-  loading,
+  value,
+  minValue,
+  maxValue,
+  loading = false,
   size = "sm",
   onChangeCount,
 }) => {
@@ -23,9 +27,10 @@ export const CountBtns: FC<Props> = ({
     <div className={s.root}>
       <CountBtn
         value={value}
+        minValue={minValue}
         onChangeCount={onChangeCount}
         size={size}
-        disabled={loading}
+        loading={loading}
         type="minus"
       />
 
@@ -33,9 +38,10 @@ export const CountBtns: FC<Props> = ({
 
       <CountBtn
         value={value}
+        maxValue={maxValue}
         onChangeCount={onChangeCount}
         size={size}
-        disabled={loading}
+        loading={loading}
         type="plus"
       />
     </div>
