@@ -42,15 +42,20 @@ export const TopBar: FC<Props> = ({ categories }) => {
   };
 
   const isBarVisible = !isBtnHidden && isBarHidden;
+  const isEmptyItems = categories.length === 0;
 
   return (
     <div className={cn(s.root, isBarVisible && s.hidden)}>
       <div className={s.wrap}>
-        <Tabs
-          items={categories}
-          activeIndex={activeIndex}
-          onClick={handleScroll}
-        />
+        {!isEmptyItems ? (
+          <Tabs
+            items={categories}
+            activeIndex={activeIndex}
+            onClick={handleScroll}
+          />
+        ) : (
+          <div />
+        )}
         <SortDropdown />
       </div>
       <Button
