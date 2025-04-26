@@ -1,8 +1,8 @@
-import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { selectPrices } from "@/store/filters/filtersSelectors";
 import { filtersActions } from "@/store/filters/filtersSlice";
+
+import { useAppSelector } from "./useAppSelector";
 
 interface PriceConfig {
   MIN_PRICE: number;
@@ -13,30 +13,23 @@ interface PriceConfig {
 
 export const usePriceRange = (config: PriceConfig) => {
   const dispatch = useDispatch();
-  const prices = useSelector(selectPrices);
+  const prices = useAppSelector((state) => state.filters.prices);
 
-  const handlePriceChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>, key: "priceFrom" | "priceTo") => {
-      const value = Number(e.target.value);
-      if (value >= config.MIN_PRICE && value <= config.MAX_PRICE) {
-        dispatch(filtersActions.setPrices({ ...prices, [key]: value }));
-      }
-    },
-    [config.MIN_PRICE, config.MAX_PRICE, dispatch, prices],
-  );
+  const handlePriceChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    key: "priceFrom" | "priceTo",
+  ) => {
+    const value = Number(e.target.value);
+    if (value >= config.MIN_PRICE && value <= config.MAX_PRICE) {
+      dispatch(filtersActions.setPrices({ ...prices, [key]: value }));
+    }
+  };
 
-  const handleSliderChange = useCallback(
-    (values: number[]) => {
-      dispatch(
-        filtersActions.setPrices({ priceFrom: values[0], priceTo: values[1] }),
-      );
-    },
-    [dispatch],
-  );
+  const handleSliderChange = (values: number[]) => {
+    dispatch(
+      filtersActions.setPrices({ priceFrom: values[0], priceTo: values[1] }),
+    );
+  };
 
-  const reset = useCallback(() => {
-    dispatch(filtersActions.resetPrices());
-  }, [dispatch]);
-
-  return { prices, handlePriceChange, handleSliderChange, reset };
+  return { prices, handlePriceChange, handleSliderChange };
 };

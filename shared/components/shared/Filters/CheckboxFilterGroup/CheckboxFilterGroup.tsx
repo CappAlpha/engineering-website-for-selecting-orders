@@ -1,10 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { ChangeEvent, useState, type FC } from "react";
 
-import { Button } from "../Button";
-import { Input } from "../Input";
+import { Button } from "../../../ui/Button";
+import { Input } from "../../../ui/Input";
 import { FilterCheckbox } from "./FilterCheckbox";
 
 import s from "./CheckboxFilterGroup.module.scss";
@@ -13,25 +12,26 @@ import s from "./CheckboxFilterGroup.module.scss";
 export interface Props {
   title: string;
   items: string[];
+  selected?: string[];
   limit: number;
   loading?: boolean;
   error?: boolean;
   searchInputPlaceholder?: string;
   onClickCheckbox?: (value: string) => void;
-  selected?: Set<string>;
+  resetFilters: () => void;
 }
 
 export const CheckboxFilterGroup: FC<Props> = ({
   title,
   items,
   limit = 5,
+  selected,
   loading = false,
   error = false,
   searchInputPlaceholder = "Поиск...",
   onClickCheckbox,
-  selected,
+  resetFilters,
 }) => {
-  const router = useRouter();
   const [showAll, setShowAll] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
@@ -49,19 +49,7 @@ export const CheckboxFilterGroup: FC<Props> = ({
 
   const list = showAll ? filteredItems : items.slice(0, limit);
 
-  /* TODO: добавить скелетон */
-  const renderLoadingList = loading
-    ? Array(limit)
-        .fill(0)
-        .map((_, index) => <li key={index}>Загрузка...</li>)
-    : list.map((name) => (
-        <FilterCheckbox
-          key={name}
-          name={name}
-          checked={selected?.has(name) ?? false}
-          onCheckedChange={() => onClickCheckbox?.(name)}
-        />
-      ));
+  // console.log("CheckboxFilterGroup render:", { items: list, selected: [...(selected || [])] });
 
   return (
     <div className={s.root}>
@@ -79,13 +67,26 @@ export const CheckboxFilterGroup: FC<Props> = ({
       {error ? (
         <>
           <p>Ошибка загрузки тегов</p>
-          <Button className={s.retry} onClick={() => router.refresh()}>
+          <Button className={s.retry} onClick={resetFilters}>
             Повторить
           </Button>
         </>
       ) : (
         <>
-          <div className={s.items}>{renderLoadingList}</div>
+          <div className={s.items}>
+            {loading
+              ? Array(limit)
+                  .fill(0)
+                  .map((_, index) => <li key={index}>Загрузка...</li>)
+              : list.map((name) => (
+                  <FilterCheckbox
+                    key={name}
+                    name={name}
+                    checked={selected?.includes(name) ?? false}
+                    onCheckedChange={() => onClickCheckbox?.(name)}
+                  />
+                ))}
+          </div>
           {loading ? (
             <p>Загрузка...</p>
           ) : (

@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback } from "react";
+import { MouseEvent } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 
@@ -37,38 +37,33 @@ export const useCart = (): UseCartReturn => {
   const dispatch = useDispatch<AppDispatch>();
   const cart = useAppSelector((state) => state.cart);
 
-  const handleQuantityChange = useCallback(
-    (id: number, quantity: number, type: QuantityActionType) => {
-      const newQuantity =
-        type === QuantityAction.PLUS ? quantity + 1 : quantity - 1;
-      dispatch(updateItemQuantity({ id, quantity: newQuantity }));
-    },
-    [dispatch],
-  );
+  const handleQuantityChange = (
+    id: number,
+    quantity: number,
+    type: QuantityActionType,
+  ) => {
+    const newQuantity =
+      type === QuantityAction.PLUS ? quantity + 1 : quantity - 1;
+    dispatch(updateItemQuantity({ id, quantity: newQuantity }));
+  };
 
-  const handleRemove = useCallback(
-    (id: number) => {
-      toast.promise(dispatch(removeCartItem({ id })), {
-        loading: "Удаляем...",
-        success: "Товар удалён из корзины!",
-        error: "Ошибка удаления товара",
-      });
-    },
-    [dispatch],
-  );
+  const handleRemove = (id: number) => {
+    toast.promise(dispatch(removeCartItem({ id })), {
+      loading: "Удаляем...",
+      success: "Товар удалён из корзины!",
+      error: "Ошибка удаления товара",
+    });
+  };
 
-  const addToCart = useCallback(
-    (e: MouseEvent, productId: string) => {
-      e.preventDefault();
-      e.stopPropagation();
-      toast.promise(dispatch(addCartItem({ values: { productId } })), {
-        loading: "Добавляем...",
-        success: "Товар добавлен в корзину",
-        error: "Ошибка добавления товара",
-      });
-    },
-    [dispatch],
-  );
+  const addToCart = (e: MouseEvent, productId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toast.promise(dispatch(addCartItem({ values: { productId } })), {
+      loading: "Добавляем...",
+      success: "Товар добавлен в корзину",
+      error: "Ошибка добавления товара",
+    });
+  };
 
   return {
     ...cart,

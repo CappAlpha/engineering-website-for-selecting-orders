@@ -1,6 +1,6 @@
 import { prisma } from "../../prisma/prisma-client";
 
-export interface GetSearchParams {
+interface GetSearchParams {
   query?: string;
   sortBy?: string;
   priceFrom?: number;
@@ -11,6 +11,8 @@ export interface GetSearchParams {
   // page?: string;
 }
 
+export type GetSearchParamsPage = Promise<GetSearchParams>;
+
 const PRICE_CONFIG = {
   MIN_PRICE: 0,
   MAX_PRICE: 30000,
@@ -18,7 +20,7 @@ const PRICE_CONFIG = {
   SLIDER_STEP: 100,
 } as const;
 
-export const findProduct = async (params: GetSearchParams) => {
+export const findProduct = async (params: GetSearchParamsPage) => {
   const { priceFrom, priceTo, tags } = await params;
 
   const minPriceRaw = Number(priceFrom);

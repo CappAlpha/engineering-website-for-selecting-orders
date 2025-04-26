@@ -1,13 +1,13 @@
 import { Filters } from "@/components/shared/Filters";
 import { ProductsCatalog } from "@/components/shared/ProductsCatalog";
 import { TopBar } from "@/components/shared/TopBar";
-import { findProduct, GetSearchParams } from "@/utils/findProduct";
+import { findProduct, GetSearchParamsPage } from "@/utils/findProduct";
 
 import s from "./page.module.scss";
 
 export default async function Home({
   searchParams,
-}: Readonly<{ searchParams: GetSearchParams }>) {
+}: Readonly<{ searchParams: GetSearchParamsPage }>) {
   const categories = await findProduct(searchParams);
 
   return (

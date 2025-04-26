@@ -1,13 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import { Api } from "@/services/apiClient";
-import { selectSelectedTags } from "@/store/filters/filtersSelectors";
 import { filtersActions } from "@/store/filters/filtersSlice";
+
+import { useAppSelector } from "./useAppSelector";
 
 interface ReturnProps {
   items: string[];
-  selected: Set<string>;
+  selected: string[];
   loading: boolean;
   error: boolean;
   toggle: (id: string) => void;
@@ -15,11 +16,12 @@ interface ReturnProps {
 
 export const useTags = (sortedToTop?: boolean): ReturnProps => {
   const dispatch = useDispatch();
-  const selected = useSelector(selectSelectedTags);
+  const selected = useAppSelector((state) => state.filters.selectedTags);
   const [items, setItems] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  // Fetch tags from API or localStorage cache
   const fetchTags = async (signal: AbortSignal) => {
     try {
       const cachedData = localStorage.getItem("tagsData");
@@ -64,14 +66,13 @@ export const useTags = (sortedToTop?: boolean): ReturnProps => {
     return () => controller.abort();
   }, []);
 
-  const sortedTags = useMemo(() => {
-    if (!sortedToTop) return items;
-    return [...items].sort((a, b) => {
-      const aSelected = selected.has(a) ? -1 : 1;
-      const bSelected = selected.has(b) ? -1 : 1;
-      return aSelected - bSelected;
-    });
-  }, [items, selected, sortedToTop]);
+  const sortedTags = sortedToTop
+    ? [...items].sort((a, b) => {
+        const aSelected = selected.includes(a) ? -1 : 1;
+        const bSelected = selected.includes(b) ? -1 : 1;
+        return aSelected - bSelected;
+      })
+    : items;
 
   const toggle = (id: string) => {
     dispatch(filtersActions.toggleTag(id));

@@ -10,6 +10,7 @@ export const useResetFilters = (router: AppRouterInstance) => {
   const resetFilters = useCallback(() => {
     dispatch(filtersActions.clearTags());
     dispatch(filtersActions.resetPrices());
+    localStorage.removeItem("tagsData");
     router.push("/", { scroll: false });
   }, [router, dispatch]);
 
