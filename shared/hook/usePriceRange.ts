@@ -1,81 +1,42 @@
-import { useState, ChangeEvent, useCallback } from "react";
+import { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-interface PriceRange {
-  priceFrom?: number;
-  priceTo?: number;
-}
+import { selectPrices } from "@/store/filters/filtersSelectors";
+import { filtersActions } from "@/store/filters/filtersSlice";
 
 interface PriceConfig {
-  MAX_PRICE: number;
   MIN_PRICE: number;
+  MAX_PRICE: number;
   SLIDER_GAP: number;
+  SLIDER_STEP: number;
 }
 
-export const usePriceRange = (
-  config: PriceConfig,
-  initialPrices: PriceRange,
-  setIsReset: (value: boolean) => void,
-) => {
-  const [prices, setPrices] = useState<PriceRange>(initialPrices);
-
-  // Валидация и нормализация цен
-  const validateAndUpdatePrices = useCallback(
-    (newPrice: number, field: keyof PriceRange): PriceRange => {
-      const { MIN_PRICE, MAX_PRICE, SLIDER_GAP } = config;
-
-      // Игнорируем некорректный ввод
-      if (isNaN(newPrice) || newPrice < MIN_PRICE || newPrice > MAX_PRICE) {
-        return prices;
-      }
-
-      let priceFrom = prices.priceFrom ?? MIN_PRICE;
-      let priceTo = prices.priceTo ?? MAX_PRICE;
-
-      if (field === "priceFrom") {
-        priceFrom = Math.max(
-          MIN_PRICE,
-          Math.min(newPrice, MAX_PRICE - SLIDER_GAP),
-        );
-        priceTo = Math.max(
-          priceTo,
-          Math.min(priceFrom + SLIDER_GAP, MAX_PRICE),
-        );
-      } else {
-        priceTo = Math.min(
-          Math.max(newPrice, priceFrom + SLIDER_GAP),
-          MAX_PRICE,
-        );
-        priceFrom = Math.min(priceFrom, priceTo - SLIDER_GAP);
-      }
-
-      return { priceFrom: Math.round(priceFrom), priceTo: Math.round(priceTo) };
-    },
-    [config, prices],
-  );
+export const usePriceRange = (config: PriceConfig) => {
+  const dispatch = useDispatch();
+  const prices = useSelector(selectPrices);
 
   const handlePriceChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>, field: keyof PriceRange) => {
+    (e: React.ChangeEvent<HTMLInputElement>, key: "priceFrom" | "priceTo") => {
       const value = Number(e.target.value);
-      setIsReset(false);
-      setPrices(validateAndUpdatePrices(value, field));
+      if (value >= config.MIN_PRICE && value <= config.MAX_PRICE) {
+        dispatch(filtersActions.setPrices({ ...prices, [key]: value }));
+      }
     },
-    [validateAndUpdatePrices],
+    [config.MIN_PRICE, config.MAX_PRICE, dispatch, prices],
   );
 
-  const handleSliderChange = useCallback((values: number[]) => {
-    const [priceFrom, priceTo] = values;
-    if (priceTo - priceFrom >= config.SLIDER_GAP) {
-      setIsReset(false);
-      setPrices({
-        priceFrom: Math.round(priceFrom),
-        priceTo: Math.round(priceTo),
-      });
-    }
-  }, []);
+  const handleSliderChange = useCallback(
+    (values: number[]) => {
+      dispatch(
+        filtersActions.setPrices({ priceFrom: values[0], priceTo: values[1] }),
+      );
+    },
+    [dispatch],
+  );
 
-  return {
-    prices,
-    handlePriceChange,
-    handleSliderChange,
-  };
+  const reset = useCallback(() => {
+    dispatch(filtersActions.resetPrices());
+  }, [dispatch]);
+
+  return { prices, handlePriceChange, handleSliderChange, reset };
 };

@@ -10,7 +10,7 @@ import s from "./ProductNotFound.module.scss";
 
 export const ProductNotFound: FC = () => {
   const router = useRouter();
-  const { onClickResetFilters } = useResetFilters();
+  const { resetFilters } = useResetFilters(router);
 
   return (
     <div className={s.root}>
@@ -18,7 +18,7 @@ export const ProductNotFound: FC = () => {
       <p className={s.description}>
         Попробуйте поменять фильтры или обновите страницу
       </p>
-      <Button className={s.refresh} onClick={onClickResetFilters(router)}>
+      <Button className={s.refresh} onClick={resetFilters}>
         Сбросить фильтры
       </Button>
     </div>

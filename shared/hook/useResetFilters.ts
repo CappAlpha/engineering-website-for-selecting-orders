@@ -1,22 +1,17 @@
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useCallback } from "react";
+import { useDispatch } from "react-redux";
 
-import { useActions } from "./useActions";
-import { useAppSelector } from "./useAppSelector";
+import { filtersActions } from "@/store/filters/filtersSlice";
 
-export const useResetFilters = (): {
-  isReset: boolean;
-  setIsReset: (value: boolean) => void;
-  onClickResetFilters: (router: AppRouterInstance) => () => void;
-} => {
-  const isReset = useAppSelector((state) => state.filters.isReset);
-  const { setIsReset } = useActions();
+export const useResetFilters = (router: AppRouterInstance) => {
+  const dispatch = useDispatch();
 
-  const onClickResetFilters = (router: AppRouterInstance) => () => {
-    setIsReset(true);
+  const resetFilters = useCallback(() => {
+    dispatch(filtersActions.clearTags());
+    dispatch(filtersActions.resetPrices());
     router.push("/", { scroll: false });
-    // TODO: remove this
-    setTimeout(() => setIsReset(false), 0.1);
-  };
+  }, [router, dispatch]);
 
-  return { isReset, setIsReset, onClickResetFilters };
+  return { resetFilters };
 };

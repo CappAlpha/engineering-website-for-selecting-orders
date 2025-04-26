@@ -2,9 +2,10 @@
 
 import { Product } from "@prisma/client";
 import { useEffect, useRef, type FC } from "react";
+import { useDispatch } from "react-redux";
 
-import { useActions } from "@/hook/useActions.ts";
 import { useIntersectionObserver } from "@/hook/useIntersectionObserver.ts";
+import { categoriesActions } from "@/store/categories/categoriesSlice";
 
 import { ProductCard } from "../ProductCard";
 
@@ -17,7 +18,7 @@ export interface Props {
 }
 
 export const ProductsGroupList: FC<Props> = ({ id, name, items }) => {
-  const { setActiveId } = useActions();
+  const dispatch = useDispatch();
   const intersectionRef = useRef(null);
   const intersection = useIntersectionObserver(intersectionRef, {
     threshold: 0.4,
@@ -25,9 +26,9 @@ export const ProductsGroupList: FC<Props> = ({ id, name, items }) => {
 
   useEffect(() => {
     if (intersection?.isIntersecting) {
-      setActiveId(id);
+      dispatch(categoriesActions.setActiveId(id));
     }
-  }, [intersection?.isIntersecting, id, setActiveId]);
+  }, [intersection?.isIntersecting, id, dispatch]);
 
   return (
     <div className={s.root} id={name} ref={intersectionRef}>

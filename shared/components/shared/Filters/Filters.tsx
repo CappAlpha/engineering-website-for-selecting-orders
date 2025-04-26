@@ -1,8 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import qs from "qs";
 import { useEffect, type FC } from "react";
+import { useDispatch } from "react-redux";
 
 import { Button } from "@/components/ui/Button";
 import { CheckboxFilterGroup } from "@/components/ui/CheckboxFilterGroup";
@@ -12,6 +13,7 @@ import { useDebouncedCallback } from "@/hook/useDebounce";
 import { usePriceRange } from "@/hook/usePriceRange";
 import { useResetFilters } from "@/hook/useResetFilters";
 import { useTags } from "@/hook/useTags";
+import { filtersActions } from "@/store/filters/filtersSlice";
 
 import s from "./Filters.module.scss";
 
@@ -24,7 +26,9 @@ const PRICE_CONFIG = {
 
 export const Filters: FC = () => {
   const router = useRouter();
-  const { isReset, setIsReset, onClickResetFilters } = useResetFilters();
+  const searchParams = useSearchParams();
+  const dispatch = useDispatch();
+  const { resetFilters } = useResetFilters(router);
 
   const {
     items: tags,
@@ -32,15 +36,34 @@ export const Filters: FC = () => {
     loading: loadingTags,
     error: errorTags,
     toggle: onAddTags,
-    clear: onClearTags,
-  } = useTags(setIsReset, true);
-  const { prices, handlePriceChange, handleSliderChange } = usePriceRange(
-    PRICE_CONFIG,
-    {},
-    setIsReset,
-  );
+  } = useTags(true);
 
-  const actualPrice = isReset ? {} : prices;
+  const {
+    prices: { priceFrom, priceTo },
+    handlePriceChange,
+    handleSliderChange,
+  } = usePriceRange(PRICE_CONFIG);
+
+  // Синхронизация с searchParams
+  useEffect(() => {
+    const tagsFromParams =
+      searchParams.get("tags")?.split(",").filter(Boolean) || [];
+    const priceFrom = Number(searchParams.get("priceFrom")) || undefined;
+    const priceTo = Number(searchParams.get("priceTo")) || undefined;
+
+    dispatch(filtersActions.setSelectedTags(tagsFromParams));
+    dispatch(filtersActions.setPrices({ priceFrom, priceTo }));
+  }, [searchParams, dispatch]);
+
+  // Обновление URL при изменении фильтров
+  useEffect(() => {
+    const filters = {
+      priceFrom: priceFrom,
+      priceTo: priceTo,
+      tags: Array.from(selectedTags),
+    };
+    updateUrl(filters);
+  }, [priceFrom, priceTo, selectedTags]);
 
   const updateUrl = useDebouncedCallback(
     (filters: { priceFrom?: number; priceTo?: number; tags: string[] }) => {
@@ -53,23 +76,6 @@ export const Filters: FC = () => {
     300,
   );
 
-  useEffect(() => {
-    const filters = {
-      ...actualPrice,
-      tags: Array.from(selectedTags),
-    };
-
-    console.log(isReset);
-
-    updateUrl(filters);
-  }, [actualPrice, selectedTags, router]);
-
-  useEffect(() => {
-    if (isReset) {
-      onClearTags();
-    }
-  }, [isReset]);
-
   return (
     <div className={s.root}>
       <h2 className={s.subtitle}>Фильтрация</h2>
@@ -81,14 +87,14 @@ export const Filters: FC = () => {
             type="number"
             min={PRICE_CONFIG.MIN_PRICE}
             max={PRICE_CONFIG.MAX_PRICE - PRICE_CONFIG.SLIDER_GAP}
-            value={actualPrice.priceFrom ?? PRICE_CONFIG.MIN_PRICE}
+            value={priceFrom ?? PRICE_CONFIG.MIN_PRICE}
             onChange={(e) => handlePriceChange(e, "priceFrom")}
           />
           <Input
             type="number"
             min={PRICE_CONFIG.SLIDER_GAP}
             max={PRICE_CONFIG.MAX_PRICE}
-            value={actualPrice.priceTo ?? PRICE_CONFIG.MAX_PRICE}
+            value={priceTo ?? PRICE_CONFIG.MAX_PRICE}
             onChange={(e) => handlePriceChange(e, "priceTo")}
           />
         </div>
@@ -98,8 +104,8 @@ export const Filters: FC = () => {
           step={PRICE_CONFIG.SLIDER_STEP}
           minGap={PRICE_CONFIG.SLIDER_GAP}
           value={[
-            actualPrice.priceFrom ?? PRICE_CONFIG.MIN_PRICE,
-            actualPrice.priceTo ?? PRICE_CONFIG.MAX_PRICE / 2,
+            priceFrom ?? PRICE_CONFIG.MIN_PRICE,
+            priceTo ?? PRICE_CONFIG.MAX_PRICE,
           ]}
           onValueChange={handleSliderChange}
         />
@@ -115,7 +121,7 @@ export const Filters: FC = () => {
         selected={selectedTags}
       />
 
-      <Button onClick={onClickResetFilters(router)}>Сбросить фильтры</Button>
+      <Button onClick={resetFilters}>Сбросить фильтры</Button>
     </div>
   );
 };

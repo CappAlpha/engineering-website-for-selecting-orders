@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { Api } from "../services/apiClient";
-import { useSet } from "./useSet";
+import { Api } from "@/services/apiClient";
+import { selectSelectedTags } from "@/store/filters/filtersSelectors";
+import { filtersActions } from "@/store/filters/filtersSlice";
 
 interface ReturnProps {
   items: string[];
@@ -9,24 +11,20 @@ interface ReturnProps {
   loading: boolean;
   error: boolean;
   toggle: (id: string) => void;
-  clear: () => void;
 }
 
-export const useTags = (
-  setIsReset: (value: boolean) => void,
-  sortedToTop?: boolean,
-): ReturnProps => {
+export const useTags = (sortedToTop?: boolean): ReturnProps => {
+  const dispatch = useDispatch();
+  const selected = useSelector(selectSelectedTags);
   const [items, setItems] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [selected, { toggle, clear }] = useSet<string>([]);
 
   const fetchTags = async (signal: AbortSignal) => {
     try {
       const cachedData = localStorage.getItem("tagsData");
       if (cachedData) {
         const { tags, timestamp } = JSON.parse(cachedData);
-        // Кэш валиден 1 день
         if (Date.now() - timestamp < 86400000) {
           setItems(tags);
           setLoading(false);
@@ -35,11 +33,13 @@ export const useTags = (
       }
 
       const response = await Api.tags.getAll(signal);
+      const responseToLocal = JSON.stringify({
+        tags: response,
+        timestamp: Date.now(),
+      });
+
       setItems(response);
-      localStorage.setItem(
-        "tagsData",
-        JSON.stringify({ tags: response, timestamp: Date.now() }),
-      );
+      localStorage.setItem("tagsData", responseToLocal);
     } catch (error: unknown) {
       if (
         error instanceof Error &&
@@ -48,7 +48,6 @@ export const useTags = (
         return;
       }
       console.error("Ошибка при запросе тегов:", error);
-      setIsReset(true);
       setItems([]);
       setError(true);
     } finally {
@@ -74,5 +73,9 @@ export const useTags = (
     });
   }, [items, selected, sortedToTop]);
 
-  return { items: sortedTags, loading, error, toggle, clear, selected };
+  const toggle = (id: string) => {
+    dispatch(filtersActions.toggleTag(id));
+  };
+
+  return { items: sortedTags, selected, loading, error, toggle };
 };
