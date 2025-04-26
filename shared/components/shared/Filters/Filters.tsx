@@ -6,26 +6,25 @@ import { useEffect, type FC } from "react";
 
 import { CheckboxFilterGroup } from "@/components/shared/Filters/CheckboxFilterGroup";
 import { Button } from "@/components/ui/Button";
-// import { Input } from "@/components/ui/Input";
-// import { Slider } from "@/components/ui/Slider";
+import { Input } from "@/components/ui/Input";
+import { Slider } from "@/components/ui/Slider";
 import { useDebouncedCallback } from "@/hook/useDebounce";
-// import { usePriceRange } from "@/hook/usePriceRange";
-// import { useResetFilters } from "@/hook/useResetFilters";
+import { usePriceRange } from "@/hook/usePriceRange";
+import { useResetFilters } from "@/hook/useResetFilters";
 import { useTags } from "@/hook/useTags";
-import { noop } from "@/utils/noop";
 
 import s from "./Filters.module.scss";
 
-// const PRICE_CONFIG = {
-//   MIN_PRICE: 0,
-//   MAX_PRICE: 30000,
-//   SLIDER_GAP: 1000,
-//   SLIDER_STEP: 100,
-// } as const;
+const PRICE_CONFIG = {
+  MIN_PRICE: 0,
+  MAX_PRICE: 30000,
+  SLIDER_GAP: 1000,
+  SLIDER_STEP: 100,
+} as const;
 
 export const Filters: FC = () => {
   const router = useRouter();
-  // const { resetFilters } = useResetFilters(router);
+  const { resetFilters } = useResetFilters(router);
 
   const {
     items: tags,
@@ -35,26 +34,26 @@ export const Filters: FC = () => {
     toggle: onAddTags,
   } = useTags(true);
 
-  // const {
-  //   prices: { priceFrom, priceTo },
-  //   handlePriceChange,
-  //   handleSliderChange,
-  // } = usePriceRange(PRICE_CONFIG);
+  const {
+    prices: { priceFrom, priceTo },
+    handlePriceChange,
+    handleSliderChange,
+  } = usePriceRange(PRICE_CONFIG);
 
   // Update URL when filter changes
   useEffect(() => {
     const filters = {
-      // priceFrom: priceFrom,
-      // priceTo: priceTo,
+      priceFrom: priceFrom,
+      priceTo: priceTo,
       tags: selectedTags,
     };
     updateUrl(filters);
-  }, [
-    // priceFrom, priceTo,
-    selectedTags,
-  ]);
+  }, [priceFrom, priceTo, selectedTags]);
 
-  // console.log("Filters render:", { items: tags, selected: [...(selectedTags || [])] });
+  console.log("Filters render:", {
+    items: tags,
+    selected: [...(selectedTags || [])],
+  });
 
   const updateUrl = useDebouncedCallback(
     (filters: { priceFrom?: number; priceTo?: number; tags: string[] }) => {
@@ -73,7 +72,7 @@ export const Filters: FC = () => {
 
       <div className={s.priceCategory}>
         <p className={s.categoryTitle}>Цена от и до:</p>
-        {/* <div className={s.priceInputs}>
+        <div className={s.priceInputs}>
           <Input
             type="number"
             min={PRICE_CONFIG.MIN_PRICE}
@@ -99,7 +98,7 @@ export const Filters: FC = () => {
             priceTo ?? PRICE_CONFIG.MAX_PRICE,
           ]}
           onValueChange={handleSliderChange}
-        /> */}
+        />
       </div>
 
       <CheckboxFilterGroup
@@ -110,10 +109,10 @@ export const Filters: FC = () => {
         loading={loadingTags}
         error={errorTags}
         onClickCheckbox={onAddTags}
-        resetFilters={noop}
+        resetFilters={resetFilters}
       />
 
-      <Button onClick={noop}>Сбросить фильтры</Button>
+      <Button onClick={resetFilters}>Сбросить фильтры</Button>
     </div>
   );
 };
