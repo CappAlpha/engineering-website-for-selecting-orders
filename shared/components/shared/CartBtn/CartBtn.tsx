@@ -16,8 +16,14 @@ import s from "./CartBtn.module.scss";
 export const CartBtn: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const {
-    loading,
-    error,
+    loadingFetch,
+    loadingUpdate,
+    loadingAdd,
+    loadingRemove,
+    errorFetch,
+    errorUpdate,
+    errorAdd,
+    errorRemove,
     totalAmount,
     items,
     handleQuantityChange,
@@ -35,14 +41,12 @@ export const CartBtn: FC = () => {
     <>
       <Button
         className={s.root}
-        loading={loading}
-        disabled={Boolean(error)}
+        loading={loadingFetch || loadingUpdate || loadingAdd || loadingRemove}
+        disabled={Boolean(errorAdd)}
         onClick={toggleDrawer(true)}
         aria-label={`Открыть корзину с ${items.length} товарами`}
       >
-        {loading ? (
-          <Fragment key="layout">Загрузка...</Fragment>
-        ) : error ? (
+        {errorFetch || errorUpdate || errorAdd || errorRemove ? (
           <Fragment key="layout">Ошибка</Fragment>
         ) : (
           <Fragment key="layout">
@@ -55,8 +59,10 @@ export const CartBtn: FC = () => {
       </Button>
       <CartDrawer
         open={open}
-        loading={loading}
-        error={error}
+        loadingUpdate={loadingUpdate}
+        errorUpdate={errorUpdate}
+        loadingRemove={loadingRemove}
+        errorRemove={errorRemove}
         totalAmount={totalAmount}
         items={items}
         toggleDrawer={toggleDrawer}

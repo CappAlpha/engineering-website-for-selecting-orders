@@ -5,15 +5,31 @@ import { Api } from "@/services/apiClient";
 import { CartReturnProps, getCartDetails } from "@/utils/getCartDetails";
 
 export interface CartState {
-  loading: boolean;
-  error: string | null;
+  loadingFetch: boolean;
+  loadingUpdate: boolean;
+  loadingAdd: boolean;
+  loadingRemove: boolean;
+
+  errorFetch: string | null;
+  errorUpdate: string | null;
+  errorAdd: string | null;
+  errorRemove: string | null;
+
   totalAmount: number;
   items: CartStateItem[];
 }
 
 const initialState: CartState = {
-  loading: true,
-  error: null,
+  loadingFetch: false,
+  loadingUpdate: false,
+  loadingAdd: false,
+  loadingRemove: false,
+
+  errorFetch: null,
+  errorUpdate: null,
+  errorAdd: null,
+  errorRemove: null,
+
   totalAmount: 0,
   items: [],
 };
@@ -61,81 +77,88 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     resetError: (state) => {
-      state.error = null;
+      state.errorFetch = null;
+      state.errorUpdate = null;
+      state.errorAdd = null;
+      state.errorRemove = null;
     },
   },
   extraReducers: (builder) => {
-    // getCartItems
+    // fetchCartItems
     builder
       .addCase(fetchCartItems.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.loadingFetch = true;
+        state.errorFetch = null;
       })
       .addCase(
         fetchCartItems.fulfilled,
         (state, action: PayloadAction<CartReturnProps>) => {
-          state.loading = false;
+          state.loadingFetch = false;
           state.items = action.payload.items;
           state.totalAmount = action.payload.totalAmount;
         },
       )
-      .addCase(fetchCartItems.rejected, (state) => {
-        state.loading = false;
-        state.error = "Ошибка получения товаров";
-      })
+      .addCase(fetchCartItems.rejected, (state, action) => {
+        state.loadingFetch = false;
+        state.errorFetch = action.error?.message ?? "Ошибка получения товаров";
+      });
 
-      // updateItemQuantity
+    // updateItemQuantity
+    builder
       .addCase(updateItemQuantity.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.loadingUpdate = true;
+        state.errorUpdate = null;
       })
       .addCase(
         updateItemQuantity.fulfilled,
         (state, action: PayloadAction<CartReturnProps>) => {
-          state.loading = false;
+          state.loadingUpdate = false;
           state.items = action.payload.items;
           state.totalAmount = action.payload.totalAmount;
         },
       )
-      .addCase(updateItemQuantity.rejected, (state) => {
-        state.loading = false;
-        state.error = "Ошибка обновления товаров";
-      })
+      .addCase(updateItemQuantity.rejected, (state, action) => {
+        state.loadingUpdate = false;
+        state.errorUpdate =
+          action.error?.message ?? "Ошибка обновления товаров";
+      });
 
-      // addCartItem
+    // addCartItem
+    builder
       .addCase(addCartItem.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.loadingAdd = true;
+        state.errorAdd = null;
       })
       .addCase(
         addCartItem.fulfilled,
         (state, action: PayloadAction<CartReturnProps>) => {
-          state.loading = false;
+          state.loadingAdd = false;
           state.items = action.payload.items;
           state.totalAmount = action.payload.totalAmount;
         },
       )
-      .addCase(addCartItem.rejected, (state) => {
-        state.loading = false;
-        state.error = "Ошибка добавления товаров";
-      })
+      .addCase(addCartItem.rejected, (state, action) => {
+        state.loadingAdd = false;
+        state.errorAdd = action.error?.message ?? "Ошибка добавления товаров";
+      });
 
-      // removeCartItem
+    // removeCartItem
+    builder
       .addCase(removeCartItem.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.loadingRemove = true;
+        state.errorRemove = null;
       })
       .addCase(
         removeCartItem.fulfilled,
         (state, action: PayloadAction<CartReturnProps>) => {
-          state.loading = false;
+          state.loadingRemove = false;
           state.items = action.payload.items;
           state.totalAmount = action.payload.totalAmount;
         },
       )
-      .addCase(removeCartItem.rejected, (state) => {
-        state.loading = false;
-        state.error = state.error = "Ошибка удаления товаров";
+      .addCase(removeCartItem.rejected, (state, action) => {
+        state.loadingRemove = false;
+        state.errorRemove = action.error?.message ?? "Ошибка удаления товаров";
       });
   },
 });

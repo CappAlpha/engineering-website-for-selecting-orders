@@ -22,13 +22,17 @@ export const ProductCard: FC<ProductCardProps> = ({
   imageUrl,
   tags,
 }) => {
-  const { loading, error, addToCart } = useCart();
+  const { loadingFetch, loadingAdd, errorFetch, errorAdd, addToCart } =
+    useCart();
+
+  const isLoading = loadingFetch || loadingAdd;
+  const isError = errorFetch ?? errorAdd;
 
   return (
     <div style={{ position: "relative" }}>
       <Link
         className={s.root}
-        href={loading ? "" : `${pageConfig.PRODUCT}${id}`}
+        href={isLoading ? "" : `${pageConfig.PRODUCT}${id}`}
       >
         <div className={s.imgWrap}>
           <Image
@@ -51,8 +55,8 @@ export const ProductCard: FC<ProductCardProps> = ({
             <span className={s.price}>
               от <b>{price} &#8381;</b>
             </span>
-            {!error && (
-              <Button onClick={(e) => addToCart(e, id)} loading={loading}>
+            {!isError && (
+              <Button onClick={(e) => addToCart(e, id)} loading={isLoading}>
                 <Plus className={s.icon} /> Добавить
               </Button>
             )}

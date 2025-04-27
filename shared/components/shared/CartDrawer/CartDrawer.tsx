@@ -12,7 +12,11 @@ import { ListCartDrawer } from "./ListCartDrawer";
 
 import s from "./CartDrawer.module.scss";
 
-export interface Props extends CartState {
+export interface Props
+  extends Omit<
+    CartState,
+    "loadingFetch" | "loadingAdd" | "errorFetch" | "errorAdd"
+  > {
   open: boolean;
   toggleDrawer: (value: boolean) => () => void;
   handleQuantityChange: (
@@ -25,8 +29,10 @@ export interface Props extends CartState {
 
 export const CartDrawer: FC<Props> = ({
   open,
-  loading,
-  error,
+  loadingUpdate,
+  errorUpdate,
+  loadingRemove,
+  errorRemove,
   totalAmount,
   items,
   toggleDrawer,
@@ -48,8 +54,10 @@ export const CartDrawer: FC<Props> = ({
             <EmptyCartDrawer onClose={toggleDrawer(false)} />
           ) : (
             <ListCartDrawer
-              loading={loading}
-              error={error}
+              loadingUpdate={loadingUpdate}
+              errorUpdate={errorUpdate}
+              loadingRemove={loadingRemove}
+              errorRemove={errorRemove}
               totalAmount={totalAmount}
               items={items}
               onClose={toggleDrawer(false)}

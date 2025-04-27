@@ -22,7 +22,11 @@ export const ProductProperties: FC<Props> = ({
   price,
   tags,
 }) => {
-  const { loading, error, addToCart } = useCart();
+  const { loadingFetch, errorFetch, loadingAdd, errorAdd, addToCart } =
+    useCart();
+
+  const isLoading = loadingFetch || loadingAdd;
+  const isError = errorFetch ?? errorAdd;
 
   return (
     <div className={s.root}>
@@ -38,11 +42,11 @@ export const ProductProperties: FC<Props> = ({
           <Tags tags={tags} />
         </li>
       </ul>
-      {!error && (
+      {!isError && (
         <Button
           className={s.btn}
           onClick={(e) => addToCart(e, id)}
-          loading={loading}
+          loading={isLoading}
         >
           Добавить в корзину
         </Button>

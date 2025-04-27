@@ -12,7 +12,11 @@ import { Arrow, Plus } from "../../../../../public/icon";
 
 import s from "./ListCartDrawer.module.scss";
 
-interface Props extends CartState {
+interface Props
+  extends Omit<
+    CartState,
+    "loadingFetch" | "loadingAdd" | "errorFetch" | "errorAdd"
+  > {
   onClose: () => void;
   onChangeCount: (
     id: number,
@@ -23,8 +27,10 @@ interface Props extends CartState {
 }
 
 export const ListCartDrawer: FC<Props> = ({
-  loading,
-  error,
+  loadingUpdate,
+  errorUpdate,
+  loadingRemove,
+  errorRemove,
   totalAmount,
   items,
   onClose,
@@ -57,7 +63,10 @@ export const ListCartDrawer: FC<Props> = ({
         {items.map((item) => (
           <ProductCardLine
             key={item.name}
-            loading={loading}
+            loadingUpdate={loadingUpdate}
+            errorUpdate={errorUpdate}
+            loadingRemove={loadingRemove}
+            errorRemove={errorRemove}
             item={item}
             onChangeCount={(type) =>
               onChangeCount(item.id, item.quantity, type)
@@ -74,12 +83,12 @@ export const ListCartDrawer: FC<Props> = ({
             <div className={s.line} />
             <p className={s.bottomPrice}>{totalAmount}</p>
           </div>
-          {!error && (
+          {!errorUpdate && (
             <Button
               onClick={onClose}
               className={s.orderBtn}
               size="l"
-              loading={loading}
+              loading={loadingUpdate || loadingRemove}
             >
               Оформить заказ
               <Arrow className={s.orderIcon} />

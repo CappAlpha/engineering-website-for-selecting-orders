@@ -15,14 +15,18 @@ import s from "./ProductCardLine.module.scss";
 
 interface Props {
   item: CartStateItem;
-  loading: boolean;
+  loadingUpdate: boolean;
+  errorUpdate?: string | null;
+  loadingRemove: boolean;
+  errorRemove?: string | null;
   onChangeCount: (type: QuantityActionType) => void;
   onClickRemove: () => void;
 }
 
 export const ProductCardLine: FC<Props> = ({
   item,
-  loading,
+  loadingUpdate,
+  loadingRemove,
   onChangeCount,
   onClickRemove,
 }) => {
@@ -43,11 +47,16 @@ export const ProductCardLine: FC<Props> = ({
             value={quantity}
             minValue={CART_QUANTITY_LIMITS.MIN}
             maxValue={CART_QUANTITY_LIMITS.MAX}
-            loading={loading}
+            loading={loadingUpdate}
           />
           <div className={s.bottomRight}>
             <p className={s.price}>{price} &#8381;</p>
-            <Button onClick={onClickRemove} color="transparent" noPadding>
+            <Button
+              onClick={onClickRemove}
+              color="transparent"
+              noPadding
+              loading={loadingRemove}
+            >
               <Trash className={s.trash} />
             </Button>
           </div>
