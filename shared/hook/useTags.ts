@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
 
 import { Api } from "@/services/apiClient";
 import { filtersActions } from "@/store/filters/filtersSlice";
+import { getCachedData } from "@/utils/getCacheData";
 
 import { useAppSelector } from "./useAppSelector";
 
@@ -14,69 +15,75 @@ interface ReturnProps {
   toggle: (id: string) => void;
 }
 
-export const useTags = (sortedToTop?: boolean): ReturnProps => {
+const CACHE_KEY = "tagsData";
+const CACHE_DURATION = 4 * 60 * 60 * 1000;
+
+export const useTags = (sortedToTop = false): ReturnProps => {
   const dispatch = useDispatch();
   const selected = useAppSelector((state) => state.filters.selectedTags);
+
   const [items, setItems] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  // Fetch tags from API or localStorage cache
-  const fetchTags = async (signal: AbortSignal) => {
+  const fetchTags = useCallback(async (signal: AbortSignal) => {
+    setLoading(true);
+    setError(false);
+
+    const cachedTags = getCachedData<string>(CACHE_KEY, CACHE_DURATION);
+    if (cachedTags) {
+      setItems(cachedTags);
+      setLoading(false);
+      return;
+    }
+
     try {
-      const cachedData = localStorage.getItem("tagsData");
-      if (cachedData) {
-        const { tags, timestamp } = JSON.parse(cachedData);
-        if (Date.now() - timestamp < 86400000) {
-          setItems(tags);
-          setLoading(false);
-          return;
-        }
-      }
-
       const response = await Api.tags.getAll(signal);
-      const responseToLocal = JSON.stringify({
-        tags: response,
-        timestamp: Date.now(),
-      });
-
       setItems(response);
-      localStorage.setItem("tagsData", responseToLocal);
-    } catch (error: unknown) {
+
+      localStorage.setItem(
+        CACHE_KEY,
+        JSON.stringify({ items: response, timestamp: Date.now() }),
+      );
+    } catch (err: unknown) {
       if (
-        error instanceof Error &&
-        (error.name === "CanceledError" || error.message.includes("canceled"))
+        err instanceof Error &&
+        (err.name === "CanceledError" || err.message.includes("canceled"))
       ) {
         return;
       }
-      console.error("Ошибка при запросе тегов:", error);
+      console.error("Ошибка при запросе тегов:", err);
       setItems([]);
       setError(true);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     const controller = new AbortController();
-    const signal = controller.signal;
-
-    fetchTags(signal);
+    fetchTags(controller.signal);
 
     return () => controller.abort();
-  }, []);
+  }, [fetchTags]);
 
+  // Sort tags - selected tag move to top
   const sortedTags = sortedToTop
     ? [...items].sort((a, b) => {
-        const aSelected = selected.includes(a) ? -1 : 1;
-        const bSelected = selected.includes(b) ? -1 : 1;
-        return aSelected - bSelected;
+        const aSelected = selected.includes(a);
+        const bSelected = selected.includes(b);
+
+        if (aSelected === bSelected) return 0;
+        return aSelected ? -1 : 1;
       })
     : items;
 
-  const toggle = (id: string) => {
-    dispatch(filtersActions.toggleTag(id));
-  };
+  const toggle = useCallback(
+    (id: string) => {
+      dispatch(filtersActions.toggleTag(id));
+    },
+    [dispatch],
+  );
 
   return { items: sortedTags, selected, loading, error, toggle };
 };

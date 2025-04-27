@@ -50,10 +50,10 @@ export const Filters: FC = () => {
     updateUrl(filters);
   }, [priceFrom, priceTo, selectedTags]);
 
-  console.log("Filters render:", {
-    items: tags,
-    selected: [...(selectedTags || [])],
-  });
+  // console.log("Filters render:", {
+  //   items: tags,
+  //   selected: [...(selectedTags || [])],
+  // });
 
   const updateUrl = useDebouncedCallback(
     (filters: { priceFrom?: number; priceTo?: number; tags: string[] }) => {

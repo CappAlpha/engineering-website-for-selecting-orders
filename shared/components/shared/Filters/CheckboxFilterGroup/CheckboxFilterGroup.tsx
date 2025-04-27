@@ -49,7 +49,10 @@ export const CheckboxFilterGroup: FC<Props> = ({
 
   const list = showAll ? filteredItems : items.slice(0, limit);
 
-  // console.log("CheckboxFilterGroup render:", { items: list, selected: [...(selected || [])] });
+  console.log("CheckboxFilterGroup render:", {
+    items: list,
+    selected: [...(selected || [])],
+  });
 
   return (
     <div className={s.root}>
