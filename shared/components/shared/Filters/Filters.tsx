@@ -50,11 +50,6 @@ export const Filters: FC = () => {
     updateUrl(filters);
   }, [priceFrom, priceTo, selectedTags]);
 
-  // console.log("Filters render:", {
-  //   items: tags,
-  //   selected: [...(selectedTags || [])],
-  // });
-
   const updateUrl = useDebouncedCallback(
     (filters: { priceFrom?: number; priceTo?: number; tags: string[] }) => {
       const query = qs.stringify(filters, {
@@ -103,7 +98,6 @@ export const Filters: FC = () => {
 
       <CheckboxFilterGroup
         title="Категории"
-        limit={5}
         items={tags}
         selected={selectedTags}
         loading={loadingTags}
