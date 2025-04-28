@@ -16,9 +16,7 @@ import s from "./ProductCardLine.module.scss";
 interface Props {
   item: CartStateItem;
   loadingUpdate: boolean;
-  errorUpdate?: string | null;
   loadingRemove: boolean;
-  errorRemove?: string | null;
   onChangeCount: (type: QuantityActionType) => void;
   onClickRemove: () => void;
 }

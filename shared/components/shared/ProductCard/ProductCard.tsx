@@ -29,40 +29,38 @@ export const ProductCard: FC<ProductCardProps> = ({
   const isError = errorFetch ?? errorAdd;
 
   return (
-    <div style={{ position: "relative" }}>
-      <Link
-        className={s.root}
-        href={isLoading ? "" : `${pageConfig.PRODUCT}${id}`}
-      >
-        <div className={s.imgWrap}>
-          <Image
-            className={s.img}
-            src={imageUrl}
-            alt={name}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            fill
-          />
-        </div>
+    <Link
+      className={s.root}
+      href={isLoading ? "" : `${pageConfig.PRODUCT}${id}`}
+    >
+      <div className={s.imgWrap}>
+        <Image
+          className={s.img}
+          src={imageUrl}
+          alt={name}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          fill
+        />
+      </div>
 
-        <div className={s.textWrap}>
-          <h5 className={s.title}>{name}</h5>
-          <p className={s.description}>{description}</p>
-        </div>
+      <div className={s.textWrap}>
+        <h5 className={s.title}>{name}</h5>
+        <p className={s.description}>{description}</p>
+      </div>
 
-        <div className={s.bottom}>
-          <Tags tags={tags} />
-          <div className={s.bottomWrap}>
-            <span className={s.price}>
-              от <b>{price} &#8381;</b>
-            </span>
-            {!isError && (
-              <Button onClick={(e) => addToCart(e, id)} loading={isLoading}>
-                <Plus className={s.icon} /> Добавить
-              </Button>
-            )}
-          </div>
+      <div className={s.bottom}>
+        <Tags tags={tags} />
+        <div className={s.bottomWrap}>
+          <span className={s.price}>
+            от <b>{price} &#8381;</b>
+          </span>
+          {!isError && (
+            <Button onClick={(e) => addToCart(e, id)} loading={isLoading}>
+              <Plus className={s.icon} /> Добавить
+            </Button>
+          )}
         </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 };

@@ -23,9 +23,9 @@ interface UseCartReturn extends CartState {
     id: number,
     quantity: number,
     type: QuantityActionType,
-  ) => void;
-  handleRemove: (id: number) => void;
-  addToCart: (e: MouseEvent, productId: string) => void;
+  ) => Promise<void>;
+  handleRemove: (id: number) => Promise<void>;
+  addToCart: (e: MouseEvent, productId: string) => Promise<void>;
 }
 
 /**
@@ -37,7 +37,7 @@ export const useCart = (): UseCartReturn => {
   const dispatch = useDispatch<AppDispatch>();
   const cart = useAppSelector((state) => state.cart);
 
-  const handleQuantityChange = (
+  const handleQuantityChange = async (
     id: number,
     quantity: number,
     type: QuantityActionType,
@@ -47,21 +47,22 @@ export const useCart = (): UseCartReturn => {
     dispatch(updateItemQuantity({ id, quantity: newQuantity }));
   };
 
-  const handleRemove = (id: number) => {
-    toast.promise(dispatch(removeCartItem({ id })), {
+  const handleRemove = async (id: number) => {
+    toast.promise(dispatch(removeCartItem({ id })).unwrap(), {
       loading: "Удаляем...",
       success: "Товар удалён из корзины!",
       error: "Ошибка удаления товара",
     });
   };
 
-  const addToCart = (e: MouseEvent, productId: string) => {
+  const addToCart = async (e: MouseEvent, productId: string) => {
     e.preventDefault();
     e.stopPropagation();
-    toast.promise(dispatch(addCartItem({ values: { productId } })), {
+
+    toast.promise(dispatch(addCartItem({ values: { productId } })).unwrap(), {
       loading: "Добавляем...",
       success: "Товар добавлен в корзину",
-      error: "Ошибка добавления товара",
+      error: "Нельзя добавить больше 20 товаров!",
     });
   };
 

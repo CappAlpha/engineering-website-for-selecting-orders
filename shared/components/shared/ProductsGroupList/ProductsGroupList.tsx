@@ -19,9 +19,9 @@ export interface Props {
 
 export const ProductsGroupList: FC<Props> = ({ id, name, items }) => {
   const dispatch = useDispatch();
-  const intersectionRef = useRef(null);
+  const intersectionRef = useRef<HTMLDivElement | null>(null);
   const intersection = useIntersectionObserver(intersectionRef, {
-    threshold: 0.4,
+    threshold: 0.5,
   });
 
   useEffect(() => {
@@ -31,22 +31,19 @@ export const ProductsGroupList: FC<Props> = ({ id, name, items }) => {
   }, [intersection?.isIntersecting, id, dispatch]);
 
   return (
-    <div className={s.root} id={name} ref={intersectionRef}>
+    <section
+      id={name}
+      ref={intersectionRef}
+      className={s.root}
+      aria-label={`Группа продуктов: ${name}`}
+    >
       <h2 className={s.title}>{name}</h2>
 
       <div className={s.list}>
         {items.map((product) => (
-          <ProductCard
-            key={product.id}
-            id={product.id}
-            name={product.name}
-            description={product.description}
-            imageUrl={product.imageUrl}
-            price={product.price}
-            tags={product.tags}
-          />
+          <ProductCard key={product.id} {...product} />
         ))}
       </div>
-    </div>
+    </section>
   );
 };

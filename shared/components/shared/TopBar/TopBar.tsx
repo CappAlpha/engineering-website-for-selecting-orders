@@ -18,19 +18,20 @@ export interface Props {
 }
 
 export const TopBar: FC<Props> = ({ categories }) => {
-  const activeIndex = useAppSelector((state) => state.categories.activeId);
+  const activeId = useAppSelector((state) => state.categories.activeId);
   const [isBarHidden, setIsBarHidden] = useState(false);
   const [isBtnHidden, setIsBtnHidden] = useState(true);
-
-  const OnClickChangeVisible = () => setIsBarHidden((prev) => !prev);
+  const isBarVisible = !isBtnHidden && isBarHidden;
 
   useEffect(() => {
-    if (activeIndex > 1) {
+    if (activeId > 1) {
       setIsBtnHidden(false);
     } else {
       setIsBtnHidden(true);
     }
-  }, [activeIndex]);
+  }, [activeId]);
+
+  const toggleCategoriesVisibility = () => setIsBarHidden((prev) => !prev);
 
   const handleScroll = (name: string, isActive: boolean) => {
     if (!isActive) {
@@ -41,32 +42,28 @@ export const TopBar: FC<Props> = ({ categories }) => {
     }
   };
 
-  const isBarVisible = !isBtnHidden && isBarHidden;
-
   return (
     <div className={cn(s.root, isBarVisible && s.hidden)}>
       <div className={s.wrap}>
         {/* TODO: remove later mb */}
-        {categories.length !== 0 ? (
-          <Tabs
-            items={categories}
-            activeIndex={activeIndex}
-            onClick={handleScroll}
-          />
-        ) : (
-          <div />
-        )}
+        {categories.length > 0 ? (
+          <Tabs items={categories} activeId={activeId} onClick={handleScroll} />
+        ) : null}
         <SortDropdown />
       </div>
+
       <Button
         className={cn(s.showBtn, (isBtnHidden || !isBarHidden) && s.hiddenBtn)}
-        onClick={OnClickChangeVisible}
+        onClick={toggleCategoriesVisibility}
+        aria-label="Показать категории"
       >
         <AngleDown />
       </Button>
+
       <Button
         className={cn(s.hideBtn, (isBtnHidden || isBarHidden) && s.hiddenBtn)}
-        onClick={OnClickChangeVisible}
+        onClick={toggleCategoriesVisibility}
+        aria-label="Скрыть категории"
       >
         <AngleDown />
       </Button>

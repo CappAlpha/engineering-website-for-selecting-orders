@@ -7,18 +7,18 @@ import s from "./Tabs.module.scss";
 
 export interface Props {
   items: Category[];
-  activeIndex: number;
+  activeId: number;
   onClick: (name: string, isActive: boolean) => void;
 }
 
-export const Tabs: FC<Props> = ({ items, activeIndex, onClick }) => {
+export const Tabs: FC<Props> = ({ items, activeId, onClick }) => {
   return (
     <div className={s.root}>
       {items.map((item, index) => (
         <Tab
           key={item.name}
           name={item.name}
-          activeIndex={activeIndex}
+          activeIndex={activeId}
           currentIndex={index + 1}
           onClick={onClick}
         />
