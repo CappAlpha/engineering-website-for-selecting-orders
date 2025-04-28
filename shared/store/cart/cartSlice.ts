@@ -20,7 +20,7 @@ export interface CartState {
 }
 
 const initialState: CartState = {
-  loadingFetch: false,
+  loadingFetch: true,
   loadingUpdate: false,
   loadingAdd: false,
   loadingRemove: false,
@@ -87,7 +87,6 @@ const cartSlice = createSlice({
     // fetchCartItems
     builder
       .addCase(fetchCartItems.pending, (state) => {
-        state.loadingFetch = true;
         state.errorFetch = null;
       })
       .addCase(

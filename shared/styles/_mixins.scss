@@ -17,11 +17,13 @@ $breakpoints: (
     $delta: 0.1;
   }
 
-  @if meta.type-of($point) ==number {
+  @if meta.type-of($point)==number {
     @media (#{$type}-width: ($point - $delta + px)) {
       @content;
     }
-  } @else {
+  }
+
+  @else {
     $breakpoint: map.get($breakpoints, #{$point});
     $breakpointValue: $breakpoint - $delta + px;
 
@@ -95,32 +97,26 @@ $breakpoints: (
   }
 }
 
-@mixin skeleton($isWhite: false) {
-  background: var(--gray);
-  border-radius: 20px;
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@mixin skeleton {
   position: relative;
 
   &:before {
     @include pseudo;
-    height: 100%;
     width: 100%;
-    background-repeat: no-repeat;
-    background-size: 180px 100%;
-    border-radius: 20px;
-
-    @if $isWhite !=false {
-      background-image: linear-gradient(90deg, #fff 0%, #dedede 50%, #fff 100%);
-    } @else {
-      background-image: linear-gradient(
-        90deg,
-        #f5f5f5 0%,
-        #dedede 50%,
-        #f5f5f5 100%
-      );
-    }
-
-    &:global {
-      animation: 1.2s linear infinite shimmer;
-    }
+    height: 100%;
+    background: linear-gradient(90deg, var(--semi-dark-gray) 25%, var(--gray) 50%, var(--semi-dark-gray) 75%);
+    background-size: 200% 100%;
+    animation: 1.5s linear infinite skeleton-loading;
   }
 }

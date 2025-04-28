@@ -1,9 +1,11 @@
-.root {
+.root,
+.rootSkeleton {
   display: flex;
   flex-direction: column;
   gap: 15px;
   height: 100%;
   border-radius: 15px;
+  transition: background-color 0.3s ease;
 
   @media (hover: hover) {
     &:hover {
@@ -14,7 +16,8 @@
   }
 }
 
-.imgWrap {
+.imgWrap,
+.imgWrapSkeleton {
   overflow: hidden;
   position: relative;
   width: 100%;
@@ -25,6 +28,12 @@
 .img {
   object-fit: cover;
   transition: 0.3s transform ease-in-out;
+}
+
+.textWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
 }
 
 .title {
@@ -41,7 +50,7 @@
   line-height: 21px;
 }
 
-.bottom{
+.bottom {
   margin-top: auto;
 }
 
@@ -61,4 +70,51 @@
 .icon {
   width: 16px;
   min-width: 16px;
+}
+
+/* Стили для скелетона */
+.imgWrapSkeleton {
+  @include skeleton;
+}
+
+.titleSkeleton {
+  width: 70%;
+  height: 24px;
+  border-radius: 4px;
+  @include skeleton;
+}
+
+.descriptionSkeleton {
+  width: 90%;
+  height: 42px;
+  border-radius: 4px;
+  @include skeleton;
+}
+
+.tagsSkeleton {
+  width: 50%;
+  height: 30px;
+  border-radius: 4px;
+  @include skeleton;
+
+  &::before{
+    border-radius: 20px;
+  }
+}
+
+.priceSkeleton {
+  width: 40%;
+  height: 24px;
+  border-radius: 4px;
+  @include skeleton;
+}
+
+.buttonSkeleton {
+  width: 30%;
+  height: 36px;
+  @include skeleton;
+
+  &::before{
+    border-radius: 20px;
+  }
 }

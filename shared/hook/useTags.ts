@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { Api } from "@/services/apiClient";
@@ -78,12 +78,9 @@ export const useTags = (sortedToTop = false): ReturnProps => {
       })
     : items;
 
-  const toggle = useCallback(
-    (id: string) => {
-      dispatch(filtersActions.toggleTag(id));
-    },
-    [dispatch],
-  );
+  const toggle = (id: string) => {
+    dispatch(filtersActions.toggleTag(id));
+  };
 
   return { items: sortedTags, selected, loading, error, toggle };
 };

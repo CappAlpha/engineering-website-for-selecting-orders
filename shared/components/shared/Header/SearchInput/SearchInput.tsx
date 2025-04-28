@@ -122,60 +122,48 @@ export const SearchInput: FC<Props> = ({ categories }) => {
   }, [open, fetchProducts]);
 
   // Get category name by id
-  const getCategoryNameById = useCallback(
-    (categoryId: number): string =>
-      categories.find((category) => category.id === categoryId)?.name ??
-      "Без категории",
-    [categories],
-  );
+  const getCategoryNameById = (categoryId: number): string =>
+    categories.find((category) => category.id === categoryId)?.name ??
+    "Без категории";
 
   // Render input
-  const renderInput = useCallback(
-    (params: AutocompleteRenderInputParams) => (
-      <TextField
-        {...params}
-        variant="filled"
-        label="Поиск"
-        className={s.textField}
-        InputProps={{
-          ...params.InputProps,
-          endAdornment: (
-            <>
-              {loading ? <CircularProgress color="inherit" size={20} /> : null}
-              {params.InputProps.endAdornment}
-            </>
-          ),
-        }}
-      />
-    ),
-    [loading],
+  const renderInput = (params: AutocompleteRenderInputParams) => (
+    <TextField
+      {...params}
+      variant="filled"
+      label="Поиск"
+      className={s.textField}
+      InputProps={{
+        ...params.InputProps,
+        endAdornment: (
+          <>
+            {loading ? <CircularProgress color="inherit" size={20} /> : null}
+            {params.InputProps.endAdornment}
+          </>
+        ),
+      }}
+    />
   );
 
   // Render list
-  const renderList = useCallback(
-    (params: AutocompleteRenderGroupParams) => (
-      <li key={params.key}>
-        <div className={s.groupHeader}>{params.group}</div>
-        <ul className={s.groupItems}>{params.children}</ul>
-      </li>
-    ),
-    [],
+  const renderList = (params: AutocompleteRenderGroupParams) => (
+    <li key={params.key}>
+      <div className={s.groupHeader}>{params.group}</div>
+      <ul className={s.groupItems}>{params.children}</ul>
+    </li>
   );
 
   // Render items in list
-  const renderOption = useCallback(
-    (props: AutocompleteOptionProps, option: Product) => {
-      const { key, ...otherProps } = props;
-      return (
-        <li key={key} {...otherProps} className={s.optionLi}>
-          <Link href={`${pageConfig.PRODUCT}${option.id}`} className={s.link}>
-            {option.name}
-          </Link>
-        </li>
-      );
-    },
-    [],
-  );
+  const renderOption = (props: AutocompleteOptionProps, option: Product) => {
+    const { key, ...otherProps } = props;
+    return (
+      <li key={key} {...otherProps} className={s.optionLi}>
+        <Link href={`${pageConfig.PRODUCT}${option.id}`} className={s.link}>
+          {option.name}
+        </Link>
+      </li>
+    );
+  };
 
   return (
     <>

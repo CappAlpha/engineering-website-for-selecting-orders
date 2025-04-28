@@ -45,7 +45,6 @@ export const TopBar: FC<Props> = ({ categories }) => {
   return (
     <div className={cn(s.root, isBarVisible && s.hidden)}>
       <div className={s.wrap}>
-        {/* TODO: remove later mb */}
         {categories.length > 0 ? (
           <Tabs items={categories} activeId={activeId} onClick={handleScroll} />
         ) : null}
