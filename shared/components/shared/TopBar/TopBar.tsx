@@ -2,7 +2,7 @@
 
 import { Category } from "@prisma/client";
 import cn from "classnames";
-import { useEffect, useState, type FC } from "react";
+import { useState, type FC } from "react";
 
 import { Button } from "@/components/ui/Button";
 import { Tabs } from "@/components/ui/Tabs";
@@ -21,18 +21,11 @@ export const TopBar: FC<TopBarProps> = ({ categories }) => {
   const activeId = useAppSelector((state) => state.categories.activeId);
   const loadingFetch = useAppSelector((state) => state.cart.loadingFetch);
   const [isBarHidden, setIsBarHidden] = useState(false);
-  const [isBtnHidden, setIsBtnHidden] = useState(true);
-  const isBarVisible = !isBtnHidden && isBarHidden;
 
-  useEffect(() => {
-    if (activeId > 1 && categories.length > activeId) {
-      setIsBtnHidden(false);
-    } else {
-      setIsBtnHidden(true);
-    }
-  }, [activeId]);
+  const isHideBtn = loadingFetch || activeId === categories[0].name;
+  const isBarVisibleAtTop = !isHideBtn && isBarHidden;
 
-  const toggleCategoriesVisibility = () => setIsBarHidden((prev) => !prev);
+  const toggleBarVisibility = () => setIsBarHidden((prev) => !prev);
 
   const handleScroll = (name: string, isActive: boolean) => {
     if (!isActive) {
@@ -43,8 +36,10 @@ export const TopBar: FC<TopBarProps> = ({ categories }) => {
     }
   };
 
+  // console.log(activeId)
+
   return (
-    <div className={cn(s.root, isBarVisible && s.hidden)}>
+    <div className={cn(s.root, isBarVisibleAtTop && s.hidden)}>
       <div className={s.wrap}>
         {categories.length > 0 ? (
           <Tabs
@@ -57,21 +52,28 @@ export const TopBar: FC<TopBarProps> = ({ categories }) => {
         <SortDropdown />
       </div>
 
-      <Button
-        className={cn(s.showBtn, (isBtnHidden || !isBarHidden) && s.hiddenBtn)}
-        onClick={toggleCategoriesVisibility}
-        aria-label="Показать категории"
-      >
-        <AngleDown />
-      </Button>
+      {categories.length > 1 && (
+        <>
+          <Button
+            className={cn(
+              s.showBtn,
+              (isHideBtn || !isBarHidden) && s.hiddenBtn,
+            )}
+            onClick={toggleBarVisibility}
+            aria-label="Показать топ бар"
+          >
+            <AngleDown />
+          </Button>
 
-      <Button
-        className={cn(s.hideBtn, (isBtnHidden || isBarHidden) && s.hiddenBtn)}
-        onClick={toggleCategoriesVisibility}
-        aria-label="Скрыть категории"
-      >
-        <AngleDown />
-      </Button>
+          <Button
+            className={cn(s.hideBtn, (isHideBtn || isBarHidden) && s.hiddenBtn)}
+            onClick={toggleBarVisibility}
+            aria-label="Скрыть топ бар"
+          >
+            <AngleDown />
+          </Button>
+        </>
+      )}
     </div>
   );
 };

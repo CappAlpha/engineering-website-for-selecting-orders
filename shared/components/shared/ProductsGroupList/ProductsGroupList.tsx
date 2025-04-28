@@ -1,12 +1,13 @@
 "use client";
 
 import { Product } from "@prisma/client";
-import { useEffect, useRef, type FC } from "react";
+import { useEffect, type FC } from "react";
 import { useDispatch } from "react-redux";
 
 import { useAppSelector } from "@/hook/useAppSelector";
 import { useIntersectionObserver } from "@/hook/useIntersectionObserver.ts";
 import { categoriesActions } from "@/store/categories/categoriesSlice";
+import { AppDispatch } from "@/store/store";
 
 import { ProductCard } from "../ProductCard";
 import { ProductCardSkeleton } from "../ProductCard/ProductCardSkeleton";
@@ -20,24 +21,21 @@ export interface Props {
 }
 
 export const ProductsGroupList: FC<Props> = ({ id, name, items }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const isLoading = useAppSelector((state) => state.cart.loadingFetch);
 
-  const intersectionRef = useRef<HTMLDivElement | null>(null);
-  const intersection = useIntersectionObserver(intersectionRef, {
-    threshold: 0.5,
-  });
+  const { isIntersecting, ref } = useIntersectionObserver({ threshold: 0.4 });
 
   useEffect(() => {
-    if (intersection?.isIntersecting) {
-      dispatch(categoriesActions.setActiveId(id));
+    if (isIntersecting) {
+      dispatch(categoriesActions.setActiveId(name));
     }
-  }, [intersection?.isIntersecting, id, dispatch]);
+  }, [isIntersecting, id, dispatch]);
 
   return (
     <section
       id={name}
-      ref={intersectionRef}
+      ref={ref}
       className={s.root}
       aria-label={`Группа продуктов: ${name}`}
     >

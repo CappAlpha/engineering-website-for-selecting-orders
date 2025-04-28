@@ -9,7 +9,7 @@ import s from "./Tabs.module.scss";
 
 export interface Props {
   items: TopBarProps["categories"];
-  activeId: number;
+  activeId: string;
   loading?: boolean;
   onClick: (name: string, isActive: boolean) => void;
 }
@@ -22,12 +22,11 @@ export const Tabs: FC<Props> = ({
 }) => {
   return (
     <div className={cn(s.root, loading && s.rootSkeleton)}>
-      {items.map((item, index) => (
+      {items.map((item) => (
         <Tab
           key={item.name}
           name={item.name}
-          activeIndex={activeId}
-          currentIndex={index + 1}
+          activeId={activeId}
           onClick={onClick}
         />
       ))}
