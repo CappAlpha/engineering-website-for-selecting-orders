@@ -10,13 +10,18 @@ export default async function Home({
 }: Readonly<{ searchParams: GetSearchParamsPage }>) {
   const categories = await findProduct(searchParams);
 
+  const categoriesFiltered = categories.map(({ id, name }) => ({
+    id: id,
+    name: name,
+  }));
+
   return (
     <>
       <div className={s.wrap}>
         <h1 className={s.title}>Все заказы</h1>
       </div>
 
-      <TopBar categories={categories} />
+      <TopBar categories={categoriesFiltered} />
 
       <div className={s.wrapCatalog}>
         <Filters />

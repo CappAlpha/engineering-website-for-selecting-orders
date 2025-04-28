@@ -5,3 +5,11 @@
   border-radius: 16px;
   padding: 4px;
 }
+
+.rootSkeleton {
+  @include skeleton;
+
+  &::before {
+    border-radius: 16px;
+  }
+}

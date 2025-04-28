@@ -1,19 +1,27 @@
-import { Category } from "@prisma/client";
+import cn from "classnames";
 import { type FC } from "react";
+
+import { TopBarProps } from "@/components/shared/TopBar";
 
 import { Tab } from "./Tab";
 
 import s from "./Tabs.module.scss";
 
 export interface Props {
-  items: Category[];
+  items: TopBarProps["categories"];
   activeId: number;
+  loading?: boolean;
   onClick: (name: string, isActive: boolean) => void;
 }
 
-export const Tabs: FC<Props> = ({ items, activeId, onClick }) => {
+export const Tabs: FC<Props> = ({
+  items,
+  activeId,
+  loading = false,
+  onClick,
+}) => {
   return (
-    <div className={s.root}>
+    <div className={cn(s.root, loading && s.rootSkeleton)}>
       {items.map((item, index) => (
         <Tab
           key={item.name}

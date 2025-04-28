@@ -13,18 +13,19 @@ import { SortDropdown } from "../SortDropdown";
 
 import s from "./TopBar.module.scss";
 
-export interface Props {
-  categories: Category[];
+export interface TopBarProps {
+  categories: Pick<Category, "id" | "name">[];
 }
 
-export const TopBar: FC<Props> = ({ categories }) => {
+export const TopBar: FC<TopBarProps> = ({ categories }) => {
   const activeId = useAppSelector((state) => state.categories.activeId);
+  const loadingFetch = useAppSelector((state) => state.cart.loadingFetch);
   const [isBarHidden, setIsBarHidden] = useState(false);
   const [isBtnHidden, setIsBtnHidden] = useState(true);
   const isBarVisible = !isBtnHidden && isBarHidden;
 
   useEffect(() => {
-    if (activeId > 1) {
+    if (activeId > 1 && categories.length > activeId) {
       setIsBtnHidden(false);
     } else {
       setIsBtnHidden(true);
@@ -46,7 +47,12 @@ export const TopBar: FC<Props> = ({ categories }) => {
     <div className={cn(s.root, isBarVisible && s.hidden)}>
       <div className={s.wrap}>
         {categories.length > 0 ? (
-          <Tabs items={categories} activeId={activeId} onClick={handleScroll} />
+          <Tabs
+            items={categories}
+            activeId={activeId}
+            onClick={handleScroll}
+            loading={loadingFetch}
+          />
         ) : null}
         <SortDropdown />
       </div>
