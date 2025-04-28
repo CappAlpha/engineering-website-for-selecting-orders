@@ -25,8 +25,8 @@ export const CheckboxFilterGroup: FC<Props> = ({
   items,
   limit = 5,
   selected,
-  loading = false,
-  error = false,
+  loading,
+  error,
   searchInputPlaceholder = "Поиск...",
   onClickCheckbox,
   resetFilters,
@@ -52,7 +52,8 @@ export const CheckboxFilterGroup: FC<Props> = ({
     return filteredItems.slice(0, limit);
   }, [showAll, filteredItems, limit]);
 
-  const canShowToggle = filteredItems.length > limit;
+  // TODO: fix?
+  const canShowToggle = loading ? true : items.length > limit;
 
   return (
     <div className={s.root}>
@@ -82,9 +83,7 @@ export const CheckboxFilterGroup: FC<Props> = ({
           <ul className={s.items}>
             {loading ? (
               Array.from({ length: limit }).map((_, index) => (
-                <li key={index} className={s.loadingItem}>
-                  Загрузка...
-                </li>
+                <li key={index} className={s.itemSkeleton}></li>
               ))
             ) : visibleItems.length > 0 ? (
               visibleItems.map((name) => (
@@ -99,15 +98,14 @@ export const CheckboxFilterGroup: FC<Props> = ({
               <li className={s.noResults}>Ничего не найдено :(</li>
             )}
           </ul>
-          {loading ? (
-            <p>Загрузка...</p>
-          ) : (
-            canShowToggle && (
+          {canShowToggle &&
+            (loading ? (
+              <div className={s.btnSkeleton} />
+            ) : (
               <Button onClick={onChangeShowAll} color="transparent" noPadding>
                 {showAll ? "Скрыть" : "+ Показать всё"}
               </Button>
-            )
-          )}
+            ))}
         </>
       )}
     </div>

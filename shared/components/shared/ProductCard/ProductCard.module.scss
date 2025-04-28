@@ -36,7 +36,7 @@
   gap: 7px;
 }
 
-.title {
+.title, .titleSkeleton{
   margin-bottom: 7px;
   font-size: 22px;
   font-weight: 700;
@@ -72,49 +72,56 @@
   min-width: 16px;
 }
 
-/* Стили для скелетона */
-.imgWrapSkeleton {
+.imgWrapSkeleton,
+.titleSkeleton,
+.descriptionSkeleton,
+.tagsSkeleton,
+.priceSkeleton,
+.buttonSkeleton {
   @include skeleton;
 }
 
 .titleSkeleton {
   width: 70%;
-  height: 24px;
-  border-radius: 4px;
-  @include skeleton;
+  height: 30px;
+
+  &::before {
+    border-radius: 4px;
+  }
 }
 
 .descriptionSkeleton {
   width: 90%;
   height: 42px;
-  border-radius: 4px;
-  @include skeleton;
+
+  &::before {
+    border-radius: 4px;
+  }
 }
 
 .tagsSkeleton {
   width: 50%;
-  height: 30px;
-  border-radius: 4px;
-  @include skeleton;
+  height: 41px;
 
-  &::before{
+  &::before {
     border-radius: 20px;
   }
 }
 
 .priceSkeleton {
   width: 40%;
-  height: 24px;
-  border-radius: 4px;
-  @include skeleton;
+  height: 27px;
+
+  &::before {
+    border-radius: 4px;
+  }
 }
 
 .buttonSkeleton {
   width: 30%;
-  height: 36px;
-  @include skeleton;
+  height: 42px;
 
-  &::before{
+  &::before {
     border-radius: 20px;
   }
 }

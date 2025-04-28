@@ -27,7 +27,7 @@ export const Filters: FC = () => {
   const { resetFilters } = useResetFilters(router);
 
   const {
-    items: tags,
+    tags,
     selected: selectedTags,
     loading: loadingTags,
     error: errorTags,

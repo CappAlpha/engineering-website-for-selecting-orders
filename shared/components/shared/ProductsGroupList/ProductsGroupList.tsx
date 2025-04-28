@@ -41,7 +41,11 @@ export const ProductsGroupList: FC<Props> = ({ id, name, items }) => {
       className={s.root}
       aria-label={`Группа продуктов: ${name}`}
     >
-      <h2 className={s.title}>{name}</h2>
+      {isLoading ? (
+        <div className={s.titleSkeleton} />
+      ) : (
+        <h2 className={s.title}>{name}</h2>
+      )}
 
       <div className={s.list}>
         {isLoading

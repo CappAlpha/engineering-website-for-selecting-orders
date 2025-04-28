@@ -8,7 +8,7 @@ import { getCachedData } from "@/utils/getCacheData";
 import { useAppSelector } from "./useAppSelector";
 
 interface ReturnProps {
-  items: string[];
+  tags: string[];
   selected: string[];
   loading: boolean;
   error: boolean;
@@ -22,7 +22,7 @@ export const useTags = (sortedToTop = false): ReturnProps => {
   const dispatch = useDispatch();
   const selected = useAppSelector((state) => state.filters.selectedTags);
 
-  const [items, setItems] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -32,18 +32,18 @@ export const useTags = (sortedToTop = false): ReturnProps => {
 
     const cachedTags = getCachedData<string>(CACHE_KEY, CACHE_DURATION);
     if (cachedTags) {
-      setItems(cachedTags);
+      setTags(cachedTags);
       setLoading(false);
       return;
     }
 
     try {
       const response = await Api.tags.getAll(signal);
-      setItems(response);
+      setTags(response);
 
       localStorage.setItem(
         CACHE_KEY,
-        JSON.stringify({ items: response, timestamp: Date.now() }),
+        JSON.stringify({ tags: response, timestamp: Date.now() }),
       );
     } catch (err: unknown) {
       if (
@@ -53,7 +53,7 @@ export const useTags = (sortedToTop = false): ReturnProps => {
         return;
       }
       console.error("Ошибка при запросе тегов:", err);
-      setItems([]);
+      setTags([]);
       setError(true);
     } finally {
       setLoading(false);
@@ -69,18 +69,18 @@ export const useTags = (sortedToTop = false): ReturnProps => {
 
   // Sort tags - selected tag move to top
   const sortedTags = sortedToTop
-    ? [...items].sort((a, b) => {
+    ? [...tags].sort((a, b) => {
         const aSelected = selected.includes(a);
         const bSelected = selected.includes(b);
 
         if (aSelected === bSelected) return 0;
         return aSelected ? -1 : 1;
       })
-    : items;
+    : tags;
 
   const toggle = (id: string) => {
     dispatch(filtersActions.toggleTag(id));
   };
 
-  return { items: sortedTags, selected, loading, error, toggle };
+  return { tags: sortedTags, selected, loading, error, toggle };
 };
