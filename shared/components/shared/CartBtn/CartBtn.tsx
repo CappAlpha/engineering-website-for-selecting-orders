@@ -33,6 +33,7 @@ export const CartBtn: FC = () => {
   } = useCart();
   const [open, setOpen] = useState(false);
 
+  //TODO: change on React Query?
   useEffect(() => {
     dispatch(fetchCartItems());
   }, [dispatch]);

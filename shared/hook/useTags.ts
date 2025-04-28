@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { Api } from "@/services/apiClient";
@@ -26,7 +26,7 @@ export const useTags = (sortedToTop = false): ReturnProps => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const fetchTags = useCallback(async (signal: AbortSignal) => {
+  const fetchTags = async () => {
     setLoading(true);
     setError(false);
 
@@ -37,13 +37,15 @@ export const useTags = (sortedToTop = false): ReturnProps => {
       return;
     }
 
+    const controller = new AbortController();
+
     try {
-      const response = await Api.tags.getAll(signal);
+      const response = await Api.tags.getAll(controller.signal);
       setTags(response);
 
       localStorage.setItem(
         CACHE_KEY,
-        JSON.stringify({ tags: response, timestamp: Date.now() }),
+        JSON.stringify({ items: response, timestamp: Date.now() }),
       );
     } catch (err: unknown) {
       if (
@@ -58,14 +60,13 @@ export const useTags = (sortedToTop = false): ReturnProps => {
     } finally {
       setLoading(false);
     }
-  }, []);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    fetchTags(controller.signal);
 
     return () => controller.abort();
-  }, [fetchTags]);
+  };
+
+  useEffect(() => {
+    fetchTags();
+  }, []);
 
   // Sort tags - selected tag move to top
   const sortedTags = sortedToTop

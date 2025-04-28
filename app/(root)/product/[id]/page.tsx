@@ -1,4 +1,5 @@
 import Breadcrumbs from "@mui/material/Breadcrumbs";
+import { Product } from "@prisma/client";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,8 +11,10 @@ import { prisma } from "../../../../prisma/prisma-client";
 
 import s from "./page.module.scss";
 
-async function getData(id: string) {
-  const product = await prisma.product.findUnique({
+async function getData(
+  id: string,
+): Promise<Omit<Product, "categoryId" | "createdAt" | "updatedAt"> | null> {
+  return prisma.product.findUnique({
     where: { id: id },
     select: {
       id: true,
@@ -22,10 +25,9 @@ async function getData(id: string) {
       tags: true,
     },
   });
-  return product;
 }
 
-// Динамическая генерация метаданных
+// Dynamic Metadata generation
 export async function generateMetadata({
   params,
 }: {

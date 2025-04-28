@@ -22,7 +22,7 @@ export const TopBar: FC<TopBarProps> = ({ categories }) => {
   const loadingFetch = useAppSelector((state) => state.cart.loadingFetch);
   const [isBarHidden, setIsBarHidden] = useState(false);
 
-  const isHideBtn = loadingFetch || activeId === categories[0].name;
+  const isHideBtn = loadingFetch || activeId === categories[0]?.name;
   const isBarVisibleAtTop = !isHideBtn && isBarHidden;
 
   const toggleBarVisibility = () => setIsBarHidden((prev) => !prev);
@@ -36,8 +36,6 @@ export const TopBar: FC<TopBarProps> = ({ categories }) => {
     }
   };
 
-  // console.log(activeId)
-
   return (
     <div className={cn(s.root, isBarVisibleAtTop && s.hidden)}>
       <div className={s.wrap}>
@@ -48,7 +46,9 @@ export const TopBar: FC<TopBarProps> = ({ categories }) => {
             onClick={handleScroll}
             loading={loadingFetch}
           />
-        ) : null}
+        ) : (
+          <div />
+        )}
         <SortDropdown />
       </div>
 

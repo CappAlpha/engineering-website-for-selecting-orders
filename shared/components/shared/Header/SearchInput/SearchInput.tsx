@@ -10,15 +10,7 @@ import {
 import { Category, Product } from "@prisma/client";
 import cn from "classnames";
 import Link from "next/link";
-import {
-  HTMLAttributes,
-  Key,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  type FC,
-} from "react";
+import { HTMLAttributes, Key, useRef, useState, type FC } from "react";
 
 import { pageConfig } from "@/constants/pages";
 import { useDebounce } from "@/hook/useDebounce";
@@ -45,36 +37,28 @@ export const SearchInput: FC<Props> = ({ categories }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  // TODO: remove or made limit
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
+  //TODO: useless?
+  const onClose = () => {
+    setOpen(false);
+    setSearchQuery("");
+    inputRef.current?.blur();
+  };
 
   // Close component when click outside
   useOutsideClick({
     elementRef: ref,
     handler: () => {
-      setOpen(false);
+      onClose();
     },
     attached: open,
   });
 
-  // Close on key Escape
-  const closeBg = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === "Escape" && open === true) {
-        setOpen(false);
-      }
-    },
-    [open],
-  );
-
-  useEffect(() => {
-    document.addEventListener("keydown", closeBg);
-    return () => {
-      document.removeEventListener("keydown", closeBg);
-    };
-  }, [closeBg]);
-
-  const fetchProducts = useCallback(async () => {
+  const fetchProducts = async () => {
     setLoading(true);
     setError(false);
 
@@ -98,7 +82,7 @@ export const SearchInput: FC<Props> = ({ categories }) => {
         CACHE_KEY,
         JSON.stringify({ items: response, timestamp: Date.now() }),
       );
-    } catch (err) {
+    } catch (err: unknown) {
       if (
         err instanceof Error &&
         (err.name === "CanceledError" || err.message.includes("canceled"))
@@ -113,13 +97,12 @@ export const SearchInput: FC<Props> = ({ categories }) => {
     }
 
     return () => controller.abort();
-  }, [debouncedSearchQuery]);
+  };
 
-  useEffect(() => {
-    if (open) {
-      fetchProducts();
-    }
-  }, [open, fetchProducts]);
+  const onOpen = () => {
+    setOpen(true);
+    fetchProducts();
+  };
 
   // Get category name by id
   const getCategoryNameById = (categoryId: number): string =>
@@ -130,17 +113,20 @@ export const SearchInput: FC<Props> = ({ categories }) => {
   const renderInput = (params: AutocompleteRenderInputParams) => (
     <TextField
       {...params}
+      inputRef={inputRef}
       variant="filled"
       label="Поиск"
       className={s.textField}
-      InputProps={{
-        ...params.InputProps,
-        endAdornment: (
-          <>
-            {loading ? <CircularProgress color="inherit" size={20} /> : null}
-            {params.InputProps.endAdornment}
-          </>
-        ),
+      slotProps={{
+        input: {
+          ...params.InputProps,
+          endAdornment: (
+            <>
+              {loading ? <CircularProgress color="inherit" size={20} /> : null}
+              {params.InputProps.endAdornment}
+            </>
+          ),
+        },
       }}
     />
   );
@@ -174,8 +160,8 @@ export const SearchInput: FC<Props> = ({ categories }) => {
         ) : (
           <Autocomplete
             open={open}
-            onOpen={() => setOpen(true)}
-            onClose={() => setOpen(false)}
+            onOpen={onOpen}
+            onClose={onClose}
             options={products}
             groupBy={(option) => getCategoryNameById(option.categoryId)}
             getOptionLabel={(option) => option.name}
@@ -184,6 +170,7 @@ export const SearchInput: FC<Props> = ({ categories }) => {
             loading={loading}
             loadingText="Загрузка..."
             noOptionsText="Ничего не найдено"
+            clearOnEscape={true}
             fullWidth
             disablePortal
             renderInput={renderInput}

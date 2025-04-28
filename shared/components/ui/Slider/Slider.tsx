@@ -24,7 +24,7 @@ export const Slider: FC<Props> = ({
   step = 1,
   minGap = step,
 }) => {
-  // Валидация начальных значений
+  // Validation
   const initialValue =
     Array.isArray(value) && value.length === 2 && value[0] <= value[1]
       ? value
@@ -33,7 +33,7 @@ export const Slider: FC<Props> = ({
   const [localValues, setLocalValues] = useState<number[]>(initialValue);
   const debouncedOnValueChange = useDebouncedCallback(onValueChange, 150);
 
-  // Синхронизация локального состояния при изменении пропсов
+  // Synchronize local state when props changed
   useEffect(() => {
     const validValue =
       Array.isArray(value) && value.length === 2 && value[0] <= value[1]
@@ -52,10 +52,9 @@ export const Slider: FC<Props> = ({
 
     let adjustedValues: number[] = [...newValues];
 
-    // Ограничение максимального значения
     adjustedValues[1] = Math.min(adjustedValues[1], max);
 
-    // Обеспечение минимального зазора между ползунками
+    // Keep gap between sliders
     if (adjustedValues[1] - adjustedValues[0] < minGap) {
       if (activeThumb === 0) {
         const leftValue = Math.min(
@@ -72,7 +71,6 @@ export const Slider: FC<Props> = ({
       }
     }
 
-    // Ограничение минимального значения
     adjustedValues[0] = Math.max(min, adjustedValues[0]);
     adjustedValues[1] = Math.min(max, adjustedValues[1]);
 

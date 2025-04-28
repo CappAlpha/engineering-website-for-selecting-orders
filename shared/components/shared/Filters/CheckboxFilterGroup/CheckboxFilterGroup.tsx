@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useMemo, useState, type FC } from "react";
+import { ChangeEvent, useState, type FC } from "react";
 
 import { Button } from "../../../ui/Button";
 import { Input } from "../../../ui/Input";
@@ -47,13 +47,9 @@ export const CheckboxFilterGroup: FC<Props> = ({
     item.toLowerCase().includes(searchValue.toLowerCase()),
   );
 
-  const visibleItems = useMemo(() => {
-    if (showAll) return filteredItems;
-    return filteredItems.slice(0, limit);
-  }, [showAll, filteredItems, limit]);
+  const visibleItems = showAll ? filteredItems : items.slice(0, limit);
 
-  // TODO: fix?
-  const canShowToggle = loading ? true : items.length > limit;
+  const canShowToggle = items.length > limit || items.length === 0;
 
   return (
     <div className={s.root}>
@@ -81,7 +77,7 @@ export const CheckboxFilterGroup: FC<Props> = ({
       ) : (
         <>
           <ul className={s.items}>
-            {loading ? (
+            {loading || items.length === 0 ? (
               Array.from({ length: limit }).map((_, index) => (
                 <li key={index} className={s.itemSkeleton}></li>
               ))

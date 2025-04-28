@@ -1,7 +1,7 @@
 "use client";
 
 import { Product } from "@prisma/client";
-import { useEffect, type FC } from "react";
+import { useCallback, type FC } from "react";
 import { useDispatch } from "react-redux";
 
 import { useAppSelector } from "@/hook/useAppSelector";
@@ -14,26 +14,32 @@ import { ProductCardSkeleton } from "../ProductCard/ProductCardSkeleton";
 
 import s from "./ProductsGroupList.module.scss";
 
-export interface Props {
-  id: number;
+interface Props {
   name: string;
   items: Product[];
 }
 
-export const ProductsGroupList: FC<Props> = ({ id, name, items }) => {
+export const ProductsGroupList: FC<Props> = ({ name, items }) => {
   const dispatch = useDispatch<AppDispatch>();
   const isLoading = useAppSelector((state) => state.cart.loadingFetch);
 
-  const { isIntersecting, ref } = useIntersectionObserver({ threshold: 0.4 });
+  const handleIntersection = useCallback(
+    (isIntersecting: boolean) => {
+      if (isIntersecting) {
+        dispatch(categoriesActions.setActiveId(name));
+      }
+    },
+    [dispatch, name],
+  );
 
-  useEffect(() => {
-    if (isIntersecting) {
-      dispatch(categoriesActions.setActiveId(name));
-    }
-  }, [isIntersecting, id, dispatch]);
+  const { ref } = useIntersectionObserver({
+    threshold: 0.4,
+    callback: handleIntersection,
+  });
 
   return (
     <section
+      key={name}
       id={name}
       ref={ref}
       className={s.root}
