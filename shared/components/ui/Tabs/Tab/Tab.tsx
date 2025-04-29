@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 
 import s from "./Tab.module.scss";
 
-export interface Props {
+interface Props {
   name: string;
   activeId: string;
   onClick: (name: string, isActive: boolean) => void;

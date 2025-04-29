@@ -10,6 +10,8 @@ export interface CartState {
   loadingAdd: boolean;
   loadingRemove: boolean;
 
+  loadingAddId: string | null;
+
   errorFetch: string | null;
   errorUpdate: string | null;
   errorAdd: string | null;
@@ -24,6 +26,8 @@ const initialState: CartState = {
   loadingUpdate: false,
   loadingAdd: false,
   loadingRemove: false,
+
+  loadingAddId: null,
 
   errorFetch: null,
   errorUpdate: null,
@@ -92,14 +96,14 @@ const cartSlice = createSlice({
       .addCase(
         fetchCartItems.fulfilled,
         (state, action: PayloadAction<CartReturnProps>) => {
-          state.loadingFetch = false;
           state.items = action.payload.items;
           state.totalAmount = action.payload.totalAmount;
+          state.loadingFetch = false;
         },
       )
       .addCase(fetchCartItems.rejected, (state, action) => {
-        state.loadingFetch = false;
         state.errorFetch = action.error?.message ?? "Ошибка получения товаров";
+        state.loadingFetch = false;
       });
 
     // updateItemQuantity
@@ -111,34 +115,38 @@ const cartSlice = createSlice({
       .addCase(
         updateItemQuantity.fulfilled,
         (state, action: PayloadAction<CartReturnProps>) => {
-          state.loadingUpdate = false;
           state.items = action.payload.items;
           state.totalAmount = action.payload.totalAmount;
+          state.loadingUpdate = false;
         },
       )
       .addCase(updateItemQuantity.rejected, (state, action) => {
-        state.loadingUpdate = false;
         state.errorUpdate =
           action.error?.message ?? "Ошибка обновления товаров";
+        state.loadingUpdate = false;
       });
 
     // addCartItem
     builder
-      .addCase(addCartItem.pending, (state) => {
+      .addCase(addCartItem.pending, (state, action) => {
+        state.loadingAddId = action.meta.arg.values.productId;
+        console.log(action.meta.arg.values.productId);
         state.loadingAdd = true;
         state.errorAdd = null;
       })
       .addCase(
         addCartItem.fulfilled,
         (state, action: PayloadAction<CartReturnProps>) => {
-          state.loadingAdd = false;
           state.items = action.payload.items;
           state.totalAmount = action.payload.totalAmount;
+          state.loadingAdd = false;
+          state.loadingAddId = null;
         },
       )
       .addCase(addCartItem.rejected, (state, action) => {
-        state.loadingAdd = false;
         state.errorAdd = action.error?.message ?? "Ошибка добавления товаров";
+        state.loadingAdd = false;
+        state.loadingAddId = null;
       });
 
     // removeCartItem
@@ -150,14 +158,14 @@ const cartSlice = createSlice({
       .addCase(
         removeCartItem.fulfilled,
         (state, action: PayloadAction<CartReturnProps>) => {
-          state.loadingRemove = false;
           state.items = action.payload.items;
           state.totalAmount = action.payload.totalAmount;
+          state.loadingRemove = false;
         },
       )
       .addCase(removeCartItem.rejected, (state, action) => {
-        state.loadingRemove = false;
         state.errorRemove = action.error?.message ?? "Ошибка удаления товаров";
+        state.loadingRemove = false;
       });
   },
 });

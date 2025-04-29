@@ -1,5 +1,6 @@
 "use client";
 
+import cn from "classnames";
 import Image from "next/image";
 import { type FC } from "react";
 
@@ -15,7 +16,6 @@ import s from "./ProductCardLine.module.scss";
 
 interface Props {
   item: CartStateItem;
-  loadingUpdate: boolean;
   errorUpdate: string | null;
   loadingRemove: boolean;
   errorRemove: string | null;
@@ -25,7 +25,6 @@ interface Props {
 
 export const ProductCardLine: FC<Props> = ({
   item,
-  loadingUpdate,
   loadingRemove,
   onChangeCount,
   onClickRemove,
@@ -33,7 +32,7 @@ export const ProductCardLine: FC<Props> = ({
   const { name, description, imageUrl, price, quantity } = item;
 
   return (
-    <div className={s.root}>
+    <div className={cn(s.root, loadingRemove && s.remove)}>
       <div className={s.imgWrap}>
         <Image src={imageUrl} alt={name} fill className={s.img} />
       </div>
@@ -47,16 +46,10 @@ export const ProductCardLine: FC<Props> = ({
             value={quantity}
             minValue={CART_QUANTITY_LIMITS.MIN}
             maxValue={CART_QUANTITY_LIMITS.MAX}
-            loading={loadingUpdate}
           />
           <div className={s.bottomRight}>
             <p className={s.price}>{price} &#8381;</p>
-            <Button
-              onClick={onClickRemove}
-              color="transparent"
-              noPadding
-              loading={loadingRemove}
-            >
+            <Button onClick={onClickRemove} color="transparent" noPadding>
               <Trash className={s.trash} />
             </Button>
           </div>

@@ -1,10 +1,10 @@
 "use client";
 
 import { Product } from "@prisma/client";
-import { useCallback, type FC } from "react";
+import { MouseEvent, useCallback, type FC } from "react";
 import { useDispatch } from "react-redux";
 
-import { useAppSelector } from "@/hook/useAppSelector";
+import { useCart } from "@/hook/useCart";
 import { useIntersectionObserver } from "@/hook/useIntersectionObserver.ts";
 import { categoriesActions } from "@/store/categories/categoriesSlice";
 import { AppDispatch } from "@/store/store";
@@ -21,7 +21,9 @@ interface Props {
 
 export const ProductsGroupList: FC<Props> = ({ name, items }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const isLoading = useAppSelector((state) => state.cart.loadingFetch);
+  const { loadingAddId, loadingFetch, errorFetch, errorAdd, addToCart } =
+    useCart();
+  const isErrorCard = errorFetch ?? errorAdd;
 
   const handleIntersection = useCallback(
     (isIntersecting: boolean) => {
@@ -45,19 +47,25 @@ export const ProductsGroupList: FC<Props> = ({ name, items }) => {
       className={s.root}
       aria-label={`Группа продуктов: ${name}`}
     >
-      {isLoading ? (
+      {loadingFetch ? (
         <div className={s.titleSkeleton} />
       ) : (
         <h2 className={s.title}>{name}</h2>
       )}
 
       <div className={s.list}>
-        {isLoading
+        {loadingFetch
           ? Array.from({ length: items.length }).map((_, index) => (
               <ProductCardSkeleton key={index} />
             ))
           : items.map((product) => (
-              <ProductCard key={product.id} {...product} />
+              <ProductCard
+                key={product.id}
+                {...product}
+                isError={isErrorCard}
+                loadingAddId={loadingAddId}
+                onClickButton={(e: MouseEvent) => addToCart(e, product.id)}
+              />
             ))}
       </div>
     </section>

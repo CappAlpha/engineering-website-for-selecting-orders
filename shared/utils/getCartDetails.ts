@@ -10,6 +10,7 @@ export interface CartReturnProps {
 export const getCartDetails = (data: CartDTO): CartReturnProps => {
   const items = data.items.map((item) => ({
     id: item.id,
+    productId: item.productId,
     quantity: item.quantity,
     name: item.product.name,
     description: item.product.description,

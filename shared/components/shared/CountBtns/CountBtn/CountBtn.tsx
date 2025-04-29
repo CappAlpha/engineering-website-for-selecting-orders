@@ -8,7 +8,7 @@ import { Minus, Plus } from "../../../../../public/icon";
 
 import s from "./CountBtn.module.scss";
 
-export interface Props {
+interface Props {
   value: number;
   minValue?: number;
   maxValue?: number;

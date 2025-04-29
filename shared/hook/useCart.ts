@@ -1,4 +1,6 @@
-import { MouseEvent } from "react";
+"use client";
+
+import { MouseEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 
@@ -19,6 +21,7 @@ export const CART_QUANTITY_LIMITS = {
 };
 
 interface UseCartReturn extends CartState {
+  loadingRemoveId: number | null;
   handleQuantityChange: (
     id: number,
     quantity: number,
@@ -37,6 +40,8 @@ export const useCart = (): UseCartReturn => {
   const dispatch = useDispatch<AppDispatch>();
   const cart = useAppSelector((state) => state.cart);
 
+  const [loadingRemoveId, setLoadingRemoveId] = useState<number | null>(null);
+
   const handleQuantityChange = async (
     id: number,
     quantity: number,
@@ -48,6 +53,8 @@ export const useCart = (): UseCartReturn => {
   };
 
   const handleRemove = async (id: number) => {
+    setLoadingRemoveId(id);
+
     toast.promise(dispatch(removeCartItem({ id })).unwrap(), {
       loading: "Удаляем...",
       success: "Товар удалён из корзины!",
@@ -62,12 +69,13 @@ export const useCart = (): UseCartReturn => {
     toast.promise(dispatch(addCartItem({ values: { productId } })).unwrap(), {
       loading: "Добавляем...",
       success: "Товар добавлен в корзину",
-      error: "Нельзя добавить больше 20 товаров!",
+      error: "Ошибка добавления товара",
     });
   };
 
   return {
     ...cart,
+    loadingRemoveId,
     handleQuantityChange,
     handleRemove,
     addToCart,

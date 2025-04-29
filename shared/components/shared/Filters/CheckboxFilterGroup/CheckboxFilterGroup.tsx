@@ -8,7 +8,7 @@ import { FilterCheckbox } from "./FilterCheckbox";
 
 import s from "./CheckboxFilterGroup.module.scss";
 
-export interface Props {
+interface Props {
   title: string;
   items: string[];
   limit?: number;

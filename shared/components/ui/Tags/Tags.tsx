@@ -4,7 +4,7 @@ import { Tag } from "./Tag";
 
 import s from "./Tags.module.scss";
 
-export interface Props {
+interface Props {
   tags: string[];
 }
 

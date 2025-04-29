@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface FiltersState {
+interface FiltersState {
   selectedTags: string[];
   prices: {
     priceFrom?: number;

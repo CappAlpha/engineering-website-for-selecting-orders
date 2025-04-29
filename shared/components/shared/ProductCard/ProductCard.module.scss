@@ -16,6 +16,10 @@
   }
 }
 
+.disable{
+  pointer-events: none;
+}
+
 .imgWrap,
 .imgWrapSkeleton {
   overflow: hidden;

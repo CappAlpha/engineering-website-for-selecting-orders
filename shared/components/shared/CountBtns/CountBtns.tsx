@@ -6,7 +6,7 @@ import { CountBtn } from "./CountBtn";
 
 import s from "./CountBtns.module.scss";
 
-export interface Props {
+interface Props {
   value: number;
   minValue: number;
   maxValue: number;

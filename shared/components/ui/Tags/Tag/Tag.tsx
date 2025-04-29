@@ -2,7 +2,7 @@ import { type FC } from "react";
 
 import s from "./Tag.module.scss";
 
-export interface Props {
+interface Props {
   tag: string;
 }
 

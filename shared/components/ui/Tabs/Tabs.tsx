@@ -7,7 +7,7 @@ import { Tab } from "./Tab";
 
 import s from "./Tabs.module.scss";
 
-export interface Props {
+interface Props {
   items: TopBarProps["categories"];
   activeId: string;
   loading?: boolean;

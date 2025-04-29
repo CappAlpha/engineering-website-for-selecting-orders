@@ -7,7 +7,7 @@ import { useDebouncedCallback } from "@/hook/useDebounce";
 
 import s from "./Slider.module.scss";
 
-export interface Props {
+interface Props {
   min: number;
   max: number;
   value: number[];

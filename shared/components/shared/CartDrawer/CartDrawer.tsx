@@ -5,7 +5,7 @@ import { ReactElement, type FC } from "react";
 
 import s from "./CartDrawer.module.scss";
 
-export interface Props {
+interface Props {
   children: ReactElement;
   open: boolean;
   toggleDrawer: (value: boolean) => () => void;

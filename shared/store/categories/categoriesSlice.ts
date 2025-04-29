@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export interface Props {
-  activeId: string;
+interface Props {
+  activeId: string | null;
 }
 
 const initialState: Props = {
-  activeId: "",
+  activeId: null,
 };
 
 const categoriesSlice = createSlice({

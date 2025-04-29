@@ -10,7 +10,7 @@ import { noop } from "@/utils/noop";
 
 import s from "./FilterCheckbox.module.scss";
 
-export interface Props {
+interface Props {
   name: string;
   endAdornment?: ReactNode;
   onCheckedChange?: (checked: boolean) => void;

@@ -18,16 +18,21 @@ import s from "./CartBtn.module.scss";
 export const CartBtn: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const {
+    items,
+    totalAmount,
+
+    loadingRemoveId,
+
     loadingFetch,
     loadingUpdate,
     loadingAdd,
     loadingRemove,
+
     errorFetch,
     errorUpdate,
     errorAdd,
     errorRemove,
-    totalAmount,
-    items,
+
     handleQuantityChange,
     handleRemove,
   } = useCart();
@@ -67,12 +72,13 @@ export const CartBtn: FC = () => {
           <EmptyCartDrawer onClose={toggleDrawer(false)} />
         ) : (
           <ListCartDrawer
+            items={items}
+            totalAmount={totalAmount}
+            loadingRemoveId={loadingRemoveId}
             loadingUpdate={loadingUpdate}
             errorUpdate={errorUpdate}
             loadingRemove={loadingRemove}
             errorRemove={errorRemove}
-            totalAmount={totalAmount}
-            items={items}
             onClose={toggleDrawer(false)}
             onChangeCount={handleQuantityChange}
             onClickRemove={handleRemove}
