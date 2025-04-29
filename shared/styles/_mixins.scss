@@ -107,6 +107,6 @@ $breakpoints: (
     height: 100%;
     background: linear-gradient(90deg, var(--semi-dark-gray) 25%, var(--gray) 50%, var(--semi-dark-gray) 75%);
     background-size: 200% 100%;
-    animation: 1.5s linear infinite skeleton-loading;
+    animation: 1.5s linear infinite skeleton;
   }
 }

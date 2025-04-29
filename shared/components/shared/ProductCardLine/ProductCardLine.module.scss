@@ -11,11 +11,11 @@
 .remove {
   &::after {
     @include pseudo;
-    width: 100%;
+    width: 0;
     height: 100%;
     opacity: 0.5;
     background: var(--almost-dark-gray);
-    animation: 1s linear delete;
+    animation: 0.5s linear deleteCard forwards;
   }
 }
 
