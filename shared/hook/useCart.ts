@@ -69,7 +69,7 @@ export const useCart = (): UseCartReturn => {
     toast.promise(dispatch(addCartItem({ values: { productId } })).unwrap(), {
       loading: "Добавляем...",
       success: "Товар добавлен в корзину",
-      error: "Ошибка добавления товара",
+      error: (error) => error,
     });
   };
 

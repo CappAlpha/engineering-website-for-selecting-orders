@@ -7,7 +7,7 @@ import s from "./Tab.module.scss";
 
 interface Props {
   name: string;
-  activeId: string;
+  activeId: string | null;
   onClick: (name: string, isActive: boolean) => void;
 }
 

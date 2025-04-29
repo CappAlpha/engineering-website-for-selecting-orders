@@ -21,8 +21,7 @@ interface Props {
 
 export const ProductsGroupList: FC<Props> = ({ name, items }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { loadingAddId, loadingFetch, errorFetch, errorAdd, addToCart } =
-    useCart();
+  const { loadingAddId, errorFetch, errorAdd, addToCart } = useCart();
   const isErrorCard = errorFetch ?? errorAdd;
 
   const handleIntersection = useCallback(
@@ -39,6 +38,9 @@ export const ProductsGroupList: FC<Props> = ({ name, items }) => {
     callback: handleIntersection,
   });
 
+  // TODO: add loading?
+  const loadingFetchCategories = false;
+
   return (
     <section
       key={name}
@@ -47,14 +49,14 @@ export const ProductsGroupList: FC<Props> = ({ name, items }) => {
       className={s.root}
       aria-label={`Группа продуктов: ${name}`}
     >
-      {loadingFetch ? (
+      {loadingFetchCategories ? (
         <div className={s.titleSkeleton} />
       ) : (
         <h2 className={s.title}>{name}</h2>
       )}
 
       <div className={s.list}>
-        {loadingFetch
+        {loadingFetchCategories
           ? Array.from({ length: items.length }).map((_, index) => (
               <ProductCardSkeleton key={index} />
             ))
@@ -63,7 +65,7 @@ export const ProductsGroupList: FC<Props> = ({ name, items }) => {
                 key={product.id}
                 {...product}
                 isError={isErrorCard}
-                loadingAddId={loadingAddId}
+                loadingAdd={loadingAddId === product.id}
                 onClickButton={(e: MouseEvent) => addToCart(e, product.id)}
               />
             ))}

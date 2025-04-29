@@ -20,8 +20,8 @@ interface Props {
 }
 export const CountBtn: FC<Props> = ({
   value,
-  minValue,
-  maxValue,
+  minValue = 1,
+  maxValue = 10,
   type,
   size = "sm",
   disabled = false,
@@ -30,7 +30,7 @@ export const CountBtn: FC<Props> = ({
 }) => {
   const isMinus = type === QuantityAction.MINUS;
   const isDisabled =
-    disabled || loading || (isMinus ? value === minValue : value === maxValue);
+    disabled || loading || (isMinus ? value <= minValue : value >= maxValue);
 
   return (
     <div className={s.root}>

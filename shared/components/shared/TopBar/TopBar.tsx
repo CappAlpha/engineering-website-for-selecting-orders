@@ -19,10 +19,13 @@ export interface TopBarProps {
 
 export const TopBar: FC<TopBarProps> = ({ categories }) => {
   const activeId = useAppSelector((state) => state.categories.activeId);
-  const loadingFetch = useAppSelector((state) => state.cart.loadingFetch);
+
+  // TODO: add loading?
+  const loadingFetchCategories = false;
+
   const [isBarHidden, setIsBarHidden] = useState(false);
 
-  const isHideBtn = loadingFetch || activeId === categories[0]?.name;
+  const isHideBtn = loadingFetchCategories || activeId === categories[0]?.name;
   const isBarVisibleAtTop = !isHideBtn && isBarHidden;
 
   const toggleBarVisibility = () => setIsBarHidden((prev) => !prev);
@@ -44,7 +47,7 @@ export const TopBar: FC<TopBarProps> = ({ categories }) => {
             items={categories}
             activeId={activeId}
             onClick={handleScroll}
-            loading={loadingFetch}
+            loading={loadingFetchCategories}
           />
         ) : (
           <div />

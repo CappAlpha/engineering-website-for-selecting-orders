@@ -16,7 +16,7 @@ type ProductCardProps = Omit<Product, "categoryId" | "createdAt" | "updatedAt">;
 
 interface Props extends ProductCardProps {
   isError: string | null;
-  loadingAddId: string | null;
+  loadingAdd: boolean;
   onClickButton: (e: MouseEvent) => Promise<void>;
 }
 
@@ -28,12 +28,12 @@ export const ProductCard: FC<Props> = ({
   imageUrl,
   tags,
   isError,
-  loadingAddId,
+  loadingAdd,
   onClickButton,
 }) => {
   return (
     <Link
-      className={cn(s.root, loadingAddId && s.disable)}
+      className={cn(s.root, loadingAdd && s.disable)}
       href={`${pageConfig.PRODUCT}${id}`}
     >
       <div className={s.imgWrap}>
@@ -58,7 +58,7 @@ export const ProductCard: FC<Props> = ({
             от <b>{price} &#8381;</b>
           </span>
           {!isError && (
-            <Button onClick={onClickButton} loading={loadingAddId === id}>
+            <Button onClick={onClickButton} loading={loadingAdd}>
               <Plus className={s.icon} /> Добавить
             </Button>
           )}

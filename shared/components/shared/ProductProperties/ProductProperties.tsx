@@ -22,10 +22,8 @@ export const ProductProperties: FC<Props> = ({
   price,
   tags,
 }) => {
-  const { loadingFetch, errorFetch, loadingAdd, errorAdd, addToCart } =
-    useCart();
+  const { errorFetch, loadingAdd, errorAdd, addToCart } = useCart();
 
-  const isLoading = loadingFetch || loadingAdd;
   const isError = errorFetch ?? errorAdd;
 
   return (
@@ -46,7 +44,7 @@ export const ProductProperties: FC<Props> = ({
         <Button
           className={s.btn}
           onClick={(e) => addToCart(e, id)}
-          loading={isLoading}
+          loading={loadingAdd}
         >
           Добавить в корзину
         </Button>

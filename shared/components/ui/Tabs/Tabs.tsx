@@ -9,7 +9,7 @@ import s from "./Tabs.module.scss";
 
 interface Props {
   items: TopBarProps["categories"];
-  activeId: string;
+  activeId: string | null;
   loading?: boolean;
   onClick: (name: string, isActive: boolean) => void;
 }
