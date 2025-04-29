@@ -2,6 +2,9 @@
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
 const nextConfig = {
+  experimental: {
+    reactCompiler: true,
+  },
   reactStrictMode: true,
   sassOptions: {
     prependData: '@use "~@/styles/_mixins.scss" as *;',

@@ -1,5 +1,3 @@
-"use client";
-
 import { type FC } from "react";
 
 import { ProductCardLine } from "@/components/shared/ProductCardLine";
@@ -12,7 +10,7 @@ import { Arrow, Plus } from "../../../../../public/icon";
 
 import s from "./ListCartDrawer.module.scss";
 
-interface Props
+export interface ListCardDrawerProps
   extends Omit<
     CartState,
     | "loadingAddProductId"
@@ -23,16 +21,16 @@ interface Props
   > {
   loadingUpdateProductId: number | null;
   loadingRemoveId: number | null;
-  onClose: () => void;
-  onChangeCount: (
+  handleQuantityChange: (
     id: number,
     quantity: number,
     type: QuantityActionType,
   ) => void;
-  onClickRemove: (id: number) => void;
+  handleRemove: (id: number) => void;
+  onClose?: () => void;
 }
 
-export const ListCartDrawer: FC<Props> = ({
+export const ListCartDrawer: FC<ListCardDrawerProps> = ({
   items,
   totalAmount,
   loadingUpdateProductId,
@@ -42,8 +40,8 @@ export const ListCartDrawer: FC<Props> = ({
   loadingRemove,
   errorRemove,
   onClose,
-  onChangeCount,
-  onClickRemove,
+  handleQuantityChange,
+  handleRemove,
 }) => {
   const getPluralizeGoods = pluralize("товар", "товара", "товаров");
   const productsLength = items.length;
@@ -77,9 +75,9 @@ export const ListCartDrawer: FC<Props> = ({
             loadingRemove={loadingRemoveId === item.id}
             errorRemove={errorRemove}
             onChangeCount={(type) =>
-              onChangeCount(item.id, item.quantity, type)
+              handleQuantityChange(item.id, item.quantity, type)
             }
-            onClickRemove={() => onClickRemove(item.id)}
+            onClickRemove={() => handleRemove(item.id)}
           />
         ))}
       </div>

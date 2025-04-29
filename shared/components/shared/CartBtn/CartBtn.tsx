@@ -10,8 +10,6 @@ import { AppDispatch } from "@/store/store";
 
 import { ShoppingCart, Arrow } from "../../../../public/icon";
 import { CartDrawer } from "../CartDrawer";
-import { EmptyCartDrawer } from "../CartDrawer/EmptyCartDrawer";
-import { ListCartDrawer } from "../CartDrawer/ListCartDrawer";
 
 import s from "./CartBtn.module.scss";
 
@@ -46,7 +44,7 @@ export const CartBtn: FC = () => {
 
   const toggleDrawer = (newOpen: boolean) => () => setOpen(newOpen);
 
-  const isEmpty = items.length === 0;
+  const isEmpty = totalAmount === 0;
 
   return (
     <>
@@ -68,25 +66,21 @@ export const CartBtn: FC = () => {
           </Fragment>
         )}
       </Button>
-      <CartDrawer open={open} toggleDrawer={toggleDrawer}>
-        {isEmpty ? (
-          <EmptyCartDrawer onClose={toggleDrawer(false)} />
-        ) : (
-          <ListCartDrawer
-            items={items}
-            totalAmount={totalAmount}
-            loadingUpdateProductId={loadingUpdateProductId}
-            loadingRemoveId={loadingRemoveId}
-            loadingUpdate={loadingUpdate}
-            errorUpdate={errorUpdate}
-            loadingRemove={loadingRemove}
-            errorRemove={errorRemove}
-            onClose={toggleDrawer(false)}
-            onChangeCount={handleQuantityChange}
-            onClickRemove={handleRemove}
-          />
-        )}
-      </CartDrawer>
+      <CartDrawer
+        open={open}
+        isEmpty={isEmpty}
+        toggleDrawer={toggleDrawer}
+        items={items}
+        totalAmount={totalAmount}
+        loadingUpdateProductId={loadingUpdateProductId}
+        loadingRemoveId={loadingRemoveId}
+        loadingUpdate={loadingUpdate}
+        errorUpdate={errorUpdate}
+        loadingRemove={loadingRemove}
+        errorRemove={errorRemove}
+        handleQuantityChange={handleQuantityChange}
+        handleRemove={handleRemove}
+      />
     </>
   );
 };
