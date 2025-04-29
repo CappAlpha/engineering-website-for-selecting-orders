@@ -5,7 +5,30 @@
 }
 
 .count {
+  position: relative;
+  text-align: center;
+  min-width: 16px;
   font-size: 16px;
   font-weight: 700;
   line-height: 140%;
+}
+
+.loading {
+  pointer-events: none;
+  color: transparent;
+  fill: transparent;
+
+  &::after {
+    display: block;
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: 0;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 2px solid var(--white);
+    border-top-color: transparent;
+    animation: infinite 1s linear loaderSpin;
+  }
 }

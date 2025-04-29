@@ -15,8 +15,13 @@ import s from "./ListCartDrawer.module.scss";
 interface Props
   extends Omit<
     CartState,
-    "loadingAddId" | "loadingFetch" | "loadingAdd" | "errorFetch" | "errorAdd"
+    | "loadingAddProductId"
+    | "loadingFetch"
+    | "loadingAdd"
+    | "errorFetch"
+    | "errorAdd"
   > {
+  loadingUpdateProductId: number | null;
   loadingRemoveId: number | null;
   onClose: () => void;
   onChangeCount: (
@@ -30,6 +35,7 @@ interface Props
 export const ListCartDrawer: FC<Props> = ({
   items,
   totalAmount,
+  loadingUpdateProductId,
   loadingRemoveId,
   loadingUpdate,
   errorUpdate,
@@ -66,8 +72,9 @@ export const ListCartDrawer: FC<Props> = ({
           <ProductCardLine
             key={item.name}
             item={item}
-            loadingRemove={loadingRemoveId === item.id}
+            loadingUpdate={loadingUpdateProductId === item.id}
             errorUpdate={errorUpdate}
+            loadingRemove={loadingRemoveId === item.id}
             errorRemove={errorRemove}
             onChangeCount={(type) =>
               onChangeCount(item.id, item.quantity, type)

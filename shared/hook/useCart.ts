@@ -15,11 +15,6 @@ import { AppDispatch } from "@/store/store";
 
 import { useAppSelector } from "./useAppSelector";
 
-export const CART_QUANTITY_LIMITS = {
-  MIN: 1,
-  MAX: 20,
-};
-
 interface UseCartReturn extends CartState {
   loadingRemoveId: number | null;
   handleQuantityChange: (
@@ -69,7 +64,7 @@ export const useCart = (): UseCartReturn => {
     toast.promise(dispatch(addCartItem({ values: { productId } })).unwrap(), {
       loading: "Добавляем...",
       success: "Товар добавлен в корзину",
-      error: (error) => error,
+      error: "Ошибка добавления в корзину",
     });
   };
 

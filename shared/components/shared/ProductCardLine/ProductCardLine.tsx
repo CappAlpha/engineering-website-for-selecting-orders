@@ -5,9 +5,8 @@ import Image from "next/image";
 import { type FC } from "react";
 
 import { Button } from "@/components/ui/Button";
-import { QuantityActionType } from "@/constants/cart";
+import { CART_QUANTITY_LIMITS, QuantityActionType } from "@/constants/cart";
 import { CartStateItem } from "@/entities/cart";
-import { CART_QUANTITY_LIMITS } from "@/hook/useCart";
 
 import { Trash } from "../../../../public/icon";
 import { CountBtns } from "../CountBtns";
@@ -16,6 +15,7 @@ import s from "./ProductCardLine.module.scss";
 
 interface Props {
   item: CartStateItem;
+  loadingUpdate: boolean;
   errorUpdate: string | null;
   loadingRemove: boolean;
   errorRemove: string | null;
@@ -25,6 +25,7 @@ interface Props {
 
 export const ProductCardLine: FC<Props> = ({
   item,
+  loadingUpdate,
   loadingRemove,
   onChangeCount,
   onClickRemove,
@@ -46,6 +47,7 @@ export const ProductCardLine: FC<Props> = ({
             value={quantity}
             minValue={CART_QUANTITY_LIMITS.MIN}
             maxValue={CART_QUANTITY_LIMITS.MAX}
+            loading={loadingUpdate}
           />
           <div className={s.bottomRight}>
             <p className={s.price}>{price} &#8381;</p>

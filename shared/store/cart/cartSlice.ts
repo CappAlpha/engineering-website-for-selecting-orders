@@ -10,7 +10,8 @@ export interface CartState {
   loadingAdd: boolean;
   loadingRemove: boolean;
 
-  loadingAddId: string | null;
+  loadingUpdateProductId: number | null;
+  loadingAddProductId: string | null;
 
   errorFetch: string | null;
   errorUpdate: string | null;
@@ -27,7 +28,8 @@ const initialState: CartState = {
   loadingAdd: false,
   loadingRemove: false,
 
-  loadingAddId: null,
+  loadingUpdateProductId: null,
+  loadingAddProductId: null,
 
   errorFetch: null,
   errorUpdate: null,
@@ -108,7 +110,8 @@ const cartSlice = createSlice({
 
     // updateItemQuantity
     builder
-      .addCase(updateItemQuantity.pending, (state) => {
+      .addCase(updateItemQuantity.pending, (state, action) => {
+        state.loadingUpdateProductId = action.meta.arg.id;
         state.loadingUpdate = true;
         state.errorUpdate = null;
       })
@@ -118,19 +121,20 @@ const cartSlice = createSlice({
           state.items = action.payload.items;
           state.totalAmount = action.payload.totalAmount;
           state.loadingUpdate = false;
+          state.loadingUpdateProductId = null;
         },
       )
       .addCase(updateItemQuantity.rejected, (state, action) => {
         state.errorUpdate =
           action.error?.message ?? "Ошибка обновления товаров";
         state.loadingUpdate = false;
+        state.loadingUpdateProductId = null;
       });
 
     // addCartItem
     builder
       .addCase(addCartItem.pending, (state, action) => {
-        state.loadingAddId = action.meta.arg.values.productId;
-        console.log(action.meta.arg.values.productId);
+        state.loadingAddProductId = action.meta.arg.values.productId;
         state.loadingAdd = true;
         state.errorAdd = null;
       })
@@ -140,13 +144,13 @@ const cartSlice = createSlice({
           state.items = action.payload.items;
           state.totalAmount = action.payload.totalAmount;
           state.loadingAdd = false;
-          state.loadingAddId = null;
+          state.loadingAddProductId = null;
         },
       )
       .addCase(addCartItem.rejected, (state, action) => {
         state.errorAdd = action.error?.message ?? "Ошибка добавления товаров";
         state.loadingAdd = false;
-        state.loadingAddId = null;
+        state.loadingAddProductId = null;
       });
 
     // removeCartItem

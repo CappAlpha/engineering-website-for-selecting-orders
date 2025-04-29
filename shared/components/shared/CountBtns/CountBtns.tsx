@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { type FC } from "react";
 
 import { QuantityActionType } from "@/constants/cart";
@@ -34,7 +35,7 @@ export const CountBtns: FC<Props> = ({
         type="minus"
       />
 
-      <p className={s.count}>{value}</p>
+      <p className={cn(s.count, loading && s.loading)}>{value}</p>
 
       <CountBtn
         value={value}

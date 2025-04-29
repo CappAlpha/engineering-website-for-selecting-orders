@@ -21,7 +21,7 @@ interface Props {
 
 export const ProductsGroupList: FC<Props> = ({ name, items }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { loadingAddId, errorFetch, errorAdd, addToCart } = useCart();
+  const { loadingAddProductId, errorFetch, errorAdd, addToCart } = useCart();
   const isErrorCard = errorFetch ?? errorAdd;
 
   const handleIntersection = useCallback(
@@ -65,7 +65,7 @@ export const ProductsGroupList: FC<Props> = ({ name, items }) => {
                 key={product.id}
                 {...product}
                 isError={isErrorCard}
-                loadingAdd={loadingAddId === product.id}
+                loadingAdd={loadingAddProductId === product.id}
                 onClickButton={(e: MouseEvent) => addToCart(e, product.id)}
               />
             ))}

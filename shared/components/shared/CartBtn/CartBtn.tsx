@@ -21,6 +21,7 @@ export const CartBtn: FC = () => {
     items,
     totalAmount,
 
+    loadingUpdateProductId,
     loadingRemoveId,
 
     loadingFetch,
@@ -74,6 +75,7 @@ export const CartBtn: FC = () => {
           <ListCartDrawer
             items={items}
             totalAmount={totalAmount}
+            loadingUpdateProductId={loadingUpdateProductId}
             loadingRemoveId={loadingRemoveId}
             loadingUpdate={loadingUpdate}
             errorUpdate={errorUpdate}

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { CART_QUANTITY_LIMITS } from "@/constants/cart";
 import { CreateCartItemValues } from "@/entities/cart";
-import { CART_QUANTITY_LIMITS } from "@/hook/useCart";
 import { findOrCreateCart } from "@/utils/findOrCreateCart";
 import { updateCartTotalAmount } from "@/utils/updateCartTotalAmount";
 
