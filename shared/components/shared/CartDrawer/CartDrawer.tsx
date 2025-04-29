@@ -10,7 +10,7 @@ import s from "./CartDrawer.module.scss";
 interface Props extends ListCardDrawerProps {
   open: boolean;
   loadingRemoveId: number | null;
-  isEmpty: boolean;
+  isCartEmpty: boolean;
   toggleDrawer: (value: boolean) => () => void;
 }
 
@@ -24,7 +24,7 @@ export const CartDrawer: FC<Props> = ({
   loadingRemove,
   errorRemove,
   open,
-  isEmpty,
+  isCartEmpty,
   toggleDrawer,
   handleQuantityChange,
   handleRemove,
@@ -37,9 +37,9 @@ export const CartDrawer: FC<Props> = ({
         anchor="right"
         className={s.drawer}
       >
-        <div className={cn(s.wrap, !isEmpty && s.noJustify)}>
+        <div className={cn(s.wrap, !isCartEmpty && s.noJustify)}>
           {" "}
-          {isEmpty ? (
+          {isCartEmpty ? (
             <EmptyCartDrawer onClose={toggleDrawer(false)} />
           ) : (
             <ListCartDrawer

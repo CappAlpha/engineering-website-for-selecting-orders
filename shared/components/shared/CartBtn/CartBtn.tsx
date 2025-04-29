@@ -44,7 +44,7 @@ export const CartBtn: FC = () => {
 
   const toggleDrawer = (newOpen: boolean) => () => setOpen(newOpen);
 
-  const isEmpty = totalAmount === 0;
+  const isCartEmpty = totalAmount === 0;
 
   return (
     <>
@@ -68,7 +68,7 @@ export const CartBtn: FC = () => {
       </Button>
       <CartDrawer
         open={open}
-        isEmpty={isEmpty}
+        isCartEmpty={isCartEmpty}
         toggleDrawer={toggleDrawer}
         items={items}
         totalAmount={totalAmount}
