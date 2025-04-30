@@ -1,0 +1,132 @@
+.root,
+.rootSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 100%;
+  border-radius: 15px;
+  transition: background-color 0.3s ease;
+
+  @media (hover: hover) {
+    &:hover {
+      img {
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+
+.disable {
+  pointer-events: none;
+}
+
+.imgWrap,
+.imgWrapSkeleton {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 270px;
+  border-radius: 15px;
+}
+
+.img {
+  object-fit: cover;
+  transition: 0.3s transform ease-in-out;
+}
+
+.textWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.title,
+.titleSkeleton {
+  margin-bottom: 7px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+.description {
+  color: var(--gray);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.bottom {
+  margin-top: auto;
+}
+
+.bottomWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 27px;
+}
+
+.icon {
+  width: 16px;
+  min-width: 16px;
+}
+
+.imgWrapSkeleton,
+.titleSkeleton,
+.descriptionSkeleton,
+.tagsSkeleton,
+.priceSkeleton,
+.buttonSkeleton {
+  @include skeleton;
+}
+
+.titleSkeleton {
+  width: 70%;
+  height: 30px;
+
+  &::before {
+    border-radius: 4px;
+  }
+}
+
+.descriptionSkeleton {
+  width: 90%;
+  height: 42px;
+
+  &::before {
+    border-radius: 4px;
+  }
+}
+
+.tagsSkeleton {
+  width: 50%;
+  height: 41px;
+
+  &::before {
+    border-radius: 20px;
+  }
+}
+
+.priceSkeleton {
+  width: 40%;
+  height: 27px;
+
+  &::before {
+    border-radius: 4px;
+  }
+}
+
+.buttonSkeleton {
+  width: 30%;
+  height: 42px;
+
+  &::before {
+    border-radius: 20px;
+  }
+}

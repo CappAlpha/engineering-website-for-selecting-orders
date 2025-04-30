@@ -7,7 +7,7 @@ const nextConfig = {
   },
   reactStrictMode: true,
   sassOptions: {
-    prependData: '@use "~@/styles/_mixins.scss" as *;',
+    prependData: '@use "~@/shared/styles/_mixins.scss" as *;',
   },
   images: {
     // Домены картинок для Image

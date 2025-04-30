@@ -1,0 +1,25 @@
+.title,
+.titleSkeleton {
+  @include subtitle;
+
+  & {
+    margin-bottom: 30px;
+  }
+}
+
+.list,
+.skeletonRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
+}
+
+.titleSkeleton {
+  width: 200px;
+  height: 29px;
+  @include skeleton;
+
+  &::before {
+    border-radius: 4px;
+  }
+}

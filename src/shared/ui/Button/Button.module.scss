@@ -1,0 +1,104 @@
+@use "../../styles/animations.scss" as *;
+
+.root {
+  padding: 12px 18px;
+  color: var(--white);
+  fill: var(--white);
+  font-size: 14px;
+  line-height: 130%;
+  border-radius: 8px;
+  background: var(--dark-blue);
+  display: inline-flex;
+  gap: 6px;
+  transition: all 0.3s;
+  width: max-content;
+  height: fit-content;
+  white-space: nowrap;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    @media (hover: hover) and (pointer: fine) {
+      color: var(--white);
+      background: var(--blue);
+      cursor: pointer;
+    }
+  }
+
+  &.size {
+    &_s {
+      padding: 10px 16px;
+
+      svg {
+        min-width: 30px;
+        width: 30px;
+      }
+    }
+
+    &_l {
+      padding: 16px 18px;
+      font-size: 16px;
+    }
+  }
+
+  &.color {
+    &_transparent {
+      background: transparent;
+      color: var(--blue);
+
+      &:hover {
+        @media (hover: hover) and (pointer: fine) {
+          color: var(--gray);
+        }
+      }
+    }
+
+    &_outline {
+      background: transparent;
+      color: var(--blue);
+      outline: 1px solid var(--blue);
+
+      &:hover {
+        @media (hover: hover) and (pointer: fine) {
+          background: var(--blue);
+        }
+      }
+    }
+  }
+
+  &.disabled {
+    pointer-events: none;
+    color: var(--semi-dark-gray);
+    outline-color: var(--semi-dark-gray);
+
+    svg {
+      color: var(--semi-dark-gray);
+    }
+  }
+
+  &.loading {
+    position: relative;
+    pointer-events: none;
+    color: transparent;
+    fill: transparent;
+
+    &::after {
+      display: block;
+      content: "";
+      position: absolute;
+      top: calc(50% - 12px);
+      left: calc(50% - 12px);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--white);
+      border-top-color: transparent;
+      animation: infinite 1s linear loaderSpin;
+    }
+  }
+}
+
+.noPadding {
+  padding: 0;
+}

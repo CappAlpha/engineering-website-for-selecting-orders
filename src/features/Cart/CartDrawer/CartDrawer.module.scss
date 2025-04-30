@@ -1,0 +1,16 @@
+.wrap {
+  width: 20dvw;
+  height: 100%;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: var(--semi-dark-gray);
+  color: var(--white);
+}
+
+.noJustify {
+  justify-content: flex-start;
+}
