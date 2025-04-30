@@ -16,12 +16,18 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  // TODO: add error catch
-  const data = await req.json();
+  try {
+    const data = await req.json();
+    const user = await prisma.user.create({
+      data,
+    });
 
-  const user = await prisma.user.create({
-    data,
-  });
-
-  return NextResponse.json(user);
+    return NextResponse.json(user);
+  } catch (error) {
+    console.error("API error:", error);
+    return NextResponse.json(
+      { error: "Failed to create user" },
+      { status: 500 },
+    );
+  }
 }

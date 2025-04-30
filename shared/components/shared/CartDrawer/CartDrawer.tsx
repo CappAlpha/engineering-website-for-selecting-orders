@@ -3,32 +3,17 @@ import cn from "classnames";
 import { type FC } from "react";
 
 import { EmptyCartDrawer } from "./EmptyCartDrawer";
-import { ListCardDrawerProps, ListCartDrawer } from "./ListCartDrawer";
+import { ListCartDrawer } from "./ListCartDrawer";
 
 import s from "./CartDrawer.module.scss";
 
-interface Props extends ListCardDrawerProps {
+interface Props {
   open: boolean;
-  loadingRemoveId: number | null;
   isCartEmpty: boolean;
   toggleDrawer: (value: boolean) => () => void;
 }
 
-export const CartDrawer: FC<Props> = ({
-  items,
-  totalAmount,
-  loadingUpdateProductId,
-  loadingRemoveId,
-  loadingUpdate,
-  errorUpdate,
-  loadingRemove,
-  errorRemove,
-  open,
-  isCartEmpty,
-  toggleDrawer,
-  handleQuantityChange,
-  handleRemove,
-}) => {
+export const CartDrawer: FC<Props> = ({ open, isCartEmpty, toggleDrawer }) => {
   return (
     <div className={s.root}>
       <Drawer
@@ -38,23 +23,10 @@ export const CartDrawer: FC<Props> = ({
         className={s.drawer}
       >
         <div className={cn(s.wrap, !isCartEmpty && s.noJustify)}>
-          {" "}
           {isCartEmpty ? (
             <EmptyCartDrawer onClose={toggleDrawer(false)} />
           ) : (
-            <ListCartDrawer
-              items={items}
-              totalAmount={totalAmount}
-              loadingUpdateProductId={loadingUpdateProductId}
-              loadingRemoveId={loadingRemoveId}
-              loadingUpdate={loadingUpdate}
-              errorUpdate={errorUpdate}
-              loadingRemove={loadingRemove}
-              errorRemove={errorRemove}
-              onClose={toggleDrawer(false)}
-              handleQuantityChange={handleQuantityChange}
-              handleRemove={handleRemove}
-            />
+            <ListCartDrawer onClose={toggleDrawer(false)} />
           )}
         </div>
       </Drawer>

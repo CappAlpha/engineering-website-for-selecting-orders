@@ -2,47 +2,34 @@ import { type FC } from "react";
 
 import { ProductCardLine } from "@/components/shared/ProductCardLine";
 import { Button } from "@/components/ui/Button";
-import { QuantityActionType } from "@/constants/cart";
-import { CartState } from "@/store/cart/cartSlice";
+import { useCart } from "@/hook/useCart";
 import { pluralize } from "@/utils/pluralize";
 
 import { Arrow, Plus } from "../../../../../public/icon";
 
 import s from "./ListCartDrawer.module.scss";
 
-export interface ListCardDrawerProps
-  extends Omit<
-    CartState,
-    | "loadingAddProductId"
-    | "loadingFetch"
-    | "loadingAdd"
-    | "errorFetch"
-    | "errorAdd"
-  > {
-  loadingUpdateProductId: number | null;
-  loadingRemoveId: number | null;
-  handleQuantityChange: (
-    id: number,
-    quantity: number,
-    type: QuantityActionType,
-  ) => void;
-  handleRemove: (id: number) => void;
+interface ListCardDrawerProps {
   onClose?: () => void;
 }
 
-export const ListCartDrawer: FC<ListCardDrawerProps> = ({
-  items,
-  totalAmount,
-  loadingUpdateProductId,
-  loadingRemoveId,
-  loadingUpdate,
-  errorUpdate,
-  loadingRemove,
-  errorRemove,
-  onClose,
-  handleQuantityChange,
-  handleRemove,
-}) => {
+export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
+  const {
+    items,
+    totalAmount,
+
+    loadingUpdateProductId,
+    loadingRemoveId,
+
+    loadingUpdate,
+    loadingRemove,
+
+    errorUpdate,
+    errorRemove,
+
+    handleQuantityChange,
+    handleRemove,
+  } = useCart();
   const getPluralizeGoods = pluralize("товар", "товара", "товаров");
   const productsLength = items.length;
 

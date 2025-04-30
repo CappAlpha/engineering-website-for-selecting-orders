@@ -19,25 +19,13 @@ export const CartBtn: FC = () => {
     items,
     totalAmount,
 
-    loadingUpdateProductId,
-    loadingRemoveId,
-
     loadingFetch,
     loadingUpdate,
     loadingAdd,
     loadingRemove,
-
-    errorFetch,
-    errorUpdate,
-    errorAdd,
-    errorRemove,
-
-    handleQuantityChange,
-    handleRemove,
   } = useCart();
   const [open, setOpen] = useState(false);
 
-  //TODO: change on React Query?
   useEffect(() => {
     dispatch(fetchCartItems());
   }, [dispatch]);
@@ -51,35 +39,20 @@ export const CartBtn: FC = () => {
       <Button
         className={s.root}
         loading={loadingFetch || loadingUpdate || loadingAdd || loadingRemove}
-        disabled={Boolean(errorAdd)}
         onClick={toggleDrawer(true)}
         aria-label={`Открыть корзину с ${items.length} товарами`}
       >
-        {errorFetch || errorUpdate || errorAdd || errorRemove ? (
-          <Fragment key="layout">Ошибка</Fragment>
-        ) : (
-          <Fragment key="layout">
-            {totalAmount} &#8381; <span className={s.separator} />
-            <ShoppingCart className={s.cartIcon} />
-            <span className={s.count}>{items.length}</span>
-            <Arrow className={s.arrowIcon} />
-          </Fragment>
-        )}
+        <Fragment key="layout">
+          {totalAmount} &#8381; <span className={s.separator} />
+          <ShoppingCart className={s.cartIcon} />
+          <span className={s.count}>{items.length}</span>
+          <Arrow className={s.arrowIcon} />
+        </Fragment>
       </Button>
       <CartDrawer
         open={open}
         isCartEmpty={isCartEmpty}
         toggleDrawer={toggleDrawer}
-        items={items}
-        totalAmount={totalAmount}
-        loadingUpdateProductId={loadingUpdateProductId}
-        loadingRemoveId={loadingRemoveId}
-        loadingUpdate={loadingUpdate}
-        errorUpdate={errorUpdate}
-        loadingRemove={loadingRemove}
-        errorRemove={errorRemove}
-        handleQuantityChange={handleQuantityChange}
-        handleRemove={handleRemove}
       />
     </>
   );

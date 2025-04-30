@@ -62,8 +62,6 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    //TODO: improve logic
-    // Check limit
     if (findCartItem && findCartItem.quantity >= CART_QUANTITY_LIMITS.MAX) {
       return NextResponse.json(
         {

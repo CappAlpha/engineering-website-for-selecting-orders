@@ -4,7 +4,11 @@ import { MouseEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 
-import { QuantityAction, QuantityActionType } from "@/constants/cart";
+import {
+  CART_QUANTITY_LIMITS,
+  QuantityAction,
+  QuantityActionType,
+} from "@/constants/cart";
 import {
   updateItemQuantity,
   removeCartItem,
@@ -44,7 +48,9 @@ export const useCart = (): UseCartReturn => {
   ) => {
     const newQuantity =
       type === QuantityAction.PLUS ? quantity + 1 : quantity - 1;
-    dispatch(updateItemQuantity({ id, quantity: newQuantity }));
+    if (newQuantity < CART_QUANTITY_LIMITS.MAX) {
+      dispatch(updateItemQuantity({ id, quantity: newQuantity }));
+    }
   };
 
   const handleRemove = async (id: number) => {
@@ -64,7 +70,7 @@ export const useCart = (): UseCartReturn => {
     toast.promise(dispatch(addCartItem({ values: { productId } })).unwrap(), {
       loading: "Добавляем...",
       success: "Товар добавлен в корзину",
-      error: "Ошибка добавления в корзину",
+      error: (error) => error?.message ?? "Ошибка добавления в корзину",
     });
   };
 

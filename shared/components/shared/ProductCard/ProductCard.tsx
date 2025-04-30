@@ -27,7 +27,6 @@ export const ProductCard: FC<Props> = ({
   price,
   imageUrl,
   tags,
-  isError,
   loadingAdd,
   onClickButton,
 }) => {
@@ -57,11 +56,9 @@ export const ProductCard: FC<Props> = ({
           <span className={s.price}>
             от <b>{price} &#8381;</b>
           </span>
-          {!isError && (
-            <Button onClick={onClickButton} loading={loadingAdd}>
-              <Plus className={s.icon} /> Добавить
-            </Button>
-          )}
+          <Button onClick={onClickButton} loading={loadingAdd}>
+            <Plus className={s.icon} /> Добавить
+          </Button>
         </div>
       </div>
     </Link>
