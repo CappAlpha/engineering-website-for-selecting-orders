@@ -5,7 +5,7 @@ import { Button } from "@/shared/ui/Button";
 
 import { prisma } from "../../../prisma/prisma-client";
 import { Settings, User } from "../../../public/icon";
-import { CartBtn } from "../Cart/CartBtn";
+import { CartBtn } from "../Cart/ui/CartBtn";
 import { SearchInput } from "./SearchInput";
 
 import s from "./Header.module.scss";

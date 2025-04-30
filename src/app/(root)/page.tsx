@@ -1,6 +1,6 @@
-import { Filters } from "@/features/Catalog/Filters";
-import { ProductsCatalog } from "@/features/Catalog/ProductsCatalog";
-import { TopBar } from "@/features/Catalog/TopBar";
+import { Filters } from "@/features/Catalog/ui/Filters";
+import { ProductsCatalog } from "@/features/Catalog/ui/ProductsCatalog";
+import { TopBar } from "@/features/Catalog/ui/TopBar";
 import { GetSearchParamsPage, findProduct } from "@/shared/lib/findProduct";
 
 import s from "./page.module.scss";

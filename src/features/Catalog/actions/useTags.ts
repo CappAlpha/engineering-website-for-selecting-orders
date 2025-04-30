@@ -1,0 +1,86 @@
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+
+import { filtersActions } from "@/features/Catalog/store/filtersSlice";
+import { useAppSelector } from "@/shared/hook/useAppSelector";
+import { getCachedData } from "@/shared/lib/getCacheData";
+import { Api } from "@/shared/services/apiClient";
+
+interface ReturnProps {
+  tags: string[];
+  selected: string[];
+  loading: boolean;
+  error: boolean;
+  toggle: (id: string) => void;
+}
+
+const CACHE_KEY = "tagsData";
+const CACHE_DURATION = 4 * 60 * 60 * 1000;
+
+export const useTags = (sortedToTop = false): ReturnProps => {
+  const dispatch = useDispatch();
+  const selected = useAppSelector((state) => state.filters.selectedTags);
+
+  const [tags, setTags] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  const fetchTags = async () => {
+    setLoading(true);
+    setError(false);
+
+    const cachedTags = getCachedData<string>(CACHE_KEY, CACHE_DURATION);
+    if (cachedTags) {
+      setTags(cachedTags);
+      setLoading(false);
+      return;
+    }
+
+    const controller = new AbortController();
+
+    try {
+      const response = await Api.tags.getAll(controller.signal);
+      setTags(response);
+
+      localStorage.setItem(
+        CACHE_KEY,
+        JSON.stringify({ items: response, timestamp: Date.now() }),
+      );
+    } catch (err: unknown) {
+      if (
+        err instanceof Error &&
+        (err.name === "CanceledError" || err.message.includes("canceled"))
+      ) {
+        return;
+      }
+      console.error("Ошибка при запросе тегов:", err);
+      setTags([]);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+
+    return () => controller.abort();
+  };
+
+  useEffect(() => {
+    fetchTags();
+  }, []);
+
+  // Sort tags - selected tag move to top
+  const sortedTags = sortedToTop
+    ? [...tags].sort((a, b) => {
+        const aSelected = selected.includes(a);
+        const bSelected = selected.includes(b);
+
+        if (aSelected === bSelected) return 0;
+        return aSelected ? -1 : 1;
+      })
+    : tags;
+
+  const toggle = (id: string) => {
+    dispatch(filtersActions.toggleTag(id));
+  };
+
+  return { tags: sortedTags, selected, loading, error, toggle };
+};

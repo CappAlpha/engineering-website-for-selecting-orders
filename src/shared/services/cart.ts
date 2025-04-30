@@ -1,5 +1,5 @@
+import { CartDTO, CreateCartItemValues } from "../../entities/cart";
 import { pageConfig } from "../constants/pages";
-import { CartDTO, CreateCartItemValues } from "../entities/cart";
 import { axiosInstance } from "./instance";
 
 export const getCart = async (): Promise<CartDTO> => {
