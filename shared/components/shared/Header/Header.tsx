@@ -10,7 +10,11 @@ import { CartBtn } from "../CartBtn";
 
 import s from "./Header.module.scss";
 
-export const Header: FC = async () => {
+interface Props {
+  isCheckoutPage?: boolean;
+}
+
+export const Header: FC<Props> = async ({ isCheckoutPage = false }) => {
   const categories = await prisma.category.findMany();
 
   return (
@@ -21,13 +25,13 @@ export const Header: FC = async () => {
           <h2 className={s.title}>Engineer</h2>
         </Link>
 
-        <SearchInput categories={categories} />
+        {!isCheckoutPage && <SearchInput categories={categories} />}
 
         <div className={s.right}>
           <Button>
             <User className={s.userIcon} /> Войти
           </Button>
-          <CartBtn />
+          {!isCheckoutPage && <CartBtn />}
         </div>
       </div>
     </header>
