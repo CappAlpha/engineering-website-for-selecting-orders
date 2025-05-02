@@ -2,22 +2,18 @@ import {
   Input as MuiInput,
   type InputProps as MuiInputProps,
 } from "@mui/material";
-import { forwardRef, InputHTMLAttributes } from "react";
+import { FC, InputHTMLAttributes } from "react";
 
 import s from "./Input.module.scss";
 
-export const Input = forwardRef<
-  MuiInputProps,
-  InputHTMLAttributes<HTMLInputElement>
->(({ ...props }, ref) => {
+export const Input: FC<
+  MuiInputProps & InputHTMLAttributes<HTMLInputElement>
+> = (props) => {
   return (
     <MuiInput
       className={s.root}
       inputProps={props as InputHTMLAttributes<HTMLInputElement>}
       fullWidth
-      ref={ref}
     />
   );
-});
-
-Input.displayName = "Input";
+};
