@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useState, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import { useDispatch } from "react-redux";
 
 import { fetchCartItems } from "@/modules/Cart/store/cartSlice";
@@ -42,12 +42,10 @@ export const CartBtn: FC = () => {
         onClick={toggleDrawer(true)}
         aria-label={`Открыть корзину с ${items.length} товарами`}
       >
-        <Fragment key="layout">
-          {totalAmount} &#8381; <span className={s.separator} />
-          <ShoppingCart className={s.cartIcon} />
-          <span className={s.count}>{items.length}</span>
-          <Arrow className={s.arrowIcon} />
-        </Fragment>
+        {totalAmount} &#8381; <span className={s.separator} />
+        <ShoppingCart className={s.cartIcon} />
+        <span className={s.count}>{items.length}</span>
+        <Arrow className={s.arrowIcon} />
       </Button>
       <CartDrawer
         open={open}
