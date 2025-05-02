@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { type FC } from "react";
 
+import { CartBtn } from "@/modules/Cart/ui/CartBtn";
 import { Button } from "@/shared/ui/Button";
 
-import { prisma } from "../../../prisma/prisma-client";
-import { Settings, User } from "../../../public/icon";
-import { CartBtn } from "../Cart/ui/CartBtn";
+import { prisma } from "../../../../prisma/prisma-client";
+import { Settings, User } from "../../../../public/icon";
 import { SearchInput } from "./SearchInput";
 
 import s from "./Header.module.scss";
