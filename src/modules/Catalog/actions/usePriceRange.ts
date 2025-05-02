@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 
-import { filtersActions } from "@/features/Catalog/store/filtersSlice";
+import { filtersActions } from "@/modules/Catalog/store/filtersSlice";
 import { useAppSelector } from "@/shared/hook/useAppSelector";
 
 interface PriceConfig {

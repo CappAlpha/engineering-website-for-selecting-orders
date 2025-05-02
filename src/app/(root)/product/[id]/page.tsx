@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { ProductProperties } from "@/features/Catalog/ui/ProductProperties";
+import { ProductProperties } from "@/modules/Catalog/ui/ProductProperties";
 
 import { prisma } from "../../../../../prisma/prisma-client";
 

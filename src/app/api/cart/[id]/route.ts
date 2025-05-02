@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { updateCartTotalAmount } from "@/features/Cart/actions/updateCartTotalAmount";
+import { updateCartTotalAmount } from "@/modules/Cart/actions/updateCartTotalAmount";
 
 import { prisma } from "../../../../../prisma/prisma-client";
 

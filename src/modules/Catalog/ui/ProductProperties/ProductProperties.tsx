@@ -3,7 +3,7 @@
 import { Product } from "@prisma/client";
 import { type FC } from "react";
 
-import { useCart } from "@/features/Cart/actions/useCart";
+import { useCart } from "@/modules/Cart/actions/useCart";
 import { Button } from "@/shared/ui/Button";
 import { Tags } from "@/shared/ui/Tags";
 

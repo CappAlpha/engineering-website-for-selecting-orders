@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { type FC } from "react";
 
-import { TopBarProps } from "@/features/Catalog/ui/TopBar";
+import { TopBarProps } from "@/modules/Catalog/ui/TopBar";
 
 import { Tab } from "./Tab";
 

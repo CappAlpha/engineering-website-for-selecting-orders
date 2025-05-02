@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import qs from "qs";
 import { useEffect, type FC } from "react";
 
-import { useResetFilters } from "@/features/Catalog/actions/useResetFilters";
+import { useResetFilters } from "@/modules/Catalog/actions/useResetFilters";
 import { useDebouncedCallback } from "@/shared/hook/useDebounce";
 import { Button } from "@/shared/ui/Button";
 import { Input } from "@/shared/ui/Input";

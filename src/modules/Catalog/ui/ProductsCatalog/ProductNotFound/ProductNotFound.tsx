@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { type FC } from "react";
 
-import { useResetFilters } from "@/features/Catalog/actions/useResetFilters";
+import { useResetFilters } from "@/modules/Catalog/actions/useResetFilters";
 import { Button } from "@/shared/ui/Button";
 
 import s from "./ProductNotFound.module.scss";

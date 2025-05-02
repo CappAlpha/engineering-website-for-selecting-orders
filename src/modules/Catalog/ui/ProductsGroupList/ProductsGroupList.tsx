@@ -4,8 +4,8 @@ import { Product } from "@prisma/client";
 import { MouseEvent, useCallback, type FC } from "react";
 import { useDispatch } from "react-redux";
 
-import { useCart } from "@/features/Cart/actions/useCart";
-import { categoriesActions } from "@/features/Catalog/store/categoriesSlice";
+import { useCart } from "@/modules/Cart/actions/useCart";
+import { categoriesActions } from "@/modules/Catalog/store/categoriesSlice";
 import { useIntersectionObserver } from "@/shared/hook/useIntersectionObserver";
 import { AppDispatch } from "@/store/store";
 

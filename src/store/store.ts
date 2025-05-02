@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import { cartReducers } from "../features/Cart/store/cartSlice.ts";
-import { categoriesReducers } from "../features/Catalog/store/categoriesSlice.ts";
-import { filtersReducers } from "../features/Catalog/store/filtersSlice.ts";
+import { cartReducers } from "../modules/Cart/store/cartSlice.ts";
+import { categoriesReducers } from "../modules/Catalog/store/categoriesSlice.ts";
+import { filtersReducers } from "../modules/Catalog/store/filtersSlice.ts";
 
 export const makeStore = () =>
   configureStore({

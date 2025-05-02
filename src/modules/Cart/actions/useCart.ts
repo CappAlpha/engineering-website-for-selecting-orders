@@ -7,7 +7,7 @@ import {
   removeCartItem,
   addCartItem,
   CartState,
-} from "@/features/Cart/store/cartSlice";
+} from "@/modules/Cart/store/cartSlice";
 import {
   QuantityActionType,
   QuantityAction,

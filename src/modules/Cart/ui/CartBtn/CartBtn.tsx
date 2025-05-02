@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useState, type FC } from "react";
 import { useDispatch } from "react-redux";
 
-import { fetchCartItems } from "@/features/Cart/store/cartSlice";
+import { fetchCartItems } from "@/modules/Cart/store/cartSlice";
 import { Button } from "@/shared/ui/Button";
 import { AppDispatch } from "@/store/store";
 

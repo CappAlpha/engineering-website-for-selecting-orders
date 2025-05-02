@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { ReactNode } from "react";
 
-import { Header } from "@/features/Header";
+import { Header } from "@/modules/Header";
 
 import s from "./layout.module.scss";
 
