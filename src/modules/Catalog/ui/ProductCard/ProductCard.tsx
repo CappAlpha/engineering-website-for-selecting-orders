@@ -15,7 +15,6 @@ import s from "./ProductCard.module.scss";
 type ProductCardProps = Omit<Product, "categoryId" | "createdAt" | "updatedAt">;
 
 interface Props extends ProductCardProps {
-  isError: string | null;
   loadingAdd: boolean;
   onClickButton: (e: MouseEvent) => Promise<void>;
 }

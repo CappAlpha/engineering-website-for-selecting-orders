@@ -25,7 +25,6 @@ export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
     loadingRemove,
 
     errorUpdate,
-    errorRemove,
 
     handleQuantityChange,
     handleRemove,
@@ -58,9 +57,7 @@ export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
             key={item.name}
             item={item}
             loadingUpdate={loadingUpdateProductId === item.id}
-            errorUpdate={errorUpdate}
             loadingRemove={loadingRemoveId === item.id}
-            errorRemove={errorRemove}
             onChangeCount={(type) =>
               handleQuantityChange(item.id, item.quantity, type)
             }

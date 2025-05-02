@@ -15,21 +15,19 @@ interface Props {
 
 export const CartDrawer: FC<Props> = ({ open, isCartEmpty, toggleDrawer }) => {
   return (
-    <div className={s.root}>
-      <Drawer
-        open={open}
-        onClose={toggleDrawer(false)}
-        anchor="right"
-        className={s.drawer}
-      >
-        <div className={cn(s.wrap, !isCartEmpty && s.noJustify)}>
-          {isCartEmpty ? (
-            <EmptyCartDrawer onClose={toggleDrawer(false)} />
-          ) : (
-            <ListCartDrawer onClose={toggleDrawer(false)} />
-          )}
-        </div>
-      </Drawer>
-    </div>
+    <Drawer
+      open={open}
+      onClose={toggleDrawer(false)}
+      anchor="right"
+      className={s.drawer}
+    >
+      <div className={cn(s.wrap, !isCartEmpty && s.noJustify)}>
+        {isCartEmpty ? (
+          <EmptyCartDrawer onClose={toggleDrawer(false)} />
+        ) : (
+          <ListCartDrawer onClose={toggleDrawer(false)} />
+        )}
+      </div>
+    </Drawer>
   );
 };

@@ -6,14 +6,17 @@
   gap: 24px;
   padding: 20px;
   background: var(--dark-gray);
-}
 
-.remove {
   &::after {
     @include pseudo;
     width: 0;
     height: 100%;
     opacity: 0.5;
+  }
+}
+
+.remove {
+  &::after {
     background: var(--almost-dark-gray);
     animation: 0.5s linear deleteCard forwards;
   }
