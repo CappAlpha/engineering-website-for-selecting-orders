@@ -1,3 +1,5 @@
+"use client";
+
 import { Product } from "@prisma/client";
 import cn from "classnames";
 import Image from "next/image";

@@ -1,3 +1,5 @@
+"use client";
+
 import { Drawer } from "@mui/material";
 import cn from "classnames";
 import { type FC } from "react";

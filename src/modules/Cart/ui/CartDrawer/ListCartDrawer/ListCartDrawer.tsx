@@ -1,6 +1,8 @@
+"use client";
+
 import { type FC } from "react";
 
-import { useCart } from "@/modules/Cart/actions/useCart";
+import { useCartReducers } from "@/modules/Cart/actions/useCartReducers";
 import {
   selectAllCartItems,
   selectCartErrors,
@@ -26,7 +28,7 @@ export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
   const loading = useAppSelector(selectCartLoading);
   const error = useAppSelector(selectCartErrors);
 
-  const { handleQuantityChange, handleRemove } = useCart();
+  const { handleQuantityChange, handleRemove } = useCartReducers();
 
   const getPluralizeGoods = pluralize("товар", "товара", "товаров");
   const productsInCartCount = cartItems.length;
@@ -35,6 +37,7 @@ export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
     Object.values(loading.update).some(Boolean) ||
     Object.values(loading.remove).some(Boolean);
   const hasError = error.update;
+  console.log(cartItems, totalAmount, loading, error);
 
   return (
     <>

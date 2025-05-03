@@ -13,14 +13,14 @@ import {
   selectIsItemUpdating,
   selectIsItemAdding,
   selectIsItemRemoving,
-} from "../store/cartSelectors";
+} from "../store/cartSelectors.ts";
 import {
   addCartItem,
   removeCartItem,
   updateItemQuantity,
 } from "../store/cartSlice.ts";
 
-export const useCart = () => {
+export const useCartReducers = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleQuantityChange = async (

@@ -3,7 +3,7 @@
 import { Product } from "@prisma/client";
 import { type FC } from "react";
 
-import { useCart } from "@/modules/Cart/actions/useCart";
+import { useCartReducers } from "@/modules/Cart/actions/useCartReducers";
 import { selectIsItemAdding } from "@/modules/Cart/store/cartSelectors";
 import { useAppSelector } from "@/shared/hook/useAppSelector";
 import { Button } from "@/shared/ui/Button";
@@ -24,7 +24,7 @@ export const ProductProperties: FC<Props> = ({
   tags,
 }) => {
   const isAdding = useAppSelector(selectIsItemAdding(id));
-  const { addToCart } = useCart();
+  const { addToCart } = useCartReducers();
 
   return (
     <div className={s.root}>
