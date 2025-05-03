@@ -4,7 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { MouseEvent, type FC } from "react";
 
+import { selectIsItemAdding } from "@/modules/Cart/store/cartSelectors";
 import { pageConfig } from "@/shared/constants/pages";
+import { useAppSelector } from "@/shared/hook/useAppSelector";
 import { Button } from "@/shared/ui/Button";
 import { Tags } from "@/shared/ui/Tags";
 
@@ -15,7 +17,6 @@ import s from "./ProductCard.module.scss";
 type ProductCardProps = Omit<Product, "categoryId" | "createdAt" | "updatedAt">;
 
 interface Props extends ProductCardProps {
-  loadingAdd: boolean;
   onClickButton: (e: MouseEvent) => Promise<void>;
 }
 
@@ -26,12 +27,12 @@ export const ProductCard: FC<Props> = ({
   price,
   imageUrl,
   tags,
-  loadingAdd,
   onClickButton,
 }) => {
+  const isAdding = useAppSelector(selectIsItemAdding(id));
   return (
     <Link
-      className={cn(s.root, loadingAdd && s.disable)}
+      className={cn(s.root, isAdding && s.disable)}
       href={`${pageConfig.PRODUCT}${id}`}
     >
       <div className={s.imgWrap}>
@@ -55,7 +56,7 @@ export const ProductCard: FC<Props> = ({
           <span className={s.price}>
             от <b>{price} &#8381;</b>
           </span>
-          <Button onClick={onClickButton} loading={loadingAdd}>
+          <Button onClick={onClickButton} loading={isAdding}>
             <Plus className={s.icon} /> Добавить
           </Button>
         </div>

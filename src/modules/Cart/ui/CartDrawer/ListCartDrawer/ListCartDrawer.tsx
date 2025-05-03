@@ -1,6 +1,13 @@
 import { type FC } from "react";
 
 import { useCart } from "@/modules/Cart/actions/useCart";
+import {
+  selectAllCartItems,
+  selectCartErrors,
+  selectCartLoading,
+  selectTotalAmount,
+} from "@/modules/Cart/store/cartSelectors";
+import { useAppSelector } from "@/shared/hook/useAppSelector";
 import { pluralize } from "@/shared/lib/pluralize";
 import { Button } from "@/shared/ui/Button";
 
@@ -14,23 +21,20 @@ interface ListCardDrawerProps {
 }
 
 export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
-  const {
-    items,
-    totalAmount,
+  const cartItems = useAppSelector(selectAllCartItems);
+  const totalAmount = useAppSelector(selectTotalAmount);
+  const loading = useAppSelector(selectCartLoading);
+  const error = useAppSelector(selectCartErrors);
 
-    loadingUpdateProductId,
-    loadingRemoveId,
+  const { handleQuantityChange, handleRemove } = useCart();
 
-    loadingUpdate,
-    loadingRemove,
-
-    errorUpdate,
-
-    handleQuantityChange,
-    handleRemove,
-  } = useCart();
   const getPluralizeGoods = pluralize("товар", "товара", "товаров");
-  const productsLength = items.length;
+  const productsInCartCount = cartItems.length;
+
+  const isProcessing =
+    Object.values(loading.update).some(Boolean) ||
+    Object.values(loading.remove).some(Boolean);
+  const hasError = error.update;
 
   return (
     <>
@@ -38,7 +42,7 @@ export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
         <p className={s.topInfo}>
           В корзине{" "}
           <b>
-            {productsLength} {getPluralizeGoods(productsLength)}
+            {productsInCartCount} {getPluralizeGoods(productsInCartCount)}
           </b>
         </p>
         <Button
@@ -52,12 +56,10 @@ export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
       </div>
 
       <div className={s.cards}>
-        {items.map((item) => (
+        {cartItems.map((item) => (
           <ProductCardLine
             key={item.name}
             item={item}
-            loadingUpdate={loadingUpdateProductId === item.id}
-            loadingRemove={loadingRemoveId === item.id}
             onChangeCount={(type) =>
               handleQuantityChange(item.id, item.quantity, type)
             }
@@ -73,12 +75,12 @@ export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
             <div className={s.line} />
             <p className={s.bottomPrice}>{totalAmount}</p>
           </div>
-          {!errorUpdate && (
+          {!hasError && (
             <Button
               onClick={onClose}
               className={s.orderBtn}
               size="l"
-              loading={loadingUpdate || loadingRemove}
+              loading={isProcessing}
             >
               Оформить заказ
               <Arrow className={s.orderIcon} />

@@ -1,45 +1,54 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  createEntityAdapter,
+} from "@reduxjs/toolkit";
 
 import { CartStateItem, CreateCartItemValues } from "@/entities/cart";
 import { Api } from "@/shared/services/apiClient";
+import type { RootState } from "@/store/store";
 
 import { CartReturnProps, getCartDetails } from "../actions/getCartDetails";
 
-export interface CartState {
-  loadingFetch: boolean;
-  loadingUpdate: boolean;
-  loadingAdd: boolean;
-  loadingRemove: boolean;
+const cartAdapter = createEntityAdapter<CartStateItem, number>({
+  selectId: (item) => item.id,
+});
 
-  loadingUpdateProductId: number | null;
-  loadingAddProductId: string | null;
-
-  errorFetch: string | null;
-  errorUpdate: string | null;
-  errorAdd: string | null;
-  errorRemove: string | null;
-
-  totalAmount: number;
-  items: CartStateItem[];
+interface CartLoadingState {
+  fetch: boolean;
+  update: Record<number, boolean>;
+  add: Record<string, boolean>;
+  remove: Record<number, boolean>;
 }
 
-const initialState: CartState = {
-  loadingFetch: true,
-  loadingUpdate: false,
-  loadingAdd: false,
-  loadingRemove: false,
+interface CartErrorState {
+  fetch: string | null;
+  update: string | null;
+  add: string | null;
+  remove: string | null;
+}
 
-  loadingUpdateProductId: null,
-  loadingAddProductId: null,
+interface CartState {
+  loading: CartLoadingState;
+  error: CartErrorState;
+  totalAmount: number;
+}
 
-  errorFetch: null,
-  errorUpdate: null,
-  errorAdd: null,
-  errorRemove: null,
-
+const initialState = cartAdapter.getInitialState<CartState>({
+  loading: {
+    fetch: true,
+    update: {},
+    add: {},
+    remove: {},
+  },
+  error: {
+    fetch: null,
+    update: null,
+    add: null,
+    remove: null,
+  },
   totalAmount: 0,
-  items: [],
-};
+});
 
 export const fetchCartItems = createAsyncThunk(
   "cart/getCartItems",
@@ -84,96 +93,84 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     resetError: (state) => {
-      state.errorFetch = null;
-      state.errorUpdate = null;
-      state.errorAdd = null;
-      state.errorRemove = null;
+      state.error = {
+        fetch: null,
+        update: null,
+        add: null,
+        remove: null,
+      };
     },
   },
   extraReducers: (builder) => {
     // fetchCartItems
     builder
       .addCase(fetchCartItems.pending, (state) => {
-        state.errorFetch = null;
+        state.loading.fetch = true;
+        state.error.fetch = null;
       })
-      .addCase(
-        fetchCartItems.fulfilled,
-        (state, action: PayloadAction<CartReturnProps>) => {
-          state.items = action.payload.items;
-          state.totalAmount = action.payload.totalAmount;
-          state.loadingFetch = false;
-        },
-      )
+      .addCase(fetchCartItems.fulfilled, (state, action) => {
+        cartAdapter.setAll(state, action.payload.items);
+        state.totalAmount = action.payload.totalAmount;
+        state.loading.fetch = false;
+      })
       .addCase(fetchCartItems.rejected, (state, action) => {
-        state.errorFetch = action.error?.message ?? "Ошибка получения товаров";
-        state.loadingFetch = false;
+        state.error.fetch = action.error?.message ?? "Ошибка получения товаров";
+        state.loading.fetch = false;
       });
 
     // updateItemQuantity
     builder
       .addCase(updateItemQuantity.pending, (state, action) => {
-        state.loadingUpdateProductId = action.meta.arg.id;
-        state.loadingUpdate = true;
-        state.errorUpdate = null;
+        state.loading.update[action.meta.arg.id] = true;
+        state.error.update = null;
       })
-      .addCase(
-        updateItemQuantity.fulfilled,
-        (state, action: PayloadAction<CartReturnProps>) => {
-          state.items = action.payload.items;
-          state.totalAmount = action.payload.totalAmount;
-          state.loadingUpdate = false;
-          state.loadingUpdateProductId = null;
-        },
-      )
+      .addCase(updateItemQuantity.fulfilled, (state, action) => {
+        cartAdapter.upsertMany(state, action.payload.items);
+        state.totalAmount = action.payload.totalAmount;
+        state.loading.update[action.meta.arg.id] = false;
+      })
       .addCase(updateItemQuantity.rejected, (state, action) => {
-        state.errorUpdate =
+        state.error.update =
           action.error?.message ?? "Ошибка обновления товаров";
-        state.loadingUpdate = false;
-        state.loadingUpdateProductId = null;
+        state.loading.update[action.meta.arg.id] = false;
       });
 
     // addCartItem
     builder
       .addCase(addCartItem.pending, (state, action) => {
-        state.loadingAddProductId = action.meta.arg.values.productId;
-        state.loadingAdd = true;
-        state.errorAdd = null;
+        state.loading.add[action.meta.arg.values.productId] = true;
+        state.error.add = null;
       })
-      .addCase(
-        addCartItem.fulfilled,
-        (state, action: PayloadAction<CartReturnProps>) => {
-          state.items = action.payload.items;
-          state.totalAmount = action.payload.totalAmount;
-          state.loadingAdd = false;
-          state.loadingAddProductId = null;
-        },
-      )
+      .addCase(addCartItem.fulfilled, (state, action) => {
+        cartAdapter.upsertMany(state, action.payload.items);
+        state.totalAmount = action.payload.totalAmount;
+        state.loading.add[action.meta.arg.values.productId] = false;
+      })
       .addCase(addCartItem.rejected, (state, action) => {
-        state.errorAdd = action.error?.message ?? "Ошибка добавления товаров";
-        state.loadingAdd = false;
-        state.loadingAddProductId = null;
+        state.error.add = action.error?.message ?? "Ошибка добавления товаров";
+        state.loading.add[action.meta.arg.values.productId] = false;
       });
 
     // removeCartItem
     builder
-      .addCase(removeCartItem.pending, (state) => {
-        state.loadingRemove = true;
-        state.errorRemove = null;
+      .addCase(removeCartItem.pending, (state, action) => {
+        state.loading.remove[action.meta.arg.id] = true;
+        state.error.remove = null;
       })
-      .addCase(
-        removeCartItem.fulfilled,
-        (state, action: PayloadAction<CartReturnProps>) => {
-          state.items = action.payload.items;
-          state.totalAmount = action.payload.totalAmount;
-          state.loadingRemove = false;
-        },
-      )
+      .addCase(removeCartItem.fulfilled, (state, action) => {
+        cartAdapter.removeOne(state, action.meta.arg.id);
+        state.totalAmount = action.payload.totalAmount;
+        state.loading.remove[action.meta.arg.id] = false;
+      })
       .addCase(removeCartItem.rejected, (state, action) => {
-        state.errorRemove = action.error?.message ?? "Ошибка удаления товаров";
-        state.loadingRemove = false;
+        state.error.remove = action.error?.message ?? "Ошибка удаления товаров";
+        state.loading.remove[action.meta.arg.id] = false;
       });
   },
 });
 
 export const cartActions = cartSlice.actions;
 export const cartReducers = cartSlice.reducer;
+export const cartSelectors = cartAdapter.getSelectors<RootState>(
+  (state) => state.cart,
+);

@@ -10,31 +10,34 @@ import {
   QuantityActionType,
   CART_QUANTITY_LIMITS,
 } from "@/shared/constants/cart";
+import { useAppSelector } from "@/shared/hook/useAppSelector";
 import { Button } from "@/shared/ui/Button";
 
 import { Trash } from "../../../../../public/icon";
+import {
+  selectIsItemRemoving,
+  selectIsItemUpdating,
+} from "../../store/cartSelectors";
 
 import s from "./ProductCardLine.module.scss";
 
 interface Props {
   item: CartStateItem;
-  loadingUpdate: boolean;
-  loadingRemove: boolean;
   onChangeCount: (type: QuantityActionType) => void;
   onClickRemove: () => void;
 }
 
 export const ProductCardLine: FC<Props> = ({
   item,
-  loadingUpdate,
-  loadingRemove,
   onChangeCount,
   onClickRemove,
 }) => {
-  const { name, description, imageUrl, price, quantity } = item;
+  const { id, name, description, imageUrl, price, quantity } = item;
+  const isUpdating = useAppSelector(selectIsItemUpdating(id));
+  const isRemoving = useAppSelector(selectIsItemRemoving(id));
 
   return (
-    <div className={cn(s.root, loadingRemove && s.remove)}>
+    <div className={cn(s.root, isRemoving && s.remove)}>
       <div className={s.imgWrap}>
         <Image src={imageUrl} alt={name} fill className={s.img} />
       </div>
@@ -48,13 +51,13 @@ export const ProductCardLine: FC<Props> = ({
             value={quantity}
             minValue={CART_QUANTITY_LIMITS.MIN}
             maxValue={CART_QUANTITY_LIMITS.MAX}
-            loading={loadingUpdate}
+            loading={isUpdating}
           />
           <div className={s.bottomRight}>
             <p className={s.price}>{price} &#8381;</p>
             <Button
               onClick={onClickRemove}
-              disabled={loadingRemove}
+              disabled={isRemoving}
               color="transparent"
               noPadding
             >

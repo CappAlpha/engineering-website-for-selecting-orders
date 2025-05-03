@@ -4,6 +4,8 @@ import { Product } from "@prisma/client";
 import { type FC } from "react";
 
 import { useCart } from "@/modules/Cart/actions/useCart";
+import { selectIsItemAdding } from "@/modules/Cart/store/cartSelectors";
+import { useAppSelector } from "@/shared/hook/useAppSelector";
 import { Button } from "@/shared/ui/Button";
 import { Tags } from "@/shared/ui/Tags";
 
@@ -21,9 +23,8 @@ export const ProductProperties: FC<Props> = ({
   price,
   tags,
 }) => {
-  const { errorFetch, loadingAdd, errorAdd, addToCart } = useCart();
-
-  const isError = errorFetch ?? errorAdd;
+  const isAdding = useAppSelector(selectIsItemAdding(id));
+  const { addToCart } = useCart();
 
   return (
     <div className={s.root}>
@@ -39,15 +40,13 @@ export const ProductProperties: FC<Props> = ({
           <Tags tags={tags} />
         </li>
       </ul>
-      {!isError && (
-        <Button
-          className={s.btn}
-          onClick={(e) => addToCart(e, id)}
-          loading={loadingAdd}
-        >
-          Добавить в корзину
-        </Button>
-      )}
+      <Button
+        className={s.btn}
+        onClick={(e) => addToCart(e, id)}
+        loading={isAdding}
+      >
+        Добавить в корзину
+      </Button>
     </div>
   );
 };
