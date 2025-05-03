@@ -37,7 +37,6 @@ export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
     Object.values(loading.update).some(Boolean) ||
     Object.values(loading.remove).some(Boolean);
   const hasError = error.update;
-  console.log(cartItems, totalAmount, loading, error);
 
   return (
     <>
