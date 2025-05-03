@@ -1,0 +1,37 @@
+.root {
+  padding: 30px 35px;
+  margin-bottom: 45px;
+  border-radius: 30px;
+  outline: 1px solid var(--dark-blue);
+}
+
+.header,
+.headerCart {
+  padding-bottom: 26px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--dark-blue);
+}
+
+.headerCart {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 120%;
+}
+
+.btn {
+  font-size: 18px;
+  line-height: 120%;
+}
+
+.icon {
+  height: 18px;
+  min-width: 18px;
+  width: 18px;
+}

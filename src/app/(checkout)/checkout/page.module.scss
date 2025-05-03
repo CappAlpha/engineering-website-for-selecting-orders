@@ -4,4 +4,8 @@
 
 .title {
   @include title;
+
+  & {
+    margin-bottom: 48px;
+  }
 }

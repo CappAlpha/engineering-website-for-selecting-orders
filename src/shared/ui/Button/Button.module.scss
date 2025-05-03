@@ -18,6 +18,10 @@
   align-items: center;
   justify-content: center;
 
+  svg {
+    transition: all 0.3s;
+  }
+
   &:hover {
     @media (hover: hover) and (pointer: fine) {
       color: var(--white);
@@ -45,11 +49,19 @@
   &.color {
     &_transparent {
       background: transparent;
-      color: var(--blue);
+      color: var(--light-blue);
+
+      svg {
+        fill: var(--light-blue);
+      }
 
       &:hover {
         @media (hover: hover) and (pointer: fine) {
           color: var(--gray);
+
+          svg {
+            fill: var(--gray);
+          }
         }
       }
     }

@@ -4,7 +4,7 @@ import { Product } from "@prisma/client";
 import cn from "classnames";
 import Image from "next/image";
 import Link from "next/link";
-import { MouseEvent, type FC } from "react";
+import { type MouseEvent, type FC } from "react";
 
 import { selectIsItemAdding } from "@/modules/Cart/store/cartSelectors";
 import { pageConfig } from "@/shared/constants/pages";

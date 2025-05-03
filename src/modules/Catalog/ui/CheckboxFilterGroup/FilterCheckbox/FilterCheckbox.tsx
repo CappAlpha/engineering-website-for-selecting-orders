@@ -4,7 +4,7 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
 import classNames from "classnames";
-import { ReactNode, type FC } from "react";
+import { type ReactNode, type FC } from "react";
 
 import { noop } from "@/shared/lib/noop";
 

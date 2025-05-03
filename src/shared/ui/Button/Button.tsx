@@ -1,6 +1,6 @@
 import cn from "classnames";
 import Link from "next/link";
-import { FC, MouseEvent, ReactNode } from "react";
+import { FC, type MouseEvent, type ReactNode } from "react";
 
 import s from "./Button.module.scss";
 

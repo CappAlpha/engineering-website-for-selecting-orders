@@ -9,6 +9,7 @@ import {
   selectCartLoading,
   selectTotalAmount,
 } from "@/modules/Cart/store/cartSelectors";
+import { pageConfig } from "@/shared/constants/pages";
 import { useAppSelector } from "@/shared/hook/useAppSelector";
 import { pluralize } from "@/shared/lib/pluralize";
 import { Button } from "@/shared/ui/Button";
@@ -79,7 +80,7 @@ export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
           </div>
           {!hasError && (
             <Button
-              onClick={onClose}
+              href={`${pageConfig.CHECKOUT}`}
               className={s.orderBtn}
               size="l"
               loading={isProcessing}

@@ -1,7 +1,7 @@
 "use client";
 
 import { Product } from "@prisma/client";
-import { MouseEvent, useCallback, type FC } from "react";
+import { type MouseEvent, useCallback, type FC } from "react";
 import { useDispatch } from "react-redux";
 
 import { useCartReducers } from "@/modules/Cart/actions/useCartReducers";

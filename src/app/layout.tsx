@@ -1,5 +1,5 @@
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 
 import "@/shared/styles/colors.scss";

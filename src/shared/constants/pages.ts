@@ -3,6 +3,7 @@ const PageConfig = {
   PRODUCT: "/product/",
   TAGS: "/tags/",
   CART: "/cart/",
+  CHECKOUT: "/checkout/",
 } as const;
 
 export const pageConfig = PageConfig;
