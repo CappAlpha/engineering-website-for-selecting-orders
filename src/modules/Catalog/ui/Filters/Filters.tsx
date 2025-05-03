@@ -70,6 +70,7 @@ export const Filters: FC = () => {
         <p className={s.categoryTitle}>Цена от и до:</p>
         <div className={s.priceInputs}>
           <Input
+            id="left-input-price"
             type="number"
             min={PRICE_CONFIG.MIN_PRICE}
             max={PRICE_CONFIG.MAX_PRICE - PRICE_CONFIG.SLIDER_GAP}
@@ -77,6 +78,7 @@ export const Filters: FC = () => {
             onChange={(e) => handlePriceChange(e, "priceFrom")}
           />
           <Input
+            id="right-input-price"
             type="number"
             min={PRICE_CONFIG.SLIDER_GAP}
             max={PRICE_CONFIG.MAX_PRICE}
