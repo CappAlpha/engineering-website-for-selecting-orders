@@ -6,31 +6,44 @@ import { selectTotalAmount } from "@/modules/Cart/store/cartSelectors";
 import { useAppSelector } from "@/shared/hook/useAppSelector";
 import { Button } from "@/shared/ui/Button";
 
-import { Goods, Shipping } from "../../../../../public/icon";
+import { Goods, Percentage, Shipping } from "../../../../../public/icon";
 
-import s from "./Payment.module.scss";
+import s from "./PaymentSidebar.module.scss";
 
-export const Payment: FC = () => {
+const TAX_PERCENTAGE = 15;
+
+export const PaymentSidebar: FC = () => {
   const totalAmount = useAppSelector(selectTotalAmount);
+
+  const taxPrice = (totalAmount * TAX_PERCENTAGE) / 100;
+  const deliveryPrice = 120;
+
+  const totalPrice = totalAmount + taxPrice + deliveryPrice;
 
   return (
     <div className={s.root}>
       <div className={s.header}>
         <p className={s.total}>Итого:</p>
-        <p className={s.totalAmount}>{totalAmount} &#8381;</p>
+        <p className={s.totalAmount}>{totalPrice} &#8381;</p>
       </div>
       <div className={s.content}>
         <div className={s.item}>
           <Goods className={s.contentIcon} />
-          <p className={s.contentTitle}>Итого</p>
+          <p className={s.contentTitle}>Стоимость корзины:</p>
           <div className={s.line} />
           <p className={s.contentPrice}>{totalAmount} &#8381;</p>
         </div>
         <div className={s.item}>
-          <Shipping className={s.contentIcon} />
-          <p className={s.contentTitle}>Доставка</p>
+          <Percentage className={s.contentIcon} />
+          <p className={s.contentTitle}>Налог:</p>
           <div className={s.line} />
-          <p className={s.contentPrice}>120 &#8381;</p>
+          <p className={s.contentPrice}>{taxPrice} &#8381;</p>
+        </div>
+        <div className={s.item}>
+          <Shipping className={s.contentIcon} />
+          <p className={s.contentTitle}>Доставка:</p>
+          <div className={s.line} />
+          <p className={s.contentPrice}>{deliveryPrice} &#8381;</p>
         </div>
       </div>
       {/* TODO: add promo code? */}

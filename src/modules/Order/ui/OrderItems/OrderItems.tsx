@@ -12,7 +12,7 @@ import { AppDispatch } from "@/store/store";
 
 import { DeliveryAddress } from "../DeliveryAddress";
 import { OrderItem } from "../OrderItem/OrderItem";
-import { Payment } from "../Payment";
+import { PaymentSidebar } from "../PaymentSidebar";
 import { PersonalInformation } from "../PersonalInformation";
 
 import s from "./OrderItems.module.scss";
@@ -49,7 +49,7 @@ export const OrderItems: FC = () => {
         </OrderItem>
       </div>
       <div className={s.right}>
-        <Payment />
+        <PaymentSidebar />
       </div>
     </div>
   );

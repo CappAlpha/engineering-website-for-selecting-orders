@@ -9,3 +9,4 @@ export { default as AngleDown } from "./icons/angle-down.svg";
 export { default as Trash } from "./icons/trash.svg";
 export { default as Shipping } from "./icons/shipping.svg";
 export { default as Goods } from "./icons/goods.svg";
+export { default as Percentage } from "./icons/percentage.svg";
