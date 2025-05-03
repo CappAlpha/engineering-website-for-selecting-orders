@@ -1,0 +1,75 @@
+.root {
+  position: sticky;
+  top: 40px;
+  padding: 40px 30px;
+  border-radius: 30px;
+  outline: 1px solid var(--dark-blue);
+}
+
+.header,
+.content {
+  padding-bottom: 26px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid var(--dark-blue);
+}
+
+.total {
+  font-size: 22px;
+  line-height: 110%;
+  margin-bottom: 4px;
+}
+
+.totalAmount {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 140%;
+}
+
+.promoCodeBtn {
+  margin-bottom: 27px;
+  font-size: 16px;
+}
+
+.paymentBtn {
+  width: 100%;
+}
+
+.item {
+  display: flex;
+  align-self: normal;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.contentIcon {
+  align-self: center;
+  height: 16px;
+  min-width: 16px;
+  width: 16px;
+  fill: var(--white);
+  margin-right: 5px;
+}
+
+.contentTitle,
+.contentPrice {
+  white-space: nowrap;
+}
+
+.contentTitle {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.line {
+  width: 100%;
+  margin: 0 10px;
+  border-bottom: 1px dashed var(--blue-border);
+}
+
+.contentPrice {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 25px;
+}

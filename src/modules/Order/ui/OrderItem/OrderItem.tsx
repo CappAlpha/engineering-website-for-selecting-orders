@@ -5,25 +5,31 @@ import { Button } from "@/shared/ui/Button";
 
 import { Trash } from "../../../../../public/icon";
 
-import s from "./OrderItemContainer.module.scss";
+import s from "./OrderItem.module.scss";
 
 export interface Props {
   title: string;
   children: ReactNode;
   isCart?: boolean;
+  handleClearAll?: () => void;
 }
 
-export const OrderItemContainer: FC<Props> = ({
+export const OrderItem: FC<Props> = ({
   title,
   children,
   isCart = false,
+  handleClearAll,
 }) => {
   return (
     <section className={s.root}>
       <div className={cn(s.header, isCart && s.headerCart)}>
         <h2 className={s.title}>{title}</h2>
         {isCart && (
-          <Button color="transparent" className={s.btn}>
+          <Button
+            onClick={handleClearAll}
+            color="transparent"
+            className={s.btn}
+          >
             <Trash className={s.icon} /> Очистить корзину
           </Button>
         )}

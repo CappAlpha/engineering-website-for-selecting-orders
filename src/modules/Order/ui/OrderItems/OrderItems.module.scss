@@ -1,0 +1,13 @@
+.root {
+  position: relative;
+  display: flex;
+  gap: 45px;
+}
+
+.left{
+  width: calc(70% - 22.5px);
+}
+
+.right{
+  width: calc(30% - 22.5px);
+}

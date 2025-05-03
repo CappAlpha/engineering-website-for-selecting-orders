@@ -1,0 +1,6 @@
+.root {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 26px;
+  row-gap: 42px;
+}

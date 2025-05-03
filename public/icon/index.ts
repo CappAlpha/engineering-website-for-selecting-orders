@@ -7,3 +7,5 @@ export { default as Plus } from "./icons/plus.svg";
 export { default as Minus } from "./icons/minus.svg";
 export { default as AngleDown } from "./icons/angle-down.svg";
 export { default as Trash } from "./icons/trash.svg";
+export { default as Shipping } from "./icons/shipping.svg";
+export { default as Goods } from "./icons/goods.svg";
