@@ -14,7 +14,6 @@ export const DeliveryAddress: FC = () => {
         label="Комментарий к заказу"
         placeholder="Укажите тут дополнительную информацию для курьера"
       />
-      <Input label="Время доставки" />
     </div>
   );
 };

@@ -33,9 +33,10 @@ export const Payment: FC = () => {
           <p className={s.contentPrice}>120 &#8381;</p>
         </div>
       </div>
-      <Button className={s.promoCodeBtn} color="transparent" noPadding>
+      {/* TODO: add promo code? */}
+      {/* <Button className={s.promoCodeBtn} color="transparent" noPadding>
         У меня есть промокод
-      </Button>
+      </Button> */}
       <Button className={s.paymentBtn}>Перейти к оплате</Button>
     </div>
   );

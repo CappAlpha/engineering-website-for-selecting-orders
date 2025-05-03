@@ -29,7 +29,7 @@ export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
   const loading = useAppSelector(selectCartLoading);
   const error = useAppSelector(selectCartErrors);
 
-  const { handleQuantityChange, handleRemove } = useCartReducers();
+  const { fetchCart, handleQuantityChange, handleRemove } = useCartReducers();
 
   const getPluralizeGoods = pluralize("товар", "товара", "товаров");
   const productsInCartCount = cartItems.length;
@@ -73,12 +73,29 @@ export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
 
       <div className={s.bottom}>
         <div className={s.bottomWrap}>
-          <div className={s.bottomTextWrap}>
-            <p className={s.bottomTitle}>Итого</p>
-            <div className={s.line} />
-            <p className={s.bottomPrice}>{totalAmount}</p>
-          </div>
-          {!hasError && (
+          {hasError ? (
+            <div className={s.bottomTextWrap}>
+              <p className={s.bottomTitle}>
+                Произошла ошибка обновления корзины
+              </p>
+            </div>
+          ) : (
+            <div className={s.bottomTextWrap}>
+              <p className={s.bottomTitle}>Итого</p>
+              <div className={s.line} />
+              <p className={s.bottomPrice}>{totalAmount}</p>
+            </div>
+          )}
+          {hasError ? (
+            <Button
+              onClick={fetchCart}
+              className={s.orderBtn}
+              size="l"
+              loading={Object.values(loading.fetch).some(Boolean)}
+            >
+              Повторить
+            </Button>
+          ) : (
             <Button
               href={`${pageConfig.CHECKOUT}`}
               className={s.orderBtn}

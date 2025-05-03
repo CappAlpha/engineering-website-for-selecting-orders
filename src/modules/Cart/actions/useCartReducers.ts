@@ -11,6 +11,7 @@ import type { AppDispatch } from "@/store/store";
 
 import {
   addCartItem,
+  fetchCartItems,
   removeCartItem,
   updateItemQuantity,
 } from "../store/cartSlice.ts";
@@ -21,6 +22,17 @@ import {
  */
 export const useCartReducers = () => {
   const dispatch = useDispatch<AppDispatch>();
+
+  /**
+   * Fetches cart items from server with toast notifications
+   */
+  const fetchCart = async (): Promise<void> => {
+    await toast.promise(dispatch(fetchCartItems()).unwrap(), {
+      loading: "Делаем запрос...",
+      success: "Успешно!",
+      error: (err: Error) => err.message || "Ошибка выполнения запроса",
+    });
+  };
 
   /**
    * Change quantity of item in cart
@@ -81,6 +93,7 @@ export const useCartReducers = () => {
   };
 
   return {
+    fetchCart,
     handleQuantityChange,
     handleRemove,
     addToCart,

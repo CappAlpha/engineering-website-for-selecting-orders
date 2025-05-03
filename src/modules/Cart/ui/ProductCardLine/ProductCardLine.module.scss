@@ -77,12 +77,12 @@
 .trash {
   width: 20px;
   min-width: 20px;
-  fill: var(--gray);
+  fill: var(--gray) !important;
   transition: fill 0.3s ease;
 
   &:hover {
     @media (hover: hover) and (pointer: fine) {
-      fill: var(--white);
+      fill: var(--white) !important;
     }
   }
 }
