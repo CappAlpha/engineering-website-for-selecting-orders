@@ -35,6 +35,7 @@ interface CartState {
 }
 
 const initialState = cartAdapter.getInitialState<CartState>({
+  ...cartAdapter.getInitialState(),
   loading: {
     fetch: true,
     update: {},
@@ -102,7 +103,7 @@ const cartSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // fetchCartItems
+    // Fetch items
     builder
       .addCase(fetchCartItems.pending, (state) => {
         state.loading.fetch = true;
@@ -118,53 +119,61 @@ const cartSlice = createSlice({
         state.loading.fetch = false;
       });
 
-    // updateItemQuantity
+    // Update item quantity
     builder
       .addCase(updateItemQuantity.pending, (state, action) => {
-        state.loading.update[action.meta.arg.id] = true;
+        const { id } = action.meta.arg;
+        state.loading.update[id] = true;
         state.error.update = null;
       })
       .addCase(updateItemQuantity.fulfilled, (state, action) => {
+        const { id } = action.meta.arg;
         cartAdapter.upsertMany(state, action.payload.items);
         state.totalAmount = action.payload.totalAmount;
-        state.loading.update[action.meta.arg.id] = false;
+        delete state.loading.update[id]; // Clean up loading state
       })
       .addCase(updateItemQuantity.rejected, (state, action) => {
-        state.error.update =
-          action.error?.message ?? "Ошибка обновления товаров";
-        state.loading.update[action.meta.arg.id] = false;
+        const { id } = action.meta.arg;
+        state.error.update = action.error?.message ?? "Failed to update item";
+        delete state.loading.update[id];
       });
 
-    // addCartItem
+    // Add item
     builder
       .addCase(addCartItem.pending, (state, action) => {
-        state.loading.add[action.meta.arg.values.productId] = true;
+        const { productId } = action.meta.arg.values;
+        state.loading.add[productId] = true;
         state.error.add = null;
       })
       .addCase(addCartItem.fulfilled, (state, action) => {
+        const { productId } = action.meta.arg.values;
         cartAdapter.upsertMany(state, action.payload.items);
         state.totalAmount = action.payload.totalAmount;
-        state.loading.add[action.meta.arg.values.productId] = false;
+        delete state.loading.add[productId];
       })
       .addCase(addCartItem.rejected, (state, action) => {
-        state.error.add = action.error?.message ?? "Ошибка добавления товаров";
-        state.loading.add[action.meta.arg.values.productId] = false;
+        const { productId } = action.meta.arg.values;
+        state.error.add = action.error?.message ?? "Failed to add item";
+        delete state.loading.add[productId];
       });
 
-    // removeCartItem
+    // Remove item
     builder
       .addCase(removeCartItem.pending, (state, action) => {
-        state.loading.remove[action.meta.arg.id] = true;
+        const { id } = action.meta.arg;
+        state.loading.remove[id] = true;
         state.error.remove = null;
       })
       .addCase(removeCartItem.fulfilled, (state, action) => {
-        cartAdapter.removeOne(state, action.meta.arg.id);
+        const { id } = action.meta.arg;
+        cartAdapter.removeOne(state, id);
         state.totalAmount = action.payload.totalAmount;
-        state.loading.remove[action.meta.arg.id] = false;
+        delete state.loading.remove[id];
       })
       .addCase(removeCartItem.rejected, (state, action) => {
-        state.error.remove = action.error?.message ?? "Ошибка удаления товаров";
-        state.loading.remove[action.meta.arg.id] = false;
+        const { id } = action.meta.arg;
+        state.error.remove = action.error?.message ?? "Failed to remove item";
+        delete state.loading.remove[id];
       });
   },
 });

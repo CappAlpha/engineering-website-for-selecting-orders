@@ -17,6 +17,11 @@ interface ReturnProps {
 const CACHE_KEY = "tagsData";
 const CACHE_DURATION = 4 * 60 * 60 * 1000;
 
+/**
+ * Custom hook to fetch and manage tags with caching and sorting.
+ * @param sortedToTop - if true, selected tags are moved to the top of the list.
+ * @returns tags, selected tags, loading & error states, and a toggle function.
+ */
 export const useTags = (sortedToTop = false): ReturnProps => {
   const dispatch = useDispatch();
   const selected = useAppSelector((state) => state.filters.selectedTags);
@@ -26,9 +31,6 @@ export const useTags = (sortedToTop = false): ReturnProps => {
   const [error, setError] = useState(false);
 
   const fetchTags = async () => {
-    setLoading(true);
-    setError(false);
-
     const cachedTags = getCachedData<string>(CACHE_KEY, CACHE_DURATION);
     if (cachedTags) {
       setTags(cachedTags);
@@ -53,7 +55,7 @@ export const useTags = (sortedToTop = false): ReturnProps => {
       ) {
         return;
       }
-      console.error("Ошибка при запросе тегов:", err);
+      console.error("Error fetching tags:", err);
       setTags([]);
       setError(true);
     } finally {

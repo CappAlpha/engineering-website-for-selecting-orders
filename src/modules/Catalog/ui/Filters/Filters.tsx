@@ -12,7 +12,7 @@ import { Slider } from "@/shared/ui/Slider";
 
 import { usePriceRange } from "../../actions/usePriceRange";
 import { useTags } from "../../actions/useTags";
-import { CheckboxFilterGroup } from "./CheckboxFilterGroup";
+import { CheckboxFilterGroup } from "../CheckboxFilterGroup";
 
 import s from "./Filters.module.scss";
 
@@ -43,12 +43,7 @@ export const Filters: FC = () => {
 
   // Update URL when filter changes
   useEffect(() => {
-    const filters = {
-      priceFrom: priceFrom,
-      priceTo: priceTo,
-      tags: selectedTags,
-    };
-    updateUrl(filters);
+    updateUrl({ priceFrom, priceTo, tags: selectedTags });
   }, [priceFrom, priceTo, selectedTags]);
 
   const updateUrl = useDebouncedCallback(
@@ -63,7 +58,7 @@ export const Filters: FC = () => {
   );
 
   return (
-    <div className={s.root}>
+    <section className={s.root} aria-label="Фильтр продуктов">
       <h2 className={s.subtitle}>Фильтрация</h2>
 
       <div className={s.priceCategory}>
@@ -73,17 +68,27 @@ export const Filters: FC = () => {
             id="left-input-price"
             type="number"
             min={PRICE_CONFIG.MIN_PRICE}
-            max={PRICE_CONFIG.MAX_PRICE - PRICE_CONFIG.SLIDER_GAP}
+            max={
+              priceTo
+                ? priceTo - PRICE_CONFIG.SLIDER_GAP
+                : PRICE_CONFIG.MAX_PRICE - PRICE_CONFIG.SLIDER_GAP
+            }
             value={priceFrom ?? PRICE_CONFIG.MIN_PRICE}
             onChange={(e) => handlePriceChange(e, "priceFrom")}
+            aria-label="Минимальная цена ввод"
           />
           <Input
             id="right-input-price"
             type="number"
-            min={PRICE_CONFIG.SLIDER_GAP}
+            min={
+              priceFrom
+                ? priceFrom + PRICE_CONFIG.SLIDER_GAP
+                : PRICE_CONFIG.MIN_PRICE
+            }
             max={PRICE_CONFIG.MAX_PRICE}
             value={priceTo ?? PRICE_CONFIG.MAX_PRICE}
             onChange={(e) => handlePriceChange(e, "priceTo")}
+            aria-label="Максимальная цена ввод"
           />
         </div>
         <Slider
@@ -96,6 +101,7 @@ export const Filters: FC = () => {
             priceTo ?? PRICE_CONFIG.MAX_PRICE,
           ]}
           onValueChange={handleSliderChange}
+          aria-label="Диапазон цен можно двигать два ползунка налево или направо"
         />
       </div>
 
@@ -109,7 +115,9 @@ export const Filters: FC = () => {
         resetFilters={resetFilters}
       />
 
-      <Button onClick={resetFilters}>Сбросить фильтры</Button>
-    </div>
+      <Button onClick={resetFilters} aria-label="Кнопка сброса фильтров">
+        Сбросить фильтры
+      </Button>
+    </section>
   );
 };
