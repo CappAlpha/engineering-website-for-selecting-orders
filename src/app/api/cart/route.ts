@@ -9,9 +9,10 @@ import { prisma } from "../../../../prisma/prisma-client";
 
 export async function GET(req: NextRequest) {
   try {
-    const token = req.cookies.get("cartToken")?.value;
     const defaultResponse = { totalAmount: 0, items: [] };
 
+    // Get cart token from cookies
+    const token = req.cookies.get("cartToken")?.value;
     if (!token) {
       return NextResponse.json(defaultResponse);
     }
@@ -67,7 +68,7 @@ export async function POST(req: NextRequest) {
         {
           error: `Cannot add more items. Maximum quantity (${CART_QUANTITY_LIMITS.MAX}) reached.`,
         },
-        { status: 400 },
+        { status: 501 },
       );
     }
 

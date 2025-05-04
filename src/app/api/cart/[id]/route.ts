@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { getCartItem } from "@/modules/Cart/actions/getCartItem";
 import { updateCartTotalAmount } from "@/modules/Cart/actions/updateCartTotalAmount";
 
 import { prisma } from "../../../../../prisma/prisma-client";
@@ -11,21 +12,15 @@ export async function PATCH(
   try {
     const id = Number((await params).id);
     const data = (await req.json()) as { quantity: number };
-    const token = req.cookies.get("cartToken")?.value;
 
+    // Get cart token from cookies
+    const token = req.cookies.get("cartToken")?.value;
     if (!token) {
       return NextResponse.json({ error: "Cart token not found" });
     }
 
-    const cartItem = await prisma.cartItem.findUnique({
-      where: {
-        id,
-      },
-    });
-
-    if (!cartItem) {
-      return NextResponse.json({ error: "Cart item not found" });
-    }
+    // Get cart item if exist
+    await getCartItem(id);
 
     await prisma.cartItem.update({
       where: {
@@ -54,21 +49,15 @@ export async function DELETE(
 ) {
   try {
     const id = Number((await params).id);
-    const token = req.cookies.get("cartToken")?.value;
 
+    // Get cart token from cookies
+    const token = req.cookies.get("cartToken")?.value;
     if (!token) {
       return NextResponse.json({ error: "Cart token not found" });
     }
 
-    const cartItem = await prisma.cartItem.findUnique({
-      where: {
-        id,
-      },
-    });
-
-    if (!cartItem) {
-      return NextResponse.json({ error: "Cart item not found" });
-    }
+    // Get cart item if exist
+    await getCartItem(id);
 
     await prisma.cartItem.delete({
       where: {
