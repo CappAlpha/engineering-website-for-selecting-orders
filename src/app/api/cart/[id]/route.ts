@@ -11,7 +11,7 @@ export async function PATCH(
 ) {
   try {
     const id = Number((await params).id);
-    const data = (await req.json()) as { quantity: number };
+    const { quantity } = (await req.json()) as { quantity: number };
 
     // Get cart token from cookies
     const token = req.cookies.get("cartToken")?.value;
@@ -27,13 +27,13 @@ export async function PATCH(
         id,
       },
       data: {
-        quantity: data.quantity,
+        quantity,
       },
     });
 
-    const updateUserCart = await updateCartTotalAmount(token);
+    const updatedCart = await updateCartTotalAmount(token);
 
-    return NextResponse.json(updateUserCart);
+    return NextResponse.json(updatedCart);
   } catch (error) {
     console.error("[CART_PATCH] API error:", error);
     return NextResponse.json(
@@ -65,9 +65,9 @@ export async function DELETE(
       },
     });
 
-    const updateUserCart = await updateCartTotalAmount(token);
+    const updatedCart = await updateCartTotalAmount(token);
 
-    return NextResponse.json(updateUserCart);
+    return NextResponse.json(updatedCart);
   } catch (error) {
     console.error("[CART_DELETE] API error:", error);
     return NextResponse.json(
