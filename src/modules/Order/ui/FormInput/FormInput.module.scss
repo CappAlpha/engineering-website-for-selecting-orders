@@ -1,14 +1,12 @@
-.root {
-  input {
-    color: var(--white);
-    border-bottom: 2px solid var(--gray);
-  }
-}
-
 .label{
   padding-bottom: 8px;
 }
 
 .required{
+  color: var(--additional-red);
+}
+
+.error{
+  margin-top: 4px;
   color: var(--additional-red);
 }
