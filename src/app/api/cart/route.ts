@@ -3,20 +3,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { CreateCartItemValues } from "@/entities/cart";
 import { findOrCreateCart } from "@/modules/Cart/actions/findOrCreateCart";
 import { updateCartTotalAmount } from "@/modules/Cart/actions/updateCartTotalAmount";
-import { CART_QUANTITY_LIMITS } from "@/shared/constants/cart";
+import { CART_QUANTITY_LIMITS, CART_TOKEN_NAME } from "@/shared/constants/cart";
 
 import { prisma } from "../../../../prisma/prisma-client";
 
+const DEFAULT_RESPONSE = { totalAmount: 0, items: [] };
+
 export async function GET(req: NextRequest) {
   try {
-    const defaultResponse = { totalAmount: 0, items: [] };
-
     // Get cart token from cookies
-    const token = req.cookies.get("cartToken")?.value;
+    const token = req.cookies.get(CART_TOKEN_NAME)?.value;
     if (!token) {
-      return NextResponse.json(defaultResponse);
+      return NextResponse.json(DEFAULT_RESPONSE);
     }
 
+    // Search cart by token if exist
     const userCart = await prisma.cart.findFirst({
       where: {
         OR: [
@@ -37,7 +38,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(userCart ?? defaultResponse);
+    return NextResponse.json(userCart ?? DEFAULT_RESPONSE);
   } catch (error) {
     console.error("[CART_GET] API error:", error);
     return NextResponse.json(
@@ -50,12 +51,15 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     //Generate token if not exist
-    const token = req.cookies.get("cartToken")?.value ?? crypto.randomUUID();
+    const token =
+      req.cookies.get(CART_TOKEN_NAME)?.value ?? crypto.randomUUID();
 
+    // Find or create cart by token
     const userCart = await findOrCreateCart(token);
 
     const data = (await req.json()) as CreateCartItemValues;
 
+    // Find cart item for product
     const findCartItem = await prisma.cartItem.findFirst({
       where: {
         cartId: userCart.id,
@@ -63,15 +67,17 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    // Check quantity limit
     if (findCartItem && findCartItem.quantity >= CART_QUANTITY_LIMITS.MAX) {
       return NextResponse.json(
         {
           error: `Cannot add more items. Maximum quantity (${CART_QUANTITY_LIMITS.MAX}) reached.`,
         },
-        { status: 501 },
+        { status: 400 },
       );
     }
 
+    // Use transaction to update or create cart item
     await prisma.$transaction([
       findCartItem
         ? prisma.cartItem.update({
@@ -89,8 +95,9 @@ export async function POST(req: NextRequest) {
 
     const updatedCart = await updateCartTotalAmount(token);
 
+    // Prepare response with updated cart and set cookie if new token generated
     const resp = NextResponse.json(updatedCart);
-    resp.cookies.set("cartToken", token);
+    resp.cookies.set(CART_TOKEN_NAME, token);
     return resp;
   } catch (error) {
     console.error("[CART_POST] API error:", error);

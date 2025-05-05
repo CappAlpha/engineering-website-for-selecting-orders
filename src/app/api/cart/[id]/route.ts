@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { getCartItem } from "@/modules/Cart/actions/getCartItem";
 import { updateCartTotalAmount } from "@/modules/Cart/actions/updateCartTotalAmount";
+import { validateCartItemRequest } from "@/modules/Cart/actions/validateCartItemRequest";
 
 import { prisma } from "../../../../../prisma/prisma-client";
 
@@ -10,30 +10,22 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const id = Number((await params).id);
-    const { quantity } = (await req.json()) as { quantity: number };
+    const response = await validateCartItemRequest(req, params, true);
+    if (response instanceof NextResponse) return response;
 
-    // Get cart token from cookies
-    const token = req.cookies.get("cartToken")?.value;
-    if (!token) {
-      return NextResponse.json({ error: "Cart token not found" });
-    }
+    const { token, id, quantity } = response;
 
-    // Get cart item if exist
-    await getCartItem(id);
+    const result = await prisma.$transaction(async (tx) => {
+      await tx.cartItem.update({
+        where: { id },
+        data: { quantity },
+      });
 
-    await prisma.cartItem.update({
-      where: {
-        id,
-      },
-      data: {
-        quantity,
-      },
+      return await updateCartTotalAmount(token, tx);
     });
+    if (result instanceof NextResponse) return result;
 
-    const updatedCart = await updateCartTotalAmount(token);
-
-    return NextResponse.json(updatedCart);
+    return NextResponse.json(result);
   } catch (error) {
     console.error("[CART_PATCH] API error:", error);
     return NextResponse.json(
@@ -48,26 +40,23 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const id = Number((await params).id);
+    const response = await validateCartItemRequest(req, params);
+    if (response instanceof NextResponse) return response;
 
-    // Get cart token from cookies
-    const token = req.cookies.get("cartToken")?.value;
-    if (!token) {
-      return NextResponse.json({ error: "Cart token not found" });
-    }
+    const { token, id } = response;
 
-    // Get cart item if exist
-    await getCartItem(id);
+    const result = await prisma.$transaction(async (tx) => {
+      await tx.cartItem.delete({
+        where: {
+          id,
+        },
+      });
 
-    await prisma.cartItem.delete({
-      where: {
-        id,
-      },
+      return await updateCartTotalAmount(token, tx);
     });
+    if (result instanceof NextResponse) return result;
 
-    const updatedCart = await updateCartTotalAmount(token);
-
-    return NextResponse.json(updatedCart);
+    return NextResponse.json(result);
   } catch (error) {
     console.error("[CART_DELETE] API error:", error);
     return NextResponse.json(
