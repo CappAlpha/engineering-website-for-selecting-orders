@@ -50,7 +50,9 @@ export const PaymentSidebar: FC = () => {
       {/* <Button className={s.promoCodeBtn} color="transparent" noPadding>
         У меня есть промокод
       </Button> */}
-      <Button className={s.paymentBtn}>Перейти к оплате</Button>
+      <Button className={s.paymentBtn} type="submit">
+        Перейти к оплате
+      </Button>
     </div>
   );
 };

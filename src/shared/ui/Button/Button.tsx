@@ -1,3 +1,4 @@
+import { ButtonBaseProps } from "@mui/material";
 import cn from "classnames";
 import Link from "next/link";
 import { FC, type MouseEvent, type ReactNode } from "react";
@@ -11,6 +12,7 @@ interface ButtonProps {
   onClick?: (event: MouseEvent) => void;
   children?: ReactNode;
   className?: string;
+  type?: ButtonBaseProps["type"];
   disabled?: boolean;
   loading?: boolean;
   href?: string;
@@ -24,6 +26,7 @@ export const Button: FC<ButtonProps> = ({
   onClick,
   children,
   className,
+  type = "button",
   disabled,
   loading,
   href = "",
@@ -44,7 +47,7 @@ export const Button: FC<ButtonProps> = ({
       {children}
     </Link>
   ) : (
-    <button className={styles} onClick={onClick}>
+    <button className={styles} onClick={onClick} type={type}>
       {children}
     </button>
   );
