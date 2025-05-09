@@ -1,5 +1,6 @@
 "use client";
 
+import cn from "classnames";
 import { type FC } from "react";
 
 import { selectTotalAmount } from "@/modules/Cart/store/cartSelectors";
@@ -12,7 +13,11 @@ import s from "./PaymentSidebar.module.scss";
 
 const TAX_PERCENTAGE = 15;
 
-export const PaymentSidebar: FC = () => {
+interface Props {
+  loading: boolean;
+}
+
+export const PaymentSidebar: FC<Props> = ({ loading }) => {
   const totalAmount = useAppSelector(selectTotalAmount);
 
   const taxPrice = (totalAmount * TAX_PERCENTAGE) / 100;
@@ -24,20 +29,26 @@ export const PaymentSidebar: FC = () => {
     <div className={s.root}>
       <div className={s.header}>
         <p className={s.total}>Итого:</p>
-        <p className={s.totalAmount}>{totalPrice} &#8381;</p>
+        <p className={cn(s.totalAmount, loading && s.loading)}>
+          {totalPrice} &#8381;
+        </p>
       </div>
       <div className={s.content}>
         <div className={s.item}>
           <Goods className={s.contentIcon} />
           <p className={s.contentTitle}>Стоимость корзины:</p>
           <div className={s.line} />
-          <p className={s.contentPrice}>{totalAmount} &#8381;</p>
+          <p className={cn(s.contentPrice, loading && s.loading)}>
+            {totalAmount} &#8381;
+          </p>
         </div>
         <div className={s.item}>
           <Percentage className={s.contentIcon} />
           <p className={s.contentTitle}>Налог:</p>
           <div className={s.line} />
-          <p className={s.contentPrice}>{taxPrice} &#8381;</p>
+          <p className={cn(s.contentPrice, loading && s.loading)}>
+            {taxPrice} &#8381;
+          </p>
         </div>
         <div className={s.item}>
           <Shipping className={s.contentIcon} />

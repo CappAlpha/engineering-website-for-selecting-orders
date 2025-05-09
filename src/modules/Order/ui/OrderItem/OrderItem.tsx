@@ -10,6 +10,7 @@ import s from "./OrderItem.module.scss";
 export interface Props {
   title: string;
   children: ReactNode;
+  loading?: boolean;
   isCart?: boolean;
   handleClearAll?: () => void;
 }
@@ -17,6 +18,7 @@ export interface Props {
 export const OrderItem: FC<Props> = ({
   title,
   children,
+  loading = false,
   isCart = false,
   handleClearAll,
 }) => {
@@ -29,8 +31,9 @@ export const OrderItem: FC<Props> = ({
             onClick={handleClearAll}
             color="transparent"
             className={s.btn}
+            loading={loading}
           >
-            <Trash className={s.icon} /> Очистить корзину
+            {!loading && <Trash className={s.icon} />} Очистить корзину
           </Button>
         )}
       </div>

@@ -6,6 +6,10 @@
   outline: 1px solid var(--dark-blue);
 }
 
+.loading {
+  @include spinner;
+}
+
 .header,
 .content {
   padding-bottom: 26px;
@@ -20,6 +24,7 @@
 }
 
 .totalAmount {
+  width: fit-content;
   font-size: 30px;
   font-weight: 700;
   line-height: 140%;

@@ -1,6 +1,7 @@
 @use "../../../../shared/styles/animations.scss" as *;
 
-.root {
+.root,
+.rootSkeleton {
   position: relative;
   display: flex;
   gap: 24px;
@@ -22,7 +23,8 @@
   }
 }
 
-.imgWrap {
+.imgWrap,
+.imgWrapSkeleton {
   position: relative;
   width: 65px;
   min-width: 65px;
@@ -35,11 +37,13 @@
   object-fit: cover;
 }
 
-.contentWrap {
+.contentWrap,
+.contentWrapSkeleton {
   width: 100%;
 }
 
-.title {
+.title,
+.titleSkeleton {
   font-size: 16px;
   font-weight: 700;
   line-height: 140%;
@@ -47,31 +51,86 @@
 }
 
 .description {
+  position: relative;
   font-size: 14px;
   line-height: 130%;
   color: var(--gray);
   padding-bottom: 12px;
   margin-bottom: 12px;
-  border-bottom: 1px solid var(--blue-border);
+
+  &::after{
+    @include pseudo;
+    width: 100%;
+    bottom: 0;
+    border-bottom: 1px solid var(--blue-border);
+  }
 }
 
-.bottom {
+.bottom,
+.bottomSkeleton {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 5px;
 }
 
-.price {
+.bottomRight,
+.bottomRightSkeleton {
+  display: flex;
+  gap: 8px;
+}
+
+.price,
+.priceSkeleton {
   white-space: nowrap;
   font-size: 16px;
   font-weight: 700;
   line-height: 140%;
 }
 
-.bottomRight {
-  display: flex;
-  gap: 8px;
+.imgWrapSkeleton,
+.titleSkeleton,
+.descriptionSkeleton,
+.btnsSkeleton,
+.bottomRightSkeleton {
+  @include skeleton;
+
+  &::before {
+    border-radius: 4px;
+  }
+}
+
+.titleSkeleton {
+  width: 40%;
+  height: 22.4px;
+}
+
+.descriptionSkeleton {
+  width: 60%;
+  height: 18.2px;
+}
+
+.descriptionLineSkeleton {
+  position: relative;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+
+  &::after{
+    @include pseudo;
+    width: 100%;
+    top: 12px;
+    border-bottom: 1px solid var(--blue-border);
+  }
+}
+
+.btnsSkeleton {
+  width: 12%;
+  height: 33.62px;
+}
+
+.bottomRightSkeleton {
+  width: 20%;
+  height: 20px;
 }
 
 .btn {

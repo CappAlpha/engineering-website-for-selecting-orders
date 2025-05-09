@@ -126,3 +126,24 @@ $breakpoints: (
     animation: 1.5s linear infinite skeleton;
   }
 }
+
+@mixin spinner {
+  position: relative;
+  pointer-events: none;
+  color: transparent;
+  fill: transparent;
+
+  &::after {
+    display: block;
+    content: "";
+    position: absolute;
+    top: calc(50% - 12px);
+    left: calc(50% - 12px);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--white);
+    border-top-color: transparent;
+    animation: infinite 1s linear loaderSpin;
+  }
+}

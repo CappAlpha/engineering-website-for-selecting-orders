@@ -10,25 +10,20 @@ import { FormInput } from "../FormInput";
 import s from "./DeliveryForm.module.scss";
 
 export const DeliveryForm: FC = () => {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext();
-
-  const errorText = errors["address"]?.message as string;
+  const { control } = useFormContext();
 
   return (
     <div className={s.root}>
       <Controller
         control={control}
         name="address"
-        render={({ field }) => (
+        render={({ field, fieldState }) => (
           <AddressInput
             onInputChange={field.onChange}
             label="Введите адрес"
             placeholder="Москва, ул. Мира 12"
             inputMode="text"
-            errorText={errorText}
+            errorText={fieldState.error?.message}
           />
         )}
       />

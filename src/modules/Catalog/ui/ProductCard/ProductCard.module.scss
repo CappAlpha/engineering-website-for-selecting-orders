@@ -84,24 +84,20 @@
 .priceSkeleton,
 .buttonSkeleton {
   @include skeleton;
+
+  &::before {
+    border-radius: 4px;
+  }
 }
 
 .titleSkeleton {
   width: 70%;
   height: 30px;
-
-  &::before {
-    border-radius: 4px;
-  }
 }
 
 .descriptionSkeleton {
   width: 90%;
   height: 42px;
-
-  &::before {
-    border-radius: 4px;
-  }
 }
 
 .tagsSkeleton {
@@ -116,10 +112,6 @@
 .priceSkeleton {
   width: 40%;
   height: 27px;
-
-  &::before {
-    border-radius: 4px;
-  }
 }
 
 .buttonSkeleton {
