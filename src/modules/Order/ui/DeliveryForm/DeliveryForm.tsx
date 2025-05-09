@@ -13,6 +13,7 @@ export const DeliveryForm: FC = () => {
         name="address"
         label="Введите адрес"
         placeholder="Москва, ул. Мира 12"
+        inputMode="text"
       />
       <FormInput
         name="commentary"
@@ -20,6 +21,7 @@ export const DeliveryForm: FC = () => {
         placeholder="Укажите тут дополнительную информацию для курьера"
         multiline
         rows={8}
+        inputMode="text"
       />
       {/* TODO: add choose time? */}
       {/*  <FormInput

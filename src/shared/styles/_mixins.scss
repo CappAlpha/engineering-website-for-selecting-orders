@@ -18,11 +18,13 @@ $breakpoints: (
     $delta: 0.1;
   }
 
-  @if meta.type-of($point) ==number {
+  @if meta.type-of($point)==number {
     @media (#{$type}-width: ($point - $delta + px)) {
       @content;
     }
-  } @else {
+  }
+
+  @else {
     $breakpoint: map.get($breakpoints, #{$point});
     $breakpointValue: $breakpoint - $delta + px;
 
@@ -72,6 +74,19 @@ $breakpoints: (
   content: "";
 }
 
+@mixin expandableArea {
+  --_clickable-area-expandable-ratio: var(--clickable-area-expandable-ratio, 6px);
+  position: var(--clickable-area-position, relative);
+  isolation: isolate;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: calc(-1 * var(--_clickable-area-expandable-ratio));
+    z-index: -1;
+  }
+}
+
 @mixin title {
   font-size: 56px;
   font-weight: 600;
@@ -103,12 +118,10 @@ $breakpoints: (
     @include pseudo;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-      90deg,
-      var(--semi-dark-gray) 25%,
-      var(--gray) 50%,
-      var(--semi-dark-gray) 75%
-    );
+    background: linear-gradient(90deg,
+        var(--semi-dark-gray) 25%,
+        var(--gray) 50%,
+        var(--semi-dark-gray) 75%);
     background-size: 200% 100%;
     animation: 1.5s linear infinite skeleton;
   }

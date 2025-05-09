@@ -74,15 +74,22 @@
   gap: 8px;
 }
 
+.btn {
+  @include expandableArea;
+  --clickable-area-expandable-ratio: 16px;
+
+  &:hover {
+    @media (hover: hover) and (pointer: fine) {
+      .trash {
+        fill: var(--white) !important;
+      }
+    }
+  }
+}
+
 .trash {
   width: 20px;
   min-width: 20px;
   fill: var(--gray) !important;
   transition: fill 0.3s ease;
-
-  &:hover {
-    @media (hover: hover) and (pointer: fine) {
-      fill: var(--white) !important;
-    }
-  }
 }

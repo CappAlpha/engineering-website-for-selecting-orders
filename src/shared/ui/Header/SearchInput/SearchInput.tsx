@@ -176,6 +176,7 @@ export const SearchInput: FC<Props> = ({ categories }) => {
             renderInput={renderInput}
             renderGroup={renderList}
             renderOption={renderOption}
+            inputMode="search"
           />
         )}
       </div>

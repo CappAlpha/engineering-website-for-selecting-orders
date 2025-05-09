@@ -1,7 +1,6 @@
 "use client";
 
 import { Drawer } from "@mui/material";
-import cn from "classnames";
 import { type FC } from "react";
 
 import { EmptyCartDrawer } from "./EmptyCartDrawer";
@@ -23,7 +22,7 @@ export const CartDrawer: FC<Props> = ({ open, isCartEmpty, toggleDrawer }) => {
       anchor="right"
       className={s.drawer}
     >
-      <div className={cn(s.wrap, !isCartEmpty && s.noJustify)}>
+      <div className={s.wrap}>
         {isCartEmpty ? (
           <EmptyCartDrawer onClose={toggleDrawer(false)} />
         ) : (

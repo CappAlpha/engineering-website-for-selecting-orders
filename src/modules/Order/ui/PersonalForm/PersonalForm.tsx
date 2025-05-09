@@ -14,20 +14,28 @@ export const PersonalForm: FC = () => {
         label="Имя"
         placeholder="Александр"
         required
+        inputMode="text"
       />
       <FormInput
         name="lastName"
         label="Фамилия"
         placeholder="Иванов"
         required
+        inputMode="text"
       />
       <FormInput
         name="email"
         label="E-Mail"
         placeholder="user@mail.ru"
         required
+        inputMode="email"
       />
-      <FormInput name="phone" label="Телефон" placeholder="+7(999)999-99-99" />
+      <FormInput
+        name="phone"
+        label="Телефон"
+        placeholder="+7(999)999-99-99"
+        inputMode="tel"
+      />
     </div>
   );
 };

@@ -60,6 +60,7 @@ export const ProductCardLine: FC<Props> = ({
               disabled={isRemoving}
               color="transparent"
               noPadding
+              className={s.btn}
             >
               <Trash className={s.trash} />
             </Button>
