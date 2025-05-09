@@ -1,0 +1,35 @@
+.root {
+  input,
+  textarea {
+    color: var(--white);
+    border-bottom: 2px solid var(--gray);
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+
+    >button {
+      width: 100%;
+      padding: 8px;
+      text-align: left;
+      background: var(--almost-dark-gray);
+
+      &:hover {
+        @media (hover: hover) and (pointer: fine) {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+.label {
+  padding-bottom: 8px;
+}
+
+.error {
+  margin-top: 4px;
+  color: var(--additional-red);
+}

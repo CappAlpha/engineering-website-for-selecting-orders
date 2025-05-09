@@ -1,20 +1,38 @@
 "use client";
 
 import { type FC } from "react";
+import { Controller, useFormContext } from "react-hook-form";
+
+import { AddressInput } from "@/shared/ui/AddressInput";
 
 import { FormInput } from "../FormInput";
 
 import s from "./DeliveryForm.module.scss";
 
 export const DeliveryForm: FC = () => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
+  const errorText = errors["address"]?.message as string;
+
   return (
     <div className={s.root}>
-      <FormInput
+      <Controller
+        control={control}
         name="address"
-        label="Введите адрес"
-        placeholder="Москва, ул. Мира 12"
-        inputMode="text"
+        render={({ field }) => (
+          <AddressInput
+            onInputChange={field.onChange}
+            label="Введите адрес"
+            placeholder="Москва, ул. Мира 12"
+            inputMode="text"
+            errorText={errorText}
+          />
+        )}
       />
+
       <FormInput
         name="commentary"
         label="Комментарий к заказу"
