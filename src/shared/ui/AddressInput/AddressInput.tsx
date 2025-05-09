@@ -27,7 +27,7 @@ export const AddressInput: FC<Props> = (
       )}
 
       <AddressSuggestions
-        token="2e307002b7a687151b046222ee6992cd43677ff0"
+        token={process.env.NEXT_PUBLIC_DADATA_TOKEN ?? ""}
         onChange={(data) => onInputChange?.(data?.value)}
         customInput={Input}
         delay={300}

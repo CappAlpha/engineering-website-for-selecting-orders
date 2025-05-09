@@ -1,4 +1,5 @@
 .root {
+
   input,
   textarea {
     color: var(--white);
@@ -15,10 +16,13 @@
       padding: 8px;
       text-align: left;
       background: var(--almost-dark-gray);
+      transition: all 0.3s ease-in-out;
 
       &:hover {
         @media (hover: hover) and (pointer: fine) {
           cursor: pointer;
+          color: var(--almost-dark-gray);
+          background: var(--gray);
         }
       }
     }
