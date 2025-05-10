@@ -7,6 +7,10 @@
   margin-top: 20px;
 }
 
+.loading {
+  @include spinner;
+}
+
 .topInfo {
   margin-left: 20px;
   font-size: 20px;

@@ -54,7 +54,9 @@ export const ProductCardLine: FC<Props> = ({
             loading={isUpdating}
           />
           <div className={s.bottomRight}>
-            <p className={s.price}>{price} &#8381;</p>
+            <p className={cn(s.price, isUpdating && s.loading)}>
+              {price} &#8381;
+            </p>
             <Button
               onClick={onClickRemove}
               disabled={isRemoving}

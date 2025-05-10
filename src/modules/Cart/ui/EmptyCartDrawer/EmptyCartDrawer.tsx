@@ -5,7 +5,7 @@ import { type FC } from "react";
 
 import { Button } from "@/shared/ui/Button";
 
-import { Arrow } from "../../../../../../public/icon";
+import { Arrow } from "../../../../../public/icon";
 
 import s from "./EmptyCartDrawer.module.scss";
 

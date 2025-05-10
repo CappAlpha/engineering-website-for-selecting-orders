@@ -1,5 +1,6 @@
 "use client";
 
+import cn from "classnames";
 import { type FC } from "react";
 
 import { useCartReducers } from "@/modules/Cart/actions/useCartReducers";
@@ -14,8 +15,8 @@ import { useAppSelector } from "@/shared/hook/useAppSelector";
 import { pluralize } from "@/shared/lib/pluralize";
 import { Button } from "@/shared/ui/Button";
 
-import { Plus, Arrow } from "../../../../../../public/icon";
-import { ProductCardLine } from "../../ProductCardLine";
+import { Plus, Arrow } from "../../../../../public/icon";
+import { ProductCardLine } from "../ProductCardLine";
 
 import s from "./ListCartDrawer.module.scss";
 
@@ -83,7 +84,9 @@ export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
             <div className={s.bottomTextWrap}>
               <p className={s.bottomTitle}>Итого</p>
               <div className={s.line} />
-              <p className={s.bottomPrice}>{totalAmount}</p>
+              <p className={cn(s.bottomPrice, isProcessing && s.loading)}>
+                {totalAmount}
+              </p>
             </div>
           )}
           {hasError ? (

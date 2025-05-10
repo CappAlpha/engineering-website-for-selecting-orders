@@ -3,8 +3,8 @@
 import { Drawer } from "@mui/material";
 import { type FC } from "react";
 
-import { EmptyCartDrawer } from "./EmptyCartDrawer";
-import { ListCartDrawer } from "./ListCartDrawer";
+import { EmptyCartDrawer } from "../EmptyCartDrawer";
+import { ListCartDrawer } from "../ListCartDrawer";
 
 import s from "./CartDrawer.module.scss";
 
