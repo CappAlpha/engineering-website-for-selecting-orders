@@ -57,8 +57,7 @@ export const OrderItems: FC = () => {
   }, [dispatch]);
 
   const isEmpty = cartItems.length === 0;
-  const isLoading =
-    loading.fetch || Object.values(loading.remove).some(Boolean);
+  const isFetching = loading.fetch;
   const isUpdate = Object.values(loading.update).some(Boolean);
 
   return (
@@ -68,14 +67,14 @@ export const OrderItems: FC = () => {
           <OrderItem
             title="1. Корзина"
             isCart={!isEmpty}
-            loading={isLoading}
+            loading={isFetching}
             handleClearAll={noop}
           >
-            {isLoading ? (
+            {isFetching ? (
               Array.from({
                 length: cartItems.length !== 0 ? cartItems.length : 3,
               }).map((_, index) => <ProductCardLineSkeleton key={index} />)
-            ) : !isLoading && isEmpty ? (
+            ) : !isFetching && isEmpty ? (
               <div className={s.empty}>
                 <p className={s.emptyText}>
                   Корзина пуста вернитесь обратно в Каталог
@@ -105,7 +104,7 @@ export const OrderItems: FC = () => {
           </OrderItem>
         </div>
         <div className={s.right}>
-          <PaymentSidebar loading={isLoading || isUpdate} />
+          <PaymentSidebar loading={isFetching || isUpdate} />
         </div>
       </form>
     </FormProvider>

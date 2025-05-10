@@ -48,17 +48,28 @@
 }
 
 .bottom {
+  position: sticky;
+  bottom: 0;
   width: 100%;
   margin-top: auto;
 }
 
 .bottomWrap {
+  position: relative;
   padding: 38px 35px 30px;
-  background: var(--dark-gray);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
+
+  &::after {
+    @include pseudo;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background: var(--dark-gray);
+    opacity: 0.95;
+  }
 }
 
 .bottomTextWrap {

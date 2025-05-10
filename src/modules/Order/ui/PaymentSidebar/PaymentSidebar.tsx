@@ -62,7 +62,7 @@ export const PaymentSidebar: FC<Props> = ({ loading }) => {
         У меня есть промокод
       </Button> */}
       <Button className={s.paymentBtn} type="submit">
-        Перейти к оплате
+        Оформить заказ
       </Button>
     </div>
   );
