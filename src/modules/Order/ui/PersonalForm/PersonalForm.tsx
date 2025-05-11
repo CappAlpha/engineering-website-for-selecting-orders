@@ -34,6 +34,7 @@ export const PersonalForm: FC = () => {
         name="phone"
         label="Телефон"
         placeholder="+7(999)999-99-99"
+        required
         inputMode="tel"
       />
     </div>

@@ -1,10 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 
+import { createOrder } from "@/app/actions";
 import { useCartReducers } from "@/modules/Cart/actions/useCartReducers";
 import {
   selectAllCartItems,
@@ -30,6 +32,7 @@ import { PersonalForm } from "../PersonalForm";
 import s from "./OrderItems.module.scss";
 
 export const OrderItems: FC = () => {
+  const [submitting, setSubmitting] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const cartItems = useAppSelector(selectAllCartItems);
   const loading = useAppSelector(selectCartLoading);
@@ -48,8 +51,26 @@ export const OrderItems: FC = () => {
     reValidateMode: "onBlur",
   });
 
-  const onSubmit = (data: CheckoutFormValues) => {
-    console.log(data);
+  const onSubmit = async (data: CheckoutFormValues) => {
+    try {
+      setSubmitting(true);
+
+      const url = await createOrder(data);
+
+      toast.success("Заказ успешно создан! Переход на оплату...", {
+        icon: "\u2705",
+      });
+
+      if (url) {
+        location.href = url;
+      }
+    } catch (err) {
+      console.error(err);
+      setSubmitting(false);
+      toast.error("Не удалось создать заказ", {
+        icon: "\u274C",
+      });
+    }
   };
 
   useEffect(() => {
@@ -66,7 +87,7 @@ export const OrderItems: FC = () => {
         <div className={s.left}>
           <OrderItem
             title="1. Корзина"
-            isCart={!isEmpty}
+            isCartEmpty={!isEmpty}
             loading={isFetching}
             handleClearAll={noop}
           >
@@ -96,15 +117,18 @@ export const OrderItems: FC = () => {
               ))
             )}
           </OrderItem>
-          <OrderItem title="2. Персональная информация">
+          <OrderItem title="2. Персональная информация" disabled={isEmpty}>
             <PersonalForm />
           </OrderItem>
-          <OrderItem title="3. Адрес доставки">
+          <OrderItem title="3. Адрес доставки" disabled={isEmpty}>
             <DeliveryForm />
           </OrderItem>
         </div>
         <div className={s.right}>
-          <PaymentSidebar loading={isFetching || isUpdate} />
+          <PaymentSidebar
+            loading={isFetching || isUpdate || submitting}
+            disabled={isEmpty}
+          />
         </div>
       </form>
     </FormProvider>

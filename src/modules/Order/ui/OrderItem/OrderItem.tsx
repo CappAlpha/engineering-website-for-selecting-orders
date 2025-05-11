@@ -11,7 +11,8 @@ export interface Props {
   title: string;
   children: ReactNode;
   loading?: boolean;
-  isCart?: boolean;
+  disabled?: boolean;
+  isCartEmpty?: boolean;
   handleClearAll?: () => void;
 }
 
@@ -19,14 +20,15 @@ export const OrderItem: FC<Props> = ({
   title,
   children,
   loading = false,
-  isCart = false,
+  disabled = false,
+  isCartEmpty = false,
   handleClearAll,
 }) => {
   return (
-    <section className={s.root}>
-      <div className={cn(s.header, isCart && s.headerCart)}>
+    <section className={cn(s.root, disabled && s.disabled)}>
+      <div className={cn(s.header, isCartEmpty && s.headerCart)}>
         <h2 className={s.title}>{title}</h2>
-        {isCart && (
+        {isCartEmpty && (
           <Button
             onClick={handleClearAll}
             color="transparent"

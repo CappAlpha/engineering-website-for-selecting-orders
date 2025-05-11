@@ -23,8 +23,8 @@ import s from "./ProductCardLine.module.scss";
 
 interface Props {
   item: CartStateItem;
-  onChangeCount: (type: QuantityActionType) => void;
-  onClickRemove: () => void;
+  onChangeCount?: (type: QuantityActionType) => void;
+  onClickRemove?: () => void;
 }
 
 export const ProductCardLine: FC<Props> = ({
@@ -45,29 +45,31 @@ export const ProductCardLine: FC<Props> = ({
       <div className={s.contentWrap}>
         <h5 className={s.title}>{name}</h5>
         <p className={s.description}>{description}</p>
-        <div className={s.bottom}>
-          <CountBtns
-            onChangeCount={onChangeCount}
-            value={quantity}
-            minValue={CART_QUANTITY_LIMITS.MIN}
-            maxValue={CART_QUANTITY_LIMITS.MAX}
-            loading={isUpdating}
-          />
-          <div className={s.bottomRight}>
-            <p className={cn(s.price, isUpdating && s.loading)}>
-              {price} &#8381;
-            </p>
-            <Button
-              onClick={onClickRemove}
-              disabled={isRemoving}
-              color="transparent"
-              noPadding
-              className={s.btn}
-            >
-              <Trash className={s.trash} />
-            </Button>
+        {onChangeCount && onClickRemove && (
+          <div className={s.bottom}>
+            <CountBtns
+              onChangeCount={onChangeCount}
+              value={quantity}
+              minValue={CART_QUANTITY_LIMITS.MIN}
+              maxValue={CART_QUANTITY_LIMITS.MAX}
+              loading={isUpdating}
+            />
+            <div className={s.bottomRight}>
+              <p className={cn(s.price, isUpdating && s.loading)}>
+                {price} &#8381;
+              </p>
+              <Button
+                onClick={onClickRemove}
+                disabled={isRemoving}
+                color="transparent"
+                noPadding
+                className={s.btn}
+              >
+                <Trash className={s.trash} />
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

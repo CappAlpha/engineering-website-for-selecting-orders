@@ -15,18 +15,19 @@ const TAX_PERCENTAGE = 15;
 
 interface Props {
   loading: boolean;
+  disabled?: boolean;
 }
 
-export const PaymentSidebar: FC<Props> = ({ loading }) => {
+export const PaymentSidebar: FC<Props> = ({ loading, disabled = false }) => {
   const totalAmount = useAppSelector(selectTotalAmount);
 
   const taxPrice = (totalAmount * TAX_PERCENTAGE) / 100;
-  const deliveryPrice = 120;
+  const deliveryPrice = disabled ? 0 : 120;
 
   const totalPrice = totalAmount + taxPrice + deliveryPrice;
 
   return (
-    <div className={s.root}>
+    <div className={cn(s.root, disabled && s.disabled)}>
       <div className={s.header}>
         <p className={s.total}>Итого:</p>
         <p className={cn(s.totalAmount, loading && s.loading)}>
@@ -61,7 +62,7 @@ export const PaymentSidebar: FC<Props> = ({ loading }) => {
       {/* <Button className={s.promoCodeBtn} color="transparent" noPadding>
         У меня есть промокод
       </Button> */}
-      <Button className={s.paymentBtn} type="submit">
+      <Button className={s.paymentBtn} type="submit" loading={loading}>
         Оформить заказ
       </Button>
     </div>

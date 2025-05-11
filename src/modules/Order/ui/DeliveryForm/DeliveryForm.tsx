@@ -29,7 +29,7 @@ export const DeliveryForm: FC = () => {
       />
 
       <FormInput
-        name="commentary"
+        name="comment"
         label="Комментарий к заказу"
         placeholder="Укажите тут дополнительную информацию для курьера"
         multiline

@@ -6,6 +6,17 @@
   outline: 1px solid var(--dark-blue);
 }
 
+.disabled {
+  pointer-events: none;
+  opacity: 0.2;
+  outline-color: var(--gray);
+
+  .header {
+    border-color: var(--gray);
+  }
+}
+
+
 .loading {
   @include spinner;
 }
