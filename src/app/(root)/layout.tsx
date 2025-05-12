@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { type ReactNode } from "react";
 
+import { Footer } from "@/shared/ui/Footer";
 import { Header } from "@/shared/ui/Header";
 
 import s from "./layout.module.scss";
@@ -18,6 +19,7 @@ export default function CatalogLayout({
     <>
       <Header />
       <main className={s.container}>{children}</main>
+      <Footer />
     </>
   );
 }

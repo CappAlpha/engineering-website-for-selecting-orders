@@ -4,7 +4,10 @@ import {
   createEntityAdapter,
 } from "@reduxjs/toolkit";
 
-import { CartStateItem, CreateCartItemValues } from "@/entities/cart";
+import {
+  CartStateItem,
+  CreateCartItemValues,
+} from "@/modules/Cart/entities/cart";
 import { Api } from "@/shared/services/apiClient";
 import type { RootState } from "@/store/store";
 

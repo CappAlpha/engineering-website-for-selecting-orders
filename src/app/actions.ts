@@ -4,10 +4,11 @@ import { OrderStatus } from "@prisma/client";
 import { cookies } from "next/headers";
 import { ReactNode } from "react";
 
+import { CartItemDTO } from "@/modules/Cart/entities/cart";
 import { createPayment } from "@/modules/Order/actions/createPayment";
 import { sendEmail } from "@/modules/Order/actions/sendEmail";
 import { CheckoutFormValues } from "@/modules/Order/schemas/checkoutFormSchema";
-import { EmailOrderTemplate } from "@/modules/Order/ui/EmailOrderTemplate";
+import { EmailMakeOrderTemplate } from "@/modules/Order/ui/EmailMakeOrderTemplate";
 import { CART_TOKEN_NAME } from "@/shared/constants/cart";
 
 import { prisma } from "../../prisma/prisma-client";
@@ -28,7 +29,11 @@ export const createOrder = async (data: CheckoutFormValues) => {
       },
       include: {
         user: true,
-        items: true,
+        items: {
+          include: {
+            product: true,
+          },
+        },
       },
     });
     if (!userCart) {
@@ -75,6 +80,14 @@ export const createOrder = async (data: CheckoutFormValues) => {
       amount: order.totalAmount,
     });
     if (!paymentData) {
+      await prisma.order.update({
+        where: {
+          id: order.id,
+        },
+        data: {
+          status: OrderStatus.CANCELLED,
+        },
+      });
       throw new Error("Payment data not found");
     }
 
@@ -89,15 +102,17 @@ export const createOrder = async (data: CheckoutFormValues) => {
     });
 
     const paymentUrl = paymentData.url;
+    const items = JSON.parse(order?.items as string) as CartItemDTO[];
 
     // Send info about order on email
     await sendEmail(
       data.email,
       "Engineer / Оплатите заказ #" + order.id,
-      EmailOrderTemplate({
+      EmailMakeOrderTemplate({
         orderId: order.id,
         totalAmount: order.totalAmount,
         paymentUrl: paymentUrl,
+        items,
       }) as ReactNode,
     );
 

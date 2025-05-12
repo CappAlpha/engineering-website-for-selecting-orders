@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { CreateCartItemValues } from "@/entities/cart";
 import { findOrCreateCart } from "@/modules/Cart/actions/findOrCreateCart";
 import { updateCartTotalAmount } from "@/modules/Cart/actions/updateCartTotalAmount";
+import { CreateCartItemValues } from "@/modules/Cart/entities/cart";
 import { CART_QUANTITY_LIMITS, CART_TOKEN_NAME } from "@/shared/constants/cart";
 
 import { prisma } from "../../../../prisma/prisma-client";

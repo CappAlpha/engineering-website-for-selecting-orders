@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { orderConfig } from "@/shared/constants/order";
 
-import { OrderResponseProps } from "../entities/orderResponse";
+import { PaymentResponseData } from "../entities/orderResponse";
 
 interface Props {
   description: string;
@@ -20,7 +20,7 @@ interface Props {
  * @returns A promise that resolves with the response from the CrystalPay API.
  */
 export const createPayment = async (details: Props) => {
-  const { data } = await axios.post<OrderResponseProps>(
+  const { data } = await axios.post<PaymentResponseData>(
     "https://api.crystalpay.io/v3/invoice/create/",
     {
       auth_login: process.env.NEXT_PUBLIC_PAY_LOGIN,

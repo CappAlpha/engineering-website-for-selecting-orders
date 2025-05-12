@@ -1,4 +1,7 @@
-import { CartDTO, CreateCartItemValues } from "../../entities/cart";
+import {
+  CartDTO,
+  CreateCartItemValues,
+} from "../../modules/Cart/entities/cart";
 import { pageConfig } from "../constants/pages";
 import { axiosInstance } from "./instance";
 

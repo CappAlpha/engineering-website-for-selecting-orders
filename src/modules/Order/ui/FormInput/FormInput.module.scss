@@ -1,35 +1,9 @@
-.root {
-  position: relative;
-}
-
 .label {
   padding-bottom: 8px;
 }
 
 .required {
   color: var(--additional-red);
-}
-
-.clearBtn {
-  position: absolute;
-  top: 20px;
-  right: 0;
-
-  &:hover {
-    @media (hover: hover) and (pointer: fine) {
-      .clear {
-        fill: var(--white) !important;
-      }
-    }
-  }
-}
-
-.clear {
-  width: 20px;
-  min-width: 20px;
-  height: 20px;
-  rotate: 45deg;
-  fill: var(--gray) !important;
 }
 
 .error {

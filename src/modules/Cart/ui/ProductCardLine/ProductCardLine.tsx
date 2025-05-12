@@ -4,7 +4,7 @@ import cn from "classnames";
 import Image from "next/image";
 import { type FC } from "react";
 
-import { CartStateItem } from "@/entities/cart";
+import { CartStateItem } from "@/modules/Cart/entities/cart";
 import { CountBtns } from "@/modules/Cart/ui/CountBtns";
 import {
   QuantityActionType,
