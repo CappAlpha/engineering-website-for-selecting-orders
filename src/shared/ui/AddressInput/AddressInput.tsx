@@ -19,21 +19,23 @@ export const AddressInput: FC<Props> = (
   ...inputProps
 ) => {
   const id = useId();
+
   return (
     <div className={s.root}>
       {label && (
-        <label htmlFor={"address"} className={s.label}>
+        <label htmlFor={id} className={s.label}>
           {label}
         </label>
       )}
 
+      {/* TODO: fix length error */}
       <AddressSuggestions
         token={process.env.NEXT_PUBLIC_DADATA_TOKEN ?? ""}
-        onChange={(data) => onInputChange(data?.value)}
-        customInput={Input}
+        onChange={(data) => onInputChange(data?.value ?? "")}
         delay={300}
         count={5}
         {...inputProps}
+        customInput={Input}
         uid={id}
       />
 

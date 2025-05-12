@@ -5,7 +5,7 @@ import { Controller, useFormContext } from "react-hook-form";
 
 import { AddressInput } from "@/shared/ui/AddressInput";
 
-import { FormInput } from "../FormInput";
+import { FormInput } from "../../../../shared/ui/FormInput";
 
 import s from "./DeliveryForm.module.scss";
 

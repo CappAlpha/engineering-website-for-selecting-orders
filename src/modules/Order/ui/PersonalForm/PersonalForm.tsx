@@ -2,7 +2,7 @@
 
 import { type FC } from "react";
 
-import { FormInput } from "../FormInput";
+import { FormInput } from "../../../../shared/ui/FormInput";
 
 import s from "./PersonalForm.module.scss";
 
