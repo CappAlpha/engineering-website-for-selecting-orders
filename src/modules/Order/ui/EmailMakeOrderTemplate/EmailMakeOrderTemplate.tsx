@@ -24,7 +24,6 @@ export const EmailMakeOrderTemplate: FC<EmailMakeOrderTemplateProps> = ({
         <a href={paymentUrl}>по этой ссылке</a> для оплаты заказа
       </p>
 
-      {/* TODO: вывод продуктов сделать */}
       <ul>
         {items.map((item) => (
           <li key={item.id}>
