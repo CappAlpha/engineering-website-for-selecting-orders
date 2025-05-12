@@ -79,7 +79,9 @@ export const OrderItems: FC = () => {
 
   const isEmpty = cartItems.length === 0;
   const isFetching = loading.fetch;
-  const isUpdate = Object.values(loading.update).some(Boolean);
+  const isCardChanging =
+    Object.values(loading.update).some(Boolean) ||
+    Object.values(loading.remove).some(Boolean);
 
   return (
     <FormProvider {...form}>
@@ -126,7 +128,7 @@ export const OrderItems: FC = () => {
         </div>
         <div className={s.right}>
           <PaymentSidebar
-            loading={isFetching || isUpdate || submitting}
+            loading={isFetching || isCardChanging || submitting}
             disabled={isEmpty}
           />
         </div>

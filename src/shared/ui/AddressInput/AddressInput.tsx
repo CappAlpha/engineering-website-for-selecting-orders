@@ -1,13 +1,14 @@
 "use client";
 
-import { HTMLProps, useId, type FC } from "react";
+import { InputProps } from "@mui/material";
+import { useId, type FC } from "react";
 import { AddressSuggestions } from "react-dadata";
 
 import { Input } from "../Input";
 
 import s from "./AddressInput.module.scss";
 
-interface Props extends HTMLProps<HTMLInputElement> {
+interface Props extends InputProps {
   label?: string;
   errorText?: string;
   onInputChange: (value?: string) => void;
@@ -28,7 +29,7 @@ export const AddressInput: FC<Props> = (
 
       <AddressSuggestions
         token={process.env.NEXT_PUBLIC_DADATA_TOKEN ?? ""}
-        onChange={(data) => onInputChange?.(data?.value)}
+        onChange={(data) => onInputChange(data?.value)}
         customInput={Input}
         delay={300}
         count={5}
