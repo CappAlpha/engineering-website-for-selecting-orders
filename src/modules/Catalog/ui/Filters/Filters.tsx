@@ -1,16 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import qs from "qs";
-import { useEffect, type FC } from "react";
+import { ChangeEvent, type FC } from "react";
 
 import { useResetFilters } from "@/modules/Catalog/actions/useResetFilters";
-import { useDebouncedCallback } from "@/shared/hook/useDebounce";
 import { Button } from "@/shared/ui/Button";
 import { Input } from "@/shared/ui/Input";
 import { Slider } from "@/shared/ui/Slider";
 
 import { usePriceRange } from "../../actions/usePriceRange";
+import { useQueryFilters } from "../../actions/useQueryFilters";
 import { useTags } from "../../actions/useTags";
 import { CheckboxFilterGroup } from "../CheckboxFilterGroup";
 
@@ -25,6 +24,7 @@ const PRICE_CONFIG = {
 
 export const Filters: FC = () => {
   const router = useRouter();
+
   const { resetFilters } = useResetFilters(router);
 
   const {
@@ -41,21 +41,8 @@ export const Filters: FC = () => {
     handleSliderChange,
   } = usePriceRange(PRICE_CONFIG);
 
-  // Update URL when filter changes
-  useEffect(() => {
-    updateUrl({ priceFrom, priceTo, tags: selectedTags });
-  }, [priceFrom, priceTo, selectedTags]);
-
-  const updateUrl = useDebouncedCallback(
-    (filters: { priceFrom?: number; priceTo?: number; tags: string[] }) => {
-      const query = qs.stringify(filters, {
-        arrayFormat: "comma",
-        skipNulls: true,
-      });
-      router.push(`?${query}`, { scroll: false });
-    },
-    300,
-  );
+  // Set filters in url
+  useQueryFilters(router, priceFrom, priceTo, selectedTags);
 
   return (
     <section className={s.root} aria-label="Фильтр продуктов">
@@ -67,28 +54,20 @@ export const Filters: FC = () => {
           <Input
             id="left-input-price"
             type="number"
-            min={PRICE_CONFIG.MIN_PRICE}
-            max={
-              priceTo
-                ? priceTo - PRICE_CONFIG.SLIDER_GAP
-                : PRICE_CONFIG.MAX_PRICE - PRICE_CONFIG.SLIDER_GAP
-            }
             value={priceFrom ?? PRICE_CONFIG.MIN_PRICE}
-            onChange={(e) => handlePriceChange(e, "priceFrom")}
-            aria-label="Минимальная цена ввод"
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              handlePriceChange(e, "priceFrom")
+            }
+            aria-label="Минимальная цена ввод клавиатурой"
           />
           <Input
             id="right-input-price"
             type="number"
-            min={
-              priceFrom
-                ? priceFrom + PRICE_CONFIG.SLIDER_GAP
-                : PRICE_CONFIG.MIN_PRICE
-            }
-            max={PRICE_CONFIG.MAX_PRICE}
             value={priceTo ?? PRICE_CONFIG.MAX_PRICE}
-            onChange={(e) => handlePriceChange(e, "priceTo")}
-            aria-label="Максимальная цена ввод"
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              handlePriceChange(e, "priceTo")
+            }
+            aria-label="Максимальная цена ввод клавиатурой"
           />
         </div>
         <Slider
@@ -101,7 +80,7 @@ export const Filters: FC = () => {
             priceTo ?? PRICE_CONFIG.MAX_PRICE,
           ]}
           onValueChange={handleSliderChange}
-          aria-label="Диапазон цен можно двигать два ползунка налево или направо"
+          aria-label="Диапазон цен можно двигать два ползунка влево или вправо"
         />
       </div>
 

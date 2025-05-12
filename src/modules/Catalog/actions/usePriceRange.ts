@@ -34,9 +34,35 @@ export const usePriceRange = (config: PriceConfig) => {
     key: "priceFrom" | "priceTo",
   ) => {
     const value = Number(e.target.value);
-    if (value >= config.MIN_PRICE && value <= config.MAX_PRICE) {
-      dispatch(filtersActions.setPrices({ ...prices, [key]: value }));
+    let newPriceFrom = prices.priceFrom ?? config.MIN_PRICE;
+    let newPriceTo = prices.priceTo ?? config.MAX_PRICE;
+
+    if (key === "priceFrom") {
+      newPriceFrom = Math.max(
+        Math.min(
+          value,
+          config.MAX_PRICE - config.SLIDER_GAP,
+          newPriceTo !== null ? newPriceTo - config.SLIDER_GAP : Infinity,
+        ),
+        config.MIN_PRICE,
+      );
+    } else {
+      newPriceTo = Math.min(
+        Math.max(
+          value,
+          config.MIN_PRICE + config.SLIDER_GAP,
+          newPriceFrom !== null ? newPriceFrom + config.SLIDER_GAP : -Infinity,
+        ),
+        config.MAX_PRICE,
+      );
     }
+
+    dispatch(
+      filtersActions.setPrices({
+        priceFrom: newPriceFrom,
+        priceTo: newPriceTo,
+      }),
+    );
   };
 
   /**

@@ -9,7 +9,6 @@ import { Button } from "@/shared/ui/Button";
 import { Tabs } from "@/shared/ui/Tabs";
 
 import { AngleDown } from "../../../../../public/icon";
-import { SortDropdown } from "../SortDropdown";
 
 import s from "./TopBar.module.scss";
 
@@ -52,7 +51,8 @@ export const TopBar: FC<TopBarProps> = ({ categories }) => {
         ) : (
           <div />
         )}
-        <SortDropdown />
+        {/* TODO: убрать? */}
+        {/* <SortDropdown /> */}
       </div>
 
       {categories.length > 1 && (
