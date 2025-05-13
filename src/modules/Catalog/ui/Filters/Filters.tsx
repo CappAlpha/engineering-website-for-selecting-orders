@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ChangeEvent, type FC } from "react";
+import { ChangeEvent, useState, type FC } from "react";
 
 import { useResetFilters } from "@/modules/Catalog/actions/useResetFilters";
 import { Button } from "@/shared/ui/Button";
@@ -11,7 +11,7 @@ import { Slider } from "@/shared/ui/Slider";
 import { usePriceRange } from "../../actions/usePriceRange";
 import { useQueryFilters } from "../../actions/useQueryFilters";
 import { useTags } from "../../actions/useTags";
-import { CheckboxFilterGroup } from "../CheckboxFilterGroup";
+import { FilterTags } from "../FilterTags";
 
 import s from "./Filters.module.scss";
 
@@ -24,6 +24,7 @@ const PRICE_CONFIG = {
 
 export const Filters: FC = () => {
   const router = useRouter();
+  const [searchTagsValue, setSearchTagsValue] = useState("");
 
   const { resetFilters } = useResetFilters(router);
 
@@ -44,15 +45,22 @@ export const Filters: FC = () => {
   // Set filters in url
   useQueryFilters(router, priceFrom, priceTo, selectedTags);
 
+  /**
+   * Resets all filters and sets search tags input value to empty string.
+   */
+  const onClickReset = () => {
+    resetFilters();
+    setSearchTagsValue("");
+  };
+
   return (
-    <section className={s.root} aria-label="Фильтр продуктов">
+    <div className={s.root} aria-label="Фильтр продуктов">
       <h2 className={s.subtitle}>Фильтрация</h2>
 
       <div className={s.priceCategory}>
         <p className={s.categoryTitle}>Цена от и до:</p>
         <div className={s.priceInputs}>
           <Input
-            id="left-input-price"
             type="number"
             value={priceFrom ?? PRICE_CONFIG.MIN_PRICE}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -84,19 +92,21 @@ export const Filters: FC = () => {
         />
       </div>
 
-      <CheckboxFilterGroup
+      <FilterTags
         title="Категории"
         items={tags}
+        searchValue={searchTagsValue}
         selected={selectedTags}
         loading={loadingTags}
         error={errorTags}
         onClickCheckbox={onAddTags}
-        resetFilters={resetFilters}
+        resetFilters={onClickReset}
+        setSearchValue={setSearchTagsValue}
       />
 
-      <Button onClick={resetFilters} aria-label="Кнопка сброса фильтров">
+      <Button onClick={onClickReset} aria-label="Кнопка сброса фильтров">
         Сбросить фильтры
       </Button>
-    </section>
+    </div>
   );
 };
