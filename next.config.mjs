@@ -11,7 +11,7 @@ const nextConfig = {
     prependData: '@use "~@/shared/styles/_mixins.scss" as *;',
   },
   images: {
-    // Домены картинок для Image
+    // Images domain
     remotePatterns: [
       // {
       //   protocol: `${process.env.NEXT_PUBLIC_IMG_PROTOCOL ?? ''}`,

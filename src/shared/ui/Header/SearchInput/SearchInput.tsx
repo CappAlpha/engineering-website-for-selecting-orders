@@ -42,7 +42,6 @@ export const SearchInput: FC<Props> = ({ categories }) => {
   // TODO: remove or made limit
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
-  //TODO: useless?
   const onClose = () => {
     setOpen(false);
     setSearchQuery("");

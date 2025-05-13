@@ -36,14 +36,20 @@ $breakpoints: (
 
 @mixin scrollbar {
   &::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: var(--scrollbar-width);
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--white);
+    background-color: var(--blue);
     border-radius: 6px;
-    opacity: 0.1;
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover {
+      @media (hover: hover) and (pointer: fine) {
+        background-color: var(--dark-blue);
+        cursor: pointer;
+      }
+    }
   }
 }
 
