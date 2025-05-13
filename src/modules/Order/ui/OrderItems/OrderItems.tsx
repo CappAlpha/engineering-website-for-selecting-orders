@@ -25,7 +25,7 @@ import {
   checkoutFormSchema,
 } from "../../schemas/checkoutFormSchema";
 import { DeliveryForm } from "../DeliveryForm";
-import { OrderItem } from "../OrderItem/OrderItem";
+import { OrderItem } from "../OrderItem";
 import { PaymentSidebar } from "../PaymentSidebar";
 import { PersonalForm } from "../PersonalForm";
 
@@ -48,7 +48,7 @@ export const OrderItems: FC = () => {
       address: "",
       comment: "",
     },
-    reValidateMode: "onBlur",
+    mode: "all",
   });
 
   const onSubmit = async (data: CheckoutFormValues) => {
@@ -85,7 +85,11 @@ export const OrderItems: FC = () => {
 
   return (
     <FormProvider {...form}>
-      <form className={s.root} onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        className={s.root}
+        onSubmit={form.handleSubmit(onSubmit)}
+        noValidate
+      >
         <div className={s.left}>
           <OrderItem
             title="1. Корзина"

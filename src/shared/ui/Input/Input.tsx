@@ -1,8 +1,20 @@
-import { InputProps, Input as MuiInput } from "@mui/material";
-import { FC } from "react";
+import { TextField, TextFieldProps } from "@mui/material";
+import { forwardRef, HTMLProps } from "react";
 
 import s from "./Input.module.scss";
 
-export const Input: FC<InputProps> = (props) => {
-  return <MuiInput className={s.root} {...props} fullWidth />;
-};
+export const Input = forwardRef<HTMLProps<HTMLInputElement>, TextFieldProps>(
+  (props, ref) => {
+    return (
+      <TextField
+        className={s.root}
+        inputRef={ref}
+        {...props}
+        fullWidth
+        variant="filled"
+      />
+    );
+  },
+);
+
+Input.displayName = "Input";

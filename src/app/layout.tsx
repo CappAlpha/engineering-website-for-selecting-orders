@@ -1,4 +1,3 @@
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { type ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 
@@ -18,19 +17,17 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={s.root}>
-        <AppRouterCacheProvider>
-          <StoreProvider>
-            {children}
-            <Toaster
-              toastOptions={{
-                style: {
-                  background: "#454545",
-                  color: "#fff",
-                },
-              }}
-            />
-          </StoreProvider>
-        </AppRouterCacheProvider>
+        <StoreProvider>
+          {children}
+          <Toaster
+            toastOptions={{
+              style: {
+                background: "#454545",
+                color: "#fff",
+              },
+            }}
+          />
+        </StoreProvider>
       </body>
     </html>
   );

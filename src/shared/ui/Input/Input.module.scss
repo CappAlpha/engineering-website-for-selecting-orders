@@ -1,10 +1,18 @@
 .root {
-  input, textarea {
+  label {
     color: var(--white);
-    border-bottom: 2px solid var(--gray);
-  }
-}
 
-.label{
-  padding-bottom: 8px;
+    span {
+      color: var(--additional-red);
+    }
+  }
+
+  input,
+  textarea {
+    color: var(--white);
+  }
+
+  input {
+    border-bottom: 1px solid var(--gray);
+  }
 }

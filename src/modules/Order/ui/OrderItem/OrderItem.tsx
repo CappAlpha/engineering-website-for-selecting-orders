@@ -7,7 +7,7 @@ import { Trash } from "../../../../../public/icon";
 
 import s from "./OrderItem.module.scss";
 
-export interface Props {
+interface Props {
   title: string;
   children: ReactNode;
   loading?: boolean;

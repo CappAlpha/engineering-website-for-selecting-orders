@@ -1,9 +1,19 @@
 .root {
+  label {
+    color: var(--white);
+
+    span {
+      color: var(--additional-red);
+    }
+  }
 
   input,
   textarea {
     color: var(--white);
-    border-bottom: 2px solid var(--gray);
+  }
+
+  input {
+    border-bottom: 1px solid var(--gray);
   }
 
   ul {
@@ -16,7 +26,7 @@
       padding: 8px;
       text-align: left;
       background: var(--almost-dark-gray);
-      transition: all 0.3s ease-in-out;
+      transition: all 0.2s ease-in-out;
 
       &:hover {
         @media (hover: hover) and (pointer: fine) {
@@ -27,13 +37,4 @@
       }
     }
   }
-}
-
-.label {
-  padding-bottom: 8px;
-}
-
-.error {
-  margin-top: 4px;
-  color: var(--additional-red);
 }

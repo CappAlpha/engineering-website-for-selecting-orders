@@ -2,7 +2,7 @@ import { type FC } from "react";
 
 import { CartItemDTO } from "@/modules/Cart/entities/cart";
 
-export interface EmailSuccessTemplateProps {
+interface EmailSuccessTemplateProps {
   orderId: number;
   items: CartItemDTO[];
 }

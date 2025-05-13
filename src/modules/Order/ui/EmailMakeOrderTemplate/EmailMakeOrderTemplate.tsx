@@ -2,7 +2,7 @@ import { type FC } from "react";
 
 import { CartItemDTO } from "@/modules/Cart/entities/cart";
 
-export interface EmailMakeOrderTemplateProps {
+interface EmailMakeOrderTemplateProps {
   orderId: number;
   totalAmount: number;
   paymentUrl: string;
