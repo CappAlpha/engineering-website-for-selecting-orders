@@ -27,6 +27,7 @@ body {
   scroll-padding-top: 100px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scrollbar-gutter: stable;
 }
 
 @media screen and (prefers-reduced-motion: reduce) {
