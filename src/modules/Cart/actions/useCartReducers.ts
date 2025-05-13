@@ -27,11 +27,7 @@ export const useCartReducers = () => {
    * Fetches cart items from server with toast notifications
    */
   const fetchCart = async (): Promise<void> => {
-    await toast.promise(dispatch(fetchCartItems()).unwrap(), {
-      loading: "Делаем запрос...",
-      success: "Успешно!",
-      error: (err: Error) => err.message || "Ошибка выполнения запроса",
-    });
+    await dispatch(fetchCartItems());
   };
 
   /**

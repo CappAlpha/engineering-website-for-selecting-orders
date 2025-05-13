@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState, type FC } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
 
 import { createOrder } from "@/app/actions";
 import { useCartReducers } from "@/modules/Cart/actions/useCartReducers";
@@ -12,13 +11,11 @@ import {
   selectAllCartItems,
   selectCartLoading,
 } from "@/modules/Cart/store/cartSelectors";
-import { fetchCartItems } from "@/modules/Cart/store/cartSlice";
 import { ProductCardLine } from "@/modules/Cart/ui/ProductCardLine";
 import { ProductCardLineSkeleton } from "@/modules/Cart/ui/ProductCardLine/ProductCardLineSkeleton";
 import { useAppSelector } from "@/shared/hook/useAppSelector";
 import { noop } from "@/shared/lib/noop";
 import { Button } from "@/shared/ui/Button";
-import { AppDispatch } from "@/store/store";
 
 import {
   CheckoutFormValues,
@@ -33,10 +30,9 @@ import s from "./OrderItems.module.scss";
 
 export const OrderItems: FC = () => {
   const [submitting, setSubmitting] = useState(false);
-  const dispatch = useDispatch<AppDispatch>();
   const cartItems = useAppSelector(selectAllCartItems);
   const loading = useAppSelector(selectCartLoading);
-  const { handleQuantityChange, handleRemove } = useCartReducers();
+  const { fetchCart, handleQuantityChange, handleRemove } = useCartReducers();
 
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutFormSchema),
@@ -74,8 +70,10 @@ export const OrderItems: FC = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchCartItems());
-  }, [dispatch]);
+    if (cartItems.length === 0) {
+      fetchCart();
+    }
+  }, [cartItems.length]);
 
   const isEmpty = cartItems.length === 0;
   const isFetching = loading.fetch;

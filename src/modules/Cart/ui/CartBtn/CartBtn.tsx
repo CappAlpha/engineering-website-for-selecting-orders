@@ -1,14 +1,12 @@
 "use client";
 
 import { useEffect, useState, type FC } from "react";
-import { useDispatch } from "react-redux";
 
-import { fetchCartItems } from "@/modules/Cart/store/cartSlice";
 import { useAppSelector } from "@/shared/hook/useAppSelector";
 import { Button } from "@/shared/ui/Button";
-import { AppDispatch } from "@/store/store";
 
 import { ShoppingCart, Arrow } from "../../../../../public/icon";
+import { useCartReducers } from "../../actions/useCartReducers";
 import {
   selectCartItemsCount,
   selectCartLoading,
@@ -19,16 +17,16 @@ import { CartDrawer } from "../CartDrawer";
 import s from "./CartBtn.module.scss";
 
 export const CartBtn: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const productsInCartCount = useAppSelector(selectCartItemsCount);
   const totalAmount = useAppSelector(selectTotalAmount);
   const loading = useAppSelector(selectCartLoading);
+  const { fetchCart } = useCartReducers();
 
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchCartItems());
-  }, [dispatch]);
+    fetchCart();
+  }, []);
 
   const toggleDrawer = (newOpen: boolean) => () => setOpen(newOpen);
 
