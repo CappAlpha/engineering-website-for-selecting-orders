@@ -45,9 +45,7 @@ export const Filters: FC = () => {
   // Set filters in url
   useQueryFilters(router, priceFrom, priceTo, selectedTags);
 
-  /**
-   * Resets all filters and sets search tags input value to empty string.
-   */
+  // Resets all filters and sets search tags input value to empty string
   const onClickReset = () => {
     resetFilters();
     setSearchTagsValue("");

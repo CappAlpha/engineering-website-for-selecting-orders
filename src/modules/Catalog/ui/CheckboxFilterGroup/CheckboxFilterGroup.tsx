@@ -38,12 +38,13 @@ export const CheckboxFilterGroup: FC<Props> = ({
           ))
         ) : items.length > 0 ? (
           items.map((name) => (
-            <FilterCheckbox
-              key={name}
-              name={name}
-              checked={selected?.includes(name) ?? false}
-              onCheckedChange={() => onClickCheckbox?.(name)}
-            />
+            <li key={name}>
+              <FilterCheckbox
+                name={name}
+                checked={selected?.includes(name) ?? false}
+                onCheckedChange={() => onClickCheckbox?.(name)}
+              />
+            </li>
           ))
         ) : (
           <li className={s.noResults}>Ничего не найдено :(</li>
