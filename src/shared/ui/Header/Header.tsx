@@ -2,10 +2,10 @@ import Link from "next/link";
 import { type FC } from "react";
 
 import { CartBtn } from "@/modules/Cart/ui/CartBtn";
-import { Button } from "@/shared/ui/Button";
 
 import { prisma } from "../../../../prisma/prisma-client";
-import { Settings, User } from "../../../../public/icon";
+import { Settings } from "../../../../public/icon";
+import { LoginButton } from "./LoginButton";
 import { SearchInput } from "./SearchInput";
 
 import s from "./Header.module.scss";
@@ -28,9 +28,7 @@ export const Header: FC<Props> = async ({ isCheckoutPage = false }) => {
         {!isCheckoutPage && <SearchInput categories={categories} />}
 
         <div className={s.right}>
-          <Button>
-            <User className={s.userIcon} /> Войти
-          </Button>
+          <LoginButton />
           {!isCheckoutPage && <CartBtn />}
         </div>
       </div>
