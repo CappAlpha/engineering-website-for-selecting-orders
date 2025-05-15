@@ -10,7 +10,7 @@ import { Arrow } from "../../../../../public/icon";
 import s from "./EmptyCartDrawer.module.scss";
 
 interface Props {
-  onClose: () => void;
+  onClose: VoidFunction;
 }
 
 export const EmptyCartDrawer: FC<Props> = ({ onClose }) => {

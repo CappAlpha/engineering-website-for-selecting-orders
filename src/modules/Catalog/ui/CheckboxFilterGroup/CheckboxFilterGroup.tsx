@@ -16,7 +16,7 @@ interface Props {
   selected?: string[];
   loading?: boolean;
   onClickCheckbox?: (value: string) => void;
-  onChangeShowAll?: () => void;
+  onChangeShowAll?: VoidFunction;
 }
 
 export const CheckboxFilterGroup: FC<Props> = ({

@@ -21,7 +21,7 @@ import { ProductCardLine } from "../ProductCardLine";
 import s from "./ListCartDrawer.module.scss";
 
 interface ListCardDrawerProps {
-  onClose?: () => void;
+  onClose?: VoidFunction;
 }
 
 export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {

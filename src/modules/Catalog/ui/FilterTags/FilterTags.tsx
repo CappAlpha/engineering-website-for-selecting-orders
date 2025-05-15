@@ -19,7 +19,7 @@ interface Props {
   error?: boolean;
   searchInputPlaceholder?: string;
   onClickCheckbox?: (value: string) => void;
-  resetFilters: () => void;
+  resetFilters: VoidFunction;
   setSearchValue: (value: string) => void;
 }
 

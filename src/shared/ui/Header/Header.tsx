@@ -5,7 +5,7 @@ import { CartBtn } from "@/modules/Cart/ui/CartBtn";
 
 import { prisma } from "../../../../prisma/prisma-client";
 import { Settings } from "../../../../public/icon";
-import { LoginButton } from "./LoginButton";
+import { Auth } from "./Auth";
 import { SearchInput } from "./SearchInput";
 
 import s from "./Header.module.scss";
@@ -28,7 +28,7 @@ export const Header: FC<Props> = async ({ isCheckoutPage = false }) => {
         {!isCheckoutPage && <SearchInput categories={categories} />}
 
         <div className={s.right}>
-          <LoginButton />
+          <Auth />
           {!isCheckoutPage && <CartBtn />}
         </div>
       </div>

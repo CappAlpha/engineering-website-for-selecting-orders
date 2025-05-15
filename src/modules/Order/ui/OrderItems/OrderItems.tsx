@@ -44,7 +44,6 @@ export const OrderItems: FC = () => {
       address: "",
       comment: "",
     },
-    mode: "all",
   });
 
   const onSubmit = async (data: CheckoutFormValues) => {

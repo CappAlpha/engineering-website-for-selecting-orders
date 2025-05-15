@@ -4,6 +4,7 @@ const PageConfig = {
   TAGS: "/tags/",
   CART: "/cart/",
   CHECKOUT: "/checkout/",
+  PROFILE: "/profile/",
 } as const;
 
 export const pageConfig = PageConfig;

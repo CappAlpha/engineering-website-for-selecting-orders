@@ -30,15 +30,12 @@ export const FormInput: FC<Props> = ({
   return (
     <div className={s.root}>
       <Input
-        {...register(name)}
-        inputMode={props.inputMode}
-        placeholder={props.placeholder}
-        multiline={props.multiline}
-        rows={props.rows}
         label={label}
         required={required}
         error={!!errorText}
         helperText={errorText}
+        {...props}
+        {...register(name)}
       />
     </div>
   );

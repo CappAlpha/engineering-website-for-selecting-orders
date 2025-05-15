@@ -11,7 +11,7 @@ import s from "./CartDrawer.module.scss";
 interface Props {
   open: boolean;
   isCartEmpty: boolean;
-  toggleDrawer: (value: boolean) => () => void;
+  toggleDrawer: (value: boolean) => VoidFunction;
 }
 
 export const CartDrawer: FC<Props> = ({ open, isCartEmpty, toggleDrawer }) => {

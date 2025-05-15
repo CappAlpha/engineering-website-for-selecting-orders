@@ -24,7 +24,7 @@ import s from "./ProductCardLine.module.scss";
 interface Props {
   item: CartStateItem;
   onChangeCount?: (type: QuantityActionType) => void;
-  onClickRemove?: () => void;
+  onClickRemove?: VoidFunction;
 }
 
 export const ProductCardLine: FC<Props> = ({

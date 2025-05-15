@@ -13,7 +13,7 @@ interface Props {
   loading?: boolean;
   disabled?: boolean;
   isCartEmpty?: boolean;
-  handleClearAll?: () => void;
+  handleClearAll?: VoidFunction;
 }
 
 export const OrderItem: FC<Props> = ({

@@ -1,0 +1,39 @@
+.root {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-bottom: 2px solid var(--dark-blue);
+  padding-bottom: 16px;
+}
+
+.headerWrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.title {
+  font-size: 20px;
+  line-height: 120%;
+  margin-bottom: 16px;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 110%;
+}
+
+.loginIcon {
+  width: 50px;
+  min-width: 50px;
+  height: 50px;
+  fill: var(--white);
+}
+
+.loginBtn {
+  align-self: center;
+  width: 100% !important;
+  font-size: 16px !important;
+}

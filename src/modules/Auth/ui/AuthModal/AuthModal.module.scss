@@ -1,0 +1,54 @@
+.content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  background: var(--black);
+  border-radius: 25px;
+  outline: 1px solid var(--dark-blue);
+}
+
+.close {
+  @include expandableArea;
+  --clickable-area-expandable-ratio: 20px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 20px !important;
+  height: 20px !important;
+
+  &:hover {
+    @media (hover: hover) and (pointer: fine) {
+      .closeIcon {
+        fill: var(--white) !important;
+      }
+    }
+  }
+}
+
+.closeIcon {
+  fill: var(--gray) !important;
+  rotate: 45deg;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.loginBtn {
+  width: 100% !important;
+  font-size: 16px !important;
+}
+
+.switchBtn {
+  @include expandableArea;
+  --clickable-area-expandable-ratio: 20px;
+  align-self: center;
+  font-size: 16px !important;
+}
