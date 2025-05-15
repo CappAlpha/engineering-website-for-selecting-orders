@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { type FC } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -46,8 +46,6 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
     }
   };
 
-  const { data } = useSession();
-  console.log(data?.user.id);
   return (
     <FormProvider {...form}>
       <form
