@@ -18,8 +18,13 @@ export const ProductsCatalog: FC<Props> = ({ categories }) => {
   return (
     <div className={s.root}>
       {categories.length !== 0 ? (
-        categories.map(({ name, products }) => (
-          <ProductsGroupList key={name} name={name} items={products} />
+        categories.map(({ name, products }, index) => (
+          <ProductsGroupList
+            key={name}
+            name={name}
+            items={products}
+            isLazy={index > 1}
+          />
         ))
       ) : (
         <ProductNotFound />

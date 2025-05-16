@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { type FC } from "react";
+import { Suspense, type FC } from "react";
 
 import { CartBtn } from "@/modules/Cart/ui/CartBtn";
 
 import { prisma } from "../../../../prisma/prisma-client";
 import { Settings } from "../../../../public/icon";
+import { Button } from "../Button";
 import { Auth } from "./Auth";
 import { SearchInput } from "./SearchInput";
 
@@ -28,7 +29,10 @@ export const Header: FC<Props> = async ({ isCheckoutPage = false }) => {
         {!isCheckoutPage && <SearchInput categories={categories} />}
 
         <div className={s.right}>
-          <Auth />
+          {/* TODO: add loading? */}
+          <Suspense fallback={<Button loading></Button>}>
+            <Auth />
+          </Suspense>
           {!isCheckoutPage && <CartBtn />}
         </div>
       </div>

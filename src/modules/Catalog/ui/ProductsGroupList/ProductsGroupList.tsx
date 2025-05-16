@@ -10,16 +10,16 @@ import { useIntersectionObserver } from "@/shared/hook/useIntersectionObserver";
 import { AppDispatch } from "@/store/store";
 
 import { ProductCard } from "../ProductCard";
-import { ProductCardSkeleton } from "../ProductCard/ProductCardSkeleton";
 
 import s from "./ProductsGroupList.module.scss";
 
 interface Props {
   name: string;
   items: Product[];
+  isLazy: boolean;
 }
 
-export const ProductsGroupList: FC<Props> = ({ name, items }) => {
+export const ProductsGroupList: FC<Props> = ({ name, items, isLazy }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { addToCart } = useCartReducers();
 
@@ -37,9 +37,6 @@ export const ProductsGroupList: FC<Props> = ({ name, items }) => {
     callback: handleIntersection,
   });
 
-  // TODO: add loading?
-  const loadingFetchCategories = false;
-
   return (
     <section
       key={name}
@@ -48,24 +45,17 @@ export const ProductsGroupList: FC<Props> = ({ name, items }) => {
       className={s.root}
       aria-label={`Группа продуктов: ${name}`}
     >
-      {loadingFetchCategories ? (
-        <div className={s.titleSkeleton} />
-      ) : (
-        <h2 className={s.title}>{name}</h2>
-      )}
+      <h2 className={s.title}>{name}</h2>
 
       <div className={s.list}>
-        {loadingFetchCategories
-          ? Array.from({ length: items.length }).map((_, index) => (
-              <ProductCardSkeleton key={index} />
-            ))
-          : items.map((product) => (
-              <ProductCard
-                key={product.id}
-                {...product}
-                onClickButton={(e: MouseEvent) => addToCart(e, product.id)}
-              />
-            ))}
+        {items.map((product) => (
+          <ProductCard
+            key={product.id}
+            {...product}
+            onClickButton={(e: MouseEvent) => addToCart(e, product.id)}
+            isLazy={isLazy}
+          />
+        ))}
       </div>
     </section>
   );

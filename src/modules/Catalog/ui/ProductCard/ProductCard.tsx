@@ -20,6 +20,7 @@ type ProductCardProps = Omit<Product, "categoryId" | "createdAt" | "updatedAt">;
 
 interface Props extends ProductCardProps {
   onClickButton: (e: MouseEvent) => Promise<void>;
+  isLazy?: boolean;
 }
 
 export const ProductCard: FC<Props> = ({
@@ -29,6 +30,7 @@ export const ProductCard: FC<Props> = ({
   price,
   imageUrl,
   tags,
+  isLazy = false,
   onClickButton,
 }) => {
   const isAdding = useAppSelector(selectIsItemAdding(id));
@@ -44,6 +46,7 @@ export const ProductCard: FC<Props> = ({
           alt={name}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           fill
+          loading={isLazy ? "lazy" : "eager"}
         />
       </div>
 
