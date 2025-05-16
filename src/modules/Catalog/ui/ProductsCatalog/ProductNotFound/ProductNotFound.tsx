@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { type FC } from "react";
 
 import { useResetFilters } from "@/modules/Catalog/actions/useResetFilters";
@@ -9,8 +8,7 @@ import { Button } from "@/shared/ui/Button";
 import s from "./ProductNotFound.module.scss";
 
 export const ProductNotFound: FC = () => {
-  const router = useRouter();
-  const { resetFilters } = useResetFilters(router);
+  const { resetFilters } = useResetFilters();
 
   return (
     <div className={s.root}>

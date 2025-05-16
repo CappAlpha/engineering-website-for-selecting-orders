@@ -74,6 +74,7 @@
       &:hover {
         @media (hover: hover) and (pointer: fine) {
           background: var(--blue);
+          color: var(--white);
         }
       }
     }

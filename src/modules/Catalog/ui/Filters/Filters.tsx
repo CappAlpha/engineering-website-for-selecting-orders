@@ -26,7 +26,7 @@ export const Filters: FC = () => {
   const router = useRouter();
   const [searchTagsValue, setSearchTagsValue] = useState("");
 
-  const { resetFilters } = useResetFilters(router);
+  const { resetFilters } = useResetFilters();
 
   const {
     tags,

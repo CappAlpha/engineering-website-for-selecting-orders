@@ -1,4 +1,4 @@
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 
 import { filtersActions } from "@/modules/Catalog/store/filtersSlice";
@@ -9,8 +9,9 @@ import { filtersActions } from "@/modules/Catalog/store/filtersSlice";
  * @param router - Instance of Next.js AppRouter.
  * @returns Object with a single method `resetFilters` that resets filters state and clears local storage.
  */
-export const useResetFilters = (router: AppRouterInstance) => {
+export const useResetFilters = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const resetFilters = () => {
     dispatch(filtersActions.clearTags());

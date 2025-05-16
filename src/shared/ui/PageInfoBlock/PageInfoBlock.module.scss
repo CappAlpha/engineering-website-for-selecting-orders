@@ -1,0 +1,51 @@
+.root {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  gap: 80px;
+  min-height: 60dvh;
+}
+
+.left {
+  width: 100%;
+  max-width: 440px;
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 130%;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 20px;
+  line-height: 120%;
+  color: var(--gray);
+  margin-bottom: 45px;
+}
+
+.btns {
+  display: flex;
+  gap: 20px;
+}
+
+.btn {
+  font-size: 16px;
+}
+
+.icon {
+  width: 15px;
+  min-width: 15px;
+  height: 15px;
+  rotate: 180deg;
+}
+
+.right {
+  position: relative;
+
+  svg {
+    width: 320px;
+  }
+}
