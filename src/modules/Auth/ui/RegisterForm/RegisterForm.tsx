@@ -56,7 +56,7 @@ export const RegisterForm: FC = () => {
 
         <FormInput
           name="fullName"
-          label="Ваше имя и фамилия"
+          label="Ваше полное имя"
           type="text"
           required
         />

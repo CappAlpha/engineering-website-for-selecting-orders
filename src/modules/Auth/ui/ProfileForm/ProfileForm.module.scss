@@ -8,7 +8,7 @@
 
 .form {
   width: 100%;
-  max-width: 520px;
+  max-width: 420px;
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -19,7 +19,6 @@
 .exitBtn,
 .line {
   width: 100% !important;
-  max-width: 240px !important;
 }
 
 .saveBtn,

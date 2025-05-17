@@ -7,6 +7,7 @@ import { type FC } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
+import { updateUserInfo } from "@/app/actions";
 import { Button } from "@/shared/ui/Button";
 import { FormInput } from "@/shared/ui/FormInput";
 
@@ -22,9 +23,9 @@ export const ProfileForm: FC<Props> = ({ data }) => {
   const form = useForm<TFormRegisterValues>({
     resolver: zodResolver(formRegisterSchema),
     defaultValues: {
-      email: "",
+      fullName: data.fullName,
+      email: data.email,
       password: "",
-      fullName: "",
       confirmPassword: "",
     },
   });
@@ -33,11 +34,11 @@ export const ProfileForm: FC<Props> = ({ data }) => {
 
   const onSubmit = async (data: TFormRegisterValues) => {
     try {
-      // await updateUserInfo({
-      //   email: data.email,
-      //   fullName: data.fullName,
-      //   password: data.password,
-      // });
+      await updateUserInfo({
+        email: data.email,
+        fullName: data.fullName,
+        password: data.password,
+      });
 
       console.log(data);
 
@@ -64,7 +65,7 @@ export const ProfileForm: FC<Props> = ({ data }) => {
 
   return (
     <div className={s.root}>
-      <h1 className={s.title}>Личные данные</h1>
+      <h1 className={s.title}>Личные данные | {data.fullName}</h1>
 
       <FormProvider {...form}>
         <form
@@ -72,12 +73,7 @@ export const ProfileForm: FC<Props> = ({ data }) => {
           className={s.form}
           noValidate
         >
-          <FormInput
-            name="fullName"
-            label="Ваше имя и фамилия"
-            type="text"
-            required
-          />
+          <FormInput name="fullName" label="Полное имя" type="text" required />
           <FormInput
             name="email"
             label="E-Mail"

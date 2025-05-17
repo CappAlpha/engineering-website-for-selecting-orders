@@ -15,8 +15,7 @@ import { HTMLAttributes, Key, useRef, useState, type FC } from "react";
 import { pageConfig } from "@/shared/constants/pages";
 import { useDebounce } from "@/shared/hook/useDebounce";
 import { useOutsideClick } from "@/shared/hook/useOutsideHook";
-import { getCachedData } from "@/shared/lib/getCacheData";
-import { Api } from "@/shared/services/apiClient";
+import { getProducts } from "@/shared/lib/getProducts";
 
 import s from "./SearchInput.module.scss";
 
@@ -27,9 +26,6 @@ interface Props {
 interface AutocompleteOptionProps extends HTMLAttributes<HTMLLIElement> {
   key: Key;
 }
-
-const CACHE_KEY = "searchHeaderData";
-const CACHE_DURATION = 4 * 60 * 60 * 1000;
 
 export const SearchInput: FC<Props> = ({ categories }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -57,50 +53,9 @@ export const SearchInput: FC<Props> = ({ categories }) => {
     attached: open,
   });
 
-  const fetchProducts = async () => {
-    setLoading(true);
-    setError(false);
-
-    const cached = getCachedData<Product>(CACHE_KEY, CACHE_DURATION);
-    if (cached) {
-      setProducts(cached);
-      setLoading(false);
-      return;
-    }
-
-    const controller = new AbortController();
-
-    try {
-      const response = await Api.products.search(
-        debouncedSearchQuery,
-        controller.signal,
-      );
-      setProducts(response);
-
-      localStorage.setItem(
-        CACHE_KEY,
-        JSON.stringify({ items: response, timestamp: Date.now() }),
-      );
-    } catch (err: unknown) {
-      if (
-        err instanceof Error &&
-        (err.name === "CanceledError" || err.message.includes("canceled"))
-      ) {
-        return;
-      }
-      console.error("Ошибка при поиске продуктов:", err);
-      setProducts([]);
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-
-    return () => controller.abort();
-  };
-
   const onOpen = () => {
     setOpen(true);
-    fetchProducts();
+    getProducts(setLoading, setError, setProducts, debouncedSearchQuery);
   };
 
   // Get category name by id
@@ -155,7 +110,7 @@ export const SearchInput: FC<Props> = ({ categories }) => {
       <div className={cn(s.bg, !open && s.hidden)} />
       <div ref={ref} className={s.root}>
         {error ? (
-          <p>Ошибка загрузки списка продуктов</p>
+          <p className={s.error}>Ошибка загрузки списка продуктов</p>
         ) : (
           <Autocomplete
             open={open}

@@ -16,10 +16,14 @@ import s from "./ProductsGroupList.module.scss";
 interface Props {
   name: string;
   items: Product[];
-  isLazy: boolean;
+  isFirstCategories: boolean;
 }
 
-export const ProductsGroupList: FC<Props> = ({ name, items, isLazy }) => {
+export const ProductsGroupList: FC<Props> = ({
+  name,
+  items,
+  isFirstCategories,
+}) => {
   const dispatch = useDispatch<AppDispatch>();
   const { addToCart } = useCartReducers();
 
@@ -53,7 +57,7 @@ export const ProductsGroupList: FC<Props> = ({ name, items, isLazy }) => {
             key={product.id}
             {...product}
             onClickButton={(e: MouseEvent) => addToCart(e, product.id)}
-            isLazy={isLazy}
+            isFirstCategories={isFirstCategories}
           />
         ))}
       </div>

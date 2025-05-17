@@ -60,7 +60,7 @@ export const OrderItems: FC = () => {
         location.href = url;
       }
     } catch (err) {
-      console.error(err);
+      console.error("Error creating order [CREATE_ORDER]", err);
       setSubmitting(false);
       toast.error("Не удалось создать заказ", {
         icon: "\u274C",

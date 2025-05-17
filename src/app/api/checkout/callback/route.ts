@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
       throw new Error("Payment is canceled by api");
     }
   } catch (err) {
-    console.error("[Checkout Callback] Error:", err);
+    console.error("[CHECKOUT_CALLBACK] Error:", err);
     return NextResponse.json(
       { error: "Failed to get payment info" },
       { status: 500 },

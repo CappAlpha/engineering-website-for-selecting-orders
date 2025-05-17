@@ -1,9 +1,11 @@
 "use server";
 
-import { OrderStatus } from "@prisma/client";
+import { OrderStatus, Prisma } from "@prisma/client";
+import { hashSync } from "bcrypt";
 import { cookies } from "next/headers";
 import { ReactNode } from "react";
 
+import { getUserSession } from "@/modules/Auth/actions/getUserSession";
 import { CartItemDTO } from "@/modules/Cart/entities/cart";
 import { createPayment } from "@/modules/Order/actions/createPayment";
 import { sendEmail } from "@/modules/Order/actions/sendEmail";
@@ -13,6 +15,12 @@ import { CART_TOKEN_NAME } from "@/shared/constants/cart";
 
 import { prisma } from "../../prisma/prisma-client";
 
+/**
+ * Create order from cart
+ * @param data - Checkout form values
+ * @returns URL to payment service
+ * @throws Error if cart not found or cart is empty
+ */
 export const createOrder = async (data: CheckoutFormValues) => {
   try {
     const cookieStore = cookies();
@@ -118,6 +126,36 @@ export const createOrder = async (data: CheckoutFormValues) => {
 
     return paymentUrl;
   } catch (err) {
-    console.error("[CreateOrder] Server error", err);
+    console.error("Server error [CREATE_ORDER] ", err);
+  }
+};
+
+/**
+ * Updates the current user's information in the database.
+ * @param data - The user data to update, including fullName, email, and password.
+ * @throws Error if the user is not found or update operation fails.
+ */
+export const updateUserInfo = async (data: Prisma.UserUpdateInput) => {
+  try {
+    const currentUser = await getUserSession();
+
+    if (!currentUser) {
+      throw new Error("User not found");
+    }
+
+    await prisma.user.update({
+      where: {
+        id: currentUser.id,
+      },
+      data: {
+        fullName: data.fullName,
+        email: data.email,
+        password: data.password
+          ? hashSync(data.password as string, 10)
+          : currentUser.password,
+      },
+    });
+  } catch (err) {
+    console.error("Error [UPDATE_USER_INFO]", err);
   }
 };

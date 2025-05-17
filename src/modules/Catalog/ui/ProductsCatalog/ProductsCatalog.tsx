@@ -23,7 +23,7 @@ export const ProductsCatalog: FC<Props> = ({ categories }) => {
             key={name}
             name={name}
             items={products}
-            isLazy={index > 1}
+            isFirstCategories={index < 2}
           />
         ))
       ) : (
