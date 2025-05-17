@@ -14,7 +14,9 @@ export const formRegisterSchema = formLoginSchema
     z.object({
       fullName: z
         .string()
-        .min(2, { message: "Имя должно содержать не менее 2-х символов" }),
+        .min(4, {
+          message: "Полное имя должно содержать не менее 4-х символов",
+        }),
       confirmPassword: passwordSchema,
     }),
   )
