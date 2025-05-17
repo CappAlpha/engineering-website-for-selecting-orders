@@ -8,6 +8,7 @@ import { Button } from "@/shared/ui/Button";
 
 import { Plus } from "../../../../../public/icon";
 import { LoginForm } from "../LoginForm";
+import { RegisterForm } from "../RegisterForm";
 
 import s from "./AuthModal.module.scss";
 
@@ -49,7 +50,7 @@ export const AuthModal: FC<Props> = ({ open, onClose }) => {
                 </Button>
               </>
             ) : (
-              <div>Регистрация</div>
+              <RegisterForm />
             )}
 
             <Button

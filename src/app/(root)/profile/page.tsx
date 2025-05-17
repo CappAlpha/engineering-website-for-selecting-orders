@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { getUserSession } from "@/modules/Auth/actions/getUserSession";
+import { ProfileForm } from "@/modules/Auth/ui/ProfileForm";
 
 import { prisma } from "../../../../prisma/prisma-client";
 
@@ -21,7 +22,7 @@ export default async function PagePage() {
 
   return (
     <div className={s.wrap}>
-      <h1 className={s.title}>{user?.fullName}</h1>
+      {user ? <ProfileForm data={user} /> : <div>Пользователь не найден</div>}
     </div>
   );
 }

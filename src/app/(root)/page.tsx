@@ -1,5 +1,3 @@
-import { Suspense } from "react";
-
 import { Filters } from "@/modules/Catalog/ui/Filters";
 import { ProductsCatalog } from "@/modules/Catalog/ui/ProductsCatalog";
 import { TopBar } from "@/modules/Catalog/ui/TopBar";
@@ -23,14 +21,12 @@ export default async function Home({
         <h1 className={s.title}>Все заказы</h1>
       </div>
 
-      <Suspense fallback={<div>Loading...</div>}>
-        <TopBar categories={categoriesFiltered} />
+      <TopBar categories={categoriesFiltered} />
 
-        <div className={s.wrapCatalog}>
-          <Filters />
-          <ProductsCatalog categories={categories} />
-        </div>
-      </Suspense>
+      <div className={s.wrapCatalog}>
+        <Filters />
+        <ProductsCatalog categories={categories} />
+      </div>
     </>
   );
 }

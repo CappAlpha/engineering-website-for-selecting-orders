@@ -1,0 +1,23 @@
+.root {}
+
+.title {
+  font-size: 20px;
+  line-height: 120%;
+  margin-bottom: 16px;
+}
+
+.form {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-bottom: 2px solid var(--dark-blue);
+  padding-bottom: 16px;
+}
+
+.saveBtn {
+  align-self: center;
+  width: 100% !important;
+  font-size: 16px !important;
+}
