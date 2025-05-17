@@ -76,7 +76,7 @@ export const RegisterForm: FC = () => {
         />
         <FormInput
           name="confirmPassword"
-          label="Подтвердите пароль"
+          label="Повторите пароль"
           type="password"
           required
           autoComplete="new-password"

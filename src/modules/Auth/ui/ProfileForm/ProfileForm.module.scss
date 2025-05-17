@@ -14,10 +14,12 @@
   gap: 16px;
   border-bottom: 2px solid var(--dark-blue);
   padding-bottom: 16px;
+  margin-bottom: 16px;
 }
 
-.saveBtn {
-  align-self: center;
+.saveBtn,
+.exitBtn {
   width: 100% !important;
+  max-width: 240px !important;
   font-size: 16px !important;
 }

@@ -1,32 +1,15 @@
 import Breadcrumbs from "@mui/material/Breadcrumbs";
-import { Product } from "@prisma/client";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { getProductData } from "@/modules/ProductPage/actions/getProductData";
 import { ProductProperties } from "@/modules/ProductPage/ui/ProductProperties";
-
-import { prisma } from "../../../../../prisma/prisma-client";
 
 import s from "./page.module.scss";
 
-async function getData(
-  id: string,
-): Promise<Omit<Product, "categoryId" | "createdAt" | "updatedAt"> | null> {
-  return prisma.product.findUnique({
-    where: { id: id },
-    select: {
-      id: true,
-      name: true,
-      description: true,
-      imageUrl: true,
-      price: true,
-      tags: true,
-    },
-  });
-}
-
+// TODO: Improve SEO
 // Dynamic Metadata generation
 export async function generateMetadata({
   params,
@@ -34,7 +17,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const product = await getData(id);
+  const product = await getProductData(id);
 
   if (!product) {
     return {
@@ -45,14 +28,15 @@ export async function generateMetadata({
 
   return {
     title: product.name,
-    description: product.description || "Изучите этот прекрасный продукт!",
-    keywords: product.tags || ["Продукт", "Магазин"],
+    description: product.description ?? "Изучите этот прекрасный продукт!",
+    keywords: product.tags ?? ["Продукт", "Магазин"],
+    metadataBase: new URL(process.env.NEXT_PUBLIC_DOMAIN ?? ""),
     alternates: {
       canonical: `/products/${id}`,
     },
     openGraph: {
       title: product.name,
-      description: product.description || "Изучите этот прекрасный продукт!",
+      description: product.description ?? "Изучите этот прекрасный продукт!",
       images: product.imageUrl
         ? [{ url: product.imageUrl, alt: product.name }]
         : [],
@@ -65,7 +49,7 @@ export default async function ProductPage({
   params,
 }: Readonly<{ params: Promise<{ id: string }> }>) {
   const { id } = await params;
-  const product = await getData(id);
+  const product = await getProductData(id);
 
   if (!product) {
     return notFound();
@@ -87,6 +71,7 @@ export default async function ProductPage({
             alt={name}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             fill
+            priority
           />
         </div>
         <ProductProperties

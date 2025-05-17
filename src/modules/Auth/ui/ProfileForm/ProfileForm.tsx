@@ -87,14 +87,14 @@ export const ProfileForm: FC<Props> = ({ data }) => {
           />
           <FormInput
             name="password"
-            label="Пароль"
+            label="Новый пароль"
             type="password"
             required
             autoComplete="new-password"
           />
           <FormInput
             name="confirmPassword"
-            label="Подтвердите пароль"
+            label="Повторите пароль"
             type="password"
             required
             autoComplete="new-password"
