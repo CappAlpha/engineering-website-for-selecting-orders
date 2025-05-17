@@ -60,22 +60,21 @@ $breakpoints: (
 
 @mixin wrap {
   max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 40px;
+  margin-inline: auto;
+  padding-inline: 40px;
 
   @include breakpoint(desktop-s) {
-    padding: 0 32px;
+    padding-inline: 32px;
   }
 
   @include breakpoint(mobile-m) {
-    padding: 0 16px;
+    padding-inline: 16px;
   }
 }
 
 @mixin pseudo {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   display: block;
   content: "";
 }
@@ -122,8 +121,6 @@ $breakpoints: (
 
   &:before {
     @include pseudo;
-    width: 100%;
-    height: 100%;
     background: linear-gradient(90deg,
         var(--semi-dark-gray) 25%,
         var(--gray) 50%,

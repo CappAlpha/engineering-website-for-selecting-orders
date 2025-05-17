@@ -11,7 +11,6 @@
   &::after {
     @include pseudo;
     width: 0;
-    height: 100%;
     opacity: 0.5;
   }
 }
@@ -64,7 +63,6 @@
 
   &::after{
     @include pseudo;
-    width: 100%;
     bottom: 0;
     border-bottom: 1px solid var(--blue-border);
   }
@@ -121,7 +119,6 @@
 
   &::after{
     @include pseudo;
-    width: 100%;
     top: 12px;
     border-bottom: 1px solid var(--blue-border);
   }
