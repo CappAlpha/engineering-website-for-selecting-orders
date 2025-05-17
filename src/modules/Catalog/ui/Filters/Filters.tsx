@@ -59,7 +59,6 @@ export const Filters: FC = () => {
         <p className={s.categoryTitle}>Цена от и до:</p>
         <div className={s.priceInputs}>
           <Input
-            type="number"
             value={priceFrom ?? PRICE_CONFIG.MIN_PRICE}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               handlePriceChange(e, "priceFrom")
@@ -68,7 +67,6 @@ export const Filters: FC = () => {
           />
           <Input
             id="right-input-price"
-            type="number"
             value={priceTo ?? PRICE_CONFIG.MAX_PRICE}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               handlePriceChange(e, "priceTo")
