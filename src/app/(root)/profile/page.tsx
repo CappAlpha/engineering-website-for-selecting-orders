@@ -20,9 +20,13 @@ export default async function PagePage() {
     },
   });
 
+  if (!user) {
+    return redirect("/not-auth");
+  }
+
   return (
     <div className={s.wrap}>
-      {user ? <ProfileForm data={user} /> : <div>Пользователь не найден</div>}
+      <ProfileForm data={user} />
     </div>
   );
 }

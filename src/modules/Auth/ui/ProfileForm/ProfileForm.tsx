@@ -64,7 +64,7 @@ export const ProfileForm: FC<Props> = ({ data }) => {
 
   return (
     <div className={s.root}>
-      <h6 className={s.title}>Личные данные</h6>
+      <h1 className={s.title}>Личные данные</h1>
 
       <FormProvider {...form}>
         <form
@@ -100,23 +100,27 @@ export const ProfileForm: FC<Props> = ({ data }) => {
             autoComplete="new-password"
           />
 
-          <Button
-            loading={form.formState.isSubmitting}
-            className={s.saveBtn}
-            type="submit"
-          >
-            Сохранить
-          </Button>
+          <div className={s.btns}>
+            <Button
+              loading={form.formState.isSubmitting}
+              className={s.saveBtn}
+              type="submit"
+            >
+              Сохранить
+            </Button>
+
+            <div className={s.line} />
+
+            <Button
+              onClick={onClickSignOut}
+              loading={form.formState.isSubmitting}
+              className={s.exitBtn}
+            >
+              Выйти
+            </Button>
+          </div>
         </form>
       </FormProvider>
-
-      <Button
-        loading={form.formState.isSubmitting}
-        className={s.exitBtn}
-        onClick={onClickSignOut}
-      >
-        Выйти
-      </Button>
     </div>
   );
 };
