@@ -15,7 +15,7 @@ import { HTMLAttributes, Key, useRef, useState, type FC } from "react";
 import { pageConfig } from "@/shared/constants/pages";
 import { useDebounce } from "@/shared/hook/useDebounce";
 import { useOutsideClick } from "@/shared/hook/useOutsideHook";
-import { getProducts } from "@/shared/lib/getProducts";
+import { getSearchProducts } from "@/shared/lib/getSearchProducts";
 
 import s from "./SearchInput.module.scss";
 
@@ -55,7 +55,7 @@ export const SearchInput: FC<Props> = ({ categories }) => {
 
   const onOpen = () => {
     setOpen(true);
-    getProducts(setLoading, setError, setProducts, debouncedSearchQuery);
+    getSearchProducts(setLoading, setError, setProducts, debouncedSearchQuery);
   };
 
   // Get category name by id

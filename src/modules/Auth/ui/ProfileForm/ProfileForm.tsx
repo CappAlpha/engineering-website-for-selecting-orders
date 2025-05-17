@@ -30,8 +30,6 @@ export const ProfileForm: FC<Props> = ({ data }) => {
     },
   });
 
-  console.log(data);
-
   const onSubmit = async (data: TFormRegisterValues) => {
     try {
       await updateUserInfo({
@@ -39,8 +37,6 @@ export const ProfileForm: FC<Props> = ({ data }) => {
         fullName: data.fullName,
         password: data.password,
       });
-
-      console.log(data);
 
       toast.success("Вы успешно изменили данные", {
         icon: "\u2705",

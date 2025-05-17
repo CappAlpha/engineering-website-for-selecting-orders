@@ -6,7 +6,7 @@ import { getCachedData } from "./getCacheData";
 const CACHE_KEY = "searchHeaderData";
 const CACHE_DURATION = 4 * 60 * 60 * 1000;
 
-export const getProducts = async (
+export const getSearchProducts = async (
   setLoading: (loading: boolean) => void,
   setError: (error: boolean) => void,
   setProducts: (products: Product[]) => void,
