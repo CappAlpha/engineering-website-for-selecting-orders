@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { type FC } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -11,7 +12,10 @@ import { updateUserInfo } from "@/app/actions";
 import { Button } from "@/shared/ui/Button";
 import { FormInput } from "@/shared/ui/FormInput";
 
-import { formRegisterSchema, TFormRegisterValues } from "../../schemas/schemas";
+import {
+  TFormChangeUserValues,
+  formChangeUserSchema,
+} from "../../schemas/changeUserSchema";
 
 import s from "./ProfileForm.module.scss";
 
@@ -20,8 +24,10 @@ interface Props {
 }
 
 export const ProfileForm: FC<Props> = ({ data }) => {
-  const form = useForm<TFormRegisterValues>({
-    resolver: zodResolver(formRegisterSchema),
+  const route = useRouter();
+
+  const form = useForm<TFormChangeUserValues>({
+    resolver: zodResolver(formChangeUserSchema),
     defaultValues: {
       fullName: data.fullName,
       email: data.email,
@@ -30,7 +36,7 @@ export const ProfileForm: FC<Props> = ({ data }) => {
     },
   });
 
-  const onSubmit = async (data: TFormRegisterValues) => {
+  const onSubmit = async (data: TFormChangeUserValues) => {
     try {
       await updateUserInfo({
         email: data.email,
@@ -41,6 +47,8 @@ export const ProfileForm: FC<Props> = ({ data }) => {
       toast.success("Вы успешно изменили данные", {
         icon: "\u2705",
       });
+
+      route.refresh();
     } catch (err) {
       console.error("[Error [CHANGE_USER_DATA]]", err);
       toast.error("Не удалось изменить данные", { icon: "\u274C" });
@@ -69,26 +77,23 @@ export const ProfileForm: FC<Props> = ({ data }) => {
           className={s.form}
           noValidate
         >
-          <FormInput name="fullName" label="Полное имя" type="text" required />
+          <FormInput name="fullName" label="Полное имя" type="text" />
           <FormInput
             name="email"
             label="E-Mail"
             type="email"
-            required
             autoComplete="new-email"
           />
           <FormInput
             name="password"
             label="Новый пароль"
             type="password"
-            required
             autoComplete="new-password"
           />
           <FormInput
             name="confirmPassword"
             label="Повторите пароль"
             type="password"
-            required
             autoComplete="new-password"
           />
 

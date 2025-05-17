@@ -8,7 +8,10 @@ import { Button } from "@/shared/ui/Button";
 import { FormInput } from "@/shared/ui/FormInput";
 
 import { Login } from "../../../../../public/icon";
-import { formRegisterSchema, TFormRegisterValues } from "../../schemas/schemas";
+import {
+  formRegisterSchema,
+  TFormRegisterValues,
+} from "../../schemas/authSchemas";
 
 import s from "./RegisterForm.module.scss";
 

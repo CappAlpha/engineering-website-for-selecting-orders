@@ -10,7 +10,7 @@ import { Button } from "@/shared/ui/Button";
 import { FormInput } from "@/shared/ui/FormInput";
 
 import { Login } from "../../../../../public/icon";
-import { formLoginSchema, TFormLoginValues } from "../../schemas/schemas";
+import { formLoginSchema, TFormLoginValues } from "../../schemas/authSchemas";
 
 import s from "./LoginForm.module.scss";
 
