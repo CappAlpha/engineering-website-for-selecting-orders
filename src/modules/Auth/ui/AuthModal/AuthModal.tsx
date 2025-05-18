@@ -59,7 +59,7 @@ export const AuthModal: FC<Props> = ({ open, onClose }) => {
               color="transparent"
               noPadding
             >
-              {type === "login" ? "Регистрация" : "Вход"}
+              {type === "login" ? "Регистрация" : "Вход в аккаунт"}
             </Button>
           </div>
         </div>
