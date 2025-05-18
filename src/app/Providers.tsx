@@ -1,6 +1,7 @@
 "use client";
 
 import { createTheme, ThemeProvider } from "@mui/material";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { SessionProvider } from "next-auth/react";
 import NextTopLoader from "nextjs-toploader";
 import { PropsWithChildren, type FC } from "react";
@@ -11,7 +12,7 @@ import StoreProvider from "@/app/StoreProvider";
 export const Providers: FC<PropsWithChildren> = ({ children }) => {
   const theme = createTheme({
     typography: {
-      fontFamily: "Geist Mono, system-ui",
+      fontFamily: "var(--font-geist)",
     },
   });
 
@@ -19,7 +20,9 @@ export const Providers: FC<PropsWithChildren> = ({ children }) => {
     <>
       <SessionProvider>
         <StoreProvider>
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          <AppRouterCacheProvider>
+            <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          </AppRouterCacheProvider>
         </StoreProvider>
       </SessionProvider>
       <NextTopLoader
