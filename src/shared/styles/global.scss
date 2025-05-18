@@ -18,7 +18,7 @@ body {
   height: 100%;
   color: var(--foreground);
   background: var(--background);
-  font-family: "Geist", system-ui;
+  font-family: "Geist", system-ui !important;
   font-weight: 500;
   font-size: 14px;
   user-select: text;
@@ -42,7 +42,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Geist Mono", system-ui;
+  font-family: "Geist Mono", system-ui !important;
   text-wrap: balance;
 }
 

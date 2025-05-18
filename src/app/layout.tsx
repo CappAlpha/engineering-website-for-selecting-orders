@@ -3,7 +3,8 @@ import { type ReactNode } from "react";
 import "@/shared/styles/colors.scss";
 import "@/shared/styles/global.scss";
 import "@/shared/styles/reset.scss";
-import { Providers } from "@/shared/ui/Providers";
+
+import { Providers } from "./Providers";
 
 import s from "./layout.module.scss";
 
