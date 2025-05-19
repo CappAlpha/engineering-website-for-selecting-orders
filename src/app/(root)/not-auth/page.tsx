@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { getUserSession } from "@/modules/Auth/actions/getUserSession";
+import { getUserSession } from "@/modules/Auth/services/getUserSession";
 import { PageInfoBlock } from "@/shared/ui/PageInfoBlock";
 
 import { Unauthorized } from "../../../../public/icon";

@@ -1,7 +1,10 @@
 import cn from "classnames";
 import { type FC } from "react";
 
-import { QuantityActionType, QuantityAction } from "@/shared/constants/cart";
+import {
+  QuantityActionType,
+  QuantityAction,
+} from "@/modules/Cart/constants/cart";
 import { Button } from "@/shared/ui/Button";
 
 import { Minus, Plus } from "../../../../../../public/icon";

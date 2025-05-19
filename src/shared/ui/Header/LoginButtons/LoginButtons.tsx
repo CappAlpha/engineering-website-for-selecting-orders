@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import { type FC } from "react";
 
-import { pageConfig } from "@/shared/constants/pages";
+import { PageConfig } from "@/shared/constants/pages";
 
 import { User } from "../../../../../public/icon";
 import { Button } from "../../Button";
@@ -24,7 +24,7 @@ export const LoginButtons: FC<Props> = ({ onClickOpen }) => {
           <User className={s.icon} /> Войти
         </Button>
       ) : (
-        <Button href={pageConfig.PROFILE} className={s.root}>
+        <Button href={PageConfig.PROFILE} className={s.root}>
           <User className={s.icon} /> Профиль
         </Button>
       )}

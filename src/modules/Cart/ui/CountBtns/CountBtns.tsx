@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { type FC } from "react";
 
-import { QuantityActionType } from "@/shared/constants/cart";
+import { QuantityActionType } from "@/modules/Cart/constants/cart";
 
 import { CountBtn } from "./CountBtn";
 

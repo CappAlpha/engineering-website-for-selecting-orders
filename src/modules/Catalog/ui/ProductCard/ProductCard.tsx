@@ -7,7 +7,7 @@ import Link from "next/link";
 import { type MouseEvent, type FC } from "react";
 
 import { selectIsItemAdding } from "@/modules/Cart/store/cartSelectors";
-import { pageConfig } from "@/shared/constants/pages";
+import { PageConfig } from "@/shared/constants/pages";
 import { useAppSelector } from "@/shared/hook/useAppSelector";
 import { Button } from "@/shared/ui/Button";
 import { Tags } from "@/shared/ui/Tags";
@@ -37,7 +37,7 @@ export const ProductCard: FC<Props> = ({
   return (
     <Link
       className={cn(s.root, isAdding && s.disable)}
-      href={`${pageConfig.PRODUCT}${id}`}
+      href={`${PageConfig.PRODUCT}${id}`}
     >
       <div className={s.imgWrap}>
         <Image

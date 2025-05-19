@@ -2,7 +2,7 @@
 
 import { type FC } from "react";
 
-import { useResetFilters } from "@/modules/Catalog/actions/useResetFilters";
+import { useResetFilters } from "@/modules/Catalog/services/useResetFilters";
 import { Button } from "@/shared/ui/Button";
 
 import s from "./ProductNotFound.module.scss";

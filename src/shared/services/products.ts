@@ -1,6 +1,6 @@
 import { Product } from "@prisma/client";
 
-import { pageConfig } from "../constants/pages";
+import { PageConfig } from "../constants/pages";
 import { axiosInstance } from "./instance";
 
 export const search = async (
@@ -8,7 +8,7 @@ export const search = async (
   signal: AbortSignal,
 ): Promise<Product[]> => {
   return (
-    await axiosInstance.get<Product[]>(pageConfig.SEARCH_PRODUCTS, {
+    await axiosInstance.get<Product[]>(PageConfig.SEARCH_PRODUCTS, {
       params: { query },
       signal: signal,
     })

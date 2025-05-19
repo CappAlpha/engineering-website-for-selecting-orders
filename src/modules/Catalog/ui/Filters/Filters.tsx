@@ -3,14 +3,14 @@
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState, type FC } from "react";
 
-import { useResetFilters } from "@/modules/Catalog/actions/useResetFilters";
+import { useResetFilters } from "@/modules/Catalog/services/useResetFilters";
 import { Button } from "@/shared/ui/Button";
 import { Input } from "@/shared/ui/Input";
 import { Slider } from "@/shared/ui/Slider";
 
-import { usePriceRange } from "../../actions/usePriceRange";
-import { useQueryFilters } from "../../actions/useQueryFilters";
-import { useTags } from "../../actions/useTags";
+import { usePriceRange } from "../../services/usePriceRange";
+import { useQueryFilters } from "../../services/useQueryFilters";
+import { useTags } from "../../services/useTags";
 import { FilterTags } from "../FilterTags";
 
 import s from "./Filters.module.scss";

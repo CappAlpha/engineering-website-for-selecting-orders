@@ -11,7 +11,7 @@ import {
 import { Api } from "@/shared/services/apiClient";
 import type { RootState } from "@/store/store";
 
-import { CartReturnProps, getCartDetails } from "../actions/getCartDetails";
+import { CartReturnProps, getCartDetails } from "../services/getCartDetails";
 
 const cartAdapter = createEntityAdapter<CartStateItem, number>({
   selectId: (item) => item.id,

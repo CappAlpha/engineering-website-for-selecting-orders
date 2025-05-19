@@ -18,10 +18,14 @@ interface Props {
 }
 
 export const AuthModal: FC<Props> = ({ open, onClose }) => {
-  const [type, setType] = useState<"login" | "register">("login");
+  const [authType, setAuthType] = useState<"login" | "register">("login");
 
-  const onSwitchType = () => {
-    setType(type === "login" ? "register" : "login");
+  const onSwitchAuthType = () => {
+    setAuthType((prevType) => (prevType === "login" ? "register" : "login"));
+  };
+
+  const handleGoogleLogin = async () => {
+    await signIn("google", { redirect: false });
   };
 
   const handleClose = () => {
@@ -30,22 +34,23 @@ export const AuthModal: FC<Props> = ({ open, onClose }) => {
 
   return (
     <Modal open={open} onClose={handleClose} className={s.root} keepMounted>
-      <Fade in={open} exit>
-        <div className={s.content}>
+      <Fade in={open}>
+        <div className={s.content} role="dialog">
           <Button
             onClick={handleClose}
             className={s.close}
             noPadding
             color="transparent"
+            aria-label="Закрыть модальное окно"
           >
             <Plus className={s.closeIcon} />
           </Button>
           <div className={s.wrap}>
-            {type === "login" ? (
+            {authType === "login" ? (
               <>
                 <LoginForm onClose={handleClose} />
 
-                <Button onClick={() => signIn("google")} className={s.loginBtn}>
+                <Button onClick={handleGoogleLogin} className={s.loginBtn}>
                   Google
                 </Button>
               </>
@@ -54,12 +59,12 @@ export const AuthModal: FC<Props> = ({ open, onClose }) => {
             )}
 
             <Button
-              onClick={onSwitchType}
+              onClick={onSwitchAuthType}
               className={s.switchBtn}
               color="transparent"
               noPadding
             >
-              {type === "login" ? "Регистрация" : "Вход в аккаунт"}
+              {authType === "login" ? "Регистрация" : "Вход в аккаунт"}
             </Button>
           </div>
         </div>

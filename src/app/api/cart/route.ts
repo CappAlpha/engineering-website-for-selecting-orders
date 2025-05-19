@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { findOrCreateCart } from "@/modules/Cart/actions/findOrCreateCart";
-import { updateCartTotalAmount } from "@/modules/Cart/actions/updateCartTotalAmount";
+import {
+  CartQuantityLimits,
+  CART_TOKEN_NAME,
+} from "@/modules/Cart/constants/cart";
 import { CreateCartItemValues } from "@/modules/Cart/entities/cart";
-import { CART_QUANTITY_LIMITS, CART_TOKEN_NAME } from "@/shared/constants/cart";
+import { findOrCreateCart } from "@/modules/Cart/services/findOrCreateCart";
+import { updateCartTotalAmount } from "@/modules/Cart/services/updateCartTotalAmount";
 
 import { prisma } from "../../../../prisma/prisma-client";
 
@@ -68,10 +71,10 @@ export async function POST(req: NextRequest) {
     });
 
     // Check quantity limit
-    if (findCartItem && findCartItem.quantity >= CART_QUANTITY_LIMITS.MAX) {
+    if (findCartItem && findCartItem.quantity >= CartQuantityLimits.MAX) {
       return NextResponse.json(
         {
-          error: `Cannot add more items. Maximum quantity (${CART_QUANTITY_LIMITS.MAX}) reached.`,
+          error: `Cannot add more items. Maximum quantity (${CartQuantityLimits.MAX}) reached.`,
         },
         { status: 400 },
       );

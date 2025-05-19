@@ -4,12 +4,12 @@ import cn from "classnames";
 import Image from "next/image";
 import { type FC } from "react";
 
-import { CartStateItem } from "@/modules/Cart/entities/cart";
-import { CountBtns } from "@/modules/Cart/ui/CountBtns";
 import {
   QuantityActionType,
-  CART_QUANTITY_LIMITS,
-} from "@/shared/constants/cart";
+  CartQuantityLimits,
+} from "@/modules/Cart/constants/cart";
+import { CartStateItem } from "@/modules/Cart/entities/cart";
+import { CountBtns } from "@/modules/Cart/ui/CountBtns";
 import { useAppSelector } from "@/shared/hook/useAppSelector";
 import { Button } from "@/shared/ui/Button";
 
@@ -50,8 +50,8 @@ export const ProductCardLine: FC<Props> = ({
             <CountBtns
               onChangeCount={onChangeCount}
               value={quantity}
-              minValue={CART_QUANTITY_LIMITS.MIN}
-              maxValue={CART_QUANTITY_LIMITS.MAX}
+              minValue={CartQuantityLimits.MIN}
+              maxValue={CartQuantityLimits.MAX}
               loading={isUpdating}
             />
             <div className={s.bottomRight}>

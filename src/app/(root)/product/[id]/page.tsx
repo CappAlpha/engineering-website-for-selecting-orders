@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { getProductData } from "@/modules/ProductPage/actions/getProductData";
+import { getProductData } from "@/modules/ProductPage/services/getProductData";
 import { ProductProperties } from "@/modules/ProductPage/ui/ProductProperties";
 
 import s from "./page.module.scss";

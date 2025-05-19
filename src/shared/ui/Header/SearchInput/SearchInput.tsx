@@ -12,7 +12,7 @@ import cn from "classnames";
 import Link from "next/link";
 import { HTMLAttributes, Key, useRef, useState, type FC } from "react";
 
-import { pageConfig } from "@/shared/constants/pages";
+import { PageConfig } from "@/shared/constants/pages";
 import { useDebounce } from "@/shared/hook/useDebounce";
 import { useOutsideClick } from "@/shared/hook/useOutsideHook";
 import { getSearchProducts } from "@/shared/lib/getSearchProducts";
@@ -98,7 +98,7 @@ export const SearchInput: FC<Props> = ({ categories }) => {
     const { key, ...otherProps } = props;
     return (
       <li key={key} {...otherProps} className={s.optionLi}>
-        <Link href={`${pageConfig.PRODUCT}${option.id}`} className={s.link}>
+        <Link href={`${PageConfig.PRODUCT}${option.id}`} className={s.link}>
           {option.name}
         </Link>
       </li>

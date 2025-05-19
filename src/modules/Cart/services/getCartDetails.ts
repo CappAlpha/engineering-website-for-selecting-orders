@@ -1,5 +1,6 @@
-import { calcCartTotalPrice } from "@/modules/Cart/actions/calcCartTotalPrice";
 import { CartStateItem, CartDTO } from "@/modules/Cart/entities/cart";
+
+import { calcCartTotalPrice } from "./calcCartTotalPrice";
 
 export interface CartReturnProps {
   items: CartStateItem[];

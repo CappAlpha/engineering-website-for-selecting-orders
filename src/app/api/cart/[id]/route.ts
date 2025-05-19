@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { updateCartTotalAmount } from "@/modules/Cart/actions/updateCartTotalAmount";
-import { validateCartItemRequest } from "@/modules/Cart/actions/validateCartItemRequest";
+import { updateCartTotalAmount } from "@/modules/Cart/services/updateCartTotalAmount";
+import { validateCartItemRequest } from "@/modules/Cart/services/validateCartItemRequest";
 
 import { prisma } from "../../../../../prisma/prisma-client";
 

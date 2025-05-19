@@ -1,7 +1,7 @@
 import { CartItem } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
-import { CART_TOKEN_NAME } from "@/shared/constants/cart";
+import { CART_TOKEN_NAME } from "@/modules/Cart/constants/cart";
 
 import { prisma } from "../../../../prisma/prisma-client";
 

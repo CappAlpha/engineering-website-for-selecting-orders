@@ -5,8 +5,8 @@ import { useDispatch } from "react-redux";
 import {
   QuantityActionType,
   QuantityAction,
-  CART_QUANTITY_LIMITS,
-} from "@/shared/constants/cart";
+  CartQuantityLimits,
+} from "@/modules/Cart/constants/cart.ts";
 import type { AppDispatch } from "@/store/store";
 
 import {
@@ -46,8 +46,8 @@ export const useCartReducers = () => {
       type === QuantityAction.PLUS ? quantity + 1 : quantity - 1;
 
     if (
-      newQuantity < CART_QUANTITY_LIMITS.MIN ||
-      newQuantity > CART_QUANTITY_LIMITS.MAX
+      newQuantity < CartQuantityLimits.MIN ||
+      newQuantity > CartQuantityLimits.MAX
     ) {
       return;
     }

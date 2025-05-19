@@ -1,13 +1,6 @@
 import { UserRole } from "@prisma/client";
 import { compare, hashSync } from "bcrypt";
-import {
-  Account,
-  type User,
-  type Profile,
-  type Session,
-  type AuthOptions,
-} from "next-auth";
-import { JWT } from "next-auth/jwt";
+import { type Profile, type AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
 
@@ -82,7 +75,7 @@ export const authOptions: AuthOptions = {
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
-    async signIn({ user, account }: { user: User; account: Account | null }) {
+    async signIn({ user, account }) {
       try {
         if (account?.provider === "credentials") {
           return true;
@@ -140,7 +133,7 @@ export const authOptions: AuthOptions = {
         return false;
       }
     },
-    async jwt({ token }: { token: JWT }) {
+    async jwt({ token }) {
       if (!token.email) return token;
 
       const findUser = await prisma.user.findUnique({
@@ -158,7 +151,7 @@ export const authOptions: AuthOptions = {
 
       return token;
     },
-    async session({ session, token }: { session: Session; token: JWT }) {
+    async session({ session, token }) {
       if (session?.user) {
         session.user.id = token.id;
         session.user.role = token.role;

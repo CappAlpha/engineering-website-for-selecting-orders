@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Resend } from "resend";
 
-import { orderConfig } from "@/shared/constants/order";
+import { OrderConfig } from "@/modules/Order/constants/order";
 
 /**
  * Sends an email using the Resend API.
@@ -21,7 +21,7 @@ export const sendEmail = async (
   const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 
   const { data, error } = await resend.emails.send({
-    from: orderConfig.FROM_EMAIL,
+    from: OrderConfig.FROM_EMAIL,
     to,
     subject,
     react: template,

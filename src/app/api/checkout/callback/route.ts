@@ -3,8 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { ReactNode } from "react";
 
 import { CartItemDTO } from "@/modules/Cart/entities/cart";
-import { sendEmail } from "@/modules/Order/actions/sendEmail";
+import { EmailSubject } from "@/modules/Order/constants/order";
 import { PaymentCallbackData } from "@/modules/Order/entities/orderResponse";
+import { sendEmail } from "@/modules/Order/services/sendEmail";
 import { EmailErrorTemplate } from "@/modules/Order/ui/EmailErrorTemplate";
 import { EmailSuccessTemplate } from "@/modules/Order/ui/EmailSuccessTemplate";
 
@@ -28,21 +29,24 @@ export async function POST(req: NextRequest) {
     }
 
     // if success send email or set status cancelled
-    const isSucceeded = body.state === "payed";
+    const isPaymentSuccessful = body.state === "payed";
     await prisma.order.update({
       where: {
         id: Number(body.extra),
       },
       data: {
-        status: isSucceeded ? OrderStatus.SUCCEEDED : OrderStatus.CANCELLED,
+        status: isPaymentSuccessful
+          ? OrderStatus.SUCCEEDED
+          : OrderStatus.CANCELLED,
       },
     });
-    if (isSucceeded) {
+
+    if (isPaymentSuccessful) {
       const items = JSON.parse(order?.items as string) as CartItemDTO[];
 
       await sendEmail(
         order.email,
-        "Engineer / Ваш заказ успешно оформлен! Номер заказа #" + order.id,
+        EmailSubject.SUCCESS + order.id,
         EmailSuccessTemplate({
           orderId: order.id,
           items,
@@ -51,11 +55,19 @@ export async function POST(req: NextRequest) {
     } else {
       await sendEmail(
         order.email,
-        "Engineer / Ошибка оформления заказа #" + order.id,
+        EmailSubject.ERROR + order.id,
         EmailErrorTemplate({}) as ReactNode,
       );
       throw new Error("Payment is canceled by api");
     }
+
+    return NextResponse.json(
+      {
+        success: true,
+        status: isPaymentSuccessful ? "succeeded" : "cancelled",
+      },
+      { status: 200 },
+    );
   } catch (err) {
     console.error("[CHECKOUT_CALLBACK] Error:", err);
     return NextResponse.json(

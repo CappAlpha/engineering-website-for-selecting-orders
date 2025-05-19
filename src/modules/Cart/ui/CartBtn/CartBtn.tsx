@@ -6,7 +6,7 @@ import { useAppSelector } from "@/shared/hook/useAppSelector";
 import { Button } from "@/shared/ui/Button";
 
 import { ShoppingCart, Arrow } from "../../../../../public/icon";
-import { useCartReducers } from "../../actions/useCartReducers";
+import { useCartReducers } from "../../services/useCartReducers";
 import {
   selectCartItemsCount,
   selectCartLoading,

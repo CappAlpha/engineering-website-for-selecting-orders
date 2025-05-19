@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { orderConfig } from "@/shared/constants/order";
+import { OrderConfig } from "@/modules/Order/constants/order";
 
 import { PaymentResponseData } from "../entities/orderResponse";
 
@@ -27,7 +27,7 @@ export const createPayment = async (details: Props) => {
       auth_secret: process.env.NEXT_PUBLIC_PAY_API_KEY,
       amount: details.amount,
       type: "purchase",
-      lifetime: orderConfig.LIFETIME,
+      lifetime: OrderConfig.LIFETIME,
       description: details.description,
       extra: details.orderId,
       redirect_url: process.env.NEXT_PUBLIC_PAY_CALLBACK_URL,

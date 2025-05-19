@@ -5,13 +5,13 @@ import { hashSync } from "bcrypt";
 import { cookies } from "next/headers";
 import { ReactNode } from "react";
 
-import { getUserSession } from "@/modules/Auth/actions/getUserSession";
+import { getUserSession } from "@/modules/Auth/services/getUserSession";
+import { CART_TOKEN_NAME } from "@/modules/Cart/constants/cart";
 import { CartItemDTO } from "@/modules/Cart/entities/cart";
-import { createPayment } from "@/modules/Order/actions/createPayment";
-import { sendEmail } from "@/modules/Order/actions/sendEmail";
 import { CheckoutFormValues } from "@/modules/Order/schemas/checkoutFormSchema";
+import { createPayment } from "@/modules/Order/services/createPayment";
+import { sendEmail } from "@/modules/Order/services/sendEmail";
 import { EmailMakeOrderTemplate } from "@/modules/Order/ui/EmailMakeOrderTemplate";
-import { CART_TOKEN_NAME } from "@/shared/constants/cart";
 
 import { prisma } from "../../prisma/prisma-client";
 

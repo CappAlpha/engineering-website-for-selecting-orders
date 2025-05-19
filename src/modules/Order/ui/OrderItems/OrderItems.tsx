@@ -6,7 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 import { createOrder } from "@/app/actions";
-import { useCartReducers } from "@/modules/Cart/actions/useCartReducers";
+import { useCartReducers } from "@/modules/Cart/services/useCartReducers";
 import {
   selectAllCartItems,
   selectCartLoading,

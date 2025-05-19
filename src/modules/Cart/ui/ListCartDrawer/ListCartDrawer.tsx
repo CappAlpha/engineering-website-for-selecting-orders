@@ -3,19 +3,19 @@
 import cn from "classnames";
 import { type FC } from "react";
 
-import { useCartReducers } from "@/modules/Cart/actions/useCartReducers";
 import {
   selectAllCartItems,
   selectCartErrors,
   selectCartLoading,
   selectTotalAmount,
 } from "@/modules/Cart/store/cartSelectors";
-import { pageConfig } from "@/shared/constants/pages";
+import { PageConfig } from "@/shared/constants/pages";
 import { useAppSelector } from "@/shared/hook/useAppSelector";
 import { pluralize } from "@/shared/lib/pluralize";
 import { Button } from "@/shared/ui/Button";
 
 import { Plus, Arrow } from "../../../../../public/icon";
+import { useCartReducers } from "../../services/useCartReducers";
 import { ProductCardLine } from "../ProductCardLine";
 
 import s from "./ListCartDrawer.module.scss";
@@ -100,7 +100,7 @@ export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
             </Button>
           ) : (
             <Button
-              href={`${pageConfig.CHECKOUT}`}
+              href={`${PageConfig.CHECKOUT}`}
               className={s.orderBtn}
               size="l"
               loading={isProcessing}

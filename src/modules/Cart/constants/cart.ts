@@ -6,7 +6,7 @@ export const QuantityAction = {
 export type QuantityActionType =
   (typeof QuantityAction)[keyof typeof QuantityAction];
 
-export const CART_QUANTITY_LIMITS = {
+export const CartQuantityLimits = {
   MIN: 1,
   MAX: 10,
 } as const;
