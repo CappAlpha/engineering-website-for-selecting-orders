@@ -29,7 +29,7 @@ export async function generateMetadata({
     title: product.name,
     description: product.description ?? "Изучите этот прекрасный продукт!",
     keywords: product.tags ?? ["Продукт", "Магазин"],
-    metadataBase: new URL(process.env.NEXT_PUBLIC_DOMAIN ?? ""),
+    metadataBase: new URL(process.env.DOMAIN ?? ""),
     alternates: {
       canonical: `/products/${id}`,
     },
