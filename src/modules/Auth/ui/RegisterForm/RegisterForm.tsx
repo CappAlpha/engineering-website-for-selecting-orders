@@ -3,11 +3,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type FC } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
+import { registerUser } from "@/app/actions";
 import { Button } from "@/shared/ui/Button";
 import { FormInput } from "@/shared/ui/FormInput";
 
-import { Login } from "../../../../../public/icon";
 import {
   formRegisterSchema,
   TFormRegisterValues,
@@ -15,7 +16,11 @@ import {
 
 import s from "./RegisterForm.module.scss";
 
-export const RegisterForm: FC = () => {
+interface Props {
+  onClose: VoidFunction;
+}
+
+export const RegisterForm: FC<Props> = ({ onClose }) => {
   const form = useForm<TFormRegisterValues>({
     resolver: zodResolver(formRegisterSchema),
     defaultValues: {
@@ -27,17 +32,26 @@ export const RegisterForm: FC = () => {
   });
 
   const onSubmit = async (data: TFormRegisterValues) => {
-    // try {
-    //   toast.success("Вы успешно зарегистрировались!", {
-    //     icon: "\u2705",
-    //   });
+    try {
+      await registerUser({
+        email: data.email,
+        fullName: data.fullName,
+        password: data.password,
+      });
 
-    //   onClose();
-    // } catch (err) {
-    //   console.error("[Error [REGISTRATION]]", err);
-    //   toast.error("Не удалось зарегистрироваться", { icon: "\u274C" });
-    // }
-    console.log(data);
+      toast.success(
+        `Регистрация успешна. 
+        Подтвердите свою почту`,
+        {
+          icon: "\u2705",
+        },
+      );
+
+      onClose();
+    } catch (err) {
+      console.error("[Error [REGISTRATION]]", err);
+      toast.error("Не удалось зарегистрироваться", { icon: "\u274C" });
+    }
   };
 
   return (
@@ -47,22 +61,7 @@ export const RegisterForm: FC = () => {
         className={s.root}
         noValidate
       >
-        <div className={s.headerWrap}>
-          <div>
-            <h6 className={s.title}>Регистрация</h6>
-            <p className={s.description}>
-              Заполните поля, чтобы зарегистрироваться
-            </p>
-          </div>
-          <Login className={s.loginIcon} />
-        </div>
-
-        <FormInput
-          name="fullName"
-          label="Ваше полное имя"
-          type="text"
-          required
-        />
+        <FormInput name="fullName" label="Полное имя" type="text" required />
         <FormInput
           name="email"
           label="E-Mail"

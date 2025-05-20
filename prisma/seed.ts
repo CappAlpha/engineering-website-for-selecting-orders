@@ -1,4 +1,5 @@
 import { hashSync } from "bcrypt";
+import { randomUUID } from "crypto";
 
 import { prisma } from "./prisma-client";
 
@@ -9,9 +10,9 @@ const randomNumber = (min: number, max: number) => {
 const generatePrice = () => randomNumber(500, 30000);
 
 // TODO: временно добавлено так
-const userId = crypto.randomUUID();
-const adminId = crypto.randomUUID();
-const productIdTest = crypto.randomUUID();
+const userId = randomUUID();
+const adminId = randomUUID();
+const productIdTest = randomUUID();
 
 //Автогенерация базы данных
 async function up() {

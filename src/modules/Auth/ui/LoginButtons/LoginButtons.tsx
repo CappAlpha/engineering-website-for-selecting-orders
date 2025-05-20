@@ -4,9 +4,9 @@ import { useSession } from "next-auth/react";
 import { type FC } from "react";
 
 import { PageConfig } from "@/shared/constants/pages";
+import { Button } from "@/shared/ui/Button";
 
 import { User } from "../../../../../public/icon";
-import { Button } from "../../Button";
 
 import s from "./LoginButtons.module.scss";
 

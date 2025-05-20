@@ -6,8 +6,8 @@ import { CartItemDTO } from "@/modules/Cart/entities/cart";
 import { EmailSubject } from "@/modules/Order/constants/order";
 import { PaymentCallbackData } from "@/modules/Order/entities/orderResponse";
 import { sendEmail } from "@/modules/Order/services/sendEmail";
-import { EmailErrorTemplate } from "@/modules/Order/ui/EmailErrorTemplate";
-import { EmailSuccessTemplate } from "@/modules/Order/ui/EmailSuccessTemplate";
+import { EmailError } from "@/modules/Order/ui/EmailError";
+import { EmailSuccess } from "@/modules/Order/ui/EmailSuccess";
 
 import { prisma } from "../../../../../prisma/prisma-client";
 
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
       await sendEmail(
         order.email,
         EmailSubject.SUCCESS + order.id,
-        EmailSuccessTemplate({
+        EmailSuccess({
           orderId: order.id,
           items,
         }) as ReactNode,
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
       await sendEmail(
         order.email,
         EmailSubject.ERROR + order.id,
-        EmailErrorTemplate({}) as ReactNode,
+        EmailError({}) as ReactNode,
       );
       throw new Error("Payment is canceled by api");
     }
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
       { status: 200 },
     );
   } catch (err) {
-    console.error("[CHECKOUT_CALLBACK] Error:", err);
+    console.error("[CHECKOUT_CALLBACK] API error:", err);
     return NextResponse.json(
       { error: "Failed to get payment info" },
       { status: 500 },

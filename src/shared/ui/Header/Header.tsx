@@ -5,8 +5,8 @@ import { CartBtn } from "@/modules/Cart/ui/CartBtn";
 
 import { prisma } from "../../../../prisma/prisma-client";
 import { Settings } from "../../../../public/icon";
+import { Auth } from "../../../modules/Auth/ui/Auth";
 import { Button } from "../Button";
-import { Auth } from "./Auth";
 import { SearchInput } from "./SearchInput";
 
 import s from "./Header.module.scss";

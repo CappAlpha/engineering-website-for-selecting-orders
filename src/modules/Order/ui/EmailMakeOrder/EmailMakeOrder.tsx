@@ -2,21 +2,23 @@ import { type FC } from "react";
 
 import { CartItemDTO } from "@/modules/Cart/entities/cart";
 
-interface EmailMakeOrderTemplateProps {
+import s from "./EmailMakeOrder.module.scss";
+
+interface Props {
   orderId: number;
   totalAmount: number;
   paymentUrl: string;
   items: CartItemDTO[];
 }
 
-export const EmailMakeOrderTemplate: FC<EmailMakeOrderTemplateProps> = ({
+export const EmailMakeOrder: FC<Props> = ({
   orderId,
   totalAmount,
   paymentUrl,
   items,
 }) => {
   return (
-    <div>
+    <div className={s.root}>
       <h1>Заказ #{orderId}!</h1>
 
       <p>

@@ -6,7 +6,8 @@ import { useState, type FC } from "react";
 
 import { Button } from "@/shared/ui/Button";
 
-import { Plus } from "../../../../../public/icon";
+import { Login, Plus, Registration } from "../../../../../public/icon";
+import { AuthFormHeader } from "../AuthFormHeader";
 import { LoginForm } from "../LoginForm";
 import { RegisterForm } from "../RegisterForm";
 
@@ -47,7 +48,14 @@ export const AuthModal: FC<Props> = ({ open, onClose }) => {
           </Button>
           <div className={s.wrap}>
             {authType === "login" ? (
+              //  Login user
               <>
+                <AuthFormHeader
+                  title="Вход в аккаунт"
+                  description="Введите свою почту и пароль, чтобы войти в аккаунт"
+                  icon={<Login />}
+                />
+
                 <LoginForm onClose={handleClose} />
 
                 <Button onClick={handleGoogleLogin} className={s.loginBtn}>
@@ -55,7 +63,12 @@ export const AuthModal: FC<Props> = ({ open, onClose }) => {
                 </Button>
               </>
             ) : (
-              <RegisterForm />
+              // Registration user
+              <>
+                <AuthFormHeader title="Регистрация" icon={<Registration />} />
+
+                <RegisterForm onClose={handleClose} />
+              </>
             )}
 
             <Button

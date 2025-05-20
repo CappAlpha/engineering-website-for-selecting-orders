@@ -17,12 +17,20 @@ export const Auth: FC = () => {
   const handleClose = () => setOpenModal(false);
 
   useEffect(() => {
-    if (searchParams.has("paid")) {
-      toast.success(`Заказ успешно оплачен!
-        Информация отправлена на почту!`);
+    let toastMessage = "";
 
-      // TODO: вести на страницу заказов?
-      router.push("/", { scroll: false });
+    if (searchParams.has("paid")) {
+      toastMessage = `Заказ успешно оплачен!
+        Информация отправлена на почту!`;
+    }
+
+    if (searchParams.has("verified")) {
+      toastMessage = `Почта успешно подтверждена!`;
+    }
+
+    if (toastMessage) {
+      router.replace("/");
+      toast.success(toastMessage);
     }
   }, [router, searchParams]);
 

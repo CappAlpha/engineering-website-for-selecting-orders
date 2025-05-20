@@ -2,16 +2,18 @@
 
 import { OrderStatus, Prisma } from "@prisma/client";
 import { hashSync } from "bcrypt";
+import { randomUUID } from "crypto";
 import { cookies } from "next/headers";
 import { ReactNode } from "react";
 
 import { getUserSession } from "@/modules/Auth/services/getUserSession";
+import { EmailVerification } from "@/modules/Auth/ui/EmailVerification";
 import { CART_TOKEN_NAME } from "@/modules/Cart/constants/cart";
 import { CartItemDTO } from "@/modules/Cart/entities/cart";
 import { CheckoutFormValues } from "@/modules/Order/schemas/checkoutFormSchema";
 import { createPayment } from "@/modules/Order/services/createPayment";
 import { sendEmail } from "@/modules/Order/services/sendEmail";
-import { EmailMakeOrderTemplate } from "@/modules/Order/ui/EmailMakeOrderTemplate";
+import { EmailMakeOrder } from "@/modules/Order/ui/EmailMakeOrder";
 
 import { prisma } from "../../prisma/prisma-client";
 
@@ -116,7 +118,7 @@ export const createOrder = async (data: CheckoutFormValues) => {
     await sendEmail(
       data.email,
       "Engineer / Оплатите заказ #" + order.id,
-      EmailMakeOrderTemplate({
+      EmailMakeOrder({
         orderId: order.id,
         totalAmount: order.totalAmount,
         paymentUrl: paymentUrl,
@@ -157,5 +159,51 @@ export const updateUserInfo = async (data: Prisma.UserUpdateInput) => {
     });
   } catch (err) {
     console.error("Error [UPDATE_USER_INFO]", err);
+  }
+};
+
+export const registerUser = async (
+  data: Omit<Prisma.UserCreateInput, "id">,
+) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: data.email,
+      },
+    });
+
+    if (user) {
+      if (!user.verified) {
+        throw new Error("Почта не подтверждена");
+      }
+
+      throw new Error("Пользователь уже существует");
+    }
+
+    const createdUser = await prisma.user.create({
+      data: {
+        id: randomUUID(),
+        fullName: data.fullName,
+        email: data.email,
+        password: hashSync(data.password, 10),
+      },
+    });
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+    await prisma.verificationCode.create({
+      data: {
+        code,
+        userId: createdUser.id,
+      },
+    });
+
+    await sendEmail(
+      createdUser.email,
+      "Engineer / Подтверждение регистрации",
+      EmailVerification({ code }) as ReactNode,
+    );
+  } catch (err) {
+    console.error("Error [REGISTER_USER]", err);
   }
 };

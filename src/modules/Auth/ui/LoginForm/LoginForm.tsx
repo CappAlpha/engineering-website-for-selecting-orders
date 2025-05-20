@@ -9,7 +9,6 @@ import toast from "react-hot-toast";
 import { Button } from "@/shared/ui/Button";
 import { FormInput } from "@/shared/ui/FormInput";
 
-import { Login } from "../../../../../public/icon";
 import { formLoginSchema, TFormLoginValues } from "../../schemas/authSchemas";
 
 import s from "./LoginForm.module.scss";
@@ -53,16 +52,6 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
         className={s.root}
         noValidate
       >
-        <div className={s.headerWrap}>
-          <div>
-            <h6 className={s.title}>Вход в аккаунт</h6>
-            <p className={s.description}>
-              Введите свою почту, чтобы войти в свой аккаунт
-            </p>
-          </div>
-          <Login className={s.loginIcon} />
-        </div>
-
         <FormInput
           name="email"
           label="E-Mail"

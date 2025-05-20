@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 
 import {
@@ -54,8 +55,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     //Generate token if not exist
-    const token =
-      req.cookies.get(CART_TOKEN_NAME)?.value ?? crypto.randomUUID();
+    const token = req.cookies.get(CART_TOKEN_NAME)?.value ?? randomUUID();
 
     // Find or create cart by token
     const userCart = await findOrCreateCart(token);
