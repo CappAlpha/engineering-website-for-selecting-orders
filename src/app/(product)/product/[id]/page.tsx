@@ -4,11 +4,11 @@ import { notFound } from "next/navigation";
 
 import { getProductData } from "@/modules/ProductPage/services/getProductData";
 import { ProductProperties } from "@/modules/ProductPage/ui/ProductProperties";
+import { PageConfig } from "@/shared/constants/pages";
 import { Breadcrumbs } from "@/shared/ui/Breadcrumbs";
 
 import s from "./page.module.scss";
 
-// TODO: Improve SEO
 // Dynamic Metadata generation
 export async function generateMetadata({
   params,
@@ -22,6 +22,10 @@ export async function generateMetadata({
     return {
       title: "Продукт не найден",
       description: "Запрашиваемый продукт невозможно найти.",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
@@ -31,7 +35,7 @@ export async function generateMetadata({
     keywords: product.tags ?? ["Продукт", "Магазин"],
     metadataBase: new URL(process.env.DOMAIN ?? ""),
     alternates: {
-      canonical: `/product/${id}`,
+      canonical: `${PageConfig.PRODUCT}${id}`,
     },
     openGraph: {
       title: product.name,
@@ -63,8 +67,8 @@ export default async function ProductPage({
   params,
 }: Readonly<{ params: Promise<{ id: string }> }>) {
   const { id } = await params;
-  const product = await getProductData(id);
 
+  const product = await getProductData(id);
   if (!product) {
     return notFound();
   }
