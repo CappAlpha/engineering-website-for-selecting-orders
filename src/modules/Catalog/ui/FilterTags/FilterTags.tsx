@@ -72,7 +72,7 @@ export const FilterTags: FC<Props> = ({
 
       {error ? (
         <>
-          <p className={s.errorMessage}>Ошибка загрузки тегов</p>
+          <p className={s.errorMessage}>Ошибка загрузки категорий</p>
           <Button className={s.retry} onClick={resetFilters}>
             Повторить
           </Button>
