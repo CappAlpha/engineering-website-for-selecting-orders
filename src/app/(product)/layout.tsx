@@ -5,7 +5,7 @@ import { Header } from "@/shared/ui/Header";
 
 import s from "./layout.module.scss";
 
-export default function CatalogLayout({
+export default function ProductLayout({
   children,
 }: Readonly<{
   children: ReactNode;

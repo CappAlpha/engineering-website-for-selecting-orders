@@ -9,7 +9,7 @@ export async function GET() {
         id: true,
         updatedAt: true,
       },
-      take: 200,
+      take: 100,
     });
 
     const productFields: ISitemapField[] = products.map((product) => ({

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Профиль | Engineer",
 };
 
-export default function CatalogLayout({
+export default function ProfileLayout({
   children,
 }: Readonly<{
   children: ReactNode;
