@@ -7,7 +7,8 @@ export const GET = async (req: NextRequest) => {
     const code = req.nextUrl.searchParams.get("code");
 
     if (!code) {
-      return NextResponse.json({ error: "Неверный код" }, { status: 400 });
+      console.error("[VERIFY_GET] Verification code not found");
+      return NextResponse.redirect(new URL("/?wrongCode", req.url));
     }
 
     const verificationCode = await prisma.verificationCode.findFirst({
@@ -17,7 +18,8 @@ export const GET = async (req: NextRequest) => {
     });
 
     if (!verificationCode) {
-      return NextResponse.json({ error: "Неверный код" }, { status: 400 });
+      console.error("[VERIFY_GET] Verification code not found");
+      return NextResponse.redirect(new URL("/?wrongCode", req.url));
     }
 
     await prisma.user.update({

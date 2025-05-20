@@ -18,6 +18,7 @@ export const Auth: FC = () => {
 
   useEffect(() => {
     let toastMessage = "";
+    let error = false;
 
     if (searchParams.has("paid")) {
       toastMessage = `Заказ успешно оплачен!
@@ -28,9 +29,19 @@ export const Auth: FC = () => {
       toastMessage = `Почта успешно подтверждена!`;
     }
 
+    if (searchParams.has("wrongCode")) {
+      toastMessage = `Недействительный код!`;
+      error = true;
+    }
+
     if (toastMessage) {
       router.replace("/");
-      toast.success(toastMessage);
+      // TODO: improve logic?
+      if (error) {
+        toast.error(toastMessage);
+      } else {
+        toast.success(toastMessage);
+      }
     }
   }, [router, searchParams]);
 
