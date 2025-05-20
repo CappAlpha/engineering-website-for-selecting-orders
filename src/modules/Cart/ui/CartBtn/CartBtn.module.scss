@@ -1,9 +1,9 @@
 .root {
   position: relative;
-  gap: 6px;
 
   &:hover {
     @media (hover: hover) and (pointer: fine) {
+
       .cartIcon,
       .count {
         opacity: 0;
@@ -28,10 +28,16 @@
   opacity: 1;
 }
 
-.separator {
-  height: 100%;
-  width: 1px;
-  background-color: var(--gray);
+.line {
+  position: relative;
+
+  &::before {
+    @include pseudo;
+    height: 26px;
+    top: -13px;
+    width: 1px;
+    background: var(--gray);
+  }
 }
 
 .arrowIcon {

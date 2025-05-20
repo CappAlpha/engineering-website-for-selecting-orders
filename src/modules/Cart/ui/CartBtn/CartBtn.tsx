@@ -45,7 +45,8 @@ export const CartBtn: FC = () => {
         onClick={toggleDrawer(true)}
         aria-label={`Открыть корзину с ${productsInCartCount} товарами`}
       >
-        {totalAmount} &#8381; <span className={s.separator} />
+        {totalAmount} &#8381;
+        {!isLoading && <div className={s.line} />}
         <ShoppingCart className={s.cartIcon} />
         <span className={s.count}>{productsInCartCount}</span>
         <Arrow className={s.arrowIcon} />
