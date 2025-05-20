@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { filtersActions } from "@/modules/Catalog/store/filtersSlice";
 import { useAppSelector } from "@/shared/hook/useAppSelector";
+import { getCachedData } from "@/shared/lib/getCacheData";
 import { Api } from "@/shared/services/apiClient";
 
 interface ReturnProps {
@@ -12,6 +13,9 @@ interface ReturnProps {
   error: boolean;
   toggle: (id: string) => void;
 }
+
+const CACHE_KEY = "tagsData";
+const CACHE_DURATION = 4 * 60 * 60 * 1000;
 
 /**
  * Custom hook to fetch and manage tags with caching and sorting.
@@ -27,11 +31,23 @@ export const useTags = (sortedToTop = false): ReturnProps => {
   const [error, setError] = useState(false);
 
   const fetchTags = async () => {
+    const cachedTags = getCachedData<string>(CACHE_KEY, CACHE_DURATION);
+    if (cachedTags) {
+      setTags(cachedTags);
+      setLoading(false);
+      return;
+    }
+
     const controller = new AbortController();
 
     try {
       const response = await Api.tags.getAll(controller.signal);
       setTags(response);
+
+      localStorage.setItem(
+        CACHE_KEY,
+        JSON.stringify({ items: response, timestamp: Date.now() }),
+      );
     } catch (err: unknown) {
       if (
         err instanceof Error &&

@@ -1,6 +1,10 @@
 import { Product } from "@prisma/client";
 
 import { Api } from "../services/apiClient";
+import { getCachedData } from "./getCacheData";
+
+const CACHE_KEY = "searchHeaderData";
+const CACHE_DURATION = 4 * 60 * 60 * 1000;
 
 export const getSearchProducts = async (
   setLoading: (loading: boolean) => void,
@@ -11,6 +15,13 @@ export const getSearchProducts = async (
   setLoading(true);
   setError(false);
 
+  const cached = getCachedData<Product>(CACHE_KEY, CACHE_DURATION);
+  if (cached) {
+    setProducts(cached);
+    setLoading(false);
+    return;
+  }
+
   const controller = new AbortController();
 
   try {
@@ -19,6 +30,11 @@ export const getSearchProducts = async (
       controller.signal,
     );
     setProducts(response);
+
+    localStorage.setItem(
+      CACHE_KEY,
+      JSON.stringify({ items: response, timestamp: Date.now() }),
+    );
   } catch (err: unknown) {
     if (
       err instanceof Error &&
