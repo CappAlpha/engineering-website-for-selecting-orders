@@ -7,7 +7,26 @@ import { Header } from "@/shared/ui/Header";
 import s from "./layout.module.scss";
 
 export const metadata: Metadata = {
-  title: "Engineer | Главная",
+  title: {
+    template: "%s | Engineer",
+    default: "Главная | Engineer",
+  },
+  description: "Инженерные решения и продукты высокого качества",
+  applicationName: "Engineer",
+  metadataBase: new URL(process.env.DOMAIN ?? ""),
+  formatDetection: {
+    telephone: true,
+    email: true,
+    address: true,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function CatalogLayout({
@@ -17,7 +36,7 @@ export default function CatalogLayout({
 }>) {
   return (
     <>
-      <Header />
+      <Header isCatalogPage />
       <main className={s.container}>{children}</main>
       <Footer />
     </>

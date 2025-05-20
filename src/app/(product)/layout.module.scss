@@ -1,0 +1,7 @@
+.container {
+  padding-top: 120px;
+
+  @include breakpoint(mobile-m) {
+    padding-top: 100px;
+  }
+}

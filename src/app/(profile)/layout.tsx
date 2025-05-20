@@ -7,17 +7,17 @@ import { Header } from "@/shared/ui/Header";
 import s from "./layout.module.scss";
 
 export const metadata: Metadata = {
-  title: "Оформление заказа | Engineer",
+  title: "Профиль | Engineer",
 };
 
-export default function CheckoutLayout({
+export default function CatalogLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
   return (
     <>
-      <Header isCheckoutPage />
+      <Header />
       <main className={s.container}>{children}</main>
       <Footer />
     </>

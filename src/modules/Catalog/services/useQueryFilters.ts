@@ -1,6 +1,6 @@
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import qs from "qs";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 import { useDebouncedCallback } from "@/shared/hook/useDebounce";
 
@@ -22,8 +22,6 @@ export const useQueryFilters = (
   priceTo: number | undefined,
   tags: string[],
 ) => {
-  const isMounted = useRef(false);
-
   const updateUrl = useDebouncedCallback(
     (filters: { priceFrom?: number; priceTo?: number; tags: string[] }) => {
       const query = qs.stringify(filters, {
@@ -37,10 +35,6 @@ export const useQueryFilters = (
 
   // Update URL when filter changes
   useEffect(() => {
-    if (isMounted.current) {
-      updateUrl({ priceFrom, priceTo, tags });
-    }
-
-    isMounted.current = true;
+    updateUrl({ priceFrom, priceTo, tags });
   }, [priceFrom, priceTo, tags]);
 };

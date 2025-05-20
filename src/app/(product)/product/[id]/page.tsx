@@ -26,20 +26,35 @@ export async function generateMetadata({
   }
 
   return {
-    title: product.name,
+    title: `${product.name} | Engineer`,
     description: product.description ?? "Изучите этот прекрасный продукт!",
     keywords: product.tags ?? ["Продукт", "Магазин"],
     metadataBase: new URL(process.env.DOMAIN ?? ""),
     alternates: {
-      canonical: `/products/${id}`,
+      canonical: `/product/${id}`,
     },
     openGraph: {
       title: product.name,
       description: product.description ?? "Изучите этот прекрасный продукт!",
       images: product.imageUrl
-        ? [{ url: product.imageUrl, alt: product.name }]
+        ? [
+            {
+              url: product.imageUrl,
+              alt: product.name,
+              width: 1200,
+              height: 630,
+            },
+          ]
         : [],
       url: `/products/${id}`,
+      locale: "ru_RU",
+      siteName: "Engineer",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.name,
+      description: product.description ?? "Изучите этот прекрасный продукт!",
+      images: product.imageUrl ? [product.imageUrl] : [],
     },
   };
 }
@@ -64,7 +79,7 @@ export default async function ProductPage({
           <Image
             className={s.img}
             src={imageUrl}
-            alt={name}
+            alt={`${name} - картинка продукта`}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             fill
             priority

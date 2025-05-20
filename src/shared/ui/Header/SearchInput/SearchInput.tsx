@@ -21,13 +21,14 @@ import s from "./SearchInput.module.scss";
 
 interface Props {
   categories: Category[];
+  className?: string;
 }
 
 interface AutocompleteOptionProps extends HTMLAttributes<HTMLLIElement> {
   key: Key;
 }
 
-export const SearchInput: FC<Props> = ({ categories }) => {
+export const SearchInput: FC<Props> = ({ categories, className }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -108,7 +109,7 @@ export const SearchInput: FC<Props> = ({ categories }) => {
   return (
     <>
       <div className={cn(s.bg, !open && s.hidden)} />
-      <div ref={ref} className={s.root}>
+      <div ref={ref} className={cn(s.root, className)}>
         {error ? (
           <p className={s.error}>Ошибка загрузки списка продуктов</p>
         ) : (
