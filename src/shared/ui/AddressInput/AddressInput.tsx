@@ -24,7 +24,7 @@ export const AddressInput: FC<Props> = ({
   return (
     <div className={s.root}>
       <AddressSuggestions
-        token={process.env.NEXT_PUBLIC_DADATA_TOKEN ?? ""}
+        token={process.env.DADATA_TOKEN ?? ""}
         onChange={(data) => onInputChange(data?.value ?? "")}
         delay={200}
         count={5}

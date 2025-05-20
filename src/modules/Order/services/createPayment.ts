@@ -23,8 +23,8 @@ export const createPayment = async (details: Props) => {
   const { data } = await axios.post<PaymentResponseData>(
     "https://api.crystalpay.io/v3/invoice/create/",
     {
-      auth_login: process.env.NEXT_PUBLIC_PAY_LOGIN,
-      auth_secret: process.env.NEXT_PUBLIC_PAY_API_KEY,
+      auth_login: process.env.PAY_LOGIN,
+      auth_secret: process.env.PAY_API_KEY,
       amount: details.amount,
       type: "purchase",
       lifetime: OrderConfig.LIFETIME,
