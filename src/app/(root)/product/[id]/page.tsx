@@ -1,11 +1,10 @@
-import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { getProductData } from "@/modules/ProductPage/services/getProductData";
 import { ProductProperties } from "@/modules/ProductPage/ui/ProductProperties";
+import { Breadcrumbs } from "@/shared/ui/Breadcrumbs";
 
 import s from "./page.module.scss";
 
@@ -59,10 +58,7 @@ export default async function ProductPage({
 
   return (
     <div className={s.root}>
-      <Breadcrumbs aria-label="breadcrumb" className={s.breadcrumb}>
-        <Link href="/">Главная</Link>
-        <span aria-current="page">{name}</span>
-      </Breadcrumbs>
+      <Breadcrumbs name={name} pageWrap />
       <div className={s.wrap}>
         <div className={s.left}>
           <Image

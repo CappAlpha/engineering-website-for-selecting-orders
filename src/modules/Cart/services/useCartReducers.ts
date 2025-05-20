@@ -76,7 +76,7 @@ export const useCartReducers = () => {
    */
   const addToCart = async (e: MouseEvent, productId: string): Promise<void> => {
     e.preventDefault();
-    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
 
     await toast.promise(
       dispatch(addCartItem({ values: { productId } })).unwrap(),

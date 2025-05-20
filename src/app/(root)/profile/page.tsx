@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 
 import { getUserSession } from "@/modules/Auth/services/getUserSession";
 import { ProfileForm } from "@/modules/Auth/ui/ProfileForm";
+import { Breadcrumbs } from "@/shared/ui/Breadcrumbs";
 
 import { prisma } from "../../../../prisma/prisma-client";
 
@@ -26,6 +27,7 @@ export default async function PagePage() {
 
   return (
     <div className={s.wrap}>
+      <Breadcrumbs name="Профиль" />
       <ProfileForm data={user} />
     </div>
   );

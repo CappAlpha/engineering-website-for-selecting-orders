@@ -1,0 +1,22 @@
+.root {
+  margin: 0 auto 20px !important;
+  color: var(--gray) !important;
+
+  a {
+    transition: 0.3s;
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--white) !important;
+      }
+    }
+  }
+
+  span {
+    color: var(--white) !important;
+  }
+}
+
+.wrap{
+  @include wrap;
+}
