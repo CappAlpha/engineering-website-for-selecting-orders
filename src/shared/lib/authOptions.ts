@@ -1,8 +1,8 @@
-import { UserRole } from "@prisma/client";
 import { compare, hashSync } from "bcrypt";
-import { type Profile, type AuthOptions } from "next-auth";
+import { randomUUID } from "crypto";
+import { type AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
+import GoogleProvider from "next-auth/providers/google";
 
 import { prisma } from "../../../prisma/prisma-client";
 
@@ -11,14 +11,6 @@ export const authOptions: AuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-      profile(profile: Profile & GoogleProfile) {
-        return {
-          id: profile.id,
-          name: profile.name,
-          email: profile.email,
-          role: UserRole.USER,
-        };
-      },
     }),
     CredentialsProvider({
       name: "Credentials",
@@ -47,10 +39,10 @@ export const authOptions: AuthOptions = {
         if (!findUser) {
           return null;
         }
-        // TODO: add email verification
-        // if (!findUser.verified) {
-        //   return null;
-        // }
+
+        if (!findUser.verified) {
+          return null;
+        }
 
         const isPasswordValid = await compare(
           credentials.password,
@@ -115,12 +107,11 @@ export const authOptions: AuthOptions = {
 
         await prisma.user.create({
           data: {
-            id: crypto.randomUUID(),
+            id: randomUUID(),
             fullName: user.name ?? "User #" + user.id,
             email: user.email,
             // TODO: do we need to better encrypt?
             password: hashSync(user.name + user.id, 10),
-            // TODO: add email verification
             verified: new Date(),
             provider: account?.provider,
             providerId: account?.providerAccountId,
