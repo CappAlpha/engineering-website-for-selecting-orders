@@ -53,12 +53,13 @@ export const Filters: FC = () => {
 
   return (
     <div className={s.root} aria-label="Фильтр продуктов">
-      <h2 className={s.subtitle}>Фильтрация</h2>
+      <h3 className={s.subtitle}>Фильтрация</h3>
 
       <div className={s.priceCategory}>
         <p className={s.categoryTitle}>Цена от и до:</p>
         <div className={s.priceInputs}>
           <Input
+            type="number"
             value={priceFrom ?? PRICE_CONFIG.MIN_PRICE}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               handlePriceChange(e, "priceFrom")
@@ -66,7 +67,7 @@ export const Filters: FC = () => {
             aria-label="Минимальная цена ввод клавиатурой"
           />
           <Input
-            id="right-input-price"
+            type="number"
             value={priceTo ?? PRICE_CONFIG.MAX_PRICE}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               handlePriceChange(e, "priceTo")
@@ -74,18 +75,20 @@ export const Filters: FC = () => {
             aria-label="Максимальная цена ввод клавиатурой"
           />
         </div>
-        <Slider
-          min={PRICE_CONFIG.MIN_PRICE}
-          max={PRICE_CONFIG.MAX_PRICE}
-          step={PRICE_CONFIG.SLIDER_STEP}
-          minGap={PRICE_CONFIG.SLIDER_GAP}
-          value={[
-            priceFrom ?? PRICE_CONFIG.MIN_PRICE,
-            priceTo ?? PRICE_CONFIG.MAX_PRICE,
-          ]}
-          onValueChange={handleSliderChange}
-          aria-label="Диапазон цен можно двигать два ползунка влево или вправо"
-        />
+        <div className={s.sliderWrap}>
+          <Slider
+            min={PRICE_CONFIG.MIN_PRICE}
+            max={PRICE_CONFIG.MAX_PRICE}
+            step={PRICE_CONFIG.SLIDER_STEP}
+            minGap={PRICE_CONFIG.SLIDER_GAP}
+            value={[
+              priceFrom ?? PRICE_CONFIG.MIN_PRICE,
+              priceTo ?? PRICE_CONFIG.MAX_PRICE,
+            ]}
+            onValueChange={handleSliderChange}
+            aria-label="Диапазон цен можно двигать два ползунка влево или вправо"
+          />
+        </div>
       </div>
 
       <FilterTags

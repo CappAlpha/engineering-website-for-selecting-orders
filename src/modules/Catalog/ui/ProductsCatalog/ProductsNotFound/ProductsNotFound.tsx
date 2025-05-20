@@ -5,9 +5,9 @@ import { type FC } from "react";
 import { useResetFilters } from "@/modules/Catalog/services/useResetFilters";
 import { Button } from "@/shared/ui/Button";
 
-import s from "./ProductNotFound.module.scss";
+import s from "./ProductsNotFound.module.scss";
 
-export const ProductNotFound: FC = () => {
+export const ProductsNotFound: FC = () => {
   const { resetFilters } = useResetFilters();
 
   return (

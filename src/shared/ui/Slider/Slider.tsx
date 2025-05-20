@@ -95,9 +95,7 @@ export const Slider: FC<Props> = ({
       onChange={handleValueChange}
       marks={marks}
       sx={{
-        margin: "10px 0",
         "& .MuiSlider-markLabel": {
-          top: "30px",
           color: "white",
         },
       }}

@@ -2,7 +2,7 @@ import { Category, Product } from "@prisma/client";
 import { type FC } from "react";
 
 import { ProductsGroupList } from "../ProductsGroupList";
-import { ProductNotFound } from "./ProductNotFound";
+import { ProductsNotFound } from "./ProductsNotFound";
 
 import s from "./ProductsCatalog.module.scss";
 
@@ -27,7 +27,7 @@ export const ProductsCatalog: FC<Props> = ({ categories }) => {
           />
         ))
       ) : (
-        <ProductNotFound />
+        <ProductsNotFound />
       )}
     </div>
   );

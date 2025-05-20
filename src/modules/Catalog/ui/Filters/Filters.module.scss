@@ -4,7 +4,10 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  padding: 30px;
+  background: var(--black);
+  outline: 1px solid var(--dark-blue);
+  border-radius: 25px;
 }
 
 .subtitle {
@@ -12,7 +15,15 @@
 
   & {
     margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--dark-blue);
   }
+}
+
+.priceCategory {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--dark-blue);
 }
 
 .categoryTitle {
@@ -25,4 +36,5 @@
 .priceInputs {
   display: flex;
   gap: 12px;
+  margin-bottom: 20px;
 }
