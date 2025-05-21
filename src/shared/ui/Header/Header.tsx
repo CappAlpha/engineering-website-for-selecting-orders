@@ -27,7 +27,7 @@ export const Header: FC<Props> = async ({
     <HeaderScroll isCatalogPage={isCatalogPage}>
       <header className={s.root}>
         <div className={s.wrap}>
-          <Link className={s.left} href={"/"}>
+          <Link className={s.left} href="/">
             <Settings className={s.engIcon} />
             <h2 className={s.title}>Engineer</h2>
           </Link>

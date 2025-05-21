@@ -100,7 +100,7 @@ export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
             </Button>
           ) : (
             <Button
-              href={`${PageConfig.CHECKOUT}`}
+              href={PageConfig.CHECKOUT}
               className={s.orderBtn}
               size="l"
               loading={isProcessing}
