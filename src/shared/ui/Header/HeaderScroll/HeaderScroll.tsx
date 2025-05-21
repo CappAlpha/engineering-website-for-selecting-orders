@@ -26,6 +26,9 @@ export const HeaderScroll: FC<Props> = ({ children, isCatalogPage }) => {
       }
     };
 
+    // Check scroll position immediately on component mount
+    handleScroll();
+
     window.addEventListener("scroll", handleScroll);
 
     return () => {
@@ -33,9 +36,7 @@ export const HeaderScroll: FC<Props> = ({ children, isCatalogPage }) => {
     };
   }, [isCatalogPage]);
 
-  return (
-    <div className={cn(isCatalogPage && isScrolled && s.scrolled)}>
-      {children}
-    </div>
-  );
+  const className = cn(isCatalogPage && isScrolled && s.scrolled);
+
+  return <div className={className}>{children}</div>;
 };
