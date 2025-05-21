@@ -8,7 +8,7 @@ import { prisma } from "../../../../prisma/prisma-client";
 
 import s from "./page.module.scss";
 
-export default async function PagePage() {
+export default async function ProfilePage() {
   const session = await getUserSession();
 
   if (!session) {

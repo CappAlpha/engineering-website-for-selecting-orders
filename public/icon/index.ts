@@ -14,3 +14,4 @@ export { default as Phone } from "./icons/phone.svg";
 export { default as Login } from "./icons/login.svg";
 export { default as Unauthorized } from "./icons/unauthorized.svg";
 export { default as Registration } from "./icons/registration.svg";
+export { default as NotFound } from './icons/not-found.svg'
