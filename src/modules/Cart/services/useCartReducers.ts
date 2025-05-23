@@ -91,7 +91,6 @@ export const useCartReducers = () => {
 
   /**
    * Remove items from cart
-   * @param id - cart id
    * @returns {Promise<void>}
    */
   const handleRemoveAll = async (): Promise<void> => {
