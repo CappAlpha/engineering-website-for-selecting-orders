@@ -5,7 +5,7 @@ import { type FC } from "react";
 
 import s from "./Breadcrumbs.module.scss";
 
-export interface Props {
+interface Props {
   name: string;
   pageWrap?: boolean;
 }

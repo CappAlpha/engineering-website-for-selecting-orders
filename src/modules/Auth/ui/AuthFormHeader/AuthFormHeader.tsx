@@ -2,7 +2,7 @@ import { ReactNode, type FC } from "react";
 
 import s from "./AuthFormHeader.module.scss";
 
-export interface Props {
+interface Props {
   title: string;
   description?: string;
   icon: ReactNode;
