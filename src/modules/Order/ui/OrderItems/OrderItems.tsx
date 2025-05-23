@@ -55,7 +55,9 @@ export const OrderItems: FC = () => {
       getUserInfo(setError, form);
     }
 
-    if (error) console.error("[ORDER_ITEMS] Get user error", error);
+    if (error) {
+      console.error("[ORDER_ITEMS] Get user error", error);
+    }
   }, [session, error, form, setError]);
 
   const onSubmit = async (data: CheckoutFormValues) => {

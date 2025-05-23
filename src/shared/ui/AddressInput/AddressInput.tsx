@@ -28,7 +28,7 @@ export const AddressInput: FC<Props> = ({
         onChange={(data) => onInputChange(data?.value ?? "")}
         delay={200}
         count={5}
-        inputProps={{ id, ...inputProps, label }}
+        inputProps={{ id, label, ...inputProps }}
         customInput={Input}
         uid={id}
       />

@@ -22,6 +22,8 @@ export const GET = async () => {
       select: {
         fullName: true,
         email: true,
+        phone: true,
+        address: true,
       },
     });
 

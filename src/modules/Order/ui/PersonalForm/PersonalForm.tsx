@@ -27,6 +27,7 @@ export const PersonalForm: FC = () => {
         name="email"
         label="E-Mail"
         placeholder="user@mail.ru"
+        type="email"
         required
         inputMode="email"
       />
@@ -34,6 +35,7 @@ export const PersonalForm: FC = () => {
         name="phone"
         label="Телефон"
         placeholder="+7(999)999-99-99"
+        type="tel"
         required
         inputMode="tel"
       />

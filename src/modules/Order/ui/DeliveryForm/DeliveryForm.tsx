@@ -24,6 +24,7 @@ export const DeliveryForm: FC = () => {
             placeholder="Москва, ул. Мира 12"
             inputMode="text"
             errorText={fieldState.error?.message}
+            {...field}
           />
         )}
       />

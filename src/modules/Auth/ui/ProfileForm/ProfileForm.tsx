@@ -5,10 +5,11 @@ import { User } from "@prisma/client";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { type FC } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 import { updateUserInfo } from "@/app/actions";
+import { AddressInput } from "@/shared/ui/AddressInput";
 import { Button } from "@/shared/ui/Button";
 import { FormInput } from "@/shared/ui/FormInput";
 
@@ -33,6 +34,8 @@ export const ProfileForm: FC<Props> = ({ data }) => {
       email: data.email,
       password: "",
       confirmPassword: "",
+      phone: data.phone ?? "",
+      address: data.address ?? "",
     },
   });
 
@@ -42,6 +45,8 @@ export const ProfileForm: FC<Props> = ({ data }) => {
         email: data.email,
         fullName: data.fullName,
         password: data.password,
+        phone: data.phone,
+        address: data.address,
       });
 
       toast.success("Вы успешно изменили данные", {
@@ -77,24 +82,52 @@ export const ProfileForm: FC<Props> = ({ data }) => {
           className={s.form}
           noValidate
         >
-          <FormInput name="fullName" label="Полное имя" type="text" />
+          <FormInput
+            name="fullName"
+            label="Полное имя"
+            type="text"
+            inputMode="text"
+          />
           <FormInput
             name="email"
             label="E-Mail"
             type="email"
             autoComplete="new-email"
+            inputMode="email"
           />
           <FormInput
             name="password"
             label="Новый пароль"
             type="password"
             autoComplete="new-password"
+            inputMode="text"
           />
           <FormInput
             name="confirmPassword"
             label="Повторите пароль"
             type="password"
             autoComplete="new-password"
+            inputMode="text"
+          />
+          <FormInput
+            name="phone"
+            label="Телефон"
+            placeholder="+7(999)999-99-99"
+            inputMode="tel"
+          />
+          <Controller
+            control={form.control}
+            name="address"
+            render={({ field, fieldState }) => (
+              <AddressInput
+                onInputChange={field.onChange}
+                label="Введите адрес"
+                placeholder="Москва, ул. Мира 12"
+                inputMode="text"
+                errorText={fieldState.error?.message}
+                {...field}
+              />
+            )}
           />
 
           <div className={s.btns}>

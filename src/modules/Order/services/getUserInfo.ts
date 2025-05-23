@@ -20,6 +20,12 @@ export const getUserInfo = async (
     form.setValue("firstName", firstName);
     form.setValue("lastName", lastName);
     form.setValue("email", response.email);
+    if (response?.phone) {
+      form.setValue("phone", response.phone);
+    }
+    if (response?.address) {
+      form.setValue("address", response.address);
+    }
   } catch (err: unknown) {
     if (
       err instanceof Error &&

@@ -16,6 +16,13 @@ export const formChangeUserSchema = z
     email: z.string().email({ message: "Введите корректную почту" }).optional(),
     password: passwordSchema,
     confirmPassword: passwordSchema,
+    phone: z
+      .string()
+      .optional()
+      .refine((val) => !val || val.length >= 11, {
+        message: "Введите корректный номер телефона",
+      }),
+    address: z.string().optional(),
   })
   .refine(
     (data) =>

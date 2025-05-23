@@ -117,7 +117,6 @@ export const createOrder = async (data: CheckoutFormValues) => {
 export const updateUserInfo = async (data: Prisma.UserUpdateInput) => {
   try {
     const currentUser = await getUserSession();
-
     if (!currentUser) {
       throw new Error("User not found");
     }
@@ -132,6 +131,8 @@ export const updateUserInfo = async (data: Prisma.UserUpdateInput) => {
         password: data.password
           ? hashSync(data.password as string, 10)
           : currentUser.password,
+        phone: data.phone,
+        address: data.address,
       },
     });
   } catch (err) {
