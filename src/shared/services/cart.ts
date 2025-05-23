@@ -22,6 +22,10 @@ export const removeCartItem = async (id: number): Promise<CartDTO> => {
   return (await axiosInstance.delete<CartDTO>(PageConfig.CART + id)).data;
 };
 
+export const removeCartItems = async (): Promise<CartDTO> => {
+  return (await axiosInstance.delete<CartDTO>(PageConfig.CART)).data;
+};
+
 export const addCartItem = async (
   values: CreateCartItemValues,
 ): Promise<CartDTO> => {

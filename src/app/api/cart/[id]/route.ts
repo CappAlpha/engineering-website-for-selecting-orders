@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { updateCartTotalAmount } from "@/modules/Cart/services/updateCartTotalAmount";
-import { validateCartItemRequest } from "@/modules/Cart/services/validateCartItemRequest";
+import { validateCartRequest } from "@/modules/Cart/services/validateCartRequest";
 
 import { prisma } from "../../../../../prisma/prisma-client";
 
@@ -10,7 +10,7 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const response = await validateCartItemRequest(req, params, true);
+    const response = await validateCartRequest(req, params, true);
     if (response instanceof NextResponse) return response;
 
     const { token, id, quantity } = response;
@@ -40,7 +40,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const response = await validateCartItemRequest(req, params);
+    const response = await validateCartRequest(req, params);
     if (response instanceof NextResponse) return response;
 
     const { token, id } = response;

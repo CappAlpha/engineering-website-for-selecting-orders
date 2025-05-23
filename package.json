@@ -12,8 +12,8 @@
     "knip": "knip",
     "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio",
-    "prisma:seed": "prisma db seed",
     "prisma:migrate": "npx prisma migrate dev --name init",
+    "prisma:seed": "prisma db seed",
     "postinstall": "prisma generate",
     "postbuild": "next-sitemap"
   },

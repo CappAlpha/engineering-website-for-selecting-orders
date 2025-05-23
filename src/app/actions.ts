@@ -10,6 +10,8 @@ import { getUserSession } from "@/modules/Auth/services/getUserSession";
 import { EmailVerification } from "@/modules/Auth/ui/EmailVerification";
 import { CART_TOKEN_NAME } from "@/modules/Cart/constants/cart";
 import { CartItemDTO } from "@/modules/Cart/entities/cart";
+import { cartClear } from "@/modules/Cart/services/cartClear";
+import { findCartWithProducts } from "@/modules/Cart/services/findCartWithProducts";
 import { CheckoutFormValues } from "@/modules/Order/schemas/checkoutFormSchema";
 import { createPayment } from "@/modules/Order/services/createPayment";
 import { sendEmail } from "@/modules/Order/services/sendEmail";
@@ -33,19 +35,7 @@ export const createOrder = async (data: CheckoutFormValues) => {
     }
 
     // Find cart
-    const userCart = await prisma.cart.findFirst({
-      where: {
-        token: cartToken,
-      },
-      include: {
-        user: true,
-        items: {
-          include: {
-            product: true,
-          },
-        },
-      },
-    });
+    const userCart = await findCartWithProducts(cartToken);
     if (!userCart) {
       throw new Error("Cart not found");
     }
@@ -68,20 +58,7 @@ export const createOrder = async (data: CheckoutFormValues) => {
       },
     });
 
-    // Clear cart
-    await prisma.cart.update({
-      where: {
-        id: userCart.id,
-      },
-      data: {
-        totalAmount: 0,
-      },
-    });
-    await prisma.cartItem.deleteMany({
-      where: {
-        cartId: userCart.id,
-      },
-    });
+    await cartClear(userCart);
 
     // Get data from payment
     const paymentData = await createPayment({

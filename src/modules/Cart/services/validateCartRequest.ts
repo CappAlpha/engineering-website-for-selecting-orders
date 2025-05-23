@@ -1,11 +1,11 @@
-import { CartItem } from "@prisma/client";
+import { Cart, CartItem } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 import { CART_TOKEN_NAME } from "@/modules/Cart/constants/cart";
 
 import { prisma } from "../../../../prisma/prisma-client";
 
-export const validateCartItemRequest = async (
+export const validateCartRequest = async (
   req: NextRequest,
   params: Promise<{ id: string }>,
   needQuantity?: boolean,
@@ -15,6 +15,7 @@ export const validateCartItemRequest = async (
       id: number;
       quantity: number | undefined;
       cartItem: CartItem;
+      cart: Cart;
     }
   | NextResponse<{ error: string }>
 > => {
@@ -26,6 +27,15 @@ export const validateCartItemRequest = async (
   const id = Number((await params).id);
   if (isNaN(id)) {
     return NextResponse.json({ error: "Invalid item ID" }, { status: 400 });
+  }
+
+  const cart = await prisma.cart.findFirst({
+    where: {
+      token,
+    },
+  });
+  if (!cart) {
+    return NextResponse.json({ error: "Cart not found" }, { status: 404 });
   }
 
   const cartItem = await prisma.cartItem.findUnique({
@@ -45,5 +55,5 @@ export const validateCartItemRequest = async (
     quantity = quantityData;
   }
 
-  return { token, id, quantity, cartItem };
+  return { token, id, quantity, cart, cartItem };
 };

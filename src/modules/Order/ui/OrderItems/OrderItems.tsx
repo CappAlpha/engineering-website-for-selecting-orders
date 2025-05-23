@@ -16,7 +16,6 @@ import { ProductCardLine } from "@/modules/Cart/ui/ProductCardLine";
 import { ProductCardLineSkeleton } from "@/modules/Cart/ui/ProductCardLine/ProductCardLineSkeleton";
 import { getUserInfo } from "@/modules/Order/services/getUserInfo";
 import { useAppSelector } from "@/shared/hook/useAppSelector";
-import { noop } from "@/shared/lib/noop";
 import { Button } from "@/shared/ui/Button";
 
 import {
@@ -34,7 +33,8 @@ export const OrderItems: FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const cartItems = useAppSelector(selectAllCartItems);
   const cartLoading = useAppSelector(selectCartLoading);
-  const { fetchCart, handleQuantityChange, handleRemove } = useCartReducers();
+  const { fetchCart, handleQuantityChange, handleRemove, handleRemoveAll } =
+    useCartReducers();
   const { data: session } = useSession();
   const [error, setError] = useState(false);
 
@@ -104,7 +104,7 @@ export const OrderItems: FC = () => {
             title="1. Корзина"
             isCartEmpty={!isEmpty}
             loading={isCartFetching}
-            handleClearAll={noop}
+            handleClearCart={handleRemoveAll}
           >
             {isCartFetching ? (
               Array.from({

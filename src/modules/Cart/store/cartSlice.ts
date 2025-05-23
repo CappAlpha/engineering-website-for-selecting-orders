@@ -22,6 +22,7 @@ interface CartLoadingState {
   update: Record<number, boolean>;
   add: Record<string, boolean>;
   remove: Record<number, boolean>;
+  removeAll: boolean;
 }
 
 interface CartErrorState {
@@ -29,6 +30,7 @@ interface CartErrorState {
   update: string | null;
   add: string | null;
   remove: string | null;
+  removeAll: string | null;
 }
 
 interface CartState {
@@ -44,12 +46,14 @@ const initialState = cartAdapter.getInitialState<CartState>({
     update: {},
     add: {},
     remove: {},
+    removeAll: false,
   },
   error: {
     fetch: null,
     update: null,
     add: null,
     remove: null,
+    removeAll: null,
   },
   totalAmount: 0,
 });
@@ -92,6 +96,14 @@ export const removeCartItem = createAsyncThunk(
   },
 );
 
+export const removeCartItems = createAsyncThunk(
+  "cart/removeCartItems",
+  async (): Promise<CartReturnProps> => {
+    const response = await Api.cart.removeCartItems();
+    return getCartDetails(response);
+  },
+);
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -102,6 +114,7 @@ const cartSlice = createSlice({
         update: null,
         add: null,
         remove: null,
+        removeAll: null,
       };
     },
   },
@@ -118,7 +131,7 @@ const cartSlice = createSlice({
         state.loading.fetch = false;
       })
       .addCase(fetchCartItems.rejected, (state, action) => {
-        state.error.fetch = action.error?.message ?? "Ошибка получения товаров";
+        state.error.fetch = action.error?.message ?? "Failed to get products";
         state.loading.fetch = false;
       });
 
@@ -177,6 +190,23 @@ const cartSlice = createSlice({
         const { id } = action.meta.arg;
         state.error.remove = action.error?.message ?? "Failed to remove item";
         delete state.loading.remove[id];
+      });
+
+    // Remove items
+    builder
+      .addCase(removeCartItems.pending, (state) => {
+        state.loading.removeAll = true;
+        state.error.removeAll = null;
+      })
+      .addCase(removeCartItems.fulfilled, (state, action) => {
+        cartAdapter.removeAll(state);
+        state.totalAmount = action.payload.totalAmount;
+        state.loading.removeAll = false;
+      })
+      .addCase(removeCartItems.rejected, (state, action) => {
+        state.error.removeAll =
+          action.error?.message ?? "Failed to remove cart items";
+        state.loading.removeAll = false;
       });
   },
 });

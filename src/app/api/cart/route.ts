@@ -8,6 +8,7 @@ import {
 import { CreateCartItemValues } from "@/modules/Cart/entities/cart";
 import { findOrCreateCart } from "@/modules/Cart/services/findOrCreateCart";
 import { updateCartTotalAmount } from "@/modules/Cart/services/updateCartTotalAmount";
+import { validateCartRequest } from "@/modules/Cart/services/validateCartRequest";
 
 import { prisma } from "../../../../prisma/prisma-client";
 
@@ -105,5 +106,36 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error("[CART_POST] API error:", error);
     return NextResponse.json({ error: "Failed to make cart" }, { status: 500 });
+  }
+}
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  try {
+    const response = await validateCartRequest(req, params);
+    if (response instanceof NextResponse) return response;
+
+    const { token, id } = response;
+
+    const result = await prisma.$transaction(async (tx) => {
+      await tx.cart.deleteMany({
+        where: {
+          id,
+        },
+      });
+
+      return await updateCartTotalAmount(token, tx);
+    });
+    if (result instanceof NextResponse) return result;
+
+    return NextResponse.json(result);
+  } catch (error) {
+    console.error("[CART_DELETE] API error:", error);
+    return NextResponse.json(
+      { error: "Failed to delete cart" },
+      { status: 500 },
+    );
   }
 }

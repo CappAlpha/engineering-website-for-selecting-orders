@@ -13,6 +13,7 @@ import {
   addCartItem,
   fetchCartItems,
   removeCartItem,
+  removeCartItems,
   updateItemQuantity,
 } from "../store/cartSlice.ts";
 
@@ -56,19 +57,6 @@ export const useCartReducers = () => {
   };
 
   /**
-   * Remove item from cart
-   * @param id - item id
-   * @returns {Promise<void>}
-   */
-  const handleRemove = async (id: number): Promise<void> => {
-    await toast.promise(dispatch(removeCartItem({ id })).unwrap(), {
-      loading: "Удаляем...",
-      success: "Товар удалён из корзины!",
-      error: (err: Error) => err.message || "Ошибка удаления товара",
-    });
-  };
-
-  /**
    * Add item to cart
    * @param e - mouse event
    * @param productId - product id
@@ -88,10 +76,37 @@ export const useCartReducers = () => {
     );
   };
 
+  /**
+   * Remove item from cart
+   * @param id - item id
+   * @returns {Promise<void>}
+   */
+  const handleRemove = async (id: number): Promise<void> => {
+    await toast.promise(dispatch(removeCartItem({ id })).unwrap(), {
+      loading: "Удаляем...",
+      success: "Товар удалён из корзины!",
+      error: (err: Error) => err.message || "Ошибка удаления товара",
+    });
+  };
+
+  /**
+   * Remove items from cart
+   * @param id - cart id
+   * @returns {Promise<void>}
+   */
+  const handleRemoveAll = async (): Promise<void> => {
+    await toast.promise(dispatch(removeCartItems()).unwrap(), {
+      loading: "Удаляем...",
+      success: "Корзина очищена!",
+      error: (err: Error) => err.message || "Ошибка очистки корзины",
+    });
+  };
+
   return {
     fetchCart,
     handleQuantityChange,
-    handleRemove,
     addToCart,
+    handleRemove,
+    handleRemoveAll,
   };
 };

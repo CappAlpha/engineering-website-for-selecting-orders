@@ -13,7 +13,7 @@ interface Props {
   loading?: boolean;
   disabled?: boolean;
   isCartEmpty?: boolean;
-  handleClearAll?: VoidFunction;
+  handleClearCart?: VoidFunction;
 }
 
 export const OrderItem: FC<Props> = ({
@@ -22,7 +22,7 @@ export const OrderItem: FC<Props> = ({
   loading = false,
   disabled = false,
   isCartEmpty = false,
-  handleClearAll,
+  handleClearCart,
 }) => {
   return (
     <section className={cn(s.root, disabled && s.disabled)}>
@@ -30,7 +30,7 @@ export const OrderItem: FC<Props> = ({
         <h2 className={s.title}>{title}</h2>
         {isCartEmpty && (
           <Button
-            onClick={handleClearAll}
+            onClick={handleClearCart}
             color="transparent"
             className={s.btn}
             loading={loading}

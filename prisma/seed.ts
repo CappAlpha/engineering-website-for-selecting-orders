@@ -10,7 +10,6 @@ const randomNumber = (min: number, max: number) => {
 const generatePrice = () => randomNumber(500, 30000);
 
 // TODO: временно добавлено так
-const userId = randomUUID();
 const adminId = randomUUID();
 const productIdTest = randomUUID();
 
@@ -18,13 +17,6 @@ const productIdTest = randomUUID();
 async function up() {
   await prisma.user.createMany({
     data: [
-      {
-        id: userId,
-        fullName: "User",
-        email: "user@test.ru",
-        password: hashSync("user123", 10),
-        role: "USER",
-      },
       {
         id: adminId,
         fullName: "Admin",
