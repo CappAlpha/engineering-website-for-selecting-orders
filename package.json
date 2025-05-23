@@ -79,6 +79,6 @@
     "ts-node": "^10.9.2",
     "typescript": "^5",
     "webpack-bundle-analyzer": "^4.10.2",
-    "zod": "^3.25.23"
+    "zod": "^3.25.24"
   }
 }
