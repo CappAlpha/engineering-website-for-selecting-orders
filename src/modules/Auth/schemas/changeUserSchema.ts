@@ -19,7 +19,7 @@ export const formChangeUserSchema = z
     phone: z
       .string()
       .optional()
-      .refine((val) => !val || val.length >= 11, {
+      .refine((val) => !val || val.length >= 18, {
         message: "Введите корректный номер телефона",
       }),
     address: z.string().optional(),

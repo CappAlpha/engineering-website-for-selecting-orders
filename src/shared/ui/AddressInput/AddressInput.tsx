@@ -8,13 +8,11 @@ import { Input } from "../Input";
 import s from "./AddressInput.module.scss";
 
 interface Props extends HTMLProps<HTMLInputElement> {
-  label?: string;
   errorText?: string;
   onInputChange: (value?: string) => void;
 }
 
 export const AddressInput: FC<Props> = ({
-  label,
   errorText,
   onInputChange,
   ...inputProps
@@ -28,9 +26,9 @@ export const AddressInput: FC<Props> = ({
         onChange={(data) => onInputChange(data?.value ?? "")}
         delay={200}
         count={5}
-        inputProps={{ id, label, ...inputProps }}
         customInput={Input}
         uid={id}
+        inputProps={{ ...inputProps }}
       />
 
       {errorText && <p className={s.error}>{errorText}</p>}

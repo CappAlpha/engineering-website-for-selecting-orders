@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
+import { useMask } from "@react-input/mask";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { type FC } from "react";
@@ -26,6 +27,10 @@ interface Props {
 
 export const ProfileForm: FC<Props> = ({ data }) => {
   const route = useRouter();
+  const inputRef = useMask({
+    mask: "+7 (___) ___-__-__",
+    replacement: { _: /\d/ },
+  });
 
   const form = useForm<TFormChangeUserValues>({
     resolver: zodResolver(formChangeUserSchema),
@@ -110,10 +115,13 @@ export const ProfileForm: FC<Props> = ({ data }) => {
             inputMode="text"
           />
           <FormInput
+            inputRef={inputRef}
             name="phone"
             label="Телефон"
-            placeholder="+7(999)999-99-99"
+            placeholder="+7 (999) 999-99-99"
+            type="tel"
             inputMode="tel"
+            autoComplete="tel"
           />
           <Controller
             control={form.control}
