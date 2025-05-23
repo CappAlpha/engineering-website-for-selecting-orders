@@ -10,8 +10,7 @@ import { FormInput } from "../../../../shared/ui/FormInput";
 import s from "./DeliveryForm.module.scss";
 
 export const DeliveryForm: FC = () => {
-  const { control, watch } = useFormContext();
-  const addressValue = watch("address");
+  const { control } = useFormContext();
 
   return (
     <div className={s.root}>
@@ -26,7 +25,6 @@ export const DeliveryForm: FC = () => {
             inputMode="text"
             errorText={fieldState.error?.message}
             {...field}
-            value={addressValue}
           />
         )}
       />

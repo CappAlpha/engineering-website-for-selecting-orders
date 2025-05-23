@@ -20,17 +20,17 @@ export const AddressInput: FC<Props> = ({
 }) => {
   const id = useId();
 
+  console.log(value);
   return (
     <div className={s.root}>
       <AddressSuggestions
-        key={id + value}
         token={process.env.NEXT_PUBLIC_DADATA_TOKEN ?? ""}
         onChange={(data) => onInputChange(data?.value ?? "")}
         delay={200}
         count={5}
         customInput={Input}
         uid={id}
-        defaultQuery={(value as string) ?? ""}
+        defaultQuery={String(value || "")}
         inputProps={{ ...inputProps }}
       />
 
