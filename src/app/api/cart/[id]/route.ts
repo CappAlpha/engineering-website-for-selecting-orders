@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { updateCartTotalAmount } from "@/modules/Cart/services/updateCartTotalAmount";
-import { validateCartRequest } from "@/modules/Cart/services/validateCartRequest";
+import { validateCartItemRequest } from "@/modules/Cart/services/validateCartItemRequest";
 
 import { prisma } from "../../../../../prisma/prisma-client";
 
@@ -10,7 +10,7 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const response = await validateCartRequest(req, params, true);
+    const response = await validateCartItemRequest(req, params, true);
     if (response instanceof NextResponse) return response;
 
     const { token, id, quantity } = response;
@@ -40,7 +40,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const response = await validateCartRequest(req, params);
+    const response = await validateCartItemRequest(req, params);
     if (response instanceof NextResponse) return response;
 
     const { token, id } = response;
@@ -58,7 +58,7 @@ export async function DELETE(
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error("[CART_DELETE] API error:", error);
+    console.error("[CART_DELETE_ITEM] API error:", error);
     return NextResponse.json(
       { error: "Failed to delete cart" },
       { status: 500 },

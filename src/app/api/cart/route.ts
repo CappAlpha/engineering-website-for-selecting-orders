@@ -109,32 +109,30 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
+// In /api/cart/route.ts
+export async function DELETE(req: NextRequest) {
   try {
-    const response = await validateCartRequest(req, params);
+    const response = await validateCartRequest(req);
     if (response instanceof NextResponse) return response;
 
-    const { token, id } = response;
+    const { token, cart } = response;
 
     const result = await prisma.$transaction(async (tx) => {
-      await tx.cart.deleteMany({
+      await tx.cartItem.deleteMany({
         where: {
-          id,
+          cartId: cart.id,
         },
       });
 
       return await updateCartTotalAmount(token, tx);
     });
-    if (result instanceof NextResponse) return result;
 
+    if (result instanceof NextResponse) return result;
     return NextResponse.json(result);
   } catch (error) {
-    console.error("[CART_DELETE] API error:", error);
+    console.error("[CART_DELETE_ALL_ITEMS] API error:", error);
     return NextResponse.json(
-      { error: "Failed to delete cart" },
+      { error: "Failed to delete all cart items" },
       { status: 500 },
     );
   }

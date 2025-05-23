@@ -71,7 +71,7 @@ export const useCartReducers = () => {
       {
         loading: "Добавляем...",
         success: "Товар добавлен в корзину",
-        error: (err: Error) => err.message || "Ошибка удаления товара",
+        error: "Ошибка удаления товара",
       },
     );
   };
@@ -85,7 +85,7 @@ export const useCartReducers = () => {
     await toast.promise(dispatch(removeCartItem({ id })).unwrap(), {
       loading: "Удаляем...",
       success: "Товар удалён из корзины!",
-      error: (err: Error) => err.message || "Ошибка удаления товара",
+      error: "Ошибка удаления товара",
     });
   };
 
@@ -98,7 +98,7 @@ export const useCartReducers = () => {
     await toast.promise(dispatch(removeCartItems()).unwrap(), {
       loading: "Удаляем...",
       success: "Корзина очищена!",
-      error: (err: Error) => err.message || "Ошибка очистки корзины",
+      error: "Ошибка очистки корзины",
     });
   };
 
