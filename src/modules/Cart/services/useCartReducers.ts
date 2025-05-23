@@ -95,7 +95,7 @@ export const useCartReducers = () => {
    */
   const handleRemoveAll = async (): Promise<void> => {
     await toast.promise(dispatch(removeCartItems()).unwrap(), {
-      loading: "Удаляем...",
+      loading: "Очищаем корзину...",
       success: "Корзина очищена!",
       error: "Ошибка очистки корзины",
     });
