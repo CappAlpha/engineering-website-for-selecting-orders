@@ -21,6 +21,7 @@ async function up() {
         id: adminId,
         fullName: "Admin",
         email: "admin@test.ru",
+        verified: new Date(),
         password: hashSync("admin123", 10),
         role: "ADMIN",
       },
