@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 
+import { getUserSession } from "@/modules/Auth/services/getUserSession";
 import {
   CartQuantityLimits,
   CART_TOKEN_NAME,
@@ -18,18 +19,19 @@ export async function GET(req: NextRequest) {
   try {
     // Get cart token from cookies
     const token = req.cookies.get(CART_TOKEN_NAME)?.value;
-    if (!token) {
+
+    // Get user ID if logged in
+    const session = await getUserSession();
+    const userId = session?.id;
+
+    if (!token && !userId) {
       return NextResponse.json(DEFAULT_RESPONSE);
     }
 
-    // Search cart by token if exist
+    // Search cart by token or userId
     const userCart = await prisma.cart.findFirst({
       where: {
-        OR: [
-          {
-            token,
-          },
-        ],
+        OR: [...(token ? [{ token }] : []), ...(userId ? [{ userId }] : [])],
       },
       include: {
         items: {
@@ -58,8 +60,12 @@ export async function POST(req: NextRequest) {
     //Generate token if not exist
     const token = req.cookies.get(CART_TOKEN_NAME)?.value ?? randomUUID();
 
+    // Get user ID if logged in
+    const session = await getUserSession();
+    const userId = session?.id;
+
     // Find or create cart by token
-    const userCart = await findOrCreateCart(token);
+    const userCart = await findOrCreateCart(token, userId);
 
     const data = (await req.json()) as CreateCartItemValues;
 
