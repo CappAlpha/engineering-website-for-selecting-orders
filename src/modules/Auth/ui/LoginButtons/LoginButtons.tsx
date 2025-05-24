@@ -15,11 +15,17 @@ interface Props {
 }
 
 export const LoginButtons: FC<Props> = ({ onClickOpen }) => {
-  const { data: session } = useSession();
+  const { status } = useSession();
+  const isAuthenticated = status === "authenticated";
+  const isLoading = status === "loading";
 
   return (
     <>
-      {!session ? (
+      {isLoading ? (
+        <Button className={s.root} loading>
+          <User className={s.icon} /> Войти
+        </Button>
+      ) : !isAuthenticated ? (
         <Button onClick={onClickOpen} className={s.root}>
           <User className={s.icon} /> Войти
         </Button>

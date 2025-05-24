@@ -35,7 +35,7 @@ export const OrderItems: FC = () => {
   const cartLoading = useAppSelector(selectCartLoading);
   const { fetchCart, handleQuantityChange, handleRemove, handleRemoveAll } =
     useCartReducers();
-  const { data: session } = useSession();
+  const { status } = useSession();
   const [error, setError] = useState(false);
 
   const form = useForm<CheckoutFormValues>({
@@ -51,14 +51,14 @@ export const OrderItems: FC = () => {
   });
 
   useEffect(() => {
-    if (session) {
+    if (status === "authenticated") {
       getUserInfo(setError, form);
     }
 
     if (error) {
       console.error("[ORDER_ITEMS] Get user error", error);
     }
-  }, [session, error, form, setError]);
+  }, [status, error, form, setError]);
 
   const onSubmit = async (data: CheckoutFormValues) => {
     try {
