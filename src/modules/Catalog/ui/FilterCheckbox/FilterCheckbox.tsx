@@ -6,7 +6,7 @@ import FormGroup from "@mui/material/FormGroup";
 import classNames from "classnames";
 import { type ReactNode, type FC } from "react";
 
-import { noop } from "@/shared/lib/noop";
+import { noop } from "@/shared/utils/noop";
 
 import s from "./FilterCheckbox.module.scss";
 

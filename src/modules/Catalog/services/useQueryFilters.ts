@@ -2,7 +2,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import qs from "qs";
 import { useEffect } from "react";
 
-import { useDebouncedCallback } from "@/shared/hook/useDebounce";
+import { useDebouncedCallback } from "@/shared/hooks/useDebounce";
 
 /**
  * useQueryFilters updates the URL with the current filters when they change.

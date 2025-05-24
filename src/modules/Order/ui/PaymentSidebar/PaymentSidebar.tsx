@@ -4,7 +4,7 @@ import cn from "classnames";
 import { type FC } from "react";
 
 import { selectTotalAmount } from "@/modules/Cart/store/cartSelectors";
-import { useAppSelector } from "@/shared/hook/useAppSelector";
+import { useAppSelector } from "@/shared/hooks/useAppSelector";
 import { Button } from "@/shared/ui/Button";
 
 import { Goods, Percentage, Shipping } from "../../../../../public/icon";

@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 
 import { filtersActions } from "@/modules/Catalog/store/filtersSlice";
-import { useAppSelector } from "@/shared/hook/useAppSelector";
+import { useAppSelector } from "@/shared/hooks/useAppSelector";
 
 interface PriceConfig {
   MIN_PRICE: number;

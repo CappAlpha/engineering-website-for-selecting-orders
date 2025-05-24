@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { filtersActions } from "@/modules/Catalog/store/filtersSlice";
-import { useAppSelector } from "@/shared/hook/useAppSelector";
-import { getCachedData } from "@/shared/lib/getCacheData";
+import { useAppSelector } from "@/shared/hooks/useAppSelector";
 import { Api } from "@/shared/services/apiClient";
+import { getCachedData } from "@/shared/utils/getCacheData";
 
 interface ReturnProps {
   tags: string[];

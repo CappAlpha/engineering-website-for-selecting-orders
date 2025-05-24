@@ -10,7 +10,7 @@ import {
 } from "@/modules/Cart/constants/cart";
 import { CartStateItem } from "@/modules/Cart/entities/cart";
 import { CountBtns } from "@/modules/Cart/ui/CountBtns";
-import { useAppSelector } from "@/shared/hook/useAppSelector";
+import { useAppSelector } from "@/shared/hooks/useAppSelector";
 import { Button } from "@/shared/ui/Button";
 
 import { Trash } from "../../../../../public/icon";

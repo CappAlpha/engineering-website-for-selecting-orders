@@ -8,7 +8,7 @@ import { type MouseEvent, type FC } from "react";
 
 import { selectIsItemAdding } from "@/modules/Cart/store/cartSelectors";
 import { PageConfig } from "@/shared/constants/pages";
-import { useAppSelector } from "@/shared/hook/useAppSelector";
+import { useAppSelector } from "@/shared/hooks/useAppSelector";
 import { Button } from "@/shared/ui/Button";
 import { Tags } from "@/shared/ui/Tags";
 

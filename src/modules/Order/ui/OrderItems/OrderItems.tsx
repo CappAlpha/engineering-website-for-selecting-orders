@@ -15,7 +15,7 @@ import {
 import { ProductCardLine } from "@/modules/Cart/ui/ProductCardLine";
 import { ProductCardLineSkeleton } from "@/modules/Cart/ui/ProductCardLine/ProductCardLineSkeleton";
 import { getUserInfo } from "@/modules/Order/services/getUserInfo";
-import { useAppSelector } from "@/shared/hook/useAppSelector";
+import { useAppSelector } from "@/shared/hooks/useAppSelector";
 import { Button } from "@/shared/ui/Button";
 
 import {

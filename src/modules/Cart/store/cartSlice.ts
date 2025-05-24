@@ -8,8 +8,8 @@ import {
   CartStateItem,
   CreateCartItemValues,
 } from "@/modules/Cart/entities/cart";
-import { createErrorMessage } from "@/shared/lib/createErrorMessage";
 import { Api } from "@/shared/services/apiClient";
+import { createErrorMessage } from "@/shared/utils/createErrorMessage";
 import type { RootState } from "@/store/store";
 
 import { CartReturnProps, getCartDetails } from "../services/getCartDetails";

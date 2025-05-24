@@ -3,7 +3,7 @@
 import { Category } from "@prisma/client";
 import { type FC } from "react";
 
-import { useAppSelector } from "@/shared/hook/useAppSelector";
+import { useAppSelector } from "@/shared/hooks/useAppSelector";
 import { Tabs } from "@/shared/ui/Tabs";
 
 import s from "./TopBar.module.scss";

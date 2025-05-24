@@ -1,7 +1,10 @@
+import {
+  GetSearchParamsPage,
+  findProduct,
+} from "@/modules/Catalog/services/findProduct";
 import { Filters } from "@/modules/Catalog/ui/Filters";
 import { ProductsCatalog } from "@/modules/Catalog/ui/ProductsCatalog";
 import { TopBar } from "@/modules/Catalog/ui/TopBar";
-import { GetSearchParamsPage, findProduct } from "@/shared/lib/findProduct";
 
 import s from "./page.module.scss";
 

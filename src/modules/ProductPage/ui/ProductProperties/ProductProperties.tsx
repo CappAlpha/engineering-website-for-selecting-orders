@@ -5,7 +5,7 @@ import { type FC } from "react";
 
 import { useCartReducers } from "@/modules/Cart/services/useCartReducers";
 import { selectIsItemAdding } from "@/modules/Cart/store/cartSelectors";
-import { useAppSelector } from "@/shared/hook/useAppSelector";
+import { useAppSelector } from "@/shared/hooks/useAppSelector";
 import { Button } from "@/shared/ui/Button";
 import { Tags } from "@/shared/ui/Tags";
 

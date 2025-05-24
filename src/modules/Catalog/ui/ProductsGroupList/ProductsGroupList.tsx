@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 
 import { useCartReducers } from "@/modules/Cart/services/useCartReducers";
 import { categoriesActions } from "@/modules/Catalog/store/categoriesSlice";
-import { useIntersectionObserver } from "@/shared/hook/useIntersectionObserver";
+import { useIntersectionObserver } from "@/shared/hooks/useIntersectionObserver";
 import { AppDispatch } from "@/store/store";
 
 import { ProductCard } from "../ProductCard";

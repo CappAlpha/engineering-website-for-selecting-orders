@@ -1,7 +1,7 @@
 import { Product } from "@prisma/client";
 
 import { Api } from "../services/apiClient";
-import { getCachedData } from "./getCacheData";
+import { getCachedData } from "../utils/getCacheData";
 
 const CACHE_KEY = "searchHeaderData";
 const CACHE_DURATION = 4 * 60 * 60 * 1000;

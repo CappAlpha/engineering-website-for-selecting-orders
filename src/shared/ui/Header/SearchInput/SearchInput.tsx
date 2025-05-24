@@ -13,8 +13,8 @@ import Link from "next/link";
 import { HTMLAttributes, Key, useRef, useState, type FC } from "react";
 
 import { PageConfig } from "@/shared/constants/pages";
-import { useDebounce } from "@/shared/hook/useDebounce";
-import { useOutsideClick } from "@/shared/hook/useOutsideHook";
+import { useDebounce } from "@/shared/hooks/useDebounce";
+import { useOutsideClick } from "@/shared/hooks/useOutsideHook";
 import { getSearchProducts } from "@/shared/lib/getSearchProducts";
 
 import s from "./SearchInput.module.scss";

@@ -3,7 +3,7 @@
 import { Slider as SliderMui } from "@mui/material";
 import { useEffect, useState, type FC } from "react";
 
-import { useDebouncedCallback } from "@/shared/hook/useDebounce";
+import { useDebouncedCallback } from "@/shared/hooks/useDebounce";
 
 import s from "./Slider.module.scss";
 

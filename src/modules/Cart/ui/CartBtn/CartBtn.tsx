@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type FC } from "react";
 
-import { useAppSelector } from "@/shared/hook/useAppSelector";
+import { useAppSelector } from "@/shared/hooks/useAppSelector";
 import { Button } from "@/shared/ui/Button";
 
 import { ShoppingCart, Arrow } from "../../../../../public/icon";

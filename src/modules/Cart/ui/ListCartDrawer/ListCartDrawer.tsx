@@ -10,9 +10,9 @@ import {
   selectTotalAmount,
 } from "@/modules/Cart/store/cartSelectors";
 import { PageConfig } from "@/shared/constants/pages";
-import { useAppSelector } from "@/shared/hook/useAppSelector";
-import { pluralize } from "@/shared/lib/pluralize";
+import { useAppSelector } from "@/shared/hooks/useAppSelector";
 import { Button } from "@/shared/ui/Button";
+import { pluralize } from "@/shared/utils/pluralize";
 
 import { Plus, Arrow } from "../../../../../public/icon";
 import { useCartReducers } from "../../services/useCartReducers";
