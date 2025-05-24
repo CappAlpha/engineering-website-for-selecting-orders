@@ -259,7 +259,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const cartActions = cartSlice.actions;
 export const cartReducers = cartSlice.reducer;
 export const cartSelectors = cartAdapter.getSelectors<RootState>(
   (state) => state.cart,

@@ -61,7 +61,7 @@
     "eslint": "^9.27.0",
     "eslint-config-next": "^15.3.2",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "knip": "^5.57.2",
+    "knip": "^5.58.0",
     "lint-staged": "^16.0.0",
     "next-auth": "^4.24.11",
     "next-rspack": "^15.3.2",
@@ -80,6 +80,6 @@
     "ts-node": "^10.9.2",
     "typescript": "^5",
     "webpack-bundle-analyzer": "^4.10.2",
-    "zod": "^3.25.24"
+    "zod": "^3.25.28"
   }
 }
