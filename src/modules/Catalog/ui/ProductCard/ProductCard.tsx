@@ -57,7 +57,7 @@ export const ProductCard: FC<Props> = ({
       </div>
 
       <div className={s.bottom}>
-        <Tags tags={tags} />
+        <Tags tags={tags} className={s.tags} />
         <div className={s.bottomWrap}>
           <span className={s.price}>
             от <b>{price} &#8381;</b>
