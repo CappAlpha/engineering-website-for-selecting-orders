@@ -6,7 +6,6 @@ import { CartBtn } from "@/modules/Cart/ui/CartBtn";
 import { prisma } from "../../../../prisma/prisma-client";
 import { Settings } from "../../../../public/icon";
 import { Auth } from "../../../modules/Auth/ui/Auth";
-import { Button } from "../Button";
 import { HeaderScroll } from "./HeaderScroll";
 import { SearchInput } from "./SearchInput";
 
@@ -37,8 +36,7 @@ export const Header: FC<Props> = async ({
           )}
 
           <div className={s.right}>
-            {/* TODO: add loading? */}
-            <Suspense fallback={<Button loading></Button>}>
+            <Suspense>
               <Auth />
             </Suspense>
             {!isCheckoutPage && <CartBtn />}

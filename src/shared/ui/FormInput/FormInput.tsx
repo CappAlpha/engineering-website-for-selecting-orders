@@ -6,8 +6,6 @@ import { useFormContext } from "react-hook-form";
 
 import { Input } from "@/shared/ui/Input";
 
-import s from "./FormInput.module.scss";
-
 interface Props extends Omit<StandardTextFieldProps, "ref"> {
   name: string;
   label?: string;
@@ -47,23 +45,21 @@ export const FormInput: FC<Props> = ({
   };
 
   return (
-    <div className={s.root}>
-      <Input
-        label={label}
-        required={required}
-        error={!!errorText}
-        helperText={errorText}
-        slotProps={{ inputLabel: { shrink: !!value || isFocused } }}
-        inputRef={handleRef}
-        name={name}
-        onChange={registration.onChange}
-        onFocus={() => setIsFocused(true)}
-        onBlur={(e) => {
-          setIsFocused(false);
-          registration.onBlur(e);
-        }}
-        {...props}
-      />
-    </div>
+    <Input
+      label={label}
+      required={required}
+      error={!!errorText}
+      helperText={errorText}
+      slotProps={{ inputLabel: { shrink: !!value || isFocused } }}
+      inputRef={handleRef}
+      name={name}
+      onChange={registration.onChange}
+      onFocus={() => setIsFocused(true)}
+      onBlur={(e) => {
+        setIsFocused(false);
+        registration.onBlur(e);
+      }}
+      {...props}
+    />
   );
 };

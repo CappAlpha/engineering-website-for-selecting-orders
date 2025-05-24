@@ -1,3 +1,142 @@
-.footer {
-  
+.root {
+  margin-top: 120px;
+  background-color: #1e293b;
+  padding: 60px 40px 20px;
+}
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.company {
+  margin-right: 32px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: var(--white);
+  font-weight: 600;
+}
+
+.description {
+  line-height: 120%;
+  color: var(--gray);
+}
+
+.subtitle {
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: var(--white);
+  font-weight: 500;
+}
+
+.list,
+.listContact {
+  li {
+    &:not(:last-child) {
+      margin-bottom: 12px;
+    }
+  }
+
+  a {
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: color 0.3s;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        color: var(--blue);
+      }
+    }
+  }
+}
+
+.listContact {
+  margin-bottom: 24px;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    &:not(:last-child) {
+      margin-bottom: 16px;
+    }
+  }
+}
+
+.icon {
+  width: 32px;
+  min-width: 32px;
+  fill: var(--white);
+}
+
+.socialIcons {
+  display: flex;
+  gap: 16px;
+}
+
+.socialBtn {
+  @include expandableArea;
+  --clickable-area-expandable-ratio: 10px;
+}
+
+.socialIcon {
+  width: 40px;
+  min-width: 40px;
+  fill: var(--white);
+}
+
+.subscribe {
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #334155;
+}
+
+.subscribeWrap {
+  background-color: #2d3748;
+  padding: 32px;
+  border-radius: 8px;
+}
+
+.subscribeDescription {
+  margin-bottom: 16px;
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.legalLinks {
+  display: flex;
+  gap: 24px;
+  font-size: 12px;
+
+  a {
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: color 0.3s;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        color: var(--blue);
+      }
+    }
+  }
+}
+
+.copyright {
+  font-size: 12px;
+  color: #94a3b8;
 }

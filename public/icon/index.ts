@@ -14,4 +14,9 @@ export { default as Phone } from "./icons/phone.svg";
 export { default as Login } from "./icons/login.svg";
 export { default as Unauthorized } from "./icons/unauthorized.svg";
 export { default as Registration } from "./icons/registration.svg";
-export { default as NotFound } from './icons/not-found.svg'
+export { default as NotFound } from './icons/not-found.svg';
+export { default as PostalAddress  } from './icons/postal-address.svg';
+export { default as Envelope  } from './icons/envelope.svg';
+export {  default as Vk  } from './icons/vk.svg';
+export {  default as Telegram  } from './icons/telegram.svg';
+export { default as WhatsApp  } from './icons/whats-app.svg';
