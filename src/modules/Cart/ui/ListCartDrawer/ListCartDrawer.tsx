@@ -15,7 +15,7 @@ import { Button } from "@/shared/ui/Button";
 import { pluralize } from "@/shared/utils/pluralize";
 
 import { Plus, Arrow } from "../../../../../public/icon";
-import { useCartReducers } from "../../services/useCartReducers";
+import { useCartReducers } from "../../hooks/useCartReducers";
 import { ProductCardLine } from "../ProductCardLine";
 
 import s from "./ListCartDrawer.module.scss";

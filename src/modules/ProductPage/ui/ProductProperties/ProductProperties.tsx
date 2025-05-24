@@ -3,7 +3,7 @@
 import { Product } from "@prisma/client";
 import { type FC } from "react";
 
-import { useCartReducers } from "@/modules/Cart/services/useCartReducers";
+import { useCartReducers } from "@/modules/Cart/hooks/useCartReducers";
 import { selectIsItemAdding } from "@/modules/Cart/store/cartSelectors";
 import { useAppSelector } from "@/shared/hooks/useAppSelector";
 import { Button } from "@/shared/ui/Button";
