@@ -7,7 +7,7 @@ import { prisma } from "../../../../prisma/prisma-client";
  */
 export const getProductData = async (id: string) => {
   return prisma.product.findUnique({
-    where: { id: id },
+    where: { id },
     select: {
       id: true,
       name: true,
@@ -15,6 +15,12 @@ export const getProductData = async (id: string) => {
       imageUrl: true,
       price: true,
       tags: true,
+      category: {
+        select: {
+          slug: true,
+          name: true,
+        },
+      },
     },
   });
 };

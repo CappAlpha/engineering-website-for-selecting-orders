@@ -20,7 +20,13 @@ export const Header: FC<Props> = async ({
   isCheckoutPage = false,
   isCatalogPage = false,
 }) => {
-  const categories = await prisma.category.findMany();
+  const categories = await prisma.category.findMany({
+    select: {
+      id: true,
+      slug: true,
+      name: true,
+    },
+  });
 
   return (
     <HeaderScroll isCatalogPage={isCatalogPage}>

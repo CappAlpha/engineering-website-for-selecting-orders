@@ -27,7 +27,7 @@ export default async function ProfilePage() {
 
   return (
     <div className={s.wrap}>
-      <Breadcrumbs name="Профиль" />
+      <Breadcrumbs name={["Профиль"]} url={["profile"]} />
       <ProfileForm data={user} />
     </div>
   );

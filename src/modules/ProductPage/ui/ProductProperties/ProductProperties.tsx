@@ -13,7 +13,7 @@ import s from "./ProductProperties.module.scss";
 
 type Props = Omit<
   Product,
-  "imageUrl" | "categoryId" | "createdAt" | "updatedAt"
+  "imageUrl" | "categorySlug" | "createdAt" | "updatedAt"
 >;
 
 export const ProductProperties: FC<Props> = ({

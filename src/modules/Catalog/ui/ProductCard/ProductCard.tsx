@@ -7,7 +7,6 @@ import Link from "next/link";
 import { type MouseEvent, type FC } from "react";
 
 import { selectIsItemAdding } from "@/modules/Cart/store/cartSelectors";
-import { PageConfig } from "@/shared/constants/pages";
 import { useAppSelector } from "@/shared/hooks/useAppSelector";
 import { Button } from "@/shared/ui/Button";
 import { Tags } from "@/shared/ui/Tags";
@@ -16,10 +15,10 @@ import { Plus } from "../../../../../public/icon";
 
 import s from "./ProductCard.module.scss";
 
-type ProductCardProps = Omit<Product, "categoryId" | "createdAt" | "updatedAt">;
+type ProductCardProps = Omit<Product, "createdAt" | "updatedAt">;
 
 interface Props extends ProductCardProps {
-  onClickButton: (e: MouseEvent) => Promise<void>;
+  onClickButton?: (e: MouseEvent) => Promise<void>;
   isFirstCategories?: boolean;
 }
 
@@ -30,6 +29,7 @@ export const ProductCard: FC<Props> = ({
   price,
   imageUrl,
   tags,
+  categorySlug,
   isFirstCategories = false,
   onClickButton,
 }) => {
@@ -37,7 +37,7 @@ export const ProductCard: FC<Props> = ({
   return (
     <Link
       className={cn(s.root, isAdding && s.disable)}
-      href={`${PageConfig.PRODUCT}${id}`}
+      href={`${categorySlug}/${id}`}
     >
       <div className={s.imgWrap}>
         <Image

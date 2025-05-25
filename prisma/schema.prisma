@@ -31,8 +31,10 @@ model User {
 }
 
 model Category {
-  id       Int       @id @default(autoincrement())
-  name     String    @unique
+  id   Int    @id @default(autoincrement())
+  slug String @unique
+  name String @unique
+
   products Product[]
 
   createdAt DateTime @default(now())
@@ -48,8 +50,8 @@ model Product {
   price       Int
   tags        String[]
 
-  categoryId Int
-  category   Category @relation(fields: [categoryId], references: [id])
+  categorySlug String
+  category     Category @relation(fields: [categorySlug], references: [slug])
 
   cartItem CartItem[]
 

@@ -9,11 +9,9 @@ const randomNumber = (min: number, max: number) => {
 
 const generatePrice = () => randomNumber(500, 30000);
 
-// TODO: временно добавлено так
 const adminId = randomUUID();
-const productIdTest = randomUUID();
 
-//Автогенерация базы данных
+// DB seed
 async function up() {
   await prisma.user.createMany({
     data: [
@@ -32,15 +30,19 @@ async function up() {
     data: [
       {
         name: "Чертежи",
+        slug: "chertezhi",
       },
       {
         name: "BIM",
+        slug: "bim",
       },
       {
         name: "Геология",
+        slug: "geologiya",
       },
       {
         name: "Программы на C++",
+        slug: "programmy-na-c",
       },
     ],
   });
@@ -48,13 +50,13 @@ async function up() {
   await prisma.product.createMany({
     data: [
       {
-        id: productIdTest,
+        id: randomUUID(),
         name: "Чертёж Механизма",
         description:
           "Точный чертёж механизма по ГОСТ, выполненный в кратчайшие сроки с учётом всех стандартов.",
         price: generatePrice(),
         imageUrl: "/images/catalog/drawings/1.webp",
-        categoryId: 1,
+        categorySlug: "chertezhi",
         tags: ["Чертёж", "Быстро"],
       },
       {
@@ -64,7 +66,7 @@ async function up() {
           "Детализированный чертёж сборочной единицы, соответствующий ГОСТ, для быстрого производства.",
         price: generatePrice(),
         imageUrl: "/images/catalog/drawings/1.webp",
-        categoryId: 1,
+        categorySlug: "chertezhi",
         tags: ["Чертёж", "Быстро"],
       },
       {
@@ -74,7 +76,7 @@ async function up() {
           "Чертёж корпуса с высокой точностью, выполнен по ГОСТ для инженерных нужд.",
         price: generatePrice(),
         imageUrl: "/images/catalog/drawings/1.webp",
-        categoryId: 1,
+        categorySlug: "chertezhi",
         tags: ["Чертёж", "Быстро"],
       },
       {
@@ -84,7 +86,7 @@ async function up() {
           "Полный проект жилого комплекса, разработанный по стандартам BIM в кратчайшие сроки.",
         price: generatePrice(),
         imageUrl: "/images/catalog/bim/1.webp",
-        categoryId: 2,
+        categorySlug: "bim",
         tags: ["BIM", "Быстро"],
       },
       {
@@ -94,7 +96,7 @@ async function up() {
           "Индивидуальный проект коттеджа с использованием BIM, выполнен быстро и качественно.",
         price: generatePrice(),
         imageUrl: "/images/catalog/bim/1.webp",
-        categoryId: 2,
+        categorySlug: "bim",
         tags: ["BIM", "Быстро"],
       },
       {
@@ -104,7 +106,7 @@ async function up() {
           "Проект современного спорткомплекса, разработанный по методологии BIM в сжатые сроки.",
         price: generatePrice(),
         imageUrl: "/images/catalog/bim/1.webp",
-        categoryId: 2,
+        categorySlug: "bim",
         tags: ["BIM", "Скидка"],
       },
       {
@@ -114,7 +116,7 @@ async function up() {
           "Комплексный проект ТРЦ с применением BIM, готовый в кратчайшие сроки.",
         price: generatePrice(),
         imageUrl: "/images/catalog/bim/1.webp",
-        categoryId: 2,
+        categorySlug: "bim",
         tags: ["BIM"],
       },
       {
@@ -124,7 +126,7 @@ async function up() {
           "Комплексное исследование грунта для проектирования фундамента, выполненное по стандартам в кратчайшие сроки.",
         price: generatePrice(),
         imageUrl: "/images/catalog/geology/1.webp",
-        categoryId: 3,
+        categorySlug: "geologiya",
         tags: ["Геология", "Фундамент"],
       },
       {
@@ -134,7 +136,7 @@ async function up() {
           "Детальная геологическая разведка для строительства, проведённая быстро и профессионально.",
         price: generatePrice(),
         imageUrl: "/images/catalog/geology/1.webp",
-        categoryId: 3,
+        categorySlug: "geologiya",
         tags: ["Геология", "Разведка"],
       },
       {
@@ -144,7 +146,7 @@ async function up() {
           "Анализ гидрогеологических условий участка, выполненный в сжатые сроки с высокой точностью.",
         price: generatePrice(),
         imageUrl: "/images/catalog/geology/1.webp",
-        categoryId: 3,
+        categorySlug: "geologiya",
         tags: ["Гидрогеология"],
       },
       {
@@ -154,7 +156,7 @@ async function up() {
           "Исследование сейсмических рисков для безопасного строительства, проведённое оперативно.",
         price: generatePrice(),
         imageUrl: "/images/catalog/geology/1.webp",
-        categoryId: 3,
+        categorySlug: "geologiya",
         tags: ["Сейсмичность"],
       },
       {
@@ -164,7 +166,7 @@ async function up() {
           "Программа на C++ для точного расчёта нагрузок конструкций, выполненная в кратчайшие сроки.",
         price: generatePrice(),
         imageUrl: "/images/catalog/program/1.webp",
-        categoryId: 4,
+        categorySlug: "programmy-na-c",
         tags: ["Программа", "Нагрузки"],
       },
       {
@@ -174,7 +176,7 @@ async function up() {
           "Эффективная C++ программа для оптимизации инженерных расчётов, разработанная быстро и надёжно.",
         price: generatePrice(),
         imageUrl: "/images/catalog/program/1.webp",
-        categoryId: 4,
+        categorySlug: "programmy-na-c",
         tags: ["Программа", "Оптимизация"],
       },
       {
@@ -184,14 +186,14 @@ async function up() {
           "C++ приложение для моделирования и анализа нагрузок, созданное в сжатые сроки.",
         price: generatePrice(),
         imageUrl: "/images/catalog/program/1.webp",
-        categoryId: 4,
+        categorySlug: "programmy-na-c",
         tags: ["Программа", "Моделирование"],
       },
     ],
   });
 }
 
-//Автоочистка базы данных
+// DB reset
 async function down() {
   await prisma.$executeRaw`TRUNCATE TABLE "User" RESTART IDENTITY CASCADE`;
   await prisma.$executeRaw`TRUNCATE TABLE "Category" RESTART IDENTITY CASCADE`;

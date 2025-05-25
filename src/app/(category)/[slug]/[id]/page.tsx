@@ -73,11 +73,22 @@ export default async function ProductPage({
     return notFound();
   }
 
-  const { imageUrl, name, description, price, tags } = product;
+  const {
+    imageUrl,
+    name,
+    description,
+    price,
+    tags,
+    category: { name: categoryName, slug: categorySlug },
+  } = product;
 
   return (
     <div className={s.root}>
-      <Breadcrumbs name={name} pageWrap />
+      <Breadcrumbs
+        name={[categoryName, name]}
+        url={[categorySlug, id]}
+        pageWrap
+      />
       <div className={s.wrap}>
         <div className={s.left}>
           <Image

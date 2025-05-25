@@ -20,7 +20,7 @@ import { getSearchProducts } from "@/shared/lib/getSearchProducts";
 import s from "./SearchInput.module.scss";
 
 interface Props {
-  categories: Category[];
+  categories: Omit<Category, "createdAt" | "updatedAt">[];
   className?: string;
 }
 
@@ -59,9 +59,9 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
     getSearchProducts(setLoading, setError, setProducts, debouncedSearchQuery);
   };
 
-  // Get category name by id
-  const getCategoryNameById = (categoryId: number): string =>
-    categories.find((category) => category.id === categoryId)?.name ??
+  // Get category name by slug
+  const getCategoryNameById = (categorySlug: string) =>
+    categories.find((category) => category.slug === categorySlug)?.name ??
     "Без категории";
 
   // Render input
@@ -118,7 +118,7 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
             onOpen={onOpen}
             onClose={onClose}
             options={products}
-            groupBy={(option) => getCategoryNameById(option.categoryId)}
+            groupBy={(option) => getCategoryNameById(option.categorySlug)}
             getOptionLabel={(option) => option.name}
             inputValue={searchQuery}
             onInputChange={(e, value) => setSearchQuery(value)}

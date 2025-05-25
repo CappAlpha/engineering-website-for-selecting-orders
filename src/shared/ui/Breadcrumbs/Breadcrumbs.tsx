@@ -6,18 +6,27 @@ import { type FC } from "react";
 import s from "./Breadcrumbs.module.scss";
 
 interface Props {
-  name: string;
+  name: string[];
+  url: string[];
   pageWrap?: boolean;
 }
 
-export const Breadcrumbs: FC<Props> = ({ name, pageWrap = false }) => {
+export const Breadcrumbs: FC<Props> = ({ name, url, pageWrap = false }) => {
   return (
     <BreadcrumbsMui
       aria-label="breadcrumb"
       className={classNames(s.root, pageWrap && s.wrap)}
     >
       <Link href="/">Главная</Link>
-      <span aria-current="page">{name}</span>
+      {name.map((item, index) =>
+        name.length - 1 === index ? (
+          <span key={item}>{item}</span>
+        ) : (
+          <Link key={item} href={`/${url[index]}`}>
+            {item}
+          </Link>
+        ),
+      )}
     </BreadcrumbsMui>
   );
 };
