@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-import withRspack from 'next-rspack';
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
 const nextConfig = {

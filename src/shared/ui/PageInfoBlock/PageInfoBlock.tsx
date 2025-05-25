@@ -14,6 +14,11 @@ interface Props {
 }
 
 export const PageInfoBlock: FC<Props> = ({ title, description, icon }) => {
+  const onClickRefresh = () => {
+    window.location.reload();
+    window.localStorage.clear();
+  };
+
   return (
     <div className={s.root}>
       <div className={s.left}>
@@ -24,11 +29,7 @@ export const PageInfoBlock: FC<Props> = ({ title, description, icon }) => {
             <Arrow className={s.icon} />
             На главную
           </Button>
-          <Button
-            onClick={() => window.location.reload()}
-            className={s.btn}
-            color="outline"
-          >
+          <Button onClick={onClickRefresh} className={s.btn} color="outline">
             Обновить
           </Button>
         </div>

@@ -12,7 +12,6 @@ import cn from "classnames";
 import Link from "next/link";
 import { HTMLAttributes, Key, useRef, useState, type FC } from "react";
 
-import { PageConfig } from "@/shared/constants/pages";
 import { useDebounce } from "@/shared/hooks/useDebounce";
 import { useOutsideClick } from "@/shared/hooks/useOutsideHook";
 import { getSearchProducts } from "@/shared/lib/getSearchProducts";
@@ -99,7 +98,7 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
     const { key, ...otherProps } = props;
     return (
       <li key={key} {...otherProps} className={s.optionLi}>
-        <Link href={`${PageConfig.PRODUCT}${option.id}`} className={s.link}>
+        <Link href={`/${option.categorySlug}/${option.id}`} className={s.link}>
           {option.name}
         </Link>
       </li>
