@@ -3,9 +3,9 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 
 import {
-  QuantityActionType,
-  QuantityAction,
   CartQuantityLimits,
+  QuantityAction,
+  QuantityActionType,
 } from "@/modules/Cart/constants/cart.ts";
 import type { AppDispatch } from "@/store/store";
 
@@ -71,7 +71,10 @@ export const useCartReducers = () => {
       {
         loading: "Добавляем...",
         success: "Товар добавлен в корзину",
-        error: "Ошибка добавления товара",
+        error: (error: string) =>
+          error === "Request failed with status code 400"
+            ? "Максимальное количество товаров превышено! (10)"
+            : "Ошибка добавления товара",
       },
     );
   };
