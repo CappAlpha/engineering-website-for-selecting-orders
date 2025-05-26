@@ -46,7 +46,7 @@ export default async function CategoryPage({
 
   return (
     <div className={s.root}>
-      <Breadcrumbs name={[name]} url={[slug]} pageWrap />
+      <Breadcrumbs items={[{ name, url: slug }]} pageWrap />
       <div className={s.wrap}>
         {products.map((product) => (
           <ProductCard key={product.id} {...product} />

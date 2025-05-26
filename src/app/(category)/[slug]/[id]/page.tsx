@@ -85,8 +85,10 @@ export default async function ProductPage({
   return (
     <div className={s.root}>
       <Breadcrumbs
-        name={[categoryName, name]}
-        url={[categorySlug, id]}
+        items={[
+          { name: categoryName, url: categorySlug },
+          { name, url: id },
+        ]}
         pageWrap
       />
       <div className={s.wrap}>
