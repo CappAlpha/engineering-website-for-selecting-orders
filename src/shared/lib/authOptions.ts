@@ -1,10 +1,14 @@
-import { compare, hashSync } from "bcrypt";
-import { randomUUID } from "crypto";
+import { compare } from "bcrypt";
 import { type AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
+import { handleOAuthSignIn } from "@/modules/Auth/services/handleOAuthSignIn";
+import { handleUserCart } from "@/modules/Auth/services/handleUserCart";
+import { mergeCarts } from "@/modules/Auth/services/mergeCarts";
+
 import { prisma } from "../../../prisma/prisma-client";
+import { getCartToken } from "./getCartToken";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -69,58 +73,23 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async signIn({ user, account }) {
       try {
+        const cartToken = await getCartToken();
+
+        // Обрабатываем вход в зависимости от типа провайдера
         if (account?.provider === "credentials") {
+          if (user.id) {
+            await handleUserCart(user.id);
+          }
+          if (cartToken && user.id) {
+            await mergeCarts(cartToken, user.id);
+          }
           return true;
         }
 
-        if (!user.email) {
-          return false;
-        }
-
-        // Find user and check if he has provider or email
-        const findUser = await prisma.user.findFirst({
-          where: {
-            OR: [
-              {
-                provider: account?.provider,
-                providerId: account?.providerAccountId,
-              },
-              { email: user.email },
-            ],
-          },
-        });
-
-        // If user exist and has provider, update it
-        if (findUser) {
-          await prisma.user.update({
-            where: {
-              id: findUser.id,
-            },
-            data: {
-              provider: account?.provider,
-              providerId: account?.providerAccountId,
-            },
-          });
-
-          return true;
-        }
-
-        await prisma.user.create({
-          data: {
-            id: randomUUID(),
-            fullName: user.name ?? "User #" + user.id,
-            email: user.email,
-            // TODO: do we need to better encrypt?
-            password: hashSync(user.name + user.id, 10),
-            verified: new Date(),
-            provider: account?.provider,
-            providerId: account?.providerAccountId,
-          },
-        });
-
-        return true;
-      } catch (err) {
-        console.error("Error [SIGNIN]", err);
+        // Обрабатываем вход через OAuth
+        return await handleOAuthSignIn(user, account, cartToken);
+      } catch (error) {
+        console.error("Sign-in error:", error);
         return false;
       }
     },

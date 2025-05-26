@@ -3,12 +3,10 @@
 import { OrderStatus, Prisma } from "@prisma/client";
 import { hashSync } from "bcrypt";
 import { randomUUID } from "crypto";
-import { cookies } from "next/headers";
 import { ReactNode } from "react";
 
 import { getUserSession } from "@/modules/Auth/services/getUserSession";
 import { EmailVerification } from "@/modules/Auth/ui/EmailVerification";
-import { CART_TOKEN_NAME } from "@/modules/Cart/constants/cart";
 import { CartItemDTO } from "@/modules/Cart/entities/cart";
 import { cartClear } from "@/modules/Cart/services/cartClear";
 import { findCartWithProducts } from "@/modules/Cart/services/findCartWithProducts";
@@ -16,6 +14,7 @@ import { CheckoutFormValues } from "@/modules/Order/schemas/checkoutFormSchema";
 import { createPayment } from "@/modules/Order/services/createPayment";
 import { sendEmail } from "@/modules/Order/services/sendEmail";
 import { EmailMakeOrder } from "@/modules/Order/ui/EmailMakeOrder";
+import { getCartToken } from "@/shared/lib/getCartToken";
 
 import { prisma } from "../../prisma/prisma-client";
 
@@ -27,8 +26,7 @@ import { prisma } from "../../prisma/prisma-client";
  */
 export const createOrder = async (data: CheckoutFormValues) => {
   try {
-    const cookieStore = cookies();
-    const cartToken = (await cookieStore).get(CART_TOKEN_NAME)?.value;
+    const cartToken = await getCartToken();
 
     if (!cartToken) {
       throw new Error("Cart token not found");
