@@ -1,23 +1,18 @@
 "use client";
 
 import cn from "classnames";
-import { useEffect, useState, ReactNode, FC } from "react";
+import { FC, ReactNode, useEffect, useState } from "react";
 
 import s from "../Header.module.scss";
 
 interface Props {
   children: ReactNode;
-  isCatalogPage: boolean;
 }
 
-export const HeaderScroll: FC<Props> = ({ children, isCatalogPage }) => {
+export const HeaderScroll: FC<Props> = ({ children }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    if (!isCatalogPage) {
-      return;
-    }
-
     const handleScroll = () => {
       if (window.scrollY > 0) {
         setIsScrolled(true);
@@ -34,9 +29,9 @@ export const HeaderScroll: FC<Props> = ({ children, isCatalogPage }) => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [isCatalogPage]);
+  }, []);
 
-  const className = cn(isCatalogPage && isScrolled && s.scrolled);
+  const className = cn(isScrolled && s.scrolled);
 
   return <div className={className}>{children}</div>;
 };

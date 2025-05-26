@@ -28,27 +28,35 @@ export const Header: FC<Props> = async ({
     },
   });
 
-  return (
-    <HeaderScroll isCatalogPage={isCatalogPage}>
-      <header className={s.root}>
-        <div className={s.wrap}>
-          <Link className={s.left} href="/">
-            <Settings className={s.engIcon} />
-            <h2 className={s.title}>Engineer</h2>
-          </Link>
+  const headerRender = (
+    <header className={s.root}>
+      <div className={s.wrap}>
+        <Link className={s.left} href="/">
+          <Settings className={s.engIcon} />
+          <h2 className={s.title}>Engineer</h2>
+        </Link>
 
-          {!isCheckoutPage && (
-            <SearchInput categories={categories} className={s.searchInput} />
-          )}
+        {!isCheckoutPage && (
+          <SearchInput categories={categories} className={s.searchInput} />
+        )}
 
-          <div className={s.right}>
-            <Suspense>
-              <Auth />
-            </Suspense>
-            {!isCheckoutPage && <CartBtn />}
-          </div>
+        <div className={s.right}>
+          <Suspense>
+            <Auth />
+          </Suspense>
+          {!isCheckoutPage && <CartBtn />}
         </div>
-      </header>
-    </HeaderScroll>
+      </div>
+    </header>
+  );
+
+  return (
+    <>
+      {isCatalogPage ? (
+        <HeaderScroll>{headerRender}</HeaderScroll>
+      ) : (
+        headerRender
+      )}
+    </>
   );
 };
