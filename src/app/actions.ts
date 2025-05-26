@@ -129,7 +129,7 @@ export const updateUserInfo = async (data: Prisma.UserUpdateInput) => {
         fullName: data.fullName,
         email: data.email,
         password: data.password
-          ? hashSync(data.password as string, 10)
+          ? hashSync(data.password as string, 12)
           : currentUser.password,
         phone: data.phone,
         address: data.address,
@@ -163,7 +163,7 @@ export const registerUser = async (
         id: randomUUID(),
         fullName: data.fullName,
         email: data.email,
-        password: hashSync(data.password, 10),
+        password: hashSync(data.password, 12),
       },
     });
 

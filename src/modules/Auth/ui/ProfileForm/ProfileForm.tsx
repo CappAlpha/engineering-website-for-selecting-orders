@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
 import { useMask } from "@react-input/mask";
+import Cookies from "js-cookie";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { type FC } from "react";
@@ -10,6 +11,7 @@ import { Controller, FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 import { updateUserInfo } from "@/app/actions";
+import { CART_TOKEN_NAME } from "@/modules/Cart/constants/cart";
 import { AddressInput } from "@/shared/ui/AddressInput";
 import { Button } from "@/shared/ui/Button";
 import { FormInput } from "@/shared/ui/FormInput";
@@ -70,6 +72,9 @@ export const ProfileForm: FC<Props> = ({ data }) => {
       await signOut({ callbackUrl: "/" });
       toast.success("Вы успешно вышли из аккаунта", {
         icon: "\u2705",
+      });
+      Cookies.remove(`${CART_TOKEN_NAME}`, {
+        path: "/",
       });
     } catch (err) {
       console.error("[Error [SIGN_OUT]]", err);

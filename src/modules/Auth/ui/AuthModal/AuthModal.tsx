@@ -4,6 +4,7 @@ import { Fade, Modal } from "@mui/material";
 import { signIn } from "next-auth/react";
 import { useState, type FC } from "react";
 
+import { useCartReducers } from "@/modules/Cart/hooks/useCartReducers";
 import { Button } from "@/shared/ui/Button";
 
 import { Login, Plus, Registration } from "../../../../../public/icon";
@@ -20,6 +21,7 @@ interface Props {
 
 export const AuthModal: FC<Props> = ({ open, onClose }) => {
   const [authType, setAuthType] = useState<"login" | "register">("login");
+  const { fetchCart } = useCartReducers();
 
   const onSwitchAuthType = () => {
     setAuthType((prevType) => (prevType === "login" ? "register" : "login"));
@@ -27,6 +29,7 @@ export const AuthModal: FC<Props> = ({ open, onClose }) => {
 
   const handleGoogleLogin = async () => {
     await signIn("google", { redirect: false });
+    await fetchCart();
   };
 
   const handleClose = () => {
