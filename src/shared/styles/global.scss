@@ -1,21 +1,9 @@
-:root {
-  --background: var(--white);
-  --foreground: var(--dark-gray);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--dark-gray);
-    --foreground: var(--white);
-  }
-}
-
 html,
 body {
   width: 100%;
   height: 100%;
-  color: var(--foreground);
-  background: var(--background);
+  color: var(--white);
+  background: var(--dark-gray);
   font-family: var(--font-geist) !important;
   font-weight: 500;
   font-size: 14px;
@@ -46,12 +34,6 @@ h6 {
 
 p {
   text-wrap: pretty;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
 }
 
 body {

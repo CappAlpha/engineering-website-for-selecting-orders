@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { getUserSession } from "@/modules/Auth/services/getUserSession";
 import {
-  CartQuantityLimits,
   CART_TOKEN_NAME,
+  CartQuantityLimits,
 } from "@/modules/Cart/constants/cart";
 import { CreateCartItemValues } from "@/modules/Cart/entities/cart";
 import { findOrCreateCart } from "@/modules/Cart/services/findOrCreateCart";
@@ -115,7 +115,6 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// In /api/cart/route.ts
 export async function DELETE(req: NextRequest) {
   try {
     const response = await validateCartRequest(req);

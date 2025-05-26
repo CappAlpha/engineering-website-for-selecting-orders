@@ -35,12 +35,10 @@
   --opacity-colors-black-20: rgba(0, 0, 0, 0.2);
   --opacity-colors-black-46: rgba(0, 0, 0, 0.46);
   --opacity-colors-black-70: rgba(0, 0, 0, 0.7);
-  --opacity-colors-black-from-bottom-to-top: linear-gradient(
-    rgba(0, 0, 0, 0.3),
-    rgba(0, 0, 0, 0) 40%,
-    rgba(0, 0, 0, 0) 75%,
-    rgba(0, 0, 0, 0.2) 100%
-  );
+  --opacity-colors-black-from-bottom-to-top: linear-gradient(rgba(0, 0, 0, 0.3),
+      rgba(0, 0, 0, 0) 40%,
+      rgba(0, 0, 0, 0) 75%,
+      rgba(0, 0, 0, 0.2) 100%);
   --additional-red: #ff5b45;
   --red-hover: #de321b;
   --grey-border-pdf: #bababa;

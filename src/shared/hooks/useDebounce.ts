@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
 interface DebounceOptions {
-  leading?: boolean; // Выполнять ли сразу при первом вызове
-  trailing?: boolean; // Выполнять ли после задержки
+  leading?: boolean; // Use on initial value
+  trailing?: boolean; // Use with delay
 }
 
 export function useDebounce<T>(
@@ -44,7 +44,7 @@ export function useDebounce<T>(
   return debouncedValue;
 }
 
-// Хук useDebouncedCallback для функций
+// Hook useDebouncedCallback for functions
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useDebouncedCallback<T extends (...args: any[]) => any>(
   callback: T,
