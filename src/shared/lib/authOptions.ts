@@ -75,7 +75,7 @@ export const authOptions: AuthOptions = {
       try {
         const cartToken = await getCartToken();
 
-        // Обрабатываем вход в зависимости от типа провайдера
+        // Process the input depending on the type of provider
         if (account?.provider === "credentials") {
           if (user.id) {
             await handleUserCart(user.id);
@@ -86,7 +86,7 @@ export const authOptions: AuthOptions = {
           return true;
         }
 
-        // Обрабатываем вход через OAuth
+        // Handling login via OAuth
         return await handleOAuthSignIn(user, account, cartToken);
       } catch (error) {
         console.error("Sign-in error:", error);

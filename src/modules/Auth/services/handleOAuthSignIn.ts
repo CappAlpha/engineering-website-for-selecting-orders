@@ -18,7 +18,7 @@ export const handleOAuthSignIn = async (
   const provider = account?.provider;
   const providerId = account?.providerAccountId;
 
-  // Ищем существующего пользователя
+  // Search for an existing user
   const existingUser = await prisma.user.findFirst({
     where: {
       OR: [{ provider, providerId }, { email: user.email }],
@@ -35,7 +35,7 @@ export const handleOAuthSignIn = async (
   if (existingUser) {
     userId = existingUser.id;
 
-    // Обновляем информацию о провайдере, если изменилась
+    // Update the provider information if it has changed
     if (
       existingUser.provider !== provider ||
       existingUser.providerId !== providerId
@@ -50,12 +50,12 @@ export const handleOAuthSignIn = async (
       });
     }
 
-    // Объединяем корзины для существующего пользователя
+    // Merge baskets for an existing user
     if (cartToken) {
       await mergeCarts(cartToken, userId);
     }
   } else {
-    // Создаем нового пользователя
+    // Create a new user
     const newUser = await prisma.user.create({
       data: {
         id: randomUUID(),
@@ -69,7 +69,7 @@ export const handleOAuthSignIn = async (
       },
     });
 
-    // Объединяем корзины для нового пользователя
+    // Merge shopping carts for a new user
     if (cartToken && newUser?.id) {
       await mergeCarts(cartToken, newUser.id);
     }
