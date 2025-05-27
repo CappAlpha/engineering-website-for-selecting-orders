@@ -72,12 +72,18 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {
     async signIn({ user, account }) {
+      if (!user || !account) {
+        console.error(
+          "[AUTH_SIGNIN] error: Missing user or account information",
+        );
+        return false;
+      }
+
       try {
         const cartToken = await getCartToken();
-
         const isCredentials = account?.provider === "credentials";
 
-        if (user.id && user?.email) {
+        if (user.id && user.email) {
           await handleUserCart(user.id, user.email, isCredentials);
         }
 
@@ -92,7 +98,7 @@ export const authOptions: AuthOptions = {
         // Handling login via OAuth
         return await handleOAuthSignIn(user, account, cartToken);
       } catch (error) {
-        console.error("Sign-in error:", error);
+        console.error("[AUTH_SIGNIN] Error:", error);
         return false;
       }
     },

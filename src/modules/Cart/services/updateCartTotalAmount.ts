@@ -16,7 +16,7 @@ export const updateCartTotalAmount = async (
   tx?: Prisma.TransactionClient,
 ) => {
   // Use transaction or make new connection
-  const db = tx || prisma;
+  const db = tx ?? prisma;
 
   // Find the cart with items and products
   const userCart = await db.cart.findFirst({
