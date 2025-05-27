@@ -75,11 +75,14 @@ export const authOptions: AuthOptions = {
       try {
         const cartToken = await getCartToken();
 
-        // Process the input depending on the type of provider
-        if (account?.provider === "credentials") {
-          if (user.id) {
-            await handleUserCart(user.id);
-          }
+        const isCredentials = account?.provider === "credentials";
+
+        if (user.id && user?.email) {
+          await handleUserCart(user.id, user.email, isCredentials);
+        }
+
+        // Process the auth depending on the type of provider
+        if (isCredentials) {
           if (cartToken && user.id) {
             await mergeCarts(cartToken, user.id);
           }

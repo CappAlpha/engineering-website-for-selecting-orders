@@ -30,10 +30,8 @@ export const handleOAuthSignIn = async (
     },
   });
 
-  let userId;
-
   if (existingUser) {
-    userId = existingUser.id;
+    const userId = existingUser.id;
 
     // Update the provider information if it has changed
     if (
@@ -67,10 +65,13 @@ export const handleOAuthSignIn = async (
         providerId,
         createdAt: new Date(),
       },
+      select: {
+        id: true,
+      },
     });
 
     // Merge shopping carts for a new user
-    if (cartToken && newUser?.id) {
+    if (cartToken) {
       await mergeCarts(cartToken, newUser.id);
     }
   }
