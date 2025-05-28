@@ -35,6 +35,7 @@ export const Providers: FC<PropsWithChildren> = ({ children }) => {
           style: {
             background: "#454545",
             color: "#fff",
+            textWrap: "balance",
           },
         }}
       />
