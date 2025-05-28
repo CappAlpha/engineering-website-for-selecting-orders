@@ -6,7 +6,7 @@ interface GetSearchParams {
   priceFrom?: number;
   priceTo?: number;
   tags?: string;
-  //TODO: extend
+  //TODO: extend?
   // limit?: string;
   // page?: string;
 }

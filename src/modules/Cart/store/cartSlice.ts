@@ -1,15 +1,15 @@
 import {
   createAsyncThunk,
-  createSlice,
   createEntityAdapter,
+  createSlice,
 } from "@reduxjs/toolkit";
 
 import {
   CartStateItem,
   CreateCartItemValues,
 } from "@/modules/Cart/entities/cart";
+import { createCartErrorMessage } from "@/modules/Cart/utils/createCartErrorMessage";
 import { Api } from "@/shared/services/apiClient";
-import { createErrorMessage } from "@/shared/utils/createErrorMessage";
 import type { RootState } from "@/store/store";
 
 import { CartReturnProps, getCartDetails } from "../services/getCartDetails";
@@ -67,7 +67,11 @@ export const fetchCartItems = createAsyncThunk(
       return getCartDetails(response);
     } catch (err) {
       return rejectWithValue(
-        createErrorMessage("fetchCartItems", err, "Failed to get cart items"),
+        createCartErrorMessage(
+          "fetchCartItems",
+          err,
+          "Failed to get cart items",
+        ),
       );
     }
   },
@@ -90,7 +94,7 @@ export const updateItemQuantity = createAsyncThunk(
       return getCartDetails(response);
     } catch (err) {
       return rejectWithValue(
-        createErrorMessage(
+        createCartErrorMessage(
           "updateItemQuantity",
           err,
           "Failed to update item quantity in cart",
@@ -109,7 +113,7 @@ export const addCartItem = createAsyncThunk<
     return getCartDetails(response);
   } catch (err) {
     return rejectWithValue(
-      createErrorMessage("addCartItem", err, "Failed to add item to cart"),
+      createCartErrorMessage("addCartItem", err, "Failed to add item to cart"),
     );
   }
 });
@@ -122,7 +126,7 @@ export const removeCartItem = createAsyncThunk(
       return getCartDetails(response);
     } catch (err) {
       return rejectWithValue(
-        createErrorMessage(
+        createCartErrorMessage(
           "removeCartItem",
           err,
           "Failed to remove item from cart",
@@ -140,7 +144,7 @@ export const removeCartItems = createAsyncThunk(
       return getCartDetails(response);
     } catch (err) {
       return rejectWithValue(
-        createErrorMessage(
+        createCartErrorMessage(
           "removeCartItems",
           err,
           "Failed to remove all items from cart",

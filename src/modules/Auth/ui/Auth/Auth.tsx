@@ -1,55 +1,21 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState, type FC } from "react";
-import toast from "react-hot-toast";
+import { useState, type FC } from "react";
 
 import { AuthModal } from "@/modules/Auth/ui/AuthModal";
 
+import { useAuthParams } from "../../hooks/useAuthParams";
 import { LoginButtons } from "../LoginButtons";
 
 export const Auth: FC = () => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
   const [openModal, setOpenModal] = useState(false);
-  const handleOpen = () => setOpenModal(true);
-  const handleClose = () => setOpenModal(false);
 
-  useEffect(() => {
-    let toastMessage = "";
-    let error = false;
-
-    if (searchParams.has("paid")) {
-      toastMessage = `Заказ успешно оплачен!
-        Информация отправлена на почту!`;
-    }
-
-    if (searchParams.has("verified")) {
-      toastMessage = `Почта успешно подтверждена!`;
-    }
-
-    if (searchParams.has("wrongCode")) {
-      toastMessage = `Недействительный код!`;
-      error = true;
-    }
-
-    if (toastMessage) {
-      router.replace("/");
-      // TODO: improve logic?
-      if (error) {
-        toast.error(toastMessage);
-      } else {
-        toast.success(toastMessage);
-      }
-    }
-  }, [router, searchParams]);
-
+  useAuthParams();
   return (
     <>
-      <AuthModal open={openModal} onClose={handleClose} />
+      <AuthModal open={openModal} onClose={() => setOpenModal(false)} />
 
-      <LoginButtons onClickOpen={handleOpen} />
+      <LoginButtons onClickOpen={() => setOpenModal(true)} />
     </>
   );
 };

@@ -3,14 +3,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../../../../../prisma/prisma-client";
 
 export const GET = async (req: NextRequest) => {
+  const code = req.nextUrl.searchParams.get("code");
+
+  if (!code) {
+    console.error("[VERIFY_GET] Verification code not found");
+    return NextResponse.redirect(new URL("/?wrongCode", req.url));
+  }
+
   try {
-    const code = req.nextUrl.searchParams.get("code");
-
-    if (!code) {
-      console.error("[VERIFY_GET] Verification code not found");
-      return NextResponse.redirect(new URL("/?wrongCode", req.url));
-    }
-
     const verificationCode = await prisma.verificationCode.findFirst({
       where: {
         code,
