@@ -29,16 +29,16 @@ export const createOrder = async (data: CheckoutFormValues) => {
     const cartToken = await getCartToken();
 
     if (!cartToken) {
-      throw new Error("Cart token not found");
+      throw new Error("Токен корзины не найден");
     }
 
     // Find cart
     const userCart = await findCartWithProducts(cartToken);
     if (!userCart) {
-      throw new Error("Cart not found");
+      throw new Error("Корзина не найдена");
     }
     if (userCart?.totalAmount === 0) {
-      throw new Error("Cart is empty");
+      throw new Error("Корзина пуста");
     }
 
     // Create order
@@ -73,7 +73,7 @@ export const createOrder = async (data: CheckoutFormValues) => {
           status: OrderStatus.CANCELLED,
         },
       });
-      throw new Error("Payment data not found");
+      throw new Error("Данные платежа не найдена");
     }
 
     // Add paymentId to order
@@ -103,7 +103,8 @@ export const createOrder = async (data: CheckoutFormValues) => {
 
     return paymentUrl;
   } catch (err) {
-    console.error("Server error [CREATE_ORDER] ", err);
+    console.error("Server error [CREATE_ORDER_ACTION] ", err);
+    throw err;
   }
 };
 
@@ -116,7 +117,7 @@ export const updateUserInfo = async (data: Prisma.UserUpdateInput) => {
   try {
     const currentUser = await getUserSession();
     if (!currentUser) {
-      throw new Error("User not found");
+      throw new Error("Пользователь не найден");
     }
 
     await prisma.user.update({
@@ -134,7 +135,8 @@ export const updateUserInfo = async (data: Prisma.UserUpdateInput) => {
       },
     });
   } catch (err) {
-    console.error("Error [UPDATE_USER_INFO]", err);
+    console.error("Error [UPDATE_USER_INFO_ACTION]", err);
+    throw err;
   }
 };
 
@@ -180,6 +182,7 @@ export const registerUser = async (
       EmailVerification({ code }) as ReactNode,
     );
   } catch (err) {
-    console.error("Error [REGISTER_USER]", err);
+    console.error("Error [REGISTER_USER_ACTION]", err);
+    throw err;
   }
 };

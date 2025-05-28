@@ -76,9 +76,12 @@ export const OrderItems: FC = () => {
     } catch (err) {
       console.error("Error creating order [CREATE_ORDER]", err);
       setSubmitting(false);
-      toast.error("Не удалось создать заказ", {
-        icon: "\u274C",
-      });
+      toast.error(
+        err instanceof Error ? err.message : "Не удалось создать заказ",
+        {
+          icon: "\u274C",
+        },
+      );
     }
   };
 

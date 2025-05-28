@@ -33,7 +33,7 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
       const resp = await signIn("credentials", { ...data, redirect: false });
 
       if (resp?.error) {
-        throw new Error(resp.error);
+        throw new Error("Неправильный логин или пароль");
       }
 
       toast.success("Вы успешно вошли в аккаунт!", {
@@ -44,7 +44,10 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
       onClose();
     } catch (err) {
       console.error("[Error [LOGIN]]", err);
-      toast.error("Не удалось войти в аккаунт", { icon: "\u274C" });
+      toast.error(
+        err instanceof Error ? err.message : "Не удалось войти в аккаунт",
+        { icon: "\u274C" },
+      );
     }
   };
 

@@ -63,7 +63,10 @@ export const ProfileForm: FC<Props> = ({ data }) => {
       route.refresh();
     } catch (err) {
       console.error("[Error [CHANGE_USER_DATA]]", err);
-      toast.error("Не удалось изменить данные", { icon: "\u274C" });
+      toast.error(
+        err instanceof Error ? err.message : "Не удалось изменить данные",
+        { icon: "\u274C" },
+      );
     }
   };
 
@@ -78,7 +81,10 @@ export const ProfileForm: FC<Props> = ({ data }) => {
       });
     } catch (err) {
       console.error("[Error [SIGN_OUT]]", err);
-      toast.error("Не удалось выйти из аккаунта", { icon: "\u274C" });
+      toast.error(
+        err instanceof Error ? err.message : "Не удалось выйти из аккаунта",
+        { icon: "\u274C" },
+      );
     }
   };
 

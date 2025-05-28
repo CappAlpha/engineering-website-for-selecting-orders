@@ -49,8 +49,11 @@ export const RegisterForm: FC<Props> = ({ onClose }) => {
 
       onClose();
     } catch (err) {
-      console.error("[Error [REGISTRATION]]", err);
-      toast.error("Не удалось зарегистрироваться", { icon: "\u274C" });
+      console.error("[REGISTRATION]", err);
+      toast.error(
+        err instanceof Error ? err.message : "Не удалось зарегистрироваться",
+        { icon: "\u274C" },
+      );
     }
   };
 
