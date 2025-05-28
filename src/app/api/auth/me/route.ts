@@ -29,7 +29,7 @@ export const GET = async () => {
 
     return NextResponse.json(data);
   } catch (err) {
-    console.error("[ME_GET] API error:", err);
+    console.error("[AUTH_ME_GET] API error:", err);
     return NextResponse.json(
       { error: "Failed to get me auth session" },
       { status: 500 },
