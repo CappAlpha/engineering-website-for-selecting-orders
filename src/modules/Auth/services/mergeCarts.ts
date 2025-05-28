@@ -16,84 +16,83 @@ export const mergeCarts = async (guestCartToken: string, userId: string) => {
   }
 
   try {
-    // Find guest cart
-    const guestCart = await prisma.cart.findFirst({
-      where: { userId: null, token: guestCartToken },
-      include: { items: true },
-    });
-
-    if (!guestCart) {
-      console.warn(
-        `[CART_MERGE] Guest cart not found for token: ${guestCartToken}`,
-      );
-      return;
-    }
-
-    if (guestCart.items.length === 0) {
-      console.info("[CART_MERGE]  Guest cart is empty, nothing to merge");
-      await prisma.cart.delete({ where: { id: guestCart.id } });
-      return;
-    }
-
-    // Find user cart
-    const userCart = await prisma.cart.findUnique({
-      where: { userId },
-      include: { items: true },
-    });
-
-    // If user cart doesn't exist, create it
-    if (!userCart) {
-      await prisma.cart.update({
-        where: { id: guestCart.id },
-        data: { userId },
+    await prisma.$transaction(async (tx) => {
+      // Find guest cart
+      const guestCart = await tx.cart.findFirst({
+        where: { userId: null, token: guestCartToken },
+        include: { items: true },
       });
-      return;
-    }
 
-    // Process each item in the guest cart
-    for (const guestItem of guestCart.items) {
-      // Check if this product already exists in user's cart
-      const existingItem = userCart.items.find(
-        (item) => item.productId === guestItem.productId,
-      );
-
-      if (existingItem) {
-        // Update quantity of existing item
-        await prisma.cartItem.update({
-          where: { id: existingItem.id },
-          // TODO: improve logic?
-          data: {
-            quantity:
-              existingItem.quantity + guestItem.quantity <=
-              CartQuantityLimits.MAX
-                ? existingItem.quantity + guestItem.quantity
-                : CartQuantityLimits.MAX,
-          },
-        });
-      } else {
-        // Add new item to user's cart
-        await prisma.cartItem.create({
-          data: {
-            cartId: userCart.id,
-            productId: guestItem.productId,
-            quantity:
-              guestItem.quantity <= CartQuantityLimits.MAX
-                ? guestItem.quantity
-                : CartQuantityLimits.MAX,
-          },
-        });
+      if (!guestCart) {
+        console.warn(
+          `[CART_MERGE] Guest cart not found for token: ${guestCartToken}`,
+        );
+        return;
       }
-    }
 
-    await prisma.cartItem.deleteMany({
-      where: { cartId: guestCart.id },
+      if (guestCart.items.length === 0) {
+        await tx.cart.delete({ where: { id: guestCart.id } });
+        return;
+      }
+
+      // Find user cart
+      const userCart = await tx.cart.findUnique({
+        where: { userId },
+        include: { items: true },
+      });
+
+      // If user cart doesn't exist, create it
+      if (!userCart) {
+        await tx.cart.update({
+          where: { id: guestCart.id, token: guestCartToken },
+          data: { userId },
+        });
+        return;
+      }
+
+      // Process each item in the guest cart
+      for (const guestItem of guestCart.items) {
+        const existingItem = userCart.items.find(
+          (item) => item.productId === guestItem.productId,
+        );
+
+        console.log(existingItem);
+
+        // Check if this product already exists in user's cart
+        if (existingItem) {
+          // Update quantity of existing item
+          await tx.cartItem.update({
+            where: { id: existingItem.id },
+            data: {
+              quantity: Math.min(
+                Number(existingItem.quantity) + guestItem.quantity,
+                CartQuantityLimits.MAX,
+              ),
+            },
+          });
+        } else {
+          // Add new item to user's cart
+          await tx.cartItem.create({
+            data: {
+              cartId: userCart.id,
+              productId: guestItem.productId,
+              quantity: guestItem.quantity,
+            },
+          });
+        }
+      }
+
+      // Clear guest cart
+      await tx.cartItem.deleteMany({
+        where: { cartId: guestCart.id },
+      });
+      await tx.cart.delete({
+        where: { id: guestCart.id },
+      });
+
+      // Update total amount
+      await updateCartTotalAmount(userCart.token);
     });
-
-    await prisma.cart.delete({
-      where: { id: guestCart.id },
-    });
-
-    await updateCartTotalAmount(userCart.token);
   } catch (err) {
     console.error("[CART_MERGE] Error:", err);
   }
