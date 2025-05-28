@@ -1,4 +1,4 @@
-# My App - Modern Next.js Application
+# Engineering website for orders - Modern Next.js Application
 
 ![Next.js](https://img.shields.io/badge/Next.js-15.3.2-000000?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.1.0-61DAFB?logo=react)

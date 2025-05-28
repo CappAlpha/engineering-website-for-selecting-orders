@@ -21,7 +21,7 @@ export default async function Home({
   return (
     <>
       <div className={s.wrap}>
-        <h1 className={s.title}>Все заказы</h1>
+        <h1 className={s.title}>Каталог</h1>
       </div>
 
       <TopBar categories={categoriesFiltered} />
