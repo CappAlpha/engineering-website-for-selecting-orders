@@ -55,13 +55,16 @@ Edit .env with your database credentials and other settings.
 ```bash
 npx prisma migrate dev --name init
 npx prisma db seed
-Development
-bash
+```
+
+4. Development
+
+```bash
 npm run dev
 Open http://localhost:3000 in your browser.
 ```
 
-4. Production Build
+5. Production Build
 
 ```bash
 npm run build
