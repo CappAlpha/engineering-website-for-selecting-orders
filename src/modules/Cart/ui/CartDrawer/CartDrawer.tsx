@@ -20,7 +20,7 @@ export const CartDrawer: FC<Props> = ({ open, isCartEmpty, toggleDrawer }) => {
       open={open}
       onClose={toggleDrawer(false)}
       anchor="right"
-      className={s.drawer}
+      className={s.root}
     >
       <div className={s.wrap}>
         {isCartEmpty ? (

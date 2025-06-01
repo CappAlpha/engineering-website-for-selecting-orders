@@ -46,7 +46,7 @@ $breakpoints: (
 
     &:hover {
       @media (hover: hover) and (pointer: fine) {
-        background-color: var(--deep-blue);
+        background-color: var(--deep-blue-hover);
         cursor: pointer;
       }
     }

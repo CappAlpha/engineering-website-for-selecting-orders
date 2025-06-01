@@ -9,4 +9,5 @@
   gap: 20px;
   background: var(--gray);
   color: var(--white);
+  @include scrollbar;
 }
