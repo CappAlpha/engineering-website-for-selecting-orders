@@ -24,11 +24,15 @@ export default async function Home({
         <h1 className={s.title}>Каталог</h1>
       </div>
 
-      <TopBar categories={categoriesFiltered} />
+      <div className={s.topBar}>
+        <TopBar categories={categoriesFiltered} />
+      </div>
 
-      <div className={s.wrapCatalog}>
-        <Filters />
-        <ProductsCatalog categories={categories} />
+      <div className={s.catalog}>
+        <div className={s.wrapCatalog}>
+          <Filters />
+          <ProductsCatalog categories={categories} />
+        </div>
       </div>
     </>
   );

@@ -11,24 +11,14 @@
   font-size: 16px;
   font-weight: 700;
   line-height: 140%;
+  color: var(--deep-blue);
 }
 
 .loading {
-  pointer-events: none;
-  color: transparent;
-  fill: transparent;
+  @include spinner;
 
   &::after {
-    display: block;
-    content: "";
-    position: absolute;
-    top: 1px;
-    left: 0;
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    border: 2px solid var(--white);
+    border: solid 2px var(--deep-blue);
     border-top-color: transparent;
-    animation: infinite 1s linear loaderSpin;
   }
 }

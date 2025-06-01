@@ -94,11 +94,6 @@ export const Slider: FC<Props> = ({
       value={localValues}
       onChange={handleValueChange}
       marks={marks}
-      sx={{
-        "& .MuiSlider-markLabel": {
-          color: "white",
-        },
-      }}
       disableSwap
     />
   );

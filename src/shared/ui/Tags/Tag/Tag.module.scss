@@ -1,7 +1,8 @@
 .root {
-  background-color: var(--blue);
+  outline: 1px solid var(--blue);
+  color: var(--blue);
   padding: 8px;
-  border-radius: 20px;
+  border-radius: 10px;
   font-size: 14px;
   font-weight: 400;
   line-height: 120%;

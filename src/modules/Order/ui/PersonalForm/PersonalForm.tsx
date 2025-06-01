@@ -21,6 +21,7 @@ export const PersonalForm: FC = () => {
         placeholder="Александр"
         required
         inputMode="text"
+        className={s.input}
       />
       <FormInput
         name="lastName"
@@ -28,6 +29,7 @@ export const PersonalForm: FC = () => {
         placeholder="Иванов"
         required
         inputMode="text"
+        className={s.input}
       />
       <FormInput
         name="email"
@@ -37,6 +39,7 @@ export const PersonalForm: FC = () => {
         required
         inputMode="email"
         autoComplete="email"
+        className={s.input}
       />
       <FormInput
         inputRef={inputRef}
@@ -47,6 +50,7 @@ export const PersonalForm: FC = () => {
         required
         inputMode="tel"
         autoComplete="tel"
+        className={s.input}
       />
     </div>
   );

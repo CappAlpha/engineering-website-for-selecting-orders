@@ -1,10 +1,12 @@
 "use client";
 
+import cn from "classnames";
 import { HTMLProps, useId, type FC } from "react";
 import { AddressSuggestions } from "react-dadata";
 
 import { Input } from "../Input";
 
+import sInput from "../Input/Input.module.scss";
 import s from "./AddressInput.module.scss";
 
 interface Props extends HTMLProps<HTMLInputElement> {
@@ -19,10 +21,8 @@ export const AddressInput: FC<Props> = ({
   ...inputProps
 }) => {
   const id = useId();
-
-  console.log(value);
   return (
-    <div className={s.root}>
+    <div className={cn(sInput.root, s.addressList)}>
       <AddressSuggestions
         token={process.env.NEXT_PUBLIC_DADATA_TOKEN ?? ""}
         onChange={(data) => onInputChange(data?.value ?? "")}

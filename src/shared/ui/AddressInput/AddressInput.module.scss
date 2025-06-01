@@ -1,23 +1,4 @@
-.root {
-  background: var(--dark-gray);
-
-  label {
-    color: var(--white);
-
-    span {
-      color: var(--additional-red);
-    }
-  }
-
-  input,
-  textarea {
-    color: var(--white);
-  }
-
-  input {
-    border-bottom: 1px solid var(--gray);
-  }
-
+.addressList {
   ul {
     display: flex;
     flex-wrap: wrap;
@@ -27,15 +8,15 @@
       width: 100%;
       padding: 8px;
       text-align: left;
-      color: var(--white);
-      background: var(--almost-dark-gray);
+      color: var(--deep-blue);
+      background: var(--light-gray);
       transition: all 0.2s ease-in-out;
 
       &:hover {
         @media (hover: hover) and (pointer: fine) {
           cursor: pointer;
-          color: var(--almost-dark-gray);
-          background: var(--gray);
+          color: var(--white);
+          background: var(--blue);
         }
       }
     }

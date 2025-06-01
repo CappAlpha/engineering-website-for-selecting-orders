@@ -1,11 +1,11 @@
 .root {
   border-radius: 16px;
   background-color: transparent;
-  color: var(--gray);
+  color: var(--light-gray);
 }
 
 .active {
   color: var(--white) !important;
   background-color: var(--blue) !important;
-  box-shadow: 1px 0px 6px 0.5px var(--blue-border);
+  box-shadow: 1px 0px 6px 0.5px var(--gray-border);
 }

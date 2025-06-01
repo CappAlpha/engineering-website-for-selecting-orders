@@ -1,12 +1,14 @@
 .root {
   position: sticky;
   top: 130px;
+  min-width: 300px;
+  width: 300px;
   height: 100%;
   display: flex;
   flex-direction: column;
   padding: 30px;
-  background: var(--black);
-  outline: 1px solid var(--dark-blue);
+  background: var(--white);
+  outline: 1px solid var(--gray-border);
   border-radius: 25px;
 }
 
@@ -16,14 +18,14 @@
   & {
     margin-bottom: 15px;
     padding-bottom: 15px;
-    border-bottom: 2px solid var(--dark-blue);
+    border-bottom: 2px solid var(--deep-blue);
   }
 }
 
 .priceCategory {
   margin-bottom: 15px;
   padding-bottom: 15px;
-  border-bottom: 1px solid var(--dark-blue);
+  border-bottom: 1px solid var(--deep-blue);
 }
 
 .categoryTitle {

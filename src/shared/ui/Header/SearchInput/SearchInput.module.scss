@@ -11,7 +11,7 @@
   }
 
   &:focus {
-    outline: var(--blue) 1px solid;
+    outline: var(--gray-border) 1px solid;
   }
 }
 
@@ -35,7 +35,7 @@
 .hidden {
   pointer-events: none;
   opacity: 0;
-  //TODO: fix
+  visibility: hidden;
   animation: hideOpacity 0.3s ease-in-out;
 }
 
@@ -45,7 +45,7 @@
   }
 
   >div {
-    color: var(--white) !important;
+    color: var(--deep-blue) !important;
     border-bottom: 1px solid var(--white) !important;
     padding-top: 20px !important;
   }
@@ -55,24 +55,53 @@
   }
 
   button {
-    color: var(--white) !important;
+    color: var(--deep-blue) !important;
   }
 }
 
 .groupHeader {
   position: sticky;
-  top: -8px;
+  top: -10px;
   padding: 4px 10px;
+  font-size: 20px;
   color: var(--white);
-  background-color: var(--dark-blue);
+  background-color: var(--deep-blue);
 }
 
 .groupItems {
   padding: 0;
 }
 
+.optionLi {
+  margin-bottom: 10px;
+  margin-inline: 10px;
+  font-size: 18px;
+
+  &:first-child {
+    margin-top: 10px;
+  }
+}
+
 .link {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   height: 100%;
   padding: 6px 16px;
+  @include expandableArea;
+  --clickable-area-expandable-ratio: 5px;
+
+  &:hover {
+    @media (hover: hover) and (pointer: fine) {
+      background: var(--deep-blue-hover);
+      color: var(--white);
+      fill: var(--white);
+      border-radius: 10px;
+    }
+  }
+}
+
+.img {
+  object-fit: cover;
+  border-radius: 2px;
 }

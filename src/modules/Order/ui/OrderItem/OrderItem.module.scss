@@ -1,9 +1,12 @@
 .root {
   padding: 60px 35px;
-  margin-bottom: 45px;
   border-radius: 30px;
-  outline: 1px solid var(--dark-blue);
-  background: var(--black);
+  outline: 1px solid var(--gray-border);
+  background: var(--light-gray);
+
+  &:not(:last-child) {
+    margin-bottom: 45px;
+  }
 }
 
 .disabled {
@@ -20,7 +23,7 @@
 .headerCart {
   padding-bottom: 26px;
   margin-bottom: 30px;
-  border-bottom: 2px solid var(--dark-blue);
+  border-bottom: 2px solid var(--deep-blue);
 }
 
 .headerCart {
@@ -39,6 +42,16 @@
 .btn {
   font-size: 18px;
   line-height: 120%;
+
+  &:hover {
+    @media (hover: hover) and (pointer: fine) {
+      color: var(--deep-blue-hover) !important;
+      
+      .icon {
+        fill: var(--deep-blue-hover) !important;
+      }
+    }
+  }
 }
 
 .icon {

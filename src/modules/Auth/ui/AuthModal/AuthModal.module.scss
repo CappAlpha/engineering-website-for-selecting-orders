@@ -6,9 +6,9 @@
   width: 100%;
   max-width: 400px;
   padding: 40px;
-  background: var(--black);
+  background: var(--white);
   border-radius: 25px;
-  outline: 1px solid var(--dark-blue);
+  outline: 1px solid var(--gray-border);
 }
 
 .close {
@@ -23,7 +23,7 @@
   &:hover {
     @media (hover: hover) and (pointer: fine) {
       .closeIcon {
-        fill: var(--white) !important;
+        fill: var(--deep-blue-hover) !important;
       }
     }
   }

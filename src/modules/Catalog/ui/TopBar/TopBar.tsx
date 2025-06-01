@@ -26,13 +26,11 @@ export const TopBar: FC<TopBarProps> = ({ categories }) => {
 
   return (
     <div className={s.root}>
-      <div className={s.wrap}>
-        {categories.length > 0 ? (
-          <Tabs items={categories} activeId={activeId} onClick={handleScroll} />
-        ) : (
-          <div />
-        )}
-      </div>
+      {categories.length > 0 ? (
+        <Tabs items={categories} activeId={activeId} onClick={handleScroll} />
+      ) : (
+        <div />
+      )}
     </div>
   );
 };

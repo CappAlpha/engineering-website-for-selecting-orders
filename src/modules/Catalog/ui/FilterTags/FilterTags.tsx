@@ -61,6 +61,7 @@ export const FilterTags: FC<Props> = ({
       {showAll && (
         <div className={s.input}>
           <Input
+            paddingSize="sm"
             onChange={onChangeSearchInput}
             placeholder={searchInputPlaceholder}
             value={searchValue}

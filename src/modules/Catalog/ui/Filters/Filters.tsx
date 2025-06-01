@@ -65,6 +65,7 @@ export const Filters: FC = () => {
               handlePriceChange(e, "priceFrom")
             }
             aria-label="Минимальная цена ввод клавиатурой"
+            paddingSize="sm"
           />
           <Input
             type="number"
@@ -73,6 +74,7 @@ export const Filters: FC = () => {
               handlePriceChange(e, "priceTo")
             }
             aria-label="Максимальная цена ввод клавиатурой"
+            paddingSize="sm"
           />
         </div>
         <div className={s.sliderWrap}>

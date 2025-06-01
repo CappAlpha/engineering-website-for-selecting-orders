@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { Category, Product } from "@prisma/client";
 import cn from "classnames";
+import Image from "next/image";
 import Link from "next/link";
 import { HTMLAttributes, Key, useRef, useState, type FC } from "react";
 
@@ -99,6 +100,13 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
     return (
       <li key={key} {...otherProps} className={s.optionLi}>
         <Link href={`/${option.categorySlug}/${option.id}`} className={s.link}>
+          <Image
+            className={s.img}
+            width={39}
+            height={39}
+            src={option.imageUrl}
+            alt={option.name}
+          />
           {option.name}
         </Link>
       </li>

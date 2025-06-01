@@ -3,8 +3,7 @@
   top: 40px;
   padding: 40px 30px;
   border-radius: 30px;
-  outline: 1px solid var(--dark-blue);
-  background: var(--black);
+  outline: 1px solid var(--gray-border);
 }
 
 .disabled {
@@ -26,7 +25,7 @@
 .content {
   padding-bottom: 26px;
   margin-bottom: 30px;
-  border-bottom: 2px solid var(--dark-blue);
+  border-bottom: 2px solid var(--deep-blue);
 }
 
 .total {
@@ -82,7 +81,7 @@
 .line {
   width: 100%;
   margin-inline: 10px;
-  border-bottom: 1px dashed var(--blue-border);
+  border-bottom: 1px dashed var(--gray-border);
 }
 
 .contentPrice {

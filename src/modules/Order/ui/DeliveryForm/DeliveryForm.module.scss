@@ -3,3 +3,9 @@
   flex-direction: column;
   gap: 25px;
 }
+
+.input {
+  div {
+    background: var(--white) !important;
+  }
+}

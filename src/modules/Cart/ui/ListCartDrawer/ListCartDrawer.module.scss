@@ -7,10 +7,6 @@
   margin-top: 20px;
 }
 
-.loading {
-  @include spinner;
-}
-
 .topInfo {
   margin-left: 20px;
   font-size: 20px;
@@ -20,7 +16,7 @@
 
 .close,
 .icon {
-  fill: var(--white) !important;
+  fill: var(--white);
   width: 20px;
   min-width: 20px;
 }
@@ -33,7 +29,9 @@
 
   &:hover {
     @media (hover: hover) and (pointer: fine) {
-      fill: var(--gray);
+      svg {
+        fill: var(--light-gray) !important;
+      }
     }
   }
 }
@@ -91,7 +89,7 @@
 .line {
   width: 100%;
   margin-inline: 10px;
-  border-bottom: 1px dashed var(--blue-border);
+  border-bottom: 1px dashed var(--gray-border);
 }
 
 .bottomPrice {
@@ -107,4 +105,13 @@
 .orderIcon {
   width: 14px;
   min-width: 14px;
+}
+
+.loading {
+  @include spinner;
+
+  &::after {
+    border: solid 2px var(--white);
+    border-top-color: transparent;
+  }
 }

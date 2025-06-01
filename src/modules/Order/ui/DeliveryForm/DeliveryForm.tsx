@@ -24,6 +24,7 @@ export const DeliveryForm: FC = () => {
             placeholder="Москва, ул. Мира 12"
             inputMode="text"
             errorText={fieldState.error?.message}
+            className={s.input}
             {...field}
           />
         )}
@@ -36,6 +37,7 @@ export const DeliveryForm: FC = () => {
         multiline
         rows={8}
         inputMode="text"
+        className={s.input}
       />
       {/* TODO: add choose time? */}
       {/*  <FormInput

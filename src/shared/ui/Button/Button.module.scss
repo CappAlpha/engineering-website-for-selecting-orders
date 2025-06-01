@@ -7,10 +7,10 @@
   font-size: 14px;
   line-height: 130%;
   border-radius: 8px;
-  background: var(--dark-blue);
+  background: var(--deep-blue);
   display: inline-flex;
   gap: 6px;
-  transition: all 0.3s;
+  transition: all 0.2s ease-in-out;
   width: max-content;
   height: fit-content;
   white-space: nowrap;
@@ -19,13 +19,13 @@
   justify-content: center;
 
   svg {
-    transition: all 0.3s;
+    transition: all 0.2s ease-in-out;
   }
 
   &:hover {
     @media (hover: hover) and (pointer: fine) {
       color: var(--white);
-      background: var(--blue);
+      background: var(--deep-blue-hover);
       cursor: pointer;
     }
   }
@@ -49,19 +49,13 @@
   &.color {
     &_transparent {
       background: transparent;
-      color: var(--light-blue);
-
-      svg {
-        fill: var(--light-blue);
-      }
+      color: var(--deep-blue);
+      fill: var(--dark-blue);
 
       &:hover {
         @media (hover: hover) and (pointer: fine) {
           color: var(--gray);
-
-          svg {
-            fill: var(--gray);
-          }
+          fill: var(--white);
         }
       }
     }
@@ -69,12 +63,14 @@
     &_outline {
       background: transparent;
       color: var(--blue);
-      outline: 1px solid var(--blue);
+      outline: 1px solid var(--gray-border);
+      fill: var(--dark-blue);
 
       &:hover {
         @media (hover: hover) and (pointer: fine) {
-          background: var(--blue);
+          background: var(--deep-blue-hover);
           color: var(--white);
+          fill: var(--white);
         }
       }
     }
@@ -82,12 +78,9 @@
 
   &.disabled {
     pointer-events: none;
-    color: var(--semi-dark-gray);
-    outline-color: var(--semi-dark-gray);
-
-    svg {
-      color: var(--semi-dark-gray);
-    }
+    color: var(--almost-dark-gray);
+    outline-color: var(--almost-dark-gray);
+    background: var(--input-gray);
   }
 
   &.loading {

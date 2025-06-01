@@ -1,5 +1,5 @@
 .wrap {
-  @include wrap;
+  @include wrapPage;
 
   & {
     display: grid;

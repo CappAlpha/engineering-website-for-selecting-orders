@@ -14,7 +14,7 @@ import { useAppSelector } from "@/shared/hooks/useAppSelector";
 import { Button } from "@/shared/ui/Button";
 import { pluralize } from "@/shared/utils/pluralize";
 
-import { Plus, Arrow } from "../../../../../public/icon";
+import { Arrow, Plus } from "../../../../../public/icon";
 import { useCartReducers } from "../../hooks/useCartReducers";
 import { ProductCardLine } from "../ProductCardLine";
 

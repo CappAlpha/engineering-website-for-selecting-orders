@@ -11,7 +11,8 @@
 .skeletonRow {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 60px;
+  column-gap: 30px;
+  row-gap: 40px;
 }
 
 .titleSkeleton {

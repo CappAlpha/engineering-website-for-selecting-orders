@@ -1,8 +1,7 @@
-// TODO: add colors to colors.scss
 .root {
-  margin-top: 120px;
-  background-color: #1e293b;
+  background-color: var(--dark-gray-blue);
   padding: 60px 40px 20px;
+  border-radius: 50px 50px 0 0;
 }
 
 .wrap {
@@ -30,7 +29,7 @@
 
 .description {
   line-height: 120%;
-  color: var(--gray);
+  color: var(--light-gray);
 }
 
 .subtitle {
@@ -64,6 +63,10 @@
 .listContact {
   margin-bottom: 24px;
 
+  span {
+    color: var(--light-gray);
+  }
+
   li {
     display: flex;
     align-items: center;
@@ -89,28 +92,41 @@
 .socialBtn {
   @include expandableArea;
   --clickable-area-expandable-ratio: 10px;
+
+  svg {
+    fill: var(--white) !important;
+  }
+
+  &:hover {
+    @media (hover: hover) and (pointer: fine) {
+      svg {
+        fill: var(--gray) !important;
+      }
+    }
+  }
 }
 
 .socialIcon {
   width: 40px;
   min-width: 40px;
-  fill: var(--white);
+
 }
 
 .subscribe {
   margin-bottom: 24px;
   padding-bottom: 24px;
-  border-bottom: 1px solid #334155;
+  border-bottom: 1px solid var(--gray);
 }
 
 .subscribeWrap {
-  background-color: #2d3748;
+  background-color: var(--gray-blue);
   padding: 32px;
   border-radius: 8px;
 }
 
 .subscribeDescription {
   margin-bottom: 16px;
+  color: var(--light-gray);
 }
 
 .bottom {
@@ -126,11 +142,10 @@
 
   a {
     color: #cbd5e1;
-    text-decoration: none;
     transition: color 0.3s;
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
+    &:hover {
+      @media (hover: hover) and (pointer: fine) {
         color: var(--blue);
       }
     }
@@ -139,5 +154,5 @@
 
 .copyright {
   font-size: 12px;
-  color: #94a3b8;
+  color: var(--gray);
 }

@@ -1,12 +1,17 @@
 .root {
   white-space: nowrap;
   svg {
-    fill: var(--white);
+    fill: var(--deep-blue);
+  }
+
+  &:hover{
+    fill: var(--gray);
+    color: var(--blue);
   }
 }
 
 .checked {
   svg {
-    fill: var(--additional-red);
+    fill: var(--blue);
   }
 }
