@@ -36,7 +36,6 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const ref = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  // TODO: remove or made limit
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   const onClose = () => {
@@ -107,7 +106,6 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
               height={39}
               src={option.imageUrl}
               alt={option.name}
-              unoptimized={option.imageUrl.startsWith("http")}
             />
           )}
           {option.name}
