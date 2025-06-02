@@ -4,7 +4,7 @@ import { Product } from "@prisma/client";
 import cn from "classnames";
 import Image from "next/image";
 import Link from "next/link";
-import { type MouseEvent, type FC } from "react";
+import { type FC, type MouseEvent } from "react";
 
 import { selectIsItemAdding } from "@/modules/Cart/store/cartSelectors";
 import { useAppSelector } from "@/shared/hooks/useAppSelector";
@@ -40,15 +40,18 @@ export const ProductCard: FC<Props> = ({
       href={`${categorySlug}/${id}`}
     >
       <div className={s.imgWrap}>
-        <Image
-          className={s.img}
-          src={imageUrl}
-          alt={name}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          fill
-          loading={isFirstCategories ? "eager" : "lazy"}
-          priority={isFirstCategories}
-        />
+        {imageUrl && (
+          <Image
+            className={s.img}
+            src={imageUrl}
+            alt={name}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            fill
+            loading={isFirstCategories ? "eager" : "lazy"}
+            priority={isFirstCategories}
+            unoptimized={imageUrl.startsWith("http")}
+          />
+        )}
       </div>
 
       <div className={s.textWrap}>

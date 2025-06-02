@@ -93,14 +93,17 @@ export default async function ProductPage({
       />
       <div className={s.wrap}>
         <div className={s.left}>
-          <Image
-            className={s.img}
-            src={imageUrl}
-            alt={`${name} - картинка продукта`}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            fill
-            priority
-          />
+          {imageUrl && (
+            <Image
+              className={s.img}
+              src={imageUrl}
+              alt={`${name} - картинка продукта`}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              fill
+              priority
+              unoptimized={imageUrl.startsWith("http")}
+            />
+          )}
         </div>
         <ProductProperties
           id={id}

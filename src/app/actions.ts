@@ -10,6 +10,7 @@ import { EmailVerification } from "@/modules/Auth/ui/EmailVerification";
 import { CartItemDTO } from "@/modules/Cart/entities/cart";
 import { cartClear } from "@/modules/Cart/services/cartClear";
 import { findCartWithProducts } from "@/modules/Cart/services/findCartWithProducts";
+import { TCreateProductCardSchema } from "@/modules/Catalog/schemas/createProductCardSchema";
 import { CheckoutFormValues } from "@/modules/Order/schemas/checkoutFormSchema";
 import { createPayment } from "@/modules/Order/services/createPayment";
 import { sendEmail } from "@/modules/Order/services/sendEmail";
@@ -186,3 +187,33 @@ export const registerUser = async (
     throw err;
   }
 };
+
+export async function createProduct(
+  data: TCreateProductCardSchema,
+): Promise<void> {
+  try {
+    const [categoryName, categorySlug] = data.category.trim().split(",");
+    const tagsArray =
+      data.tags
+        ?.split(",")
+        .map((tag) => tag.trim())
+        .filter(Boolean) ?? [];
+
+    await prisma.product.create({
+      data: {
+        id: randomUUID(),
+        name: data.name,
+        description: data.description ?? "",
+        imageUrl: data.imageUrl ?? null,
+        tags: [categoryName, ...tagsArray],
+        categorySlug: categorySlug,
+        price: parseFloat(data.price),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+  } catch (err) {
+    console.error("[CREATE_PRODUCT_ERROR]", err);
+    throw err;
+  }
+}

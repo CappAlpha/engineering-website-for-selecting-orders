@@ -11,7 +11,7 @@ import s from "./page.module.scss";
 export default async function Home({
   searchParams,
 }: Readonly<{ searchParams: GetSearchParamsPage }>) {
-  const categories = await findProduct(searchParams);
+  const { categories } = await findProduct(searchParams);
 
   const categoriesFiltered = categories.map(({ id, name }) => ({
     id: id,

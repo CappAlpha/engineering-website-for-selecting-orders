@@ -14,7 +14,6 @@ export interface TopBarProps {
 
 export const TopBar: FC<TopBarProps> = ({ categories }) => {
   const activeId = useAppSelector((state) => state.categories.activeId);
-
   const handleScroll = (name: string, isActive: boolean) => {
     if (!isActive) {
       const element = document.getElementById(name);

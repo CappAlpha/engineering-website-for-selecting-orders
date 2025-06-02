@@ -35,8 +35,23 @@
   line-height: 22px;
 }
 
-.priceInputs {
+.priceInputs,
+.priceInputsSkeleton {
   display: flex;
   gap: 12px;
   margin-bottom: 20px;
+}
+
+.priceInputSkeleton,
+.sliderSkeleton {
+  @include skeleton;
+  width: 100%;
+}
+
+.priceInputSkeleton {
+  height: 40px;
+}
+
+.sliderSkeleton {
+  height: 51px;
 }

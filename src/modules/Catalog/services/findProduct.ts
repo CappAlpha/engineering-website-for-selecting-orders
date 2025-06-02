@@ -1,73 +1,136 @@
+import { Prisma } from "@prisma/client";
+
+import { Api } from "@/shared/services/apiClient";
+
 import { prisma } from "../../../../prisma/prisma-client";
 
 interface GetSearchParams {
   query?: string;
-  sortBy?: string;
-  priceFrom?: number;
-  priceTo?: number;
+  minPrice?: number;
+  maxPrice?: number;
   tags?: string;
-  //TODO: extend?
-  // limit?: string;
-  // page?: string;
+  // TODO: add pagination?
+  // limit?: number;
+  // page?: number;
 }
 
 export type GetSearchParamsPage = Promise<GetSearchParams>;
 
-const PRICE_CONFIG = {
-  MIN_PRICE: 0,
-  MAX_PRICE: 30000,
-  SLIDER_GAP: 1000,
-  SLIDER_STEP: 100,
-} as const;
+const validateAndNormalizeParams = async (params: GetSearchParams) => {
+  // TODO: improve?
+  const { minPrice: globalMinPrice, maxPrice: globalMaxPrice } =
+    await Api.products.getPriceRange();
 
-export const findProduct = async (params: GetSearchParamsPage) => {
-  const { priceFrom, priceTo, tags } = await params;
+  const priceFrom =
+    params.minPrice !== undefined
+      ? Math.max(Number(params.minPrice), globalMinPrice)
+      : undefined;
 
-  const minPriceRaw = Number(priceFrom);
-  const minPrice = isNaN(minPriceRaw)
-    ? PRICE_CONFIG.MIN_PRICE
-    : Math.max(minPriceRaw, PRICE_CONFIG.MIN_PRICE);
-  const maxPriceRaw = Number(priceTo);
-  const maxPrice = isNaN(maxPriceRaw)
-    ? PRICE_CONFIG.MAX_PRICE
-    : Math.min(maxPriceRaw, PRICE_CONFIG.MAX_PRICE);
+  const priceTo =
+    params.maxPrice !== undefined
+      ? Math.min(Number(params.maxPrice), globalMaxPrice)
+      : undefined;
 
-  const tagsArray: string[] =
-    tags
+  const tagsArray =
+    params.tags
       ?.split(",")
       .map((tag) => tag.trim())
-      .filter(Boolean) ?? [];
+      .filter(Boolean) || [];
 
+  return {
+    query: params.query?.trim(),
+    priceFrom,
+    priceTo,
+    tagsArray,
+  };
+};
+
+const buildProductWhereClause = (
+  query?: string,
+  priceFrom?: number,
+  priceTo?: number,
+  tagsArray?: string[],
+): Prisma.ProductWhereInput => {
+  const conditions: Prisma.ProductWhereInput = {};
+
+  if (priceFrom !== undefined || priceTo !== undefined) {
+    conditions.price = {};
+    if (priceFrom !== undefined) conditions.price.gte = priceFrom;
+    if (priceTo !== undefined) conditions.price.lte = priceTo;
+  }
+
+  if (query) {
+    conditions.name = { contains: query, mode: "insensitive" };
+  }
+
+  if (tagsArray && tagsArray.length > 0) {
+    conditions.tags = { hasSome: tagsArray };
+  }
+
+  return conditions;
+};
+
+export const findProduct = async (params: GetSearchParamsPage) => {
   try {
-    const categories = await prisma.category.findMany({
+    const normalizedParams = await validateAndNormalizeParams(await params);
+    const { query, priceFrom, priceTo, tagsArray } = normalizedParams;
+
+    const productWhereClause = buildProductWhereClause(
+      query,
+      priceFrom,
+      priceTo,
+      tagsArray,
+    );
+
+    // Optimized query - first find products, then group by category
+    const products = await prisma.product.findMany({
+      where: productWhereClause,
+      orderBy: {
+        id: "desc",
+      },
       include: {
-        products: {
-          orderBy: {
-            id: "desc",
-          },
-          where: {
-            price: {
-              gte: minPrice,
-              lte: maxPrice,
-            },
-            ...(tagsArray &&
-              tagsArray.length > 0 && {
-                tags: {
-                  hasSome: tagsArray,
-                },
-              }),
+        category: {
+          select: {
+            id: true,
+            name: true,
           },
         },
       },
     });
 
-    const filteredCategories = categories.filter(
-      (category) => category.products.length > 0,
-    );
+    const categoriesMap = new Map();
 
-    return filteredCategories;
+    products.forEach((product) => {
+      const categoryId = product.category.id;
+
+      if (!categoriesMap.has(categoryId)) {
+        categoriesMap.set(categoryId, {
+          id: categoryId,
+          name: product.category.name,
+          products: [],
+        });
+      }
+
+      categoriesMap.get(categoryId).products.push({
+        ...product,
+        category: undefined,
+      });
+    });
+
+    const categories = Array.from(categoriesMap.values());
+
+    return {
+      categories,
+    };
   } catch (error) {
     console.error("Error fetching products:", error);
-    return [];
+
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      console.error("Database error code:", error.code);
+    }
+
+    return {
+      categories: [],
+    };
   }
 };

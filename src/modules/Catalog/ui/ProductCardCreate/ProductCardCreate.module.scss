@@ -1,0 +1,22 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+  max-width: 400px;
+  border-radius: 15px;
+  background: var(--white);
+  outline: solid 1px var(--gray-border);
+}
+
+.disable {
+  pointer-events: none;
+}
+
+.title {
+  @include subtitle;
+
+  & {
+    margin-bottom: 16px;
+  }
+}

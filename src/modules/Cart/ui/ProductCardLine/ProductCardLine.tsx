@@ -5,8 +5,8 @@ import Image from "next/image";
 import { type FC } from "react";
 
 import {
-  QuantityActionType,
   CartQuantityLimits,
+  QuantityActionType,
 } from "@/modules/Cart/constants/cart";
 import { CartStateItem } from "@/modules/Cart/entities/cart";
 import { CountBtns } from "@/modules/Cart/ui/CountBtns";
@@ -39,7 +39,15 @@ export const ProductCardLine: FC<Props> = ({
   return (
     <div className={cn(s.root, isRemoving && s.remove)}>
       <div className={s.imgWrap}>
-        <Image src={imageUrl} alt={name} fill className={s.img} />
+        {imageUrl && (
+          <Image
+            src={imageUrl}
+            alt={name}
+            fill
+            className={s.img}
+            unoptimized={imageUrl.startsWith("http")}
+          />
+        )}
       </div>
 
       <div className={s.contentWrap}>

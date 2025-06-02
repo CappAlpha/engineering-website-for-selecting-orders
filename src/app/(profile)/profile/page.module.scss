@@ -1,5 +1,9 @@
 .wrap {
   @include wrapPage;
+
+  & {
+    position: relative;
+  }
 }
 
 .title {

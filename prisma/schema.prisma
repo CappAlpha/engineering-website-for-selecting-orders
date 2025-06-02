@@ -45,7 +45,7 @@ model Product {
   id String @id
 
   name        String
-  imageUrl    String
+  imageUrl    String?
   description String
   price       Int
   tags        String[]

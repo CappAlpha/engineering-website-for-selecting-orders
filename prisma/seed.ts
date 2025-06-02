@@ -7,7 +7,7 @@ const randomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-const generatePrice = () => randomNumber(500, 30000);
+const generatePrice = () => randomNumber(500, 100000);
 
 const adminId = randomUUID();
 

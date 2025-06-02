@@ -1,5 +1,7 @@
 import { Product } from "@prisma/client";
 
+import { PriceRange } from "@/modules/Catalog/store/filtersSlice";
+
 import { PageConfig } from "../constants/pages";
 import { axiosInstance } from "./instance";
 
@@ -13,4 +15,8 @@ export const search = async (
       signal: signal,
     })
   ).data;
+};
+
+export const getPriceRange = async (): Promise<PriceRange> => {
+  return (await axiosInstance.get<PriceRange>(PageConfig.PRICE_RANGE)).data;
 };

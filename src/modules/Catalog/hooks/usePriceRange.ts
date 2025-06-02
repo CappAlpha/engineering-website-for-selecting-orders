@@ -1,11 +1,14 @@
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { filtersActions } from "@/modules/Catalog/store/filtersSlice";
+import {
+  fetchPriceRange,
+  filtersActions,
+} from "@/modules/Catalog/store/filtersSlice";
 import { useAppSelector } from "@/shared/hooks/useAppSelector";
+import { AppDispatch } from "@/store/store";
 
 interface PriceConfig {
-  MIN_PRICE: number;
-  MAX_PRICE: number;
   SLIDER_GAP: number;
   SLIDER_STEP: number;
 }
@@ -20,8 +23,15 @@ interface PriceConfig {
  *  - handleSliderChange: function to update price range when slider values change
  */
 export const usePriceRange = (config: PriceConfig) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+  const priceRange = useAppSelector((state) => state.filters.priceRange);
   const prices = useAppSelector((state) => state.filters.prices);
+  const { loading, error } = useAppSelector((state) => state.filters);
+
+  // TODO: improve?
+  useEffect(() => {
+    dispatch(fetchPriceRange());
+  }, [dispatch]);
 
   /**
    * Updates the price range in the filters state based on input field changes.
@@ -34,19 +44,19 @@ export const usePriceRange = (config: PriceConfig) => {
     key: "priceFrom" | "priceTo",
   ) => {
     const value = Number(e.target.value);
-    const currentFrom = prices.priceFrom ?? config.MIN_PRICE;
-    const currentTo = prices.priceTo ?? config.MAX_PRICE;
+    const currentFrom = prices.priceFrom ?? priceRange.minPrice;
+    const currentTo = prices.priceTo ?? priceRange.maxPrice;
 
     let newValue: number;
 
     if (key === "priceFrom") {
       newValue = Math.min(
-        Math.max(value, config.MIN_PRICE),
+        Math.max(value, priceRange.minPrice),
         currentTo - config.SLIDER_GAP,
       );
     } else {
       newValue = Math.max(
-        Math.min(value, config.MAX_PRICE),
+        Math.min(value, priceRange.minPrice),
         currentFrom + config.SLIDER_GAP,
       );
     }
@@ -70,5 +80,12 @@ export const usePriceRange = (config: PriceConfig) => {
     );
   };
 
-  return { prices, handlePriceChange, handleSliderChange };
+  return {
+    priceRange,
+    loading,
+    error,
+    prices,
+    handlePriceChange,
+    handleSliderChange,
+  };
 };

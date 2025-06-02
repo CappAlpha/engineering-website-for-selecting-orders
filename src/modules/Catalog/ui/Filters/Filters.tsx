@@ -16,8 +16,6 @@ import { FilterTags } from "../FilterTags";
 import s from "./Filters.module.scss";
 
 const PRICE_CONFIG = {
-  MIN_PRICE: 0,
-  MAX_PRICE: 30000,
   SLIDER_GAP: 1000,
   SLIDER_STEP: 100,
 } as const;
@@ -37,6 +35,8 @@ export const Filters: FC = () => {
   } = useTags(true);
 
   const {
+    priceRange: { minPrice, maxPrice },
+    loading: loadingPrice,
     prices: { priceFrom, priceTo },
     handlePriceChange,
     handleSliderChange,
@@ -57,39 +57,47 @@ export const Filters: FC = () => {
 
       <div className={s.priceCategory}>
         <p className={s.categoryTitle}>Цена от и до:</p>
-        <div className={s.priceInputs}>
-          <Input
-            type="number"
-            value={priceFrom ?? PRICE_CONFIG.MIN_PRICE}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              handlePriceChange(e, "priceFrom")
-            }
-            aria-label="Минимальная цена ввод клавиатурой"
-            paddingSize="sm"
-          />
-          <Input
-            type="number"
-            value={priceTo ?? PRICE_CONFIG.MAX_PRICE}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              handlePriceChange(e, "priceTo")
-            }
-            aria-label="Максимальная цена ввод клавиатурой"
-            paddingSize="sm"
-          />
-        </div>
+        {loadingPrice ? (
+          <div className={s.priceInputsSkeleton}>
+            <div className={s.priceInputSkeleton} />
+            <div className={s.priceInputSkeleton} />
+          </div>
+        ) : (
+          <div className={s.priceInputs}>
+            <Input
+              type="number"
+              value={priceFrom ?? minPrice}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                handlePriceChange(e, "priceFrom")
+              }
+              aria-label="Минимальная цена ввод клавиатурой"
+              paddingSize="sm"
+            />
+            <Input
+              type="number"
+              value={priceTo ?? maxPrice}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                handlePriceChange(e, "priceTo")
+              }
+              aria-label="Максимальная цена ввод клавиатурой"
+              paddingSize="sm"
+            />
+          </div>
+        )}
         <div className={s.sliderWrap}>
-          <Slider
-            min={PRICE_CONFIG.MIN_PRICE}
-            max={PRICE_CONFIG.MAX_PRICE}
-            step={PRICE_CONFIG.SLIDER_STEP}
-            minGap={PRICE_CONFIG.SLIDER_GAP}
-            value={[
-              priceFrom ?? PRICE_CONFIG.MIN_PRICE,
-              priceTo ?? PRICE_CONFIG.MAX_PRICE,
-            ]}
-            onValueChange={handleSliderChange}
-            aria-label="Диапазон цен можно двигать два ползунка влево или вправо"
-          />
+          {loadingPrice ? (
+            <div className={s.sliderSkeleton} />
+          ) : (
+            <Slider
+              min={minPrice}
+              max={maxPrice}
+              step={PRICE_CONFIG.SLIDER_STEP}
+              minGap={PRICE_CONFIG.SLIDER_GAP}
+              value={[priceFrom ?? minPrice, priceTo ?? maxPrice]}
+              onValueChange={handleSliderChange}
+              aria-label="Диапазон цен можно двигать два ползунка влево или вправо"
+            />
+          )}
         </div>
       </div>
 

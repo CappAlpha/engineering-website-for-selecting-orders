@@ -23,7 +23,7 @@ export const useQueryFilters = (
   tags: string[],
 ) => {
   const updateUrl = useDebouncedCallback(
-    (filters: { priceFrom?: number; priceTo?: number; tags: string[] }) => {
+    (filters: { minPrice?: number; maxPrice?: number; tags: string[] }) => {
       const query = qs.stringify(filters, {
         arrayFormat: "comma",
         skipNulls: true,
@@ -35,6 +35,6 @@ export const useQueryFilters = (
 
   // Update URL when filter changes
   useEffect(() => {
-    updateUrl({ priceFrom, priceTo, tags });
+    updateUrl({ minPrice: priceFrom, maxPrice: priceTo, tags });
   }, [priceFrom, priceTo, tags]);
 };

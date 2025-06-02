@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
 const nextConfig = {
   experimental: {
@@ -10,7 +9,6 @@ const nextConfig = {
     prependData: '@use "~@/shared/styles/_mixins.scss" as *;',
   },
   images: {
-    // Images domain
     remotePatterns: [
       // {
       //   protocol: `${process.env.NEXT_PUBLIC_IMG_PROTOCOL ?? ''}`,
