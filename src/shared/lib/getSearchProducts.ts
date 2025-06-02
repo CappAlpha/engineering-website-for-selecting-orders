@@ -1,6 +1,6 @@
 import { Product } from "@prisma/client";
 
-import { Api } from "../services/apiClient";
+import { Api } from "../api/server/apiServer";
 import { getCachedData } from "../utils/getCacheData";
 
 const CACHE_KEY = "searchHeaderData";

@@ -9,7 +9,7 @@ import {
   CreateCartItemValues,
 } from "@/modules/Cart/entities/cart";
 import { createCartErrorMessage } from "@/modules/Cart/utils/createCartErrorMessage";
-import { Api } from "@/shared/services/apiClient";
+import { Api } from "@/shared/api/server/apiServer";
 import type { RootState } from "@/store/store";
 
 import { CartReturnProps, getCartDetails } from "../services/getCartDetails";
@@ -59,6 +59,7 @@ const initialState = cartAdapter.getInitialState<CartState>({
   totalAmount: 0,
 });
 
+//TODO: Change to RTK Query
 export const fetchCartItems = createAsyncThunk(
   "cart/getCartItems",
   async (_, { rejectWithValue }) => {

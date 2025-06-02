@@ -2,7 +2,7 @@ import { UseFormReturn } from "react-hook-form";
 
 import { CheckoutFormValues } from "@/modules/Order/schemas/checkoutFormSchema";
 
-import { Api } from "../../../shared/services/apiClient";
+import { Api } from "../../../shared/api/server/apiServer";
 
 interface UserResponse {
   fullName: string;

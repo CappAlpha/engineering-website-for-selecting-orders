@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 
-import { Api } from "@/shared/services/apiClient";
+import { Api } from "@/shared/api/server/apiServer";
 
 import { prisma } from "../../../../prisma/prisma-client";
 
@@ -16,8 +16,8 @@ interface GetSearchParams {
 
 export type GetSearchParamsPage = Promise<GetSearchParams>;
 
+// TODO: improve?
 const validateAndNormalizeParams = async (params: GetSearchParams) => {
-  // TODO: improve?
   const { minPrice: globalMinPrice, maxPrice: globalMaxPrice } =
     await Api.products.getPriceRange();
 

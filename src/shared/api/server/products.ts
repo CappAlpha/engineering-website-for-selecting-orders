@@ -1,8 +1,7 @@
 import { Product } from "@prisma/client";
 
-import { PriceRange } from "@/modules/Catalog/store/filtersSlice";
-
-import { PageConfig } from "../constants/pages";
+import { PageConfig } from "../../constants/pages";
+import { PriceRange } from "../client/productsQuery";
 import { axiosInstance } from "./instance";
 
 export const search = async (

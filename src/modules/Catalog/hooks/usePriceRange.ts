@@ -1,10 +1,7 @@
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import {
-  fetchPriceRange,
-  filtersActions,
-} from "@/modules/Catalog/store/filtersSlice";
+import { filtersActions } from "@/modules/Catalog/store/filtersSlice";
+import { useGetPriceRangeQuery } from "@/shared/api/client/productsQuery";
 import { useAppSelector } from "@/shared/hooks/useAppSelector";
 import { AppDispatch } from "@/store/store";
 
@@ -14,49 +11,50 @@ interface PriceConfig {
 }
 
 /**
- * usePriceRange hook for managing price range in filters state.
+ * usePriceRange is a custom hook that manages price range state and interactions.
  *
- * @param config - price range configuration
- * @returns an object with the following properties:
- *  - prices: current price range
- *  - handlePriceChange: function to update price range when input values change
- *  - handleSliderChange: function to update price range when slider values change
+ * @param config An object containing configuration for the price slider, including SLIDER_GAP
+ *               which defines the minimum gap between priceFrom and priceTo, and SLIDER_STEP
+ *               which defines the step value for the slider.
+ *
+ * @returns An object containing:
+ * - priceRange: The safe price range obtained from the server or default values.
+ * - loading: A boolean indicating if the price range data is being loaded.
+ * - error: Any error encountered while fetching the price range.
+ * - prices: The current state of selected prices.
+ * - handlePriceChange: A function to update the price based on input changes.
+ * - handleSliderChange: A function to update the price based on slider changes.
  */
 export const usePriceRange = (config: PriceConfig) => {
   const dispatch = useDispatch<AppDispatch>();
-  const priceRange = useAppSelector((state) => state.filters.priceRange);
   const prices = useAppSelector((state) => state.filters.prices);
-  const { loading, error } = useAppSelector((state) => state.filters);
 
-  // TODO: improve?
-  useEffect(() => {
-    dispatch(fetchPriceRange());
-  }, [dispatch]);
+  const {
+    data: priceRange,
+    isLoading: loading,
+    error,
+  } = useGetPriceRangeQuery();
 
-  /**
-   * Updates the price range in the filters state based on input field changes.
-   *
-   * @param e - The change event from the input field.
-   * @param key - Specifies which price value to update ("priceFrom" or "priceTo").
-   */
+  const safePriceRange = priceRange ?? { minPrice: 0, maxPrice: 100000 };
+
   const handlePriceChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     key: "priceFrom" | "priceTo",
   ) => {
     const value = Number(e.target.value);
-    const currentFrom = prices.priceFrom ?? priceRange.minPrice;
-    const currentTo = prices.priceTo ?? priceRange.maxPrice;
+    const currentFrom = prices.priceFrom ?? safePriceRange.minPrice;
+    const currentTo = prices.priceTo ?? safePriceRange.maxPrice;
 
     let newValue: number;
 
     if (key === "priceFrom") {
       newValue = Math.min(
-        Math.max(value, priceRange.minPrice),
+        Math.max(value, safePriceRange.minPrice),
         currentTo - config.SLIDER_GAP,
       );
     } else {
       newValue = Math.max(
-        Math.min(value, priceRange.minPrice),
+        Math.min(value, safePriceRange.maxPrice),
         currentFrom + config.SLIDER_GAP,
       );
     }
@@ -69,19 +67,17 @@ export const usePriceRange = (config: PriceConfig) => {
     );
   };
 
-  /**
-   * Updates the price range in the filters state based on slider changes.
-   *
-   * @param values - Array containing the new "priceFrom" and "priceTo" values.
-   */
   const handleSliderChange = (values: number[]) => {
     dispatch(
-      filtersActions.setPrices({ priceFrom: values[0], priceTo: values[1] }),
+      filtersActions.setPrices({
+        priceFrom: values[0],
+        priceTo: values[1],
+      }),
     );
   };
 
   return {
-    priceRange,
+    priceRange: safePriceRange,
     loading,
     error,
     prices,
