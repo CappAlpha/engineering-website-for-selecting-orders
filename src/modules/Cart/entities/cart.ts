@@ -1,4 +1,4 @@
-import { CartItem, Product, Cart } from "@prisma/client";
+import { Cart, CartItem, Product } from "@prisma/client";
 
 export type CartItemDTO = CartItem & {
   product: Product;
@@ -13,7 +13,7 @@ export interface CartStateItem {
   quantity: number;
   name: string;
   description: string;
-  imageUrl: string;
+  imageUrl: string | null;
   price: number;
 }
 

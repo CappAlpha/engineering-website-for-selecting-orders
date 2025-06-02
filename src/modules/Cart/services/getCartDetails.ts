@@ -1,4 +1,4 @@
-import { CartStateItem, CartDTO } from "@/modules/Cart/entities/cart";
+import { CartDTO, CartStateItem } from "@/modules/Cart/entities/cart";
 
 import { calcCartTotalPrice } from "./calcCartTotalPrice";
 
@@ -14,7 +14,7 @@ export const getCartDetails = (data: CartDTO): CartReturnProps => {
     quantity: item.quantity,
     name: item.product.name,
     description: item.product.description,
-    imageUrl: item.product.imageUrl,
+    imageUrl: item.product.imageUrl ?? null,
     price: calcCartTotalPrice(item),
   }));
 
