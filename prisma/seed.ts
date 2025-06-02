@@ -57,7 +57,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/drawings/1.webp",
         categorySlug: "chertezhi",
-        tags: ["Чертёж", "Быстро"],
+        tags: ["Чертежи", "Быстро"],
       },
       {
         id: randomUUID(),
@@ -67,7 +67,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/drawings/1.webp",
         categorySlug: "chertezhi",
-        tags: ["Чертёж", "Быстро"],
+        tags: ["Чертежи", "Быстро"],
       },
       {
         id: randomUUID(),
@@ -77,7 +77,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/drawings/1.webp",
         categorySlug: "chertezhi",
-        tags: ["Чертёж", "Быстро"],
+        tags: ["Чертежи", "Быстро"],
       },
       {
         id: randomUUID(),
@@ -167,7 +167,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/program/1.webp",
         categorySlug: "programmy-na-c",
-        tags: ["Программа", "Нагрузки"],
+        tags: ["Программы на C++", "Нагрузки"],
       },
       {
         id: randomUUID(),
@@ -177,7 +177,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/program/1.webp",
         categorySlug: "programmy-na-c",
-        tags: ["Программа", "Оптимизация"],
+        tags: ["Программы на C++", "Оптимизация"],
       },
       {
         id: randomUUID(),
@@ -187,7 +187,7 @@ async function up() {
         price: generatePrice(),
         imageUrl: "/images/catalog/program/1.webp",
         categorySlug: "programmy-na-c",
-        tags: ["Программа", "Моделирование"],
+        tags: ["Программы на C++", "Моделирование"],
       },
     ],
   });

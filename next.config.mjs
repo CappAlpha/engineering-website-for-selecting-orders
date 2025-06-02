@@ -20,6 +20,14 @@ const nextConfig = {
       //   hostname: `${process.env.NEXT_PUBLIC_IMG_STRAPI_HOST ?? ''}`,
       //   port: `${process.env.NEXT_PUBLIC_IMG_STRAPI_PORT ?? ''}`,
       // },
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+      {
+        protocol: "http",
+        hostname: "**",
+      },
     ],
     deviceSizes: [360, 768, 1024, 1280, 1440, 1600],
     minimumCacheTTL: 7200,
