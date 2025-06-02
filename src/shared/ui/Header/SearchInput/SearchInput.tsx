@@ -11,11 +11,18 @@ import { Category, Product } from "@prisma/client";
 import cn from "classnames";
 import Image from "next/image";
 import Link from "next/link";
-import { HTMLAttributes, Key, useRef, useState, type FC } from "react";
+import {
+  HTMLAttributes,
+  Key,
+  useEffect,
+  useRef,
+  useState,
+  type FC,
+} from "react";
 
+import { useLazySearchProductsQuery } from "@/shared/api/client/productsQuery";
 import { useDebounce } from "@/shared/hooks/useDebounce";
 import { useOutsideClick } from "@/shared/hooks/useOutsideHook";
-import { getSearchProducts } from "@/shared/lib/getSearchProducts";
 
 import s from "./SearchInput.module.scss";
 
@@ -31,12 +38,19 @@ interface AutocompleteOptionProps extends HTMLAttributes<HTMLLIElement> {
 export const SearchInput: FC<Props> = ({ categories, className }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [products, setProducts] = useState<Product[]>([]);
   const ref = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
+  const [triggerSearch, { data: products = [], isLoading, error }] =
+    useLazySearchProductsQuery();
+
+  // Выполняем поиск при изменении debounced запроса
+  useEffect(() => {
+    if (open) {
+      triggerSearch(debouncedSearchQuery);
+    }
+  }, [debouncedSearchQuery, open]);
 
   // Get category name by slug
   const getCategoryNameById = (categorySlug: string) =>
@@ -57,7 +71,9 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
 
   const onOpen = () => {
     setOpen(true);
-    getSearchProducts(setLoading, setError, setProducts, debouncedSearchQuery);
+    if (debouncedSearchQuery && debouncedSearchQuery.trim().length > 0) {
+      triggerSearch(debouncedSearchQuery);
+    }
   };
 
   // Close component when click outside
@@ -82,7 +98,9 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
           ...params.InputProps,
           endAdornment: (
             <>
-              {loading ? <CircularProgress color="inherit" size={20} /> : null}
+              {isLoading ? (
+                <CircularProgress color="inherit" size={20} />
+              ) : null}
               {params.InputProps.endAdornment}
             </>
           ),
@@ -136,7 +154,7 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
             getOptionLabel={(option) => option.name}
             inputValue={searchQuery}
             onInputChange={(e, value) => setSearchQuery(value)}
-            loading={loading}
+            loading={isLoading}
             loadingText="Загрузка..."
             noOptionsText="Ничего не найдено"
             clearOnEscape={true}
