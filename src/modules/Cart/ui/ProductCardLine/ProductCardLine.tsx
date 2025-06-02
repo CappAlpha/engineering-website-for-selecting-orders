@@ -39,15 +39,7 @@ export const ProductCardLine: FC<Props> = ({
   return (
     <div className={cn(s.root, isRemoving && s.remove)}>
       <div className={s.imgWrap}>
-        {imageUrl && (
-          <Image
-            src={imageUrl}
-            alt={name}
-            fill
-            className={s.img}
-            unoptimized={imageUrl.startsWith("http")}
-          />
-        )}
+        {imageUrl && <Image src={imageUrl} alt={name} fill className={s.img} />}
       </div>
 
       <div className={s.contentWrap}>

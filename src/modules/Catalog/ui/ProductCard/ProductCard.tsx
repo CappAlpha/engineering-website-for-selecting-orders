@@ -49,7 +49,6 @@ export const ProductCard: FC<Props> = ({
             fill
             loading={isFirstCategories ? "eager" : "lazy"}
             priority={isFirstCategories}
-            unoptimized={imageUrl.startsWith("http")}
           />
         )}
       </div>

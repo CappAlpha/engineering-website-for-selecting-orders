@@ -101,7 +101,6 @@ export default async function ProductPage({
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               fill
               priority
-              unoptimized={imageUrl.startsWith("http")}
             />
           )}
         </div>
