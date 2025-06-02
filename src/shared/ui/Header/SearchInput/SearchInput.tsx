@@ -38,10 +38,26 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
+  // Get category name by slug
+  const getCategoryNameById = (categorySlug: string) =>
+    categories.find((category) => categorySlug === category.slug)?.name ??
+    "Без категории";
+
+  const sortedProducts = [...products].sort((a, b) => {
+    const categoryA = getCategoryNameById(a.categorySlug);
+    const categoryB = getCategoryNameById(b.categorySlug);
+    return categoryA.localeCompare(categoryB);
+  });
+
   const onClose = () => {
     setOpen(false);
     setSearchQuery("");
     inputRef.current?.blur();
+  };
+
+  const onOpen = () => {
+    setOpen(true);
+    getSearchProducts(setLoading, setError, setProducts, debouncedSearchQuery);
   };
 
   // Close component when click outside
@@ -52,16 +68,6 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
     },
     attached: open,
   });
-
-  const onOpen = () => {
-    setOpen(true);
-    getSearchProducts(setLoading, setError, setProducts, debouncedSearchQuery);
-  };
-
-  // Get category name by slug
-  const getCategoryNameById = (categorySlug: string) =>
-    categories.find((category) => category.slug === categorySlug)?.name ??
-    "Без категории";
 
   // Render input
   const renderInput = (params: AutocompleteRenderInputParams) => (
@@ -125,7 +131,7 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
             open={open}
             onOpen={onOpen}
             onClose={onClose}
-            options={products}
+            options={sortedProducts}
             groupBy={(option) => getCategoryNameById(option.categorySlug)}
             getOptionLabel={(option) => option.name}
             inputValue={searchQuery}
