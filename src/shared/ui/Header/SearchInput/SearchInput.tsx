@@ -45,7 +45,7 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
   const [triggerSearch, { data: products = [], isLoading, error }] =
     useLazySearchProductsQuery();
 
-  // Выполняем поиск при изменении debounced запроса
+  // Performing a search when the debounced query changes
   useEffect(() => {
     if (open) {
       triggerSearch(debouncedSearchQuery);
