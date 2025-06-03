@@ -42,8 +42,8 @@ export default async function ProfilePage() {
   return (
     <div className={s.wrap}>
       <Breadcrumbs items={[{ name: "Профиль", url: "profile" }]} />
-      <ProductCardCreate categories={categories} />
-      {user.role === "ADMIN" && <ProfileForm data={user} />}
+      {user.role === "ADMIN" && <ProductCardCreate categories={categories} />}
+      <ProfileForm data={user} />
     </div>
   );
 }
