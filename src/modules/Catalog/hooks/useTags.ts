@@ -21,20 +21,22 @@ export const useTags = (sortedToTop = false): ReturnProps => {
   const dispatch = useDispatch();
   const selected = useAppSelector((state) => state.filters.selectedTags);
 
-  const { data: tags, isLoading: loading, isError: error } = useGetTagsQuery();
-
-  const safeTags = tags ?? [];
+  const {
+    data: tags = [],
+    isLoading: loading,
+    isError: error,
+  } = useGetTagsQuery();
 
   // Sort tags - selected tag move to top
   const sortedTags = sortedToTop
-    ? [...safeTags].sort((a, b) => {
+    ? [...tags].sort((a, b) => {
         const aSelected = selected.includes(a);
         const bSelected = selected.includes(b);
 
         if (aSelected === bSelected) return 0;
         return aSelected ? -1 : 1;
       })
-    : safeTags;
+    : tags;
 
   const toggle = (id: string) => {
     dispatch(filtersActions.toggleTag(id));

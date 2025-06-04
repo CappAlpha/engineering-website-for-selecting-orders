@@ -26,6 +26,9 @@ import { useOutsideClick } from "@/shared/hooks/useOutsideHook";
 
 import s from "./SearchInput.module.scss";
 
+const DEBOUNCE_DELAY = 300;
+const DEFAULT_CATEGORY_NAME = "Без категории";
+
 interface Props {
   categories: Omit<Category, "createdAt" | "updatedAt">[];
   className?: string;
@@ -38,24 +41,18 @@ interface AutocompleteOptionProps extends HTMLAttributes<HTMLLIElement> {
 export const SearchInput: FC<Props> = ({ categories, className }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement | null>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const debouncedSearchQuery = useDebounce(searchQuery, DEBOUNCE_DELAY);
   const [triggerSearch, { data: products = [], isLoading, error }] =
     useLazySearchProductsQuery();
-
-  // Performing a search when the debounced query changes
-  useEffect(() => {
-    if (open) {
-      triggerSearch(debouncedSearchQuery);
-    }
-  }, [debouncedSearchQuery, open]);
 
   // Get category name by slug
   const getCategoryNameById = (categorySlug: string) =>
     categories.find((category) => categorySlug === category.slug)?.name ??
-    "Без категории";
+    DEFAULT_CATEGORY_NAME;
 
   const sortedProducts = [...products].sort((a, b) => {
     const categoryA = getCategoryNameById(a.categorySlug);
@@ -71,17 +68,19 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
 
   const onOpen = () => {
     setOpen(true);
-    if (debouncedSearchQuery && debouncedSearchQuery.trim().length > 0) {
+  };
+
+  // Performing a search when the debounced query changes
+  useEffect(() => {
+    if (open) {
       triggerSearch(debouncedSearchQuery);
     }
-  };
+  }, [debouncedSearchQuery, open]);
 
   // Close component when click outside
   useOutsideClick({
-    elementRef: ref,
-    handler: () => {
-      onClose();
-    },
+    elementRef: containerRef,
+    handler: onClose,
     attached: open,
   });
 
@@ -130,42 +129,47 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
               height={39}
               src={option.imageUrl}
               alt={option.name}
+              loading="lazy"
             />
           )}
-          {option.name}
+          <span>{option.name}</span>
         </Link>
       </li>
     );
   };
 
+  if (error) {
+    return (
+      <div className={cn(s.root, className)}>
+        <p className={s.error}>Ошибка загрузки списка продуктов</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className={cn(s.bg, !open && s.hidden)} />
-      <div ref={ref} className={cn(s.root, className)}>
-        {error ? (
-          <p className={s.error}>Ошибка загрузки списка продуктов</p>
-        ) : (
-          <Autocomplete
-            open={open}
-            onOpen={onOpen}
-            onClose={onClose}
-            options={sortedProducts}
-            groupBy={(option) => getCategoryNameById(option.categorySlug)}
-            getOptionLabel={(option) => option.name}
-            inputValue={searchQuery}
-            onInputChange={(e, value) => setSearchQuery(value)}
-            loading={isLoading}
-            loadingText="Загрузка..."
-            noOptionsText="Ничего не найдено"
-            clearOnEscape={true}
-            fullWidth
-            disablePortal
-            renderInput={renderInput}
-            renderGroup={renderList}
-            renderOption={renderOption}
-            inputMode="search"
-          />
-        )}
+      <div ref={containerRef} className={cn(s.root, className)}>
+        <Autocomplete
+          open={open}
+          onOpen={onOpen}
+          onClose={onClose}
+          options={sortedProducts}
+          groupBy={(option) => getCategoryNameById(option.categorySlug)}
+          getOptionLabel={(option) => option.name}
+          inputValue={searchQuery}
+          onInputChange={(e, value) => setSearchQuery(value)}
+          loading={isLoading}
+          loadingText="Загрузка..."
+          noOptionsText="Ничего не найдено"
+          clearOnEscape={true}
+          fullWidth
+          disablePortal
+          renderInput={renderInput}
+          renderGroup={renderList}
+          renderOption={renderOption}
+          inputMode="search"
+        />
       </div>
     </>
   );

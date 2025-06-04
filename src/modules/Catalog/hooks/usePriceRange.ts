@@ -30,31 +30,29 @@ export const usePriceRange = (config: PriceConfig) => {
   const prices = useAppSelector((state) => state.filters.prices);
 
   const {
-    data: priceRange,
+    data: priceRange = { minPrice: 0, maxPrice: 100000 },
     isLoading: loading,
     error,
   } = useGetPriceRangeQuery();
-
-  const safePriceRange = priceRange ?? { minPrice: 0, maxPrice: 100000 };
 
   const handlePriceChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     key: "priceFrom" | "priceTo",
   ) => {
     const value = Number(e.target.value);
-    const currentFrom = prices.priceFrom ?? safePriceRange.minPrice;
-    const currentTo = prices.priceTo ?? safePriceRange.maxPrice;
+    const currentFrom = prices.priceFrom ?? priceRange.minPrice;
+    const currentTo = prices.priceTo ?? priceRange.maxPrice;
 
     let newValue: number;
 
     if (key === "priceFrom") {
       newValue = Math.min(
-        Math.max(value, safePriceRange.minPrice),
+        Math.max(value, priceRange.minPrice),
         currentTo - config.SLIDER_GAP,
       );
     } else {
       newValue = Math.max(
-        Math.min(value, safePriceRange.maxPrice),
+        Math.min(value, priceRange.maxPrice),
         currentFrom + config.SLIDER_GAP,
       );
     }
@@ -77,7 +75,7 @@ export const usePriceRange = (config: PriceConfig) => {
   };
 
   return {
-    priceRange: safePriceRange,
+    priceRange,
     loading,
     error,
     prices,
