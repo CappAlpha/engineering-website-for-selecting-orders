@@ -13,6 +13,7 @@ interface Props {
     e: React.ChangeEvent<HTMLInputElement>,
     key: "priceFrom" | "priceTo",
   ) => void;
+  handlePriceBlur: (key: "priceFrom" | "priceTo") => void;
 }
 
 export const PriceInputs: FC<Props> = ({
@@ -21,6 +22,7 @@ export const PriceInputs: FC<Props> = ({
   priceFrom,
   priceTo,
   handlePriceChange,
+  handlePriceBlur,
 }) => {
   return (
     <div className={s.root}>
@@ -30,6 +32,7 @@ export const PriceInputs: FC<Props> = ({
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           handlePriceChange(e, "priceFrom")
         }
+        onBlur={() => handlePriceBlur("priceFrom")}
         aria-label="Минимальная цена ввод клавиатурой"
         paddingSize="sm"
       />
@@ -39,6 +42,7 @@ export const PriceInputs: FC<Props> = ({
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           handlePriceChange(e, "priceTo")
         }
+        onBlur={() => handlePriceBlur("priceTo")}
         aria-label="Максимальная цена ввод клавиатурой"
         paddingSize="sm"
       />

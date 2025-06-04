@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 
 import { filtersActions } from "@/modules/Catalog/store/filtersSlice";
@@ -35,34 +36,93 @@ export const usePriceRange = (config: PriceConfig) => {
     error,
   } = useGetPriceRangeQuery();
 
+  const safePrices = {
+    priceFrom: prices.priceFrom ?? priceRange.minPrice,
+    priceTo: prices.priceTo ?? priceRange.maxPrice,
+  };
+
+  const validatePriceValue = useCallback(
+    (
+      value: number,
+      key: "priceFrom" | "priceTo",
+      currentPrices: { priceFrom: number; priceTo: number },
+    ): number => {
+      if (isNaN(value) || value < 0) {
+        return key === "priceFrom" ? priceRange.minPrice : priceRange.maxPrice;
+      }
+
+      if (key === "priceFrom") {
+        const maxAllowed = Math.max(
+          priceRange.minPrice,
+          currentPrices.priceTo - config.SLIDER_GAP,
+        );
+        return Math.min(Math.max(value, priceRange.minPrice), maxAllowed);
+      } else {
+        const minAllowed = Math.min(
+          priceRange.maxPrice,
+          currentPrices.priceFrom + config.SLIDER_GAP,
+        );
+        return Math.max(Math.min(value, priceRange.maxPrice), minAllowed);
+      }
+    },
+    [config.SLIDER_GAP, priceRange.minPrice, priceRange.maxPrice],
+  );
+
   const handlePriceChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     key: "priceFrom" | "priceTo",
   ) => {
-    const value = Number(e.target.value);
-    const currentFrom = prices.priceFrom ?? priceRange.minPrice;
-    const currentTo = prices.priceTo ?? priceRange.maxPrice;
+    const inputValue = e.target.value;
 
-    let newValue: number;
+    if (inputValue === "") {
+      dispatch(
+        filtersActions.setPrices({
+          ...prices,
+          [key]: null,
+        }),
+      );
+      return;
+    }
 
-    if (key === "priceFrom") {
-      newValue = Math.min(
-        Math.max(value, priceRange.minPrice),
-        currentTo - config.SLIDER_GAP,
-      );
-    } else {
-      newValue = Math.max(
-        Math.min(value, priceRange.maxPrice),
-        currentFrom + config.SLIDER_GAP,
-      );
+    const numericValue = Number(inputValue);
+
+    if (isNaN(numericValue)) {
+      return;
     }
 
     dispatch(
       filtersActions.setPrices({
         ...prices,
-        [key]: newValue,
+        [key]: numericValue,
       }),
     );
+  };
+
+  const handlePriceBlur = (key: "priceFrom" | "priceTo") => {
+    const currentValue = prices[key];
+
+    if (currentValue === null || currentValue === undefined) {
+      const defaultValue =
+        key === "priceFrom" ? priceRange.minPrice : priceRange.maxPrice;
+      dispatch(
+        filtersActions.setPrices({
+          ...prices,
+          [key]: defaultValue,
+        }),
+      );
+      return;
+    }
+
+    const validatedValue = validatePriceValue(currentValue, key, safePrices);
+
+    if (validatedValue !== currentValue) {
+      dispatch(
+        filtersActions.setPrices({
+          ...prices,
+          [key]: validatedValue,
+        }),
+      );
+    }
   };
 
   const handleSliderChange = (values: number[]) => {
@@ -80,6 +140,7 @@ export const usePriceRange = (config: PriceConfig) => {
     error,
     prices,
     handlePriceChange,
+    handlePriceBlur,
     handleSliderChange,
   };
 };

@@ -40,6 +40,7 @@ export const Filters: FC = () => {
     loading: loadingPrice,
     prices: { priceFrom, priceTo },
     handlePriceChange,
+    handlePriceBlur,
     handleSliderChange,
   } = usePriceRange(PRICE_CONFIG);
 
@@ -67,6 +68,7 @@ export const Filters: FC = () => {
             priceFrom={priceFrom}
             priceTo={priceTo}
             handlePriceChange={handlePriceChange}
+            handlePriceBlur={handlePriceBlur}
           />
         )}
         <div className={s.sliderWrap}>
