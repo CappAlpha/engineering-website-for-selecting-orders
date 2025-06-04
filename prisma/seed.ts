@@ -41,8 +41,8 @@ async function up() {
         slug: "geologiya",
       },
       {
-        name: "Программы на C++",
-        slug: "programmy-na-c",
+        name: "Программы",
+        slug: "programmy",
       },
     ],
   });
@@ -166,8 +166,8 @@ async function up() {
           "Программа на C++ для точного расчёта нагрузок конструкций, выполненная в кратчайшие сроки.",
         price: generatePrice(),
         imageUrl: "/images/catalog/program/1.webp",
-        categorySlug: "programmy-na-c",
-        tags: ["Программы на C++", "Нагрузки"],
+        categorySlug: "programmy",
+        tags: ["Программы", "C++", "Нагрузки"],
       },
       {
         id: randomUUID(),
@@ -176,8 +176,8 @@ async function up() {
           "Эффективная C++ программа для оптимизации инженерных расчётов, разработанная быстро и надёжно.",
         price: generatePrice(),
         imageUrl: "/images/catalog/program/1.webp",
-        categorySlug: "programmy-na-c",
-        tags: ["Программы на C++", "Оптимизация"],
+        categorySlug: "programmy",
+        tags: ["Программы", "C++", "Оптимизация"],
       },
       {
         id: randomUUID(),
@@ -186,8 +186,8 @@ async function up() {
           "C++ приложение для моделирования и анализа нагрузок, созданное в сжатые сроки.",
         price: generatePrice(),
         imageUrl: "/images/catalog/program/1.webp",
-        categorySlug: "programmy-na-c",
-        tags: ["Программы на C++", "Моделирование"],
+        categorySlug: "programmy",
+        tags: ["Программы", "C++", "Моделирование"],
       },
     ],
   });

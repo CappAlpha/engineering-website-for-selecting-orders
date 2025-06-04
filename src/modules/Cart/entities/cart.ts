@@ -13,7 +13,7 @@ export interface CartStateItem {
   quantity: number;
   name: string;
   description: string;
-  imageUrl: string | null;
+  imageUrl: string;
   price: number;
 }
 

@@ -204,7 +204,9 @@ export async function createProduct(
         id: randomUUID(),
         name: data.name,
         description: data.description ?? "",
-        imageUrl: data.imageUrl ?? null,
+        imageUrl: data.imageUrl
+          ? data.imageUrl
+          : "/images/catalog/placeholder.webp",
         tags: [categoryName, ...tagsArray],
         categorySlug: categorySlug,
         price: parseFloat(data.price),

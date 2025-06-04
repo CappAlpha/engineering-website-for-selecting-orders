@@ -122,16 +122,14 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
     return (
       <li key={key} {...otherProps} className={s.optionLi}>
         <Link href={`/${option.categorySlug}/${option.id}`} className={s.link}>
-          {option.imageUrl && (
-            <Image
-              className={s.img}
-              width={39}
-              height={39}
-              src={option.imageUrl}
-              alt={option.name}
-              loading="lazy"
-            />
-          )}
+          <Image
+            className={s.img}
+            width={39}
+            height={39}
+            src={option.imageUrl}
+            alt={option.name}
+            loading="lazy"
+          />
           <span>{option.name}</span>
         </Link>
       </li>

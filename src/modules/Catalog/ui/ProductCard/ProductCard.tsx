@@ -40,17 +40,15 @@ export const ProductCard: FC<Props> = ({
       href={`${categorySlug}/${id}`}
     >
       <div className={s.imgWrap}>
-        {imageUrl && (
-          <Image
-            className={s.img}
-            src={imageUrl}
-            alt={name}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            fill
-            loading={isFirstCategories ? "eager" : "lazy"}
-            priority={isFirstCategories}
-          />
-        )}
+        <Image
+          className={s.img}
+          src={imageUrl}
+          alt={name}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          fill
+          loading={isFirstCategories ? "eager" : "lazy"}
+          priority={isFirstCategories}
+        />
       </div>
 
       <div className={s.textWrap}>

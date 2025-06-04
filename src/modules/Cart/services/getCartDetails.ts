@@ -14,7 +14,7 @@ export const getCartDetails = (data: CartDTO): CartReturnProps => {
     quantity: item.quantity,
     name: item.product.name,
     description: item.product.description,
-    imageUrl: item.product.imageUrl ?? null,
+    imageUrl: item.product.imageUrl,
     price: calcCartTotalPrice(item),
   }));
 
