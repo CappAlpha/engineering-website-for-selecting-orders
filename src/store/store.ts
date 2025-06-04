@@ -13,8 +13,8 @@ export const makeStore = () =>
       categories: categoriesReducers,
       cart: cartReducers,
       filters: filtersReducers,
-      [productsApi.reducerPath]: productsApi.reducer,
-      [tagsApi.reducerPath]: tagsApi.reducer,
+      productsApi: productsApi.reducer,
+      tagsApi: tagsApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

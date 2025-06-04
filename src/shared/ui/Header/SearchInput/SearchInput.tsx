@@ -50,14 +50,21 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
     useLazySearchProductsQuery();
 
   // Get category name by slug
-  const getCategoryNameById = (categorySlug: string) =>
+  const getCategoryNameBySlug = (categorySlug: string) =>
     categories.find((category) => categorySlug === category.slug)?.name ??
     DEFAULT_CATEGORY_NAME;
 
+  const categoryIndexMap = new Map(
+    categories.map((category, index) => [category.slug, index]),
+  );
+
+  const getCategoryIndex = (categorySlug: string) =>
+    categoryIndexMap.get(categorySlug) ?? categories.length;
+
   const sortedProducts = [...products].sort((a, b) => {
-    const categoryA = getCategoryNameById(a.categorySlug);
-    const categoryB = getCategoryNameById(b.categorySlug);
-    return categoryA.localeCompare(categoryB);
+    const indexA = getCategoryIndex(a.categorySlug);
+    const indexB = getCategoryIndex(b.categorySlug);
+    return indexA - indexB;
   });
 
   const onClose = () => {
@@ -153,7 +160,7 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
           onOpen={onOpen}
           onClose={onClose}
           options={sortedProducts}
-          groupBy={(option) => getCategoryNameById(option.categorySlug)}
+          groupBy={(option) => getCategoryNameBySlug(option.categorySlug)}
           getOptionLabel={(option) => option.name}
           inputValue={searchQuery}
           onInputChange={(e, value) => setSearchQuery(value)}
