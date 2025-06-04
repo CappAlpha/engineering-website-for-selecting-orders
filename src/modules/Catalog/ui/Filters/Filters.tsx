@@ -1,17 +1,18 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useState, type FC } from "react";
+import { useState, type FC } from "react";
 
 import { useResetFilters } from "@/modules/Catalog/hooks/useResetFilters";
 import { Button } from "@/shared/ui/Button";
-import { Input } from "@/shared/ui/Input";
 import { Slider } from "@/shared/ui/Slider";
 
 import { usePriceRange } from "../../hooks/usePriceRange";
 import { useQueryFilters } from "../../hooks/useQueryFilters";
 import { useTags } from "../../hooks/useTags";
 import { FilterTags } from "../FilterTags";
+import { PriceInputs } from "../PriceInputs";
+import { PriceInputsSkeleton } from "../PriceInputs/PriceInputsSkeleton";
 
 import s from "./Filters.module.scss";
 
@@ -58,31 +59,15 @@ export const Filters: FC = () => {
       <div className={s.priceCategory}>
         <p className={s.categoryTitle}>Цена от и до:</p>
         {loadingPrice ? (
-          <div className={s.priceInputsSkeleton}>
-            <div className={s.priceInputSkeleton} />
-            <div className={s.priceInputSkeleton} />
-          </div>
+          <PriceInputsSkeleton />
         ) : (
-          <div className={s.priceInputs}>
-            <Input
-              type="number"
-              value={priceFrom ?? minPrice}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                handlePriceChange(e, "priceFrom")
-              }
-              aria-label="Минимальная цена ввод клавиатурой"
-              paddingSize="sm"
-            />
-            <Input
-              type="number"
-              value={priceTo ?? maxPrice}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                handlePriceChange(e, "priceTo")
-              }
-              aria-label="Максимальная цена ввод клавиатурой"
-              paddingSize="sm"
-            />
-          </div>
+          <PriceInputs
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+            priceFrom={priceFrom}
+            priceTo={priceTo}
+            handlePriceChange={handlePriceChange}
+          />
         )}
         <div className={s.sliderWrap}>
           {loadingPrice ? (
