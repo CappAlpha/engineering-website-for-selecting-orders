@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 
 import { prisma } from "../../../../prisma/prisma-client";
+import { CategoryProps } from "../ui/ProductsCatalog";
 import { buildProductConditions } from "./buildProductConditions";
 import { validateAndNormalizeParams } from "./validateAndNormalizeParams";
 
@@ -32,16 +33,11 @@ export const findProduct = async (params: GetSearchParamsPage) => {
     const products = await prisma.product.findMany({
       where: productWhereClause,
       include: {
-        category: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
+        category: true,
       },
     });
 
-    const categoriesMap = new Map();
+    const categoriesMap = new Map<number, CategoryProps>();
 
     products.forEach((product) => {
       const categoryId = product.category.id;
@@ -51,13 +47,13 @@ export const findProduct = async (params: GetSearchParamsPage) => {
           id: categoryId,
           name: product.category.name,
           products: [],
+          slug: product.category.slug,
+          createdAt: product.category.createdAt,
+          updatedAt: product.category.updatedAt,
         });
       }
 
-      categoriesMap.get(categoryId).products.push({
-        ...product,
-        category: undefined,
-      });
+      categoriesMap.get(categoryId)?.products.push({ ...product });
     });
 
     const categories = Array.from(categoriesMap.values());

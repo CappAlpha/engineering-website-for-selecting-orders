@@ -6,7 +6,7 @@ import { ProductsNotFound } from "./ProductsNotFound";
 
 import s from "./ProductsCatalog.module.scss";
 
-interface CategoryProps extends Category {
+export interface CategoryProps extends Category {
   products: Product[];
 }
 
