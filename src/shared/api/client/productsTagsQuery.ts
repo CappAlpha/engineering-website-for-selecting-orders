@@ -2,8 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 import { PageConfig } from "../../constants/pages";
 
-export const tagsApi = createApi({
-  reducerPath: "tagsApi",
+export const productsTagsApi = createApi({
+  reducerPath: "productsTagsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "/api/",
     prepareHeaders: (headers) => {
@@ -11,14 +11,14 @@ export const tagsApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Tags"],
+  tagTypes: ["ProductsTags"],
   endpoints: (builder) => ({
-    getTags: builder.query<string[], void>({
+    getProductsTags: builder.query<string[], void>({
       query: () => PageConfig.TAGS.replace("/api/", ""),
-      providesTags: ["Tags"],
+      providesTags: ["ProductsTags"],
       keepUnusedDataFor: 300,
     }),
   }),
 });
 
-export const { useGetTagsQuery } = tagsApi;
+export const { useGetProductsTagsQuery } = productsTagsApi;

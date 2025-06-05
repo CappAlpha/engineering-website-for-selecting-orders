@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { ChangeEvent, useCallback } from "react";
 import { useDispatch } from "react-redux";
 
 import { filtersActions } from "@/modules/Catalog/store/filtersSlice";
@@ -69,7 +69,7 @@ export const usePriceRange = (config: PriceConfig) => {
   );
 
   const handlePriceChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: ChangeEvent<HTMLInputElement>,
     key: "priceFrom" | "priceTo",
   ) => {
     const inputValue = e.target.value;

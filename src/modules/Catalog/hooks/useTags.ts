@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 
 import { filtersActions } from "@/modules/Catalog/store/filtersSlice";
-import { useGetTagsQuery } from "@/shared/api/client/tagsQuery";
+import { useGetProductsTagsQuery } from "@/shared/api/client/productsTagsQuery";
 import { useAppSelector } from "@/shared/hooks/useAppSelector";
 
 interface ReturnProps {
@@ -25,7 +25,7 @@ export const useTags = (sortedToTop = false): ReturnProps => {
     data: tags = [],
     isLoading: loading,
     isError: error,
-  } = useGetTagsQuery();
+  } = useGetProductsTagsQuery();
 
   // Sort tags - selected tag move to top
   const sortedTags = sortedToTop

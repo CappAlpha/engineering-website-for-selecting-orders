@@ -82,7 +82,7 @@ export const Filters: FC = () => {
               minGap={PRICE_CONFIG.SLIDER_GAP}
               value={[priceFrom ?? minPrice, priceTo ?? maxPrice]}
               onValueChange={handleSliderChange}
-              aria-label="Диапазон цен можно двигать два ползунка влево или вправо"
+              aria-label="Диапазон цен. Можно двигать два ползунка влево или вправо"
             />
           )}
         </div>

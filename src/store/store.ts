@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import { productsApi } from "@/shared/api/client/productsQuery.ts";
-import { tagsApi } from "@/shared/api/client/tagsQuery.ts";
+import { productsTagsApi } from "@/shared/api/client/productsTagsQuery.ts";
 
 import { cartReducers } from "../modules/Cart/store/cartSlice.ts";
 import { categoriesReducers } from "../modules/Catalog/store/categoriesSlice.ts";
@@ -14,14 +14,14 @@ export const makeStore = () =>
       cart: cartReducers,
       filters: filtersReducers,
       productsApi: productsApi.reducer,
-      tagsApi: tagsApi.reducer,
+      productsTagsApi: productsTagsApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: {
           ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
         },
-      }).concat(productsApi.middleware, tagsApi.middleware),
+      }).concat(productsApi.middleware, productsTagsApi.middleware),
     devTools: true,
   });
 
