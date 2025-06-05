@@ -38,8 +38,5 @@ export const productsApi = createApi({
   }),
 });
 
-export const {
-  useGetPriceRangeQuery,
-  useSearchProductsQuery,
-  useLazySearchProductsQuery,
-} = productsApi;
+export const { useGetPriceRangeQuery, useLazySearchProductsQuery } =
+  productsApi;

@@ -26,7 +26,7 @@ import {
 
 import s from "./ProductCardCreate.module.scss";
 
-export interface Props {
+interface Props {
   categories: Omit<Category, "createdAt" | "updatedAt">[];
 }
 
