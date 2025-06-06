@@ -1,0 +1,19 @@
+.root {
+  label {
+    color: var(--blue) !important;
+  }
+
+  >div {
+    color: var(--deep-blue) !important;
+    border-bottom: 1px solid var(--white) !important;
+    padding-top: 20px !important;
+  }
+
+  input {
+    padding: 0 !important;
+  }
+
+  button {
+    color: var(--deep-blue) !important;
+  }
+}

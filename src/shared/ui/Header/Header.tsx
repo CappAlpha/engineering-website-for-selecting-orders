@@ -6,8 +6,8 @@ import { CartBtn } from "@/modules/Cart/ui/CartBtn";
 import { prisma } from "../../../../prisma/prisma-client";
 import { Settings } from "../../../../public/icon";
 import { Auth } from "../../../modules/Auth/ui/Auth";
+import { Search } from "../Search";
 import { HeaderScroll } from "./HeaderScroll";
-import { SearchInput } from "./SearchInput";
 
 import s from "./Header.module.scss";
 
@@ -37,7 +37,7 @@ export const Header: FC<Props> = async ({
         </Link>
 
         {!isCheckoutPage && (
-          <SearchInput categories={categories} className={s.searchInput} />
+          <Search categories={categories} className={s.searchInput} />
         )}
 
         <div className={s.right}>

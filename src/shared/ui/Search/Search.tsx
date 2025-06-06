@@ -1,30 +1,19 @@
 "use client";
 
-import {
-  Autocomplete,
-  AutocompleteRenderGroupParams,
-  AutocompleteRenderInputParams,
-  CircularProgress,
-  TextField,
-} from "@mui/material";
-import { Category, Product } from "@prisma/client";
+import { Autocomplete } from "@mui/material";
+import { Category } from "@prisma/client";
 import cn from "classnames";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  HTMLAttributes,
-  Key,
-  useEffect,
-  useRef,
-  useState,
-  type FC,
-} from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 
 import { useLazySearchProductsQuery } from "@/shared/api/client/productsQuery";
 import { useDebounce } from "@/shared/hooks/useDebounce";
 import { useOutsideClick } from "@/shared/hooks/useOutsideHook";
 
-import s from "./SearchInput.module.scss";
+import { SearchGroup } from "./SearchGroup";
+import { SearchInput } from "./SearchInput";
+import { SearchOption } from "./SearchOption";
+
+import s from "./Search.module.scss";
 
 const DEBOUNCE_DELAY = 300;
 const DEFAULT_CATEGORY_NAME = "Без категории";
@@ -34,11 +23,7 @@ interface Props {
   className?: string;
 }
 
-interface AutocompleteOptionProps extends HTMLAttributes<HTMLLIElement> {
-  key: Key;
-}
-
-export const SearchInput: FC<Props> = ({ categories, className }) => {
+export const Search: FC<Props> = ({ categories, className }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -91,58 +76,7 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
     attached: open,
   });
 
-  // Render input
-  const renderInput = (params: AutocompleteRenderInputParams) => (
-    <TextField
-      {...params}
-      inputRef={inputRef}
-      variant="filled"
-      label="Поиск"
-      className={s.textField}
-      slotProps={{
-        input: {
-          ...params.InputProps,
-          endAdornment: (
-            <>
-              {isLoading ? (
-                <CircularProgress color="inherit" size={20} />
-              ) : null}
-              {params.InputProps.endAdornment}
-            </>
-          ),
-        },
-      }}
-    />
-  );
-
-  // Render list
-  const renderList = (params: AutocompleteRenderGroupParams) => (
-    <li key={params.key}>
-      <div className={s.groupHeader}>{params.group}</div>
-      <ul className={s.groupItems}>{params.children}</ul>
-    </li>
-  );
-
-  // Render items in list
-  const renderOption = (props: AutocompleteOptionProps, option: Product) => {
-    const { key, ...otherProps } = props;
-    return (
-      <li key={key} {...otherProps} className={s.optionLi}>
-        <Link href={`/${option.categorySlug}/${option.id}`} className={s.link}>
-          <Image
-            className={s.img}
-            width={39}
-            height={39}
-            src={option.imageUrl}
-            alt={option.name}
-            loading="lazy"
-          />
-          <span>{option.name}</span>
-        </Link>
-      </li>
-    );
-  };
-
+  // Render  error
   if (error) {
     return (
       <div className={cn(s.root, className)}>
@@ -170,9 +104,9 @@ export const SearchInput: FC<Props> = ({ categories, className }) => {
           clearOnEscape={true}
           fullWidth
           disablePortal
-          renderInput={renderInput}
-          renderGroup={renderList}
-          renderOption={renderOption}
+          renderInput={SearchInput}
+          renderGroup={SearchGroup}
+          renderOption={SearchOption}
           inputMode="search"
         />
       </div>

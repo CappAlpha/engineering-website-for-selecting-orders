@@ -1,0 +1,13 @@
+.groupHeader {
+  position: sticky;
+  top: -10px;
+  padding: 4px 10px;
+  font-size: 20px;
+  z-index: 10;
+  color: var(--white);
+  background-color: var(--deep-blue);
+}
+
+.groupItems {
+  padding: 0;
+}

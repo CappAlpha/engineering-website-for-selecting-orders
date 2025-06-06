@@ -1,0 +1,33 @@
+.root {
+  margin-bottom: 10px;
+  margin-inline: 10px;
+  font-size: 18px;
+
+  &:first-child {
+    margin-top: 10px;
+  }
+}
+
+.img {
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  padding: 6px 16px;
+  @include expandableArea;
+  --clickable-area-expandable-ratio: 5px;
+
+  &:hover {
+    @media (hover: hover) and (pointer: fine) {
+      background: var(--deep-blue-hover);
+      color: var(--white);
+      fill: var(--white);
+      border-radius: 10px;
+    }
+  }
+}
