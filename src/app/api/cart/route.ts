@@ -104,6 +104,12 @@ export async function POST(req: NextRequest) {
     ]);
 
     const updatedCart = await updateCartTotalAmount(token);
+    if (!updatedCart) {
+      return NextResponse.json(
+        { error: "Failed to update cart" },
+        { status: 500 },
+      );
+    }
 
     // Prepare response with updated cart and set cookie if new token generated
     const resp = NextResponse.json(updatedCart);

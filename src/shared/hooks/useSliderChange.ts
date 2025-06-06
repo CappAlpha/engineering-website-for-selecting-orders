@@ -24,6 +24,8 @@ export const useSliderChange = ({
   ) => {
     if (!Array.isArray(newValues)) return;
 
+    if (activeThumb !== 0 && activeThumb !== 1) return;
+
     const processedValues = SliderUtils.processValueChange(
       newValues,
       activeThumb as ActiveThumb,
@@ -38,8 +40,14 @@ export const useSliderChange = ({
 
   useEffect(() => {
     const validatedValue = SliderUtils.validateRange(value, min, max);
-    setLocalValues(validatedValue);
-  }, [min, max, value]);
+
+    if (
+      validatedValue[0] !== localValues[0] ||
+      validatedValue[1] !== localValues[1]
+    ) {
+      setLocalValues(validatedValue);
+    }
+  }, [min, max, value, localValues]);
 
   return { localValues, handleValueChange };
 };

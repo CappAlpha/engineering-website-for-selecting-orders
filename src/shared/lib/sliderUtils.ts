@@ -2,25 +2,23 @@ export type SliderRange = [number, number];
 export type ActiveThumb = 0 | 1;
 
 export class SliderUtils {
-  static validateRange(value: number[], min: number, max: number): SliderRange {
-    if (!Array.isArray(value) || value.length !== 2) {
+  static validateRange(value: unknown, min: number, max: number): SliderRange {
+    if (!Array.isArray(value)) {
       return [min, max];
     }
 
     const [left, right] = value;
 
-    if (typeof left !== "number" || typeof right !== "number") {
-      return [min, max];
+    if (!Number.isFinite(left) || !Number.isFinite(right)) {
+      return [min, max] as const;
     }
 
-    if (left > right) {
-      return [min, max];
-    }
+    const sortedValues = [left, right].sort((a, b) => a - b);
 
     return [
-      Math.max(min, Math.min(left, max)),
-      Math.max(min, Math.min(right, max)),
-    ];
+      Math.max(min, Math.min(sortedValues[0], max)),
+      Math.max(min, Math.min(sortedValues[1], max)),
+    ] as const;
   }
 
   static applyMinGap(
