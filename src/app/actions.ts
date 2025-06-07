@@ -198,21 +198,39 @@ export async function createProduct(
         ?.split(",")
         .map((tag) => tag.trim())
         .filter(Boolean) ?? [];
+    const imageUrl = data.imageUrl
+      ? data.imageUrl?.trim()
+      : "/images/catalog/placeholder.webp";
 
-    await prisma.product.create({
-      data: {
-        id: randomUUID(),
-        name: data.name,
-        description: data.description ?? "",
-        imageUrl: data.imageUrl
-          ? data.imageUrl
-          : "/images/catalog/placeholder.webp",
-        tags: [categoryName, ...tagsArray],
-        categorySlug: categorySlug,
-        price: parseFloat(data.price),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+    const productData: Prisma.ProductCreateInput = {
+      id: randomUUID(),
+      name: data.name.trim(),
+      description: data.description?.trim() ?? "",
+      imageUrl,
+      tags: [categoryName, ...tagsArray],
+      category: {
+        connect: { slug: categorySlug },
       },
+      price: parseFloat(data.price),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    await prisma.$transaction(async (tx) => {
+      const existingProduct = await tx.product.findFirst({
+        where: {
+          name: productData.name,
+          categorySlug: productData.category.connect?.slug,
+        },
+      });
+
+      if (existingProduct) {
+        throw new Error(
+          `Продукт с названием "${productData.name}" уже есть в данной категории "${categorySlug}"`,
+        );
+      }
+
+      return await tx.product.create({ data: productData });
     });
   } catch (err) {
     console.error("[CREATE_PRODUCT_ERROR]", err);
