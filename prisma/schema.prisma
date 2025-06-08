@@ -59,17 +59,6 @@ model Product {
   updatedAt DateTime @updatedAt
 }
 
-// model AdditionalParameter {
-//   id Int @id @default(autoincrement())
-
-//   name String
-
-//   Product  Product[]
-//   cartItem CartItem[]
-
-//   createdAt DateTime @default(now())
-// }
-
 model Cart {
   id Int @id @default(autoincrement())
 
