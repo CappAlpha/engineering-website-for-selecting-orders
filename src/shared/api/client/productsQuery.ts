@@ -12,22 +12,18 @@ export const productsApi = createApi({
   reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "/api/",
-    prepareHeaders: (headers) => {
-      headers.set("Content-Type", "application/json");
-      return headers;
-    },
   }),
   tagTypes: ["PriceRange", "SearchProducts"],
   endpoints: (builder) => ({
     getPriceRange: builder.query<PriceRange, void>({
-      query: () => PageConfig.PRICE_RANGE.replace("/api/", ""),
+      query: () => PageConfig.PRICE_RANGE,
       providesTags: ["PriceRange"],
       keepUnusedDataFor: 300,
     }),
 
     searchProducts: builder.query<Product[], string>({
       query: (searchQuery) => ({
-        url: PageConfig.SEARCH_PRODUCTS.replace("/api/", ""),
+        url: PageConfig.SEARCH_PRODUCTS,
         params: { q: searchQuery },
       }),
       providesTags: (result, error, searchQuery) => [

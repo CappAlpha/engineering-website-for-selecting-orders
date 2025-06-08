@@ -10,16 +10,6 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
-      // {
-      //   protocol: `${process.env.NEXT_PUBLIC_IMG_PROTOCOL ?? ''}`,
-      //   hostname: `${process.env.NEXT_PUBLIC_IMG_HOST ?? ''}`,
-      //   port: `${process.env.NEXT_PUBLIC_IMG_PORT ?? ''}`,
-      // },
-      // {
-      //   protocol: `${process.env.NEXT_PUBLIC_IMG_STRAPI_PROTOCOL ?? ''}`,
-      //   hostname: `${process.env.NEXT_PUBLIC_IMG_STRAPI_HOST ?? ''}`,
-      //   port: `${process.env.NEXT_PUBLIC_IMG_STRAPI_PORT ?? ''}`,
-      // },
       {
         protocol: "https",
         hostname: "**",

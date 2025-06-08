@@ -6,16 +6,11 @@ export const productsTagsApi = createApi({
   reducerPath: "productsTagsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "/api/",
-    prepareHeaders: (headers) => {
-      headers.set("Content-Type", "application/json");
-      return headers;
-    },
   }),
   tagTypes: ["ProductsTags"],
   endpoints: (builder) => ({
     getProductsTags: builder.query<string[], void>({
-      query: () => PageConfig.TAGS.replace("/api/", ""),
-      providesTags: ["ProductsTags"],
+      query: () => PageConfig.TAGS,
       keepUnusedDataFor: 300,
     }),
   }),
