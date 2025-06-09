@@ -6,8 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { type FC, type MouseEvent } from "react";
 
-import { selectIsItemAdding } from "@/modules/Cart/store/cartSelectors";
-import { useAppSelector } from "@/shared/hooks/useAppSelector";
+import { useCartQueries } from "@/modules/Cart/hooks/useCartQueries";
 import { Button } from "@/shared/ui/Button";
 import { Tags } from "@/shared/ui/Tags";
 
@@ -18,7 +17,6 @@ import s from "./ProductCard.module.scss";
 type ProductCardProps = Omit<Product, "createdAt" | "updatedAt">;
 
 interface Props extends ProductCardProps {
-  onClickButton?: (e: MouseEvent) => Promise<void>;
   isFirstCategories?: boolean;
 }
 
@@ -31,12 +29,12 @@ export const ProductCard: FC<Props> = ({
   tags,
   categorySlug,
   isFirstCategories = false,
-  onClickButton,
 }) => {
-  const isAdding = useAppSelector(selectIsItemAdding(id));
+  const { addToCart, isCartItemAdding } = useCartQueries();
+
   return (
     <Link
-      className={cn(s.root, isAdding && s.disable)}
+      className={cn(s.root, isCartItemAdding && s.disable)}
       href={`${categorySlug}/${id}`}
     >
       <div className={s.imgWrap}>
@@ -62,7 +60,10 @@ export const ProductCard: FC<Props> = ({
           <span className={s.price}>
             от <b>{price} &#8381;</b>
           </span>
-          <Button onClick={onClickButton} loading={isAdding}>
+          <Button
+            onClick={(e: MouseEvent) => addToCart(e, id)}
+            loading={isCartItemAdding}
+          >
             <Plus className={s.icon} /> Добавить
           </Button>
         </div>

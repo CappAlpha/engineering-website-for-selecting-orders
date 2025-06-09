@@ -1,35 +1,46 @@
 import { type MouseEvent } from "react";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
 
 import {
   CartQuantityLimits,
   QuantityAction,
   QuantityActionType,
 } from "@/modules/Cart/constants/cart.ts";
-import type { AppDispatch } from "@/store/store";
-
 import {
-  addCartItem,
-  fetchCartItems,
-  removeCartItem,
-  removeCartItems,
-  updateItemQuantity,
-} from "../store/cartSlice.ts";
+  useAddCartItemMutation,
+  useClearCartMutation,
+  useGetCartQuery,
+  useRemoveCartItemMutation,
+  useUpdateItemQuantityMutation,
+} from "@/shared/api/client/cartQuery.ts";
+import { useAppSelector } from "@/shared/hooks/useAppSelector";
 
-/**
- * Custom hook for cart operations with toast notifications
- * @returns {Object} Cart action handlers
- */
-export const useCartReducers = () => {
-  const dispatch = useDispatch<AppDispatch>();
+export const useCartQueries = () => {
+  const isCartQuery = useAppSelector((state) =>
+    Object.values(state.cartApi.queries).some(
+      (query) => query?.status === "pending",
+    ),
+  );
 
-  /**
-   * Fetches cart items from server with toast notifications
-   */
-  const fetchCart = async (): Promise<void> => {
-    await dispatch(fetchCartItems());
-  };
+  const {
+    data: cartData,
+    isLoading: isCartLoading,
+    error: cartError,
+    refetch: refetchCart,
+  } = useGetCartQuery();
+
+  const [
+    updateQuantity,
+    { isLoading: isCartUpdating, error: cartUpdateError },
+  ] = useUpdateItemQuantityMutation();
+
+  const [addCartItem, { isLoading: isCartItemAdding }] =
+    useAddCartItemMutation();
+
+  const [removeItem, { isLoading: isCartRemoving }] =
+    useRemoveCartItemMutation();
+
+  const [clearCart, { isLoading: isCartClearing }] = useClearCartMutation();
 
   /**
    * Change quantity of item in cart
@@ -53,7 +64,7 @@ export const useCartReducers = () => {
       return;
     }
 
-    await dispatch(updateItemQuantity({ id, quantity: newQuantity }));
+    await updateQuantity({ id, quantity: newQuantity });
   };
 
   /**
@@ -66,17 +77,11 @@ export const useCartReducers = () => {
     e.preventDefault();
     e.nativeEvent.stopImmediatePropagation();
 
-    await toast.promise(
-      dispatch(addCartItem({ values: { productId } })).unwrap(),
-      {
-        loading: "Добавляем...",
-        success: "Товар добавлен в корзину",
-        error: (error: string) =>
-          error === "Request failed with status code 400"
-            ? "Максимальное количество товаров превышено! (10)"
-            : "Ошибка добавления товара",
-      },
-    );
+    await toast.promise(addCartItem({ productId }).unwrap(), {
+      loading: "Добавляем...",
+      success: "Товар добавлен в корзину",
+      error: (error) => error,
+    });
   };
 
   /**
@@ -85,10 +90,10 @@ export const useCartReducers = () => {
    * @returns {Promise<void>}
    */
   const handleRemove = async (id: number): Promise<void> => {
-    await toast.promise(dispatch(removeCartItem({ id })).unwrap(), {
+    await toast.promise(removeItem({ id }).unwrap(), {
       loading: "Удаляем...",
       success: "Товар удалён из корзины!",
-      error: "Ошибка удаления товара",
+      error: (error) => error,
     });
   };
 
@@ -97,18 +102,33 @@ export const useCartReducers = () => {
    * @returns {Promise<void>}
    */
   const handleRemoveAll = async (): Promise<void> => {
-    await toast.promise(dispatch(removeCartItems()).unwrap(), {
+    await toast.promise(clearCart().unwrap(), {
       loading: "Очищаем корзину...",
       success: "Корзина очищена!",
-      error: "Ошибка очистки корзины",
+      error: (error) => error,
     });
   };
 
   return {
-    fetchCart,
+    totalAmount: cartData?.totalAmount ?? 0,
+    cartItems: cartData?.items ?? [],
+    isCartLoading,
+    cartError,
+    refetchCart,
+
     handleQuantityChange,
+    isCartUpdating,
+    cartUpdateError,
+
     addToCart,
+    isCartItemAdding,
+
     handleRemove,
+    isCartRemoving,
+
     handleRemoveAll,
+    isCartClearing,
+
+    isCartQuery,
   };
 };

@@ -3,19 +3,12 @@
 import cn from "classnames";
 import { type FC } from "react";
 
-import {
-  selectAllCartItems,
-  selectCartErrors,
-  selectCartLoading,
-  selectTotalAmount,
-} from "@/modules/Cart/store/cartSelectors";
 import { PageConfig } from "@/shared/constants/pages";
-import { useAppSelector } from "@/shared/hooks/useAppSelector";
 import { Button } from "@/shared/ui/Button";
 import { pluralize } from "@/shared/utils/pluralize";
 
 import { Arrow, Plus } from "../../../../../public/icon";
-import { useCartReducers } from "../../hooks/useCartReducers";
+import { useCartQueries } from "../../hooks/useCartQueries";
 import { ProductCardLine } from "../ProductCardLine";
 
 import s from "./ListCartDrawer.module.scss";
@@ -25,20 +18,19 @@ interface ListCardDrawerProps {
 }
 
 export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
-  const cartItems = useAppSelector(selectAllCartItems);
-  const totalAmount = useAppSelector(selectTotalAmount);
-  const loading = useAppSelector(selectCartLoading);
-  const error = useAppSelector(selectCartErrors);
-
-  const { fetchCart, handleQuantityChange, handleRemove } = useCartReducers();
+  const {
+    totalAmount,
+    cartItems,
+    isCartLoading,
+    cartError,
+    refetchCart,
+    cartUpdateError,
+    isCartQuery,
+  } = useCartQueries();
 
   const getPluralizeGoods = pluralize("товар", "товара", "товаров");
-  const productsInCartCount = cartItems.length;
-
-  const isProcessing =
-    Object.values(loading.update).some(Boolean) ||
-    Object.values(loading.remove).some(Boolean);
-  const hasError = error.update;
+  const productsInCartCount = cartItems.length ?? 0;
+  const hasError = cartUpdateError || cartError;
 
   return (
     <>
@@ -61,14 +53,7 @@ export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
 
       <div className={s.cards}>
         {cartItems.map((item) => (
-          <ProductCardLine
-            key={item.name}
-            item={item}
-            onChangeCount={(type) =>
-              handleQuantityChange(item.id, item.quantity, type)
-            }
-            onClickRemove={() => handleRemove(item.id)}
-          />
+          <ProductCardLine key={item.name} item={item} />
         ))}
       </div>
 
@@ -84,17 +69,17 @@ export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
             <div className={s.bottomTextWrap}>
               <p className={s.bottomTitle}>Итого</p>
               <div className={s.line} />
-              <p className={cn(s.bottomPrice, isProcessing && s.loading)}>
+              <p className={cn(s.bottomPrice, isCartQuery && s.loading)}>
                 {totalAmount}
               </p>
             </div>
           )}
           {hasError ? (
             <Button
-              onClick={fetchCart}
+              onClick={refetchCart}
               className={s.orderBtn}
               size="l"
-              loading={Object.values(loading.fetch).some(Boolean)}
+              loading={isCartLoading}
             >
               Повторить
             </Button>
@@ -103,7 +88,7 @@ export const ListCartDrawer: FC<ListCardDrawerProps> = ({ onClose }) => {
               href={PageConfig.CHECKOUT}
               className={s.orderBtn}
               size="l"
-              loading={isProcessing}
+              loading={isCartQuery}
             >
               Оформить заказ
               <Arrow className={s.orderIcon} />

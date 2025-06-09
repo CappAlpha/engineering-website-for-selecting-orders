@@ -7,15 +7,10 @@ import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 import { createOrder } from "@/app/actions";
-import { useCartReducers } from "@/modules/Cart/hooks/useCartReducers";
-import {
-  selectAllCartItems,
-  selectCartLoading,
-} from "@/modules/Cart/store/cartSelectors";
+import { useCartQueries } from "@/modules/Cart/hooks/useCartQueries";
 import { ProductCardLine } from "@/modules/Cart/ui/ProductCardLine";
 import { ProductCardLineSkeleton } from "@/modules/Cart/ui/ProductCardLine/ProductCardLineSkeleton";
 import { getUserInfo } from "@/modules/Order/services/getUserInfo";
-import { useAppSelector } from "@/shared/hooks/useAppSelector";
 import { Button } from "@/shared/ui/Button";
 
 import {
@@ -31,12 +26,16 @@ import s from "./OrderItems.module.scss";
 
 export const OrderItems: FC = () => {
   const [submitting, setSubmitting] = useState(false);
-  const cartItems = useAppSelector(selectAllCartItems);
-  const cartLoading = useAppSelector(selectCartLoading);
-  const { fetchCart, handleQuantityChange, handleRemove, handleRemoveAll } =
-    useCartReducers();
-  const { status } = useSession();
   const [error, setError] = useState(false);
+
+  const {
+    totalAmount,
+    cartItems,
+    isCartLoading,
+    handleRemoveAll,
+    isCartClearing,
+  } = useCartQueries();
+  const { status } = useSession();
 
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutFormSchema),
@@ -50,15 +49,7 @@ export const OrderItems: FC = () => {
     },
   });
 
-  useEffect(() => {
-    if (status === "authenticated") {
-      getUserInfo(setError, form);
-    }
-
-    if (error) {
-      console.error("[ORDER_ITEMS] Get user error", error);
-    }
-  }, [status, error, form, setError]);
+  const isCartEmpty = totalAmount === 0;
 
   const onSubmit = async (data: CheckoutFormValues) => {
     try {
@@ -86,16 +77,14 @@ export const OrderItems: FC = () => {
   };
 
   useEffect(() => {
-    if (cartItems.length === 0) {
-      fetchCart();
+    if (status === "authenticated" && !isCartEmpty) {
+      getUserInfo(setError, form);
     }
-  }, [cartItems.length]);
 
-  const isEmpty = cartItems.length === 0;
-  const isCartFetching = cartLoading.fetch;
-  const isCardChanging =
-    Object.values(cartLoading.update).some(Boolean) ||
-    Object.values(cartLoading.remove).some(Boolean);
+    if (error) {
+      console.error("[ORDER_ITEMS] Get user error", error);
+    }
+  }, [status, error, form, setError, isCartEmpty]);
 
   return (
     <FormProvider {...form}>
@@ -107,15 +96,15 @@ export const OrderItems: FC = () => {
         <div className={s.left}>
           <OrderItem
             title="1. Корзина"
-            isCartEmpty={!isEmpty}
-            loading={isCartFetching}
+            isCartEmpty={!isCartEmpty}
+            loading={isCartClearing}
             handleClearCart={handleRemoveAll}
           >
-            {isCartFetching ? (
+            {isCartLoading ? (
               Array.from({
                 length: cartItems.length !== 0 ? cartItems.length : 3,
               }).map((_, index) => <ProductCardLineSkeleton key={index} />)
-            ) : !isCartFetching && isEmpty ? (
+            ) : !isCartLoading && isCartEmpty ? (
               <div className={s.empty}>
                 <p className={s.emptyText}>
                   Корзина пуста вернитесь обратно в Каталог
@@ -126,29 +115,19 @@ export const OrderItems: FC = () => {
               </div>
             ) : (
               cartItems.map((item) => (
-                <ProductCardLine
-                  key={item.name}
-                  item={item}
-                  onChangeCount={(type) =>
-                    handleQuantityChange(item.id, item.quantity, type)
-                  }
-                  onClickRemove={() => handleRemove(item.id)}
-                />
+                <ProductCardLine key={item.name} item={item} />
               ))
             )}
           </OrderItem>
-          <OrderItem title="2. Персональная информация" disabled={isEmpty}>
+          <OrderItem title="2. Персональная информация" disabled={isCartEmpty}>
             <PersonalForm />
           </OrderItem>
-          <OrderItem title="3. Адрес доставки" disabled={isEmpty}>
+          <OrderItem title="3. Адрес доставки" disabled={isCartEmpty}>
             <DeliveryForm />
           </OrderItem>
         </div>
         <div className={s.right}>
-          <PaymentSidebar
-            loading={isCartFetching || isCardChanging || submitting}
-            disabled={isEmpty}
-          />
+          <PaymentSidebar submitting={submitting} disabled={isCartEmpty} />
         </div>
       </form>
     </FormProvider>

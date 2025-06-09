@@ -3,8 +3,7 @@
 import cn from "classnames";
 import { type FC } from "react";
 
-import { selectTotalAmount } from "@/modules/Cart/store/cartSelectors";
-import { useAppSelector } from "@/shared/hooks/useAppSelector";
+import { useCartQueries } from "@/modules/Cart/hooks/useCartQueries";
 import { Button } from "@/shared/ui/Button";
 
 import { Goods, Percentage, Shipping } from "../../../../../public/icon";
@@ -14,23 +13,27 @@ import s from "./PaymentSidebar.module.scss";
 const TAX_PERCENTAGE = 15;
 
 interface Props {
-  loading: boolean;
+  submitting?: boolean;
   disabled?: boolean;
 }
 
-export const PaymentSidebar: FC<Props> = ({ loading, disabled = false }) => {
-  const totalAmount = useAppSelector(selectTotalAmount);
+export const PaymentSidebar: FC<Props> = ({
+  submitting = false,
+  disabled = false,
+}) => {
+  const { totalAmount, isCartQuery } = useCartQueries();
+
+  const isLoading = isCartQuery || submitting;
 
   const taxPrice = (totalAmount * TAX_PERCENTAGE) / 100;
   const deliveryPrice = disabled ? 0 : 120;
-
   const totalPrice = totalAmount + taxPrice + deliveryPrice;
 
   return (
     <div className={cn(s.root, disabled && s.disabled)}>
       <div className={s.header}>
         <p className={s.total}>Итого:</p>
-        <p className={cn(s.totalAmount, loading && s.loading)}>
+        <p className={cn(s.totalAmount, isLoading && s.loading)}>
           {totalPrice} &#8381;
         </p>
       </div>
@@ -39,7 +42,7 @@ export const PaymentSidebar: FC<Props> = ({ loading, disabled = false }) => {
           <Goods className={s.contentIcon} />
           <p className={s.contentTitle}>Стоимость корзины:</p>
           <div className={s.line} />
-          <p className={cn(s.contentPrice, loading && s.loading)}>
+          <p className={cn(s.contentPrice, isLoading && s.loading)}>
             {totalAmount} &#8381;
           </p>
         </div>
@@ -47,7 +50,7 @@ export const PaymentSidebar: FC<Props> = ({ loading, disabled = false }) => {
           <Percentage className={s.contentIcon} />
           <p className={s.contentTitle}>Налог:</p>
           <div className={s.line} />
-          <p className={cn(s.contentPrice, loading && s.loading)}>
+          <p className={cn(s.contentPrice, isLoading && s.loading)}>
             {taxPrice} &#8381;
           </p>
         </div>
@@ -62,7 +65,7 @@ export const PaymentSidebar: FC<Props> = ({ loading, disabled = false }) => {
       {/* <Button className={s.promoCodeBtn} color="transparent" noPadding>
         У меня есть промокод
       </Button> */}
-      <Button className={s.paymentBtn} type="submit" loading={loading}>
+      <Button className={s.paymentBtn} type="submit" loading={isLoading}>
         Оформить заказ
       </Button>
     </div>

@@ -11,7 +11,7 @@ export interface PriceRange {
 export const productsApi = createApi({
   reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api/",
+    baseUrl: "/api",
   }),
   tagTypes: ["PriceRange", "SearchProducts"],
   endpoints: (builder) => ({

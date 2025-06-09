@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { type ReactNode, type FC } from "react";
+import { type FC, type ReactNode } from "react";
 
 import { Button } from "@/shared/ui/Button";
 

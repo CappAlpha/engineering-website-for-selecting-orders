@@ -6,7 +6,7 @@ import { type FC } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-import { useCartReducers } from "@/modules/Cart/hooks/useCartReducers";
+import { useCartQueries } from "@/modules/Cart/hooks/useCartQueries";
 import { Button } from "@/shared/ui/Button";
 import { FormInput } from "@/shared/ui/FormInput";
 
@@ -26,7 +26,7 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
       password: "",
     },
   });
-  const { fetchCart } = useCartReducers();
+  const { refetchCart } = useCartQueries();
 
   const onSubmit = async (data: TFormLoginValues) => {
     try {
@@ -40,7 +40,7 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
         icon: "\u2705",
       });
 
-      await fetchCart();
+      await refetchCart();
       onClose();
     } catch (err) {
       console.error("[Error [LOGIN]]", err);

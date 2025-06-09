@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
     if (findCartItem && findCartItem.quantity >= CartQuantityLimits.MAX) {
       return NextResponse.json(
         {
-          error: `Cannot add more items. Maximum quantity (${CartQuantityLimits.MAX}) reached.`,
+          error: `Нельзя добавить больше. Максимальное количество (${CartQuantityLimits.MAX}) достигнуто.`,
         },
         { status: 400 },
       );

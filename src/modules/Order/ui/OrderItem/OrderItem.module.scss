@@ -43,10 +43,15 @@
   font-size: 18px;
   line-height: 120%;
 
+  &::after {
+    border: 2px solid var(--deep-blue) !important;
+    border-top-color: transparent !important;
+  }
+
   &:hover {
     @media (hover: hover) and (pointer: fine) {
       color: var(--deep-blue-hover) !important;
-      
+
       .icon {
         fill: var(--deep-blue-hover) !important;
       }

@@ -3,9 +3,7 @@
 import { Product } from "@prisma/client";
 import { type FC } from "react";
 
-import { useCartReducers } from "@/modules/Cart/hooks/useCartReducers";
-import { selectIsItemAdding } from "@/modules/Cart/store/cartSelectors";
-import { useAppSelector } from "@/shared/hooks/useAppSelector";
+import { useCartQueries } from "@/modules/Cart/hooks/useCartQueries";
 import { Button } from "@/shared/ui/Button";
 import { Tags } from "@/shared/ui/Tags";
 
@@ -23,8 +21,7 @@ export const ProductProperties: FC<Props> = ({
   price,
   tags,
 }) => {
-  const isAdding = useAppSelector(selectIsItemAdding(id));
-  const { addToCart } = useCartReducers();
+  const { addToCart, isCartItemAdding } = useCartQueries();
 
   return (
     <div className={s.root}>
@@ -43,7 +40,7 @@ export const ProductProperties: FC<Props> = ({
       <Button
         className={s.btn}
         onClick={(e) => addToCart(e, id)}
-        loading={isAdding}
+        loading={isCartItemAdding}
       >
         Добавить в корзину
       </Button>
