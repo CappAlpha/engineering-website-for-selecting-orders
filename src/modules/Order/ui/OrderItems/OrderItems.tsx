@@ -46,11 +46,11 @@ export const OrderItems: FC = () => {
       phone: "",
       address: "",
       comment: "",
+      time: "",
     },
   });
 
   const { watch } = form;
-
   const address = watch("address");
 
   const isCartEmpty = totalAmount === 0;

@@ -1,0 +1,17 @@
+.root {
+  label {
+    color: var(--blue);
+
+    span {
+      color: var(--additional-red);
+    }
+  }
+
+  div {
+    background: var(--opacity-white-60);
+  }
+
+  >div>div {
+    color: var(--deep-blue);
+  }
+}

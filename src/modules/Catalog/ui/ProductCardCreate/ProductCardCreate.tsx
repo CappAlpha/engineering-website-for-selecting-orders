@@ -1,13 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
 import { Category } from "@prisma/client";
 import cn from "classnames";
 import { type FC } from "react";
@@ -17,6 +10,7 @@ import toast from "react-hot-toast";
 import { createProduct } from "@/app/actions";
 import { Button } from "@/shared/ui/Button";
 import { FormInput } from "@/shared/ui/FormInput";
+import { Selector } from "@/shared/ui/Selector";
 
 import { Plus } from "../../../../../public/icon";
 import {
@@ -74,34 +68,15 @@ export const ProductCardCreate: FC<Props> = ({ categories }) => {
           name="category"
           control={form.control}
           render={({ field, fieldState }) => (
-            <FormControl
-              fullWidth
-              error={!!fieldState.error}
-              disabled={isSubmitting}
-              required
-            >
-              <InputLabel id="category-label" required>
-                Категория
-              </InputLabel>
-              <Select
-                {...field}
-                labelId="category-label"
-                label="Категория"
-                aria-describedby="category-helper"
-                required
-              >
-                {categories.map(({ id, name, slug }) => (
-                  <MenuItem key={id} value={name + "," + slug}>
-                    {name}
-                  </MenuItem>
-                ))}
-              </Select>
-              {fieldState.error && (
-                <FormHelperText id="category-helper">
-                  {fieldState.error.message}
-                </FormHelperText>
-              )}
-            </FormControl>
+            <Selector
+              title="Категория"
+              id="category"
+              field={field}
+              items={categories}
+              error={fieldState.error}
+              isSubmitting={isSubmitting}
+              isRequired
+            />
           )}
         />
 

@@ -14,6 +14,7 @@ export const checkoutFormSchema = z.object({
     .string()
     .max(200, { message: "Превышено максимальное количество текста" })
     .optional(),
+  time: z.string().optional(),
 });
 
 export type CheckoutFormValues = z.infer<typeof checkoutFormSchema>;

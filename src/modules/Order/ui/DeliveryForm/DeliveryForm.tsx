@@ -4,8 +4,10 @@ import { type FC } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
 import { AddressInput } from "@/shared/ui/AddressInput";
+import { Selector } from "@/shared/ui/Selector";
 
 import { FormInput } from "../../../../shared/ui/FormInput";
+import { TimeRange } from "../../constants/order";
 
 import s from "./DeliveryForm.module.scss";
 
@@ -39,12 +41,21 @@ export const DeliveryForm: FC = () => {
         inputMode="text"
         className={s.input}
       />
-      {/* TODO: add choose time? */}
-      {/*  <FormInput
+
+      <Controller
         name="time"
-        label="Время доставки заказа"
-        placeholder="Укажите тут дополнительную информацию для курьера"
-      /> */}
+        control={control}
+        render={({ field, fieldState }) => (
+          <Selector
+            title="Время доставки заказа"
+            id="time"
+            field={field}
+            items={TimeRange}
+            error={fieldState.error}
+            className={s.input}
+          />
+        )}
+      />
     </div>
   );
 };
