@@ -38,7 +38,7 @@ export default function CatalogLayout({
     <>
       <Header isCatalogPage />
       <main className={s.container}>{children}</main>
-      <Footer />
+      <Footer isCatalogPage />
     </>
   );
 }

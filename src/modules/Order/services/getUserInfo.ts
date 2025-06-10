@@ -8,7 +8,6 @@ interface UserResponse {
   fullName: string;
   email: string;
   phone?: string;
-  address?: string;
 }
 
 export const getUserInfo = async (
@@ -30,7 +29,6 @@ export const getUserInfo = async (
       lastName,
       email: response.email,
       phone: response.phone ?? "",
-      address: response.address ?? "",
     });
   } catch (err) {
     if (

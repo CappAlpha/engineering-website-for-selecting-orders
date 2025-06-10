@@ -49,6 +49,10 @@ export const OrderItems: FC = () => {
     },
   });
 
+  const { watch } = form;
+
+  const address = watch("address");
+
   const isCartEmpty = totalAmount === 0;
 
   const onSubmit = async (data: CheckoutFormValues) => {
@@ -127,7 +131,11 @@ export const OrderItems: FC = () => {
           </OrderItem>
         </div>
         <div className={s.right}>
-          <PaymentSidebar submitting={submitting} disabled={isCartEmpty} />
+          <PaymentSidebar
+            isAddressEmpty={address === ""}
+            submitting={submitting}
+            disabled={isCartEmpty}
+          />
         </div>
       </form>
     </FormProvider>

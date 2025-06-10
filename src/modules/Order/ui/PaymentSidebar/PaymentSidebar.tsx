@@ -13,11 +13,13 @@ import s from "./PaymentSidebar.module.scss";
 const TAX_PERCENTAGE = 15;
 
 interface Props {
+  isAddressEmpty?: boolean;
   submitting?: boolean;
   disabled?: boolean;
 }
 
 export const PaymentSidebar: FC<Props> = ({
+  isAddressEmpty = false,
   submitting = false,
   disabled = false,
 }) => {
@@ -26,7 +28,7 @@ export const PaymentSidebar: FC<Props> = ({
   const isLoading = isCartQuery || submitting;
 
   const taxPrice = (totalAmount * TAX_PERCENTAGE) / 100;
-  const deliveryPrice = disabled ? 0 : 120;
+  const deliveryPrice = disabled || isAddressEmpty ? 0 : 120;
   const totalPrice = totalAmount + taxPrice + deliveryPrice;
 
   return (
@@ -54,12 +56,14 @@ export const PaymentSidebar: FC<Props> = ({
             {taxPrice} &#8381;
           </p>
         </div>
-        <div className={s.item}>
-          <Shipping className={s.contentIcon} />
-          <p className={s.contentTitle}>Доставка:</p>
-          <div className={s.line} />
-          <p className={s.contentPrice}>{deliveryPrice} &#8381;</p>
-        </div>
+        {!isAddressEmpty && (
+          <div className={s.item}>
+            <Shipping className={s.contentIcon} />
+            <p className={s.contentTitle}>Доставка:</p>
+            <div className={s.line} />
+            <p className={s.contentPrice}>{deliveryPrice} &#8381;</p>
+          </div>
+        )}
       </div>
       {/* TODO: add promo code? */}
       {/* <Button className={s.promoCodeBtn} color="transparent" noPadding>

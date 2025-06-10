@@ -1,7 +1,17 @@
 .root {
+  position: relative;
   background-color: var(--dark-gray-blue);
   padding: 60px 40px 20px;
   border-radius: 50px 50px 0 0;
+}
+
+.catalog {
+  &::after {
+    @include pseudo;
+    height: 60px;
+    background-color: var(--light-gray);
+    z-index: -1;
+  }
 }
 
 .wrap {

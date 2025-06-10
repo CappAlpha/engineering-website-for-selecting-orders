@@ -1,3 +1,4 @@
+import cn from "classnames";
 import Link from "next/link";
 import { type FC } from "react";
 
@@ -14,11 +15,15 @@ import { FooterSubscribeForm } from "./FooterSubscribeForm";
 
 import s from "./Footer.module.scss";
 
-export const Footer: FC = () => {
+interface Props {
+  isCatalogPage?: boolean;
+}
+
+export const Footer: FC<Props> = ({ isCatalogPage = false }) => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className={s.root}>
+    <footer className={cn(s.root, isCatalogPage && s.catalog)}>
       <div className={s.wrap}>
         <div className={s.main}>
           <div className={s.company}>
