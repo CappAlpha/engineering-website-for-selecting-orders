@@ -11,17 +11,17 @@ export const EmailSubject = {
 export const TimeRange = [
   {
     id: 1,
-    name: "8:00 - 12:00",
+    name: "7:00 - 11:00",
     slug: "morning",
   },
   {
     id: 2,
-    name: "12:00 - 18:00",
+    name: "11:00 - 17:00",
     slug: "day",
   },
   {
     id: 3,
-    name: "18:00 - 23:00",
+    name: "17:00 - 23:00",
     slug: "evening",
   },
 ];
