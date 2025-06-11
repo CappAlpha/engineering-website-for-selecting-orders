@@ -1,7 +1,8 @@
 import { Prisma } from "@prisma/client";
 
+import { CategoryWithDetails } from "@/shared/entities/category";
+
 import { prisma } from "../../../../prisma/prisma-client";
-import { CategoryProps } from "../ui/ProductsCatalog";
 import { buildProductConditions } from "./buildProductConditions";
 import { validateAndNormalizeParams } from "./validateAndNormalizeParams";
 
@@ -37,7 +38,7 @@ export const findProduct = async (params: GetSearchParamsPage) => {
       },
     });
 
-    const categoriesMap = new Map<number, CategoryProps>();
+    const categoriesMap = new Map<number, CategoryWithDetails>();
 
     products.forEach((product) => {
       const categoryId = product.category.id;

@@ -20,6 +20,7 @@ interface Props {
 
 export const ProductCardLine: FC<Props> = ({ item }) => {
   const { name, description, imageUrl, price, quantity } = item;
+
   const { handleQuantityChange, isCartUpdating, handleRemove, isCartRemoving } =
     useCartQueries();
 

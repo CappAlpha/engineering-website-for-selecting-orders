@@ -1,9 +1,9 @@
-import { Category } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 import { getUserSession } from "@/modules/Auth/services/getUserSession";
 import { ProfileForm } from "@/modules/Auth/ui/ProfileForm";
 import { ProductCardCreate } from "@/modules/Catalog/ui/ProductCardCreate";
+import { CategoryBase } from "@/shared/entities/category";
 import { Breadcrumbs } from "@/shared/ui/Breadcrumbs";
 
 import { prisma } from "../../../../prisma/prisma-client";
@@ -27,7 +27,7 @@ export default async function ProfilePage() {
     return redirect("/not-auth");
   }
 
-  let categories: Omit<Category, "createdAt" | "updatedAt">[] = [];
+  let categories: CategoryBase[] = [];
 
   if (user.role === "ADMIN") {
     categories = await prisma.category.findMany({

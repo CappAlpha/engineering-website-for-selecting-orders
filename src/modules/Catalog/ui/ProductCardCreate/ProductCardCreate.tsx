@@ -1,13 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Category } from "@prisma/client";
 import cn from "classnames";
 import { type FC } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 import { createProduct } from "@/app/actions";
+import { CategoryBase } from "@/shared/entities/category";
 import { Button } from "@/shared/ui/Button";
 import { FormInput } from "@/shared/ui/FormInput";
 import { Selector } from "@/shared/ui/Selector";
@@ -21,7 +21,7 @@ import {
 import s from "./ProductCardCreate.module.scss";
 
 interface Props {
-  categories: Omit<Category, "createdAt" | "updatedAt">[];
+  categories: CategoryBase[];
 }
 
 export const ProductCardCreate: FC<Props> = ({ categories }) => {

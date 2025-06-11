@@ -1,17 +1,14 @@
-import { Category, Product } from "@prisma/client";
 import { type FC } from "react";
+
+import { CategoryWithDetails } from "@/shared/entities/category";
 
 import { ProductsGroupList } from "../ProductsGroupList";
 import { ProductsNotFound } from "./ProductsNotFound";
 
 import s from "./ProductsCatalog.module.scss";
 
-export interface CategoryProps extends Category {
-  products: Product[];
-}
-
 interface Props {
-  categories: CategoryProps[];
+  categories: CategoryWithDetails[];
 }
 
 export const ProductsCatalog: FC<Props> = ({ categories }) => {

@@ -1,11 +1,11 @@
 "use client";
 
 import { Autocomplete } from "@mui/material";
-import { Category } from "@prisma/client";
 import cn from "classnames";
 import { useEffect, useRef, useState, type FC } from "react";
 
 import { useLazySearchProductsQuery } from "@/shared/api/client/productsQuery";
+import { CategoryBase } from "@/shared/entities/category";
 import { useDebounce } from "@/shared/hooks/useDebounce";
 import { useOutsideClick } from "@/shared/hooks/useOutsideHook";
 
@@ -19,7 +19,7 @@ const DEBOUNCE_DELAY = 300;
 const DEFAULT_CATEGORY_NAME = "Без категории";
 
 interface Props {
-  categories: Omit<Category, "createdAt" | "updatedAt">[];
+  categories: CategoryBase[];
   className?: string;
 }
 
