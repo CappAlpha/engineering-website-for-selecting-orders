@@ -44,6 +44,32 @@ export const cartApi = createApi({
           "Ошибка обновления количества товара в корзине",
         ),
       invalidatesTags: ["Cart"],
+      async onQueryStarted({ id, quantity }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          cartApi.util.updateQueryData("getCart", undefined, (draft) => {
+            const item = draft.items.find((item) => item.id === id);
+
+            if (item) {
+              item.quantity = quantity;
+
+              let newTotal = 0;
+              for (const cartItem of draft.items) {
+                if (cartItem.price && cartItem.quantity >= 0) {
+                  newTotal += cartItem.price;
+                }
+              }
+
+              draft.totalAmount = newTotal;
+            }
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
     }),
 
     addCartItem: builder.mutation<CartReturnProps, CreateCartItemValues>({
@@ -86,6 +112,21 @@ export const cartApi = createApi({
       transformErrorResponse: (response) =>
         createCartErrorMessage("clearCart", response, "Ошибка очистки корзины"),
       invalidatesTags: ["Cart"],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          cartApi.util.updateQueryData("getCart", undefined, (draft) => {
+            draft.items = [];
+            draft.totalAmount = 0;
+            draft.items.length = 0;
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
     }),
   }),
 });
