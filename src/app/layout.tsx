@@ -1,4 +1,3 @@
-import { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { type ReactNode } from "react";
 
@@ -44,12 +43,6 @@ const speculationRules = JSON.stringify(
   null,
   2,
 );
-
-export const metadata: Metadata = {
-  other: {
-    "speculation-rules": `${speculationRules}`,
-  },
-};
 
 export default function RootLayout({
   children,

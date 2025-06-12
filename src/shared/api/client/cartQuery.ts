@@ -50,15 +50,15 @@ export const cartApi = createApi({
             const item = draft.items.find((item) => item.id === id);
 
             if (item) {
-              item.quantity = quantity;
+              const unitPrice = item.price / item.quantity;
 
               let newTotal = 0;
               for (const cartItem of draft.items) {
-                if (cartItem.price && cartItem.quantity >= 0) {
-                  newTotal += cartItem.price;
-                }
+                newTotal += cartItem.price;
               }
 
+              item.price = unitPrice * quantity;
+              item.quantity = quantity;
               draft.totalAmount = newTotal;
             }
           }),
