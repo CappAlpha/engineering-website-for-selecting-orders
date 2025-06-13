@@ -5,6 +5,7 @@ import { ProfileForm } from "@/modules/Auth/ui/ProfileForm";
 import { ProductCardCreate } from "@/modules/Catalog/ui/ProductCardCreate";
 import { CategoryBase } from "@/shared/entities/category";
 import { Breadcrumbs } from "@/shared/ui/Breadcrumbs";
+import { Search } from "@/shared/ui/Search";
 
 import { prisma } from "../../../../prisma/prisma-client";
 
@@ -42,7 +43,15 @@ export default async function ProfilePage() {
   return (
     <div className={s.wrap}>
       <Breadcrumbs items={[{ name: "Профиль", url: "profile" }]} />
-      {user.role === "ADMIN" && <ProductCardCreate categories={categories} />}
+      {user.role === "ADMIN" && (
+        <div className={s.adminWrap}>
+          <ProductCardCreate categories={categories} />
+          <div className={s.search}>
+            <h2 className={s.title}>Панель мониторинга товаров</h2>
+            <Search categories={categories} isAdmin />
+          </div>
+        </div>
+      )}
       <ProfileForm data={user} />
     </div>
   );

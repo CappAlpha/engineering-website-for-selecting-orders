@@ -2,7 +2,6 @@
 
 import { OrderStatus, Prisma } from "@prisma/client";
 import { hashSync } from "bcrypt";
-import { randomUUID } from "crypto";
 import { ReactNode } from "react";
 
 import { getUserSession } from "@/modules/Auth/services/getUserSession";
@@ -10,6 +9,7 @@ import { EmailVerification } from "@/modules/Auth/ui/EmailVerification";
 import { CartItemDTO } from "@/modules/Cart/entities/cart";
 import { cartClear } from "@/modules/Cart/services/cartClear";
 import { findCartWithProducts } from "@/modules/Cart/services/findCartWithProducts";
+import { updateCartTotalAmount } from "@/modules/Cart/services/updateCartTotalAmount";
 import { TCreateProductCardSchema } from "@/modules/Catalog/schemas/createProductCardSchema";
 import { CheckoutFormValues } from "@/modules/Order/schemas/checkoutFormSchema";
 import { createPayment } from "@/modules/Order/services/createPayment";
@@ -161,7 +161,6 @@ export const registerUser = async (
 
     const createdUser = await prisma.user.create({
       data: {
-        id: randomUUID(),
         fullName: data.fullName,
         email: data.email,
         password: hashSync(data.password, 12),
@@ -203,7 +202,6 @@ export async function createProduct(
       : "/images/catalog/placeholder.webp";
 
     const productData: Prisma.ProductCreateInput = {
-      id: randomUUID(),
       name: data.name.trim(),
       description: data.description?.trim() ?? "",
       imageUrl,
@@ -222,6 +220,9 @@ export async function createProduct(
           name: productData.name,
           categorySlug: productData.category.connect?.slug,
         },
+        select: {
+          id: true,
+        },
       });
 
       if (existingProduct) {
@@ -233,7 +234,47 @@ export async function createProduct(
       return await tx.product.create({ data: productData });
     });
   } catch (err) {
-    console.error("[CREATE_PRODUCT_ERROR]", err);
+    console.error("[CREATE_PRODUCT_ACTION]", err);
+    throw err;
+  }
+}
+
+export async function deleteProduct(id: string): Promise<void> {
+  try {
+    await prisma.$transaction(async (tx) => {
+      const existingProduct = await tx.product.findUnique({
+        where: {
+          id,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      if (!existingProduct) {
+        throw new Error(`Продукт с id "${id}" уже удалён`);
+      }
+
+      // TODO: Future order page history conflict? make soft delete in DB?
+      await prisma.cartItem.deleteMany({
+        where: {
+          productId: id,
+        },
+      });
+
+      const cartToken = await getCartToken();
+      if (cartToken) {
+        await updateCartTotalAmount(cartToken);
+      }
+
+      return await prisma.product.delete({
+        where: {
+          id,
+        },
+      });
+    });
+  } catch (err) {
+    console.error("[DELETE_PRODUCT_ACTION]", err);
     throw err;
   }
 }

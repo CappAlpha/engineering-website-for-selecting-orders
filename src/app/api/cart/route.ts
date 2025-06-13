@@ -7,6 +7,7 @@ import {
   CartQuantityLimits,
 } from "@/modules/Cart/constants/cart";
 import { CreateCartItemValues } from "@/modules/Cart/entities/cart";
+import { calcCartTotalPrice } from "@/modules/Cart/services/calcCartTotalPrice";
 import { findOrCreateCart } from "@/modules/Cart/services/findOrCreateCart";
 import { updateCartTotalAmount } from "@/modules/Cart/services/updateCartTotalAmount";
 import { validateCartRequest } from "@/modules/Cart/services/validateCartRequest";
@@ -44,6 +45,18 @@ export async function GET(req: NextRequest) {
         },
       },
     });
+
+    // TODO: Future order page history conflict? make soft delete in DB?
+    const totalAmount =
+      userCart?.items.reduce(
+        (acc, item) => acc + calcCartTotalPrice(item),
+        0,
+      ) ?? 0;
+
+    if (userCart && totalAmount < userCart.totalAmount) {
+      await updateCartTotalAmount(userCart.token);
+      return NextResponse.json({ totalAmount, items: userCart.items });
+    }
 
     return NextResponse.json(userCart ?? DEFAULT_RESPONSE);
   } catch (error) {

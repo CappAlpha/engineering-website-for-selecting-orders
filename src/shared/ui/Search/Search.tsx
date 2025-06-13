@@ -20,10 +20,15 @@ const DEFAULT_CATEGORY_NAME = "Без категории";
 
 interface Props {
   categories: CategoryBase[];
+  isAdmin?: boolean;
   className?: string;
 }
 
-export const Search: FC<Props> = ({ categories, className }) => {
+export const Search: FC<Props> = ({
+  categories,
+  isAdmin = false,
+  className,
+}) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -87,7 +92,7 @@ export const Search: FC<Props> = ({ categories, className }) => {
 
   return (
     <>
-      <div className={cn(s.bg, !open && s.hidden)} />
+      {!isAdmin && <div className={cn(s.bg, !open && s.hidden)} />}
       <div ref={containerRef} className={cn(s.root, className)}>
         <Autocomplete
           open={open}
@@ -106,7 +111,9 @@ export const Search: FC<Props> = ({ categories, className }) => {
           disablePortal
           renderInput={SearchInput}
           renderGroup={SearchGroup}
-          renderOption={SearchOption}
+          renderOption={(props, option) =>
+            SearchOption({ ...props, isAdmin }, option)
+          }
           inputMode="search"
         />
       </div>

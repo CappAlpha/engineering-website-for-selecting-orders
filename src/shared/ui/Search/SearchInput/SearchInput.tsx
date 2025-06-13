@@ -1,3 +1,5 @@
+"use client";
+
 import { AutocompleteRenderInputParams, TextField } from "@mui/material";
 
 import s from "./SearchInput.module.scss";

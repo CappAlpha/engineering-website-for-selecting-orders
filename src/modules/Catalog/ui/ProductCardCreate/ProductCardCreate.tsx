@@ -58,77 +58,79 @@ export const ProductCardCreate: FC<Props> = ({ categories }) => {
   const isSubmitting = form.formState.isSubmitting;
   return (
     <FormProvider {...form}>
-      <h2 className={s.title}>Добавить товар</h2>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className={cn(s.root, isSubmitting && s.disable)}
-        noValidate
-      >
-        <Controller
-          name="category"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Selector
-              title="Категория"
-              id="category"
-              field={field}
-              items={categories}
-              error={fieldState.error}
-              isSubmitting={isSubmitting}
-              isRequired
-            />
-          )}
-        />
-
-        <FormInput
-          name="imageUrl"
-          label="URL изображения"
-          type="url"
-          placeholder="https://example.com/image.jpg"
-          disabled={isSubmitting}
-        />
-
-        <FormInput
-          name="name"
-          label="Заголовок"
-          required
-          disabled={isSubmitting}
-        />
-
-        <FormInput
-          name="description"
-          label="Описание"
-          multiline
-          rows={3}
-          disabled={isSubmitting}
-        />
-
-        <FormInput
-          name="tags"
-          label="Теги"
-          placeholder="тег1, тег2, тег3"
-          helperText="Разделяйте теги запятыми"
-          disabled={isSubmitting}
-        />
-
-        <FormInput
-          name="price"
-          label="Цена"
-          type="number"
-          required
-          disabled={isSubmitting}
-        />
-
-        <Button
-          loading={isSubmitting}
-          className={s.submitBtn}
-          type="submit"
-          disabled={isSubmitting}
+      <div className={s.root}>
+        <h2 className={s.title}>Добавить товар</h2>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className={cn(s.form, isSubmitting && s.disable)}
+          noValidate
         >
-          <Plus className={s.icon} />
-          {isSubmitting ? "Добавляется..." : "Добавить товар"}
-        </Button>
-      </form>
+          <Controller
+            name="category"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Selector
+                title="Категория"
+                id="category"
+                field={field}
+                items={categories}
+                error={fieldState.error}
+                isSubmitting={isSubmitting}
+                isRequired
+              />
+            )}
+          />
+
+          <FormInput
+            name="imageUrl"
+            label="URL изображения"
+            type="url"
+            placeholder="https://example.com/image.jpg"
+            disabled={isSubmitting}
+          />
+
+          <FormInput
+            name="name"
+            label="Заголовок"
+            required
+            disabled={isSubmitting}
+          />
+
+          <FormInput
+            name="description"
+            label="Описание"
+            multiline
+            rows={3}
+            disabled={isSubmitting}
+          />
+
+          <FormInput
+            name="tags"
+            label="Теги"
+            placeholder="тег1, тег2, тег3"
+            helperText="Разделяйте теги запятыми"
+            disabled={isSubmitting}
+          />
+
+          <FormInput
+            name="price"
+            label="Цена"
+            type="number"
+            required
+            disabled={isSubmitting}
+          />
+
+          <Button
+            loading={isSubmitting}
+            className={s.submitBtn}
+            type="submit"
+            disabled={isSubmitting}
+          >
+            <Plus className={s.icon} />
+            {isSubmitting ? "Добавляется..." : "Добавить товар"}
+          </Button>
+        </form>
+      </div>
     </FormProvider>
   );
 };

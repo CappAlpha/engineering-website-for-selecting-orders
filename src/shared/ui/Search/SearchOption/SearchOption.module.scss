@@ -8,26 +8,57 @@
   }
 }
 
-.img {
-  object-fit: cover;
-  border-radius: 2px;
-}
-
 .link {
   display: flex;
   align-items: center;
   gap: 8px;
   height: 100%;
   padding: 6px 16px;
+  border-radius: 10px;
   @include expandableArea;
   --clickable-area-expandable-ratio: 5px;
+  transition: all 0.2s ease-in-out;
 
   &:hover {
     @media (hover: hover) and (pointer: fine) {
       background: var(--deep-blue-hover);
-      color: var(--white);
       fill: var(--white);
-      border-radius: 10px;
+
+      span {
+        color: var(--white);
+      }
+
+      .img {
+        transform: scale(1.2);
+      }
     }
   }
+}
+
+.img {
+  object-fit: cover;
+  border-radius: 2px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.name,
+.price {
+  transition: color 0.2s ease-in-out;
+}
+
+.price {
+  margin-left: auto;
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.btn {
+  z-index: 5;
+  @include expandableArea;
+  --clickable-area-expandable-ratio: 10px;
+}
+
+.icon {
+  width: 25px;
+  min-width: 25px;
 }

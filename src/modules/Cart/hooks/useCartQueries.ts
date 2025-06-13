@@ -47,13 +47,12 @@ export const useCartQueries = () => {
    * @param id - item id
    * @param quantity - current quantity
    * @param type - type of quantity change (plus or minus)
-   * @returns {Promise<void>}
    */
   const handleQuantityChange = async (
     id: number,
     quantity: number,
     type: QuantityActionType,
-  ): Promise<void> => {
+  ) => {
     const newQuantity =
       type === QuantityAction.PLUS ? quantity + 1 : quantity - 1;
 
@@ -71,9 +70,8 @@ export const useCartQueries = () => {
    * Add item to cart
    * @param e - mouse event
    * @param productId - product id
-   * @returns {Promise<void>}
    */
-  const addToCart = async (e: MouseEvent, productId: string): Promise<void> => {
+  const addToCart = async (e: MouseEvent, productId: string) => {
     e.preventDefault();
     e.nativeEvent.stopImmediatePropagation();
 
@@ -87,9 +85,8 @@ export const useCartQueries = () => {
   /**
    * Remove item from cart
    * @param id - item id
-   * @returns {Promise<void>}
    */
-  const handleRemove = async (id: number): Promise<void> => {
+  const handleRemove = async (id: number) => {
     await toast.promise(removeItem({ id }).unwrap(), {
       loading: "Удаляем...",
       success: "Товар удалён из корзины!",
@@ -98,10 +95,9 @@ export const useCartQueries = () => {
   };
 
   /**
-   * Remove items from cart
-   * @returns {Promise<void>}
+   * Remove all items from cart
    */
-  const handleRemoveAll = async (): Promise<void> => {
+  const handleRemoveAll = async () => {
     await toast.promise(clearCart().unwrap(), {
       loading: "Очищаем корзину...",
       success: "Корзина очищена!",

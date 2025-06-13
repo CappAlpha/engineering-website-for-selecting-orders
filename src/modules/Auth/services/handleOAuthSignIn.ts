@@ -56,7 +56,6 @@ export const handleOAuthSignIn = async (
     // Create a new user
     const newUser = await prisma.user.create({
       data: {
-        id: randomUUID(),
         fullName: user.name ?? `User ${randomUUID().substring(0, 8)}`,
         email: user.email,
         password: hashSync(randomUUID(), 12),

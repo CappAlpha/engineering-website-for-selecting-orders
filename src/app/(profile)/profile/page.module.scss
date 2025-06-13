@@ -6,6 +6,18 @@
   }
 }
 
-.title {
-  @include title;
+.adminWrap{
+  display: flex;
+  gap: 40px;
+}
+
+.search{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.title{
+  @include subtitle;
 }
