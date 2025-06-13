@@ -14,6 +14,8 @@ export interface TopBarProps {
 
 export const TopBar: FC<TopBarProps> = ({ categories }) => {
   const activeId = useAppSelector((state) => state.categories.activeId);
+  const changed = useAppSelector((state) => state.filters.changed);
+
   const handleScroll = (name: string, isActive: boolean) => {
     if (!isActive) {
       const element = document.getElementById(name);
@@ -26,7 +28,12 @@ export const TopBar: FC<TopBarProps> = ({ categories }) => {
   return (
     <div className={s.root}>
       {categories.length > 0 ? (
-        <Tabs items={categories} activeId={activeId} onClick={handleScroll} />
+        <Tabs
+          items={categories}
+          activeId={activeId}
+          onClick={handleScroll}
+          loading={changed}
+        />
       ) : (
         <div />
       )}

@@ -15,7 +15,7 @@ import {
 
 import s from "./Selector.module.scss";
 
-export interface Props<
+interface Props<
   T,
   TFieldValues extends FieldValues,
   TName extends Path<TFieldValues>,

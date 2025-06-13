@@ -1,5 +1,5 @@
-export type SliderRange = [number, number];
-export type ActiveThumb = 0 | 1;
+type SliderRange = [number, number];
+type ActiveThumb = 0 | 1;
 
 export class SliderUtils {
   static validateRange(value: unknown, min: number, max: number): SliderRange {
