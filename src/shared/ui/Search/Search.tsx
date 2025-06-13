@@ -69,7 +69,7 @@ export const Search: FC<Props> = ({
 
   // Performing a search when the debounced query changes
   useEffect(() => {
-    if (open) {
+    if (open || isAdmin) {
       triggerSearch(debouncedSearchQuery);
     }
   }, [debouncedSearchQuery, open]);
@@ -95,7 +95,7 @@ export const Search: FC<Props> = ({
       {!isAdmin && <div className={cn(s.bg, !open && s.hidden)} />}
       <div ref={containerRef} className={cn(s.root, className)}>
         <Autocomplete
-          open={open}
+          open={open || isAdmin}
           onOpen={onOpen}
           onClose={onClose}
           options={sortedProducts}
