@@ -28,7 +28,8 @@ interface PriceConfig {
  */
 export const usePriceRange = (config: PriceConfig) => {
   const dispatch = useDispatch<AppDispatch>();
-  const prices = useAppSelector((state) => state.filters.prices);
+  const priceFrom = useAppSelector((state) => state.filters.prices.priceFrom);
+  const priceTo = useAppSelector((state) => state.filters.prices.priceTo);
 
   const {
     data: priceRange = { minPrice: 0, maxPrice: 100000 },
@@ -37,8 +38,8 @@ export const usePriceRange = (config: PriceConfig) => {
   } = useGetPriceRangeQuery();
 
   const safePrices = {
-    priceFrom: prices.priceFrom ?? priceRange.minPrice,
-    priceTo: prices.priceTo ?? priceRange.maxPrice,
+    priceFrom: priceFrom ?? priceRange.minPrice,
+    priceTo: priceTo ?? priceRange.maxPrice,
   };
 
   const validatePriceValue = useCallback(
@@ -77,7 +78,8 @@ export const usePriceRange = (config: PriceConfig) => {
     if (inputValue === "") {
       dispatch(
         filtersActions.setPrices({
-          ...prices,
+          priceFrom,
+          priceTo,
           [key]: null,
         }),
       );
@@ -92,21 +94,23 @@ export const usePriceRange = (config: PriceConfig) => {
 
     dispatch(
       filtersActions.setPrices({
-        ...prices,
+        priceFrom,
+        priceTo,
         [key]: numericValue,
       }),
     );
   };
 
   const handlePriceBlur = (key: "priceFrom" | "priceTo") => {
-    const currentValue = prices[key];
+    const currentValue = key === "priceFrom" ? priceFrom : priceTo;
 
     if (currentValue === null || currentValue === undefined) {
       const defaultValue =
         key === "priceFrom" ? priceRange.minPrice : priceRange.maxPrice;
       dispatch(
         filtersActions.setPrices({
-          ...prices,
+          priceFrom,
+          priceTo,
           [key]: defaultValue,
         }),
       );
@@ -118,7 +122,8 @@ export const usePriceRange = (config: PriceConfig) => {
     if (validatedValue !== currentValue) {
       dispatch(
         filtersActions.setPrices({
-          ...prices,
+          priceFrom,
+          priceTo,
           [key]: validatedValue,
         }),
       );
@@ -138,7 +143,8 @@ export const usePriceRange = (config: PriceConfig) => {
     priceRange,
     loading,
     error,
-    prices,
+    priceFrom,
+    priceTo,
     handlePriceChange,
     handlePriceBlur,
     handleSliderChange,

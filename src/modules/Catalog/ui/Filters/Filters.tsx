@@ -38,7 +38,8 @@ export const Filters: FC = () => {
   const {
     priceRange: { minPrice, maxPrice },
     loading: loadingPrice,
-    prices: { priceFrom, priceTo },
+    priceFrom,
+    priceTo,
     handlePriceChange,
     handlePriceBlur,
     handleSliderChange,
