@@ -4,6 +4,8 @@ import { filtersActions } from "@/modules/Catalog/store/filtersSlice";
 import { useGetProductsTagsQuery } from "@/shared/api/client/productsTagsQuery";
 import { useAppSelector } from "@/shared/hooks/useAppSelector";
 
+import { resetChanged } from "../services/resetChanged";
+
 interface ReturnProps {
   tags: string[];
   selected: string[];
@@ -40,6 +42,7 @@ export const useTags = (sortedToTop = false): ReturnProps => {
 
   const toggle = (id: string) => {
     dispatch(filtersActions.toggleTag(id));
+    resetChanged(dispatch);
   };
 
   return { tags: sortedTags, selected, loading, error, toggle };

@@ -6,6 +6,8 @@ import { useGetPriceRangeQuery } from "@/shared/api/client/productsQuery";
 import { useAppSelector } from "@/shared/hooks/useAppSelector";
 import { AppDispatch } from "@/store/store";
 
+import { resetChanged } from "../services/resetChanged";
+
 interface PriceConfig {
   SLIDER_GAP: number;
   SLIDER_STEP: number;
@@ -99,6 +101,7 @@ export const usePriceRange = (config: PriceConfig) => {
         [key]: numericValue,
       }),
     );
+    resetChanged(dispatch);
   };
 
   const handlePriceBlur = (key: "priceFrom" | "priceTo") => {
@@ -114,6 +117,7 @@ export const usePriceRange = (config: PriceConfig) => {
           [key]: defaultValue,
         }),
       );
+      resetChanged(dispatch);
       return;
     }
 
@@ -127,6 +131,7 @@ export const usePriceRange = (config: PriceConfig) => {
           [key]: validatedValue,
         }),
       );
+      resetChanged(dispatch);
     }
   };
 
@@ -137,6 +142,7 @@ export const usePriceRange = (config: PriceConfig) => {
         priceTo: values[1],
       }),
     );
+    resetChanged(dispatch);
   };
 
   return {

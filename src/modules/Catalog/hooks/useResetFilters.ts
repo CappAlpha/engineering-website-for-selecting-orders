@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 
 import { filtersActions } from "@/modules/Catalog/store/filtersSlice";
 
+import { resetChanged } from "../services/resetChanged";
+
 /**
  * Hook to reset filters state and clear local storage.
  *
@@ -16,7 +18,7 @@ export const useResetFilters = () => {
   const resetFilters = () => {
     dispatch(filtersActions.clearTags());
     dispatch(filtersActions.resetPrices());
-    localStorage.removeItem("tagsData");
+    resetChanged(dispatch);
     router.push("/", { scroll: false });
   };
 

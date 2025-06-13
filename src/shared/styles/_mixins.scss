@@ -138,7 +138,7 @@ $breakpoints: (
     @include pseudo;
     background: linear-gradient(90deg,
         var(--light-gray) 25%,
-        var(--gray) 50%,
+        var(--white) 50%,
         var(--light-gray) 75%);
     background-size: 200% 100%;
     animation: 1.5s linear infinite skeleton;
