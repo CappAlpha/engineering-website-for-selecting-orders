@@ -1,8 +1,8 @@
 # Engineering website for orders - Modern Next.js Application
 
-![Next.js](https://img.shields.io/badge/Next.js-15.3.2-000000?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-15.3.3-000000?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.1.0-61DAFB?logo=react)
-![Prisma](https://img.shields.io/badge/Prisma-6.8.2-2D3748?logo=prisma)
+![Prisma](https://img.shields.io/badge/Prisma-6.9.0-2D3748?logo=prisma)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0.0-3178C6?logo=typescript)
 
 A modern full-stack application built with Next.js, React 19, Prisma ORM, and TypeScript, featuring advanced developer tooling and best practices.
@@ -25,8 +25,8 @@ A modern full-stack application built with Next.js, React 19, Prisma ORM, and Ty
 
 ### Prerequisites
 
-- Node.js 18+
-- PostgreSQL/MySQL database
+- Node.js 22+
+- PostgreSQL database
 - (Optional) Docker for database containerization
 
 ### Installation
