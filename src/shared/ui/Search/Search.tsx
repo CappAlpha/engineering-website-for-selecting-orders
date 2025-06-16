@@ -72,7 +72,7 @@ export const Search: FC<Props> = ({
     if (open || isAdmin) {
       triggerSearch(debouncedSearchQuery);
     }
-  }, [debouncedSearchQuery, open]);
+  }, [debouncedSearchQuery, open, isAdmin]);
 
   // Close component when click outside
   useOutsideClick({

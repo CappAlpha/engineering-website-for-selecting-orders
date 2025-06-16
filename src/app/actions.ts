@@ -2,6 +2,7 @@
 
 import { OrderStatus, Prisma } from "@prisma/client";
 import { hashSync } from "bcrypt";
+import { NextResponse } from "next/server";
 import { ReactNode } from "react";
 
 import { getUserSession } from "@/modules/Auth/services/getUserSession";
@@ -153,10 +154,16 @@ export const registerUser = async (
 
     if (user) {
       if (!user.verified) {
-        throw new Error("Почта не подтверждена");
+        return NextResponse.json(
+          { error: "Почта не подтверждена" },
+          { status: 403 },
+        );
       }
 
-      throw new Error("Пользователь уже существует");
+      return NextResponse.json(
+        { error: "Пользователь уже существует" },
+        { status: 409 },
+      );
     }
 
     const createdUser = await prisma.user.create({

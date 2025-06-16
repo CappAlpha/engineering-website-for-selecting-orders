@@ -16,9 +16,9 @@ export const useResetFilters = () => {
   const router = useRouter();
 
   const resetFilters = () => {
+    resetChanged(dispatch);
     dispatch(filtersActions.clearTags());
     dispatch(filtersActions.resetPrices());
-    resetChanged(dispatch);
     router.push("/", { scroll: false });
   };
 
