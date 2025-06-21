@@ -27,15 +27,13 @@ export const TopBar: FC<TopBarProps> = ({ categories }) => {
 
   return (
     <div className={s.root}>
-      {categories.length > 0 ? (
+      {categories.length > 0 && (
         <Tabs
           items={categories}
           activeId={activeId}
           onClick={handleScroll}
           loading={changed}
         />
-      ) : (
-        <div />
       )}
     </div>
   );

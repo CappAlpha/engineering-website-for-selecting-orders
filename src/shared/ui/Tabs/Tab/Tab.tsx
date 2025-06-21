@@ -7,12 +7,11 @@ import s from "./Tab.module.scss";
 
 interface Props {
   name: string;
-  activeId: string | null;
+  isActive: boolean;
   onClick: (name: string, isActive: boolean) => void;
 }
 
-export const Tab: FC<Props> = ({ name, activeId, onClick }) => {
-  const isActive = name == activeId;
+export const Tab: FC<Props> = ({ name, isActive, onClick }) => {
   return (
     <Button
       onClick={() => onClick(name, isActive)}

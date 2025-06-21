@@ -26,7 +26,7 @@ export const Tabs: FC<Props> = ({
         <Tab
           key={item.name}
           name={item.name}
-          activeId={activeId}
+          isActive={item.name === activeId}
           onClick={onClick}
         />
       ))}
