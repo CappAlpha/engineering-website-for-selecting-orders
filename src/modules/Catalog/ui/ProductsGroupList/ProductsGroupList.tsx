@@ -46,7 +46,7 @@ export const ProductsGroupList: FC<Props> = ({
 
   useEffect(() => {
     dispatch(filtersActions.resetChanged());
-  }, []);
+  }, [dispatch]);
 
   return (
     <section
