@@ -27,7 +27,6 @@ A modern full-stack application built with Next.js, React 19, Prisma ORM, and Ty
 
 - Node.js 22+
 - PostgreSQL database
-- (Optional) Docker for database containerization
 
 ### Installation
 
