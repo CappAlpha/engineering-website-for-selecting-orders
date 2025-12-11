@@ -9,7 +9,7 @@ A modern full-stack application built with Next.js, React 19, Prisma ORM, and Ty
 
 ## ✨ Features
 
-- ⚡ Next.js 15 with React 19
+- ⚡ Next.js 16 with React 19
 - 🗄️ Prisma ORM with PostgreSQL/MySQL support
 - 🔐 NextAuth.js for authentication
 - 🧰 Redux Toolkit for state management
@@ -17,7 +17,7 @@ A modern full-stack application built with Next.js, React 19, Prisma ORM, and Ty
 - 📝 React Hook Form with Zod validation
 - 🛠️ Comprehensive developer tooling:
   - ESLint + Prettier
-  - Lint-staged + Husky
+  - Lint-staged
   - Knip for dead code detection
   - Webpack Bundle Analyzer
 
