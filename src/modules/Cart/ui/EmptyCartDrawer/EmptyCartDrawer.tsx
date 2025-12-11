@@ -17,7 +17,14 @@ export const EmptyCartDrawer: FC<Props> = ({ onClose }) => {
   return (
     <>
       <div className={s.imgWrap}>
-        <Image src="/images/cart/1.webp" alt="Корзина" fill className={s.img} />
+        <Image
+          src="/images/cart/1.webp"
+          alt="Корзина"
+          fill
+          className={s.img}
+          preload
+          priority={false}
+        />
       </div>
       <h3 className={s.title}>Корзина пустая</h3>
       <p className={s.description}>
