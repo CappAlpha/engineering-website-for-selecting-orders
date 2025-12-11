@@ -1,9 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  experimental: {
-    reactCompiler: true,
-  },
+  reactCompiler: true,
   reactStrictMode: true,
   sassOptions: {
     prependData: '@use "~@/shared/styles/_mixins.scss" as *;',

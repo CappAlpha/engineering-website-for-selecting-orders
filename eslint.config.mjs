@@ -1,25 +1,41 @@
-import { FlatCompat } from "@eslint/eslintrc";
+// eslint.config.mjs
 import js from "@eslint/js";
+import nextPlugin from "@next/eslint-plugin-next";
 import reactHooks from "eslint-plugin-react-hooks";
-import { defineConfig } from "eslint/config";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import tsEslint from "typescript-eslint";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
-
-export default defineConfig([
+export default tsEslint.config(
   {
-    plugins: { "react-hooks": reactHooks },
-    extends: compat.extends("next/core-web-vitals", "next/typescript"),
+    ignores: [
+      ".next/**",
+      "node_modules/**",
+      "prisma/generated/**",
+      "prisma/**/client/*.d.ts", 
+    ],
+  },
+
+  {
+    plugins: {
+      "react-hooks": reactHooks,
+      "@next/next": nextPlugin,
+    },
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     rules: {
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn",
+      ...reactHooks.configs.recommended.rules,
+      "@typescript-eslint/consistent-type-imports": "warn",
     },
   },
-]);
+
+  {
+    files: ["**/*.js", "**/*.mjs", "**/*.cjs", "**/*.d.ts"],
+    ...tsEslint.configs.disableTypeChecked,
+  },
+
+  js.configs.recommended,
+  ...tsEslint.configs.recommendedTypeChecked,
+);
