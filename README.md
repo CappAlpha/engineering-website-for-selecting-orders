@@ -41,8 +41,9 @@ cd my-app
 
 ```bash
 npm install
-Set up environment variables:
 ```
+
+Set up environment variables:
 
 ```bash
 cp .env.example .env
