@@ -6,7 +6,6 @@
     "dev": "next dev --webpack",
     "build": "prisma generate && next build --webpack",
     "start": "next start",
-    "lint": "lint",
     "lint-staged": "lint-staged",
     "format": "prettier --write .",
     "knip": "knip",

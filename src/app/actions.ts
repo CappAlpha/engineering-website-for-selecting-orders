@@ -1,18 +1,19 @@
 "use server";
 
-import { OrderStatus, Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
+import { OrderStatus } from "@prisma/client";
 import { hashSync } from "bcrypt";
 import { NextResponse } from "next/server";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { getUserSession } from "@/modules/Auth/services/getUserSession";
 import { EmailVerification } from "@/modules/Auth/ui/EmailVerification";
-import { CartItemDTO } from "@/modules/Cart/entities/cart";
+import type { CartItemDTO } from "@/modules/Cart/entities/cart";
 import { cartClear } from "@/modules/Cart/services/cartClear";
 import { findCartWithProducts } from "@/modules/Cart/services/findCartWithProducts";
 import { updateCartTotalAmount } from "@/modules/Cart/services/updateCartTotalAmount";
-import { TCreateProductCardSchema } from "@/modules/Catalog/schemas/createProductCardSchema";
-import { CheckoutFormValues } from "@/modules/Order/schemas/checkoutFormSchema";
+import type { TCreateProductCardSchema } from "@/modules/Catalog/schemas/createProductCardSchema";
+import type { CheckoutFormValues } from "@/modules/Order/schemas/checkoutFormSchema";
 import { createPayment } from "@/modules/Order/services/createPayment";
 import { sendEmail } from "@/modules/Order/services/sendEmail";
 import { EmailMakeOrder } from "@/modules/Order/ui/EmailMakeOrder";
@@ -216,7 +217,7 @@ export async function createProduct(
       category: {
         connect: { slug: categorySlug },
       },
-      price: parseFloat(data.price),
+      price: Number.parseFloat(data.price),
       createdAt: new Date(),
       updatedAt: new Date(),
     };
