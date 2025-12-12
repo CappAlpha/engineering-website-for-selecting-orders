@@ -6,5 +6,4 @@ const pool = new Pool({
   connectionString: process.env.DB_POSTGRES_URL_NON_POOLING,
 });
 const adapter = new PrismaPg(pool);
-
 export const prisma = new PrismaClient({ adapter });
