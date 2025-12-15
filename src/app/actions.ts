@@ -25,25 +25,25 @@ import { prisma } from "../../prisma/prisma-client";
  * Create order from cart
  * @param data - Checkout form values
  * @returns URL to payment service
- * @throws Error if cart not found or cart is empty
+ * @throws Error if cart not found, cart is empty, or other failures
  */
 export const createOrder = async (data: CheckoutFormValues) => {
+  const cartToken = await getCartToken();
+
+  if (!cartToken) {
+    throw new Error("Токен корзины не найден");
+  }
+
+  // Find cart
+  const userCart = await findCartWithProducts(cartToken);
+  if (!userCart) {
+    throw new Error("Корзина не найдена");
+  }
+  if (userCart.totalAmount === 0) {
+    throw new Error("Корзина пуста");
+  }
+
   try {
-    const cartToken = await getCartToken();
-
-    if (!cartToken) {
-      throw new Error("Токен корзины не найден");
-    }
-
-    // Find cart
-    const userCart = await findCartWithProducts(cartToken);
-    if (!userCart) {
-      throw new Error("Корзина не найдена");
-    }
-    if (userCart?.totalAmount === 0) {
-      throw new Error("Корзина пуста");
-    }
-
     // Create order
     const order = await prisma.order.create({
       data: {
@@ -51,7 +51,7 @@ export const createOrder = async (data: CheckoutFormValues) => {
         totalAmount: userCart.totalAmount,
         status: OrderStatus.PENDING,
         items: JSON.stringify(userCart.items),
-        fullName: data.firstName + " " + data.lastName,
+        fullName: `${data.firstName} ${data.lastName}`,
         email: data.email,
         phone: data.phone,
         address: data.address,
@@ -59,54 +59,49 @@ export const createOrder = async (data: CheckoutFormValues) => {
       },
     });
 
+    // Clear cart after order creation
     await cartClear(userCart);
 
-    // Get data from payment
+    // Create payment order
     const paymentData = await createPayment({
-      description: "Оплата заказа #" + order.id,
+      description: `Оплата заказа #${order.id}`,
       orderId: order.id,
       amount: order.totalAmount,
     });
+
     if (!paymentData) {
-      await prisma.order.update({
-        where: {
-          id: order.id,
-        },
-        data: {
-          status: OrderStatus.CANCELLED,
-        },
-      });
-      throw new Error("Данные платежа не найдена");
+      throw new Error("Данные платежа не получены");
     }
 
-    // Add paymentId to order
+    // Update order with paymentId
     await prisma.order.update({
-      where: {
-        id: order.id,
-      },
-      data: {
-        paymentId: paymentData.id,
-      },
+      where: { id: order.id },
+      data: { paymentId: paymentData.id },
     });
 
     const paymentUrl = paymentData.url;
-    const items = JSON.parse(order?.items as string) as CartItemDTO[];
+    const items = JSON.parse(order.items as string) as CartItemDTO[];
 
-    // Send info about order on email
+    // Send order confirmation email
     await sendEmail(
       data.email,
-      "Engineer / Оплатите заказ #" + order.id,
+      `Engineer / Оплатите заказ #${order.id}`,
       EmailMakeOrder({
         orderId: order.id,
         totalAmount: order.totalAmount,
-        paymentUrl: paymentUrl,
+        paymentUrl,
         items,
       }) as ReactNode,
     );
 
     return paymentUrl;
   } catch (err) {
-    console.error("Server error [CREATE_ORDER_ACTION] ", err);
+    // Rollback order status to CANCELLED on failure
+    await prisma.order.updateMany({
+      where: { token: cartToken, status: OrderStatus.PENDING },
+      data: { status: OrderStatus.CANCELLED },
+    });
+    console.error("[CREATE_ORDER_ACTION] Server error: ", err);
     throw err;
   }
 };
