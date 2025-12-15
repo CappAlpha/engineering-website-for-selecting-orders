@@ -41,6 +41,7 @@ export const PersonalForm: FC = () => {
         autoComplete="email"
         className={s.input}
       />
+      {/* TODO: fix number autocomplete */}
       <FormInput
         inputRef={inputRef}
         name="phone"
