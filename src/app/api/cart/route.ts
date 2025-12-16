@@ -1,12 +1,13 @@
 import { randomUUID } from "crypto";
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 import { getUserSession } from "@/modules/Auth/services/getUserSession";
 import {
   CART_TOKEN_NAME,
   CartQuantityLimits,
 } from "@/modules/Cart/constants/cart";
-import { CreateCartItemValues } from "@/modules/Cart/entities/cart";
+import type { CreateCartItemValues } from "@/modules/Cart/entities/cart";
 import { calcCartTotalPrice } from "@/modules/Cart/services/calcCartTotalPrice";
 import { findOrCreateCart } from "@/modules/Cart/services/findOrCreateCart";
 import { updateCartTotalAmount } from "@/modules/Cart/services/updateCartTotalAmount";
@@ -130,7 +131,7 @@ export async function POST(req: NextRequest) {
     return resp;
   } catch (error) {
     console.error("[CART_POST] API error:", error);
-    return NextResponse.json({ error: "Failed to make cart" }, { status: 500 });
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }
 

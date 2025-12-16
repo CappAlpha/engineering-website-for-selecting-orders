@@ -41,7 +41,6 @@ cd my-app
 
 ```bash
 npm install
-npx prisma generate
 ```
 
 Set up environment variables:

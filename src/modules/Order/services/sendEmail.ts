@@ -1,7 +1,9 @@
-import { ReactNode } from "react";
+import type { ReactElement } from "react";
 import { Resend } from "resend";
 
 import { OrderConfig } from "@/modules/Order/constants/order";
+
+const RESEND = new Resend(process.env.RESEND_API_KEY);
 
 /**
  * Sends an email using the Resend API.
@@ -16,20 +18,22 @@ import { OrderConfig } from "@/modules/Order/constants/order";
 export const sendEmail = async (
   to: string,
   subject: string,
-  template: ReactNode,
+  template: ReactElement,
 ) => {
-  const resend = new Resend(process.env.RESEND_API_KEY);
+  try {
+    const { data, error } = await RESEND.emails.send({
+      from: OrderConfig.FROM_EMAIL,
+      to,
+      subject,
+      react: template,
+    });
 
-  const { data, error } = await resend.emails.send({
-    from: OrderConfig.FROM_EMAIL,
-    to,
-    subject,
-    react: template,
-  });
+    if (error) {
+      return Response.json({ error }, { status: 500 });
+    }
 
-  if (error) {
-    throw error;
+    return Response.json(data);
+  } catch (error) {
+    return Response.json({ error }, { status: 500 });
   }
-
-  return data;
 };

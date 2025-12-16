@@ -1,10 +1,11 @@
 import { OrderStatus } from "@prisma/client";
-import { NextRequest, NextResponse } from "next/server";
-import { ReactNode } from "react";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import { createElement } from "react";
 
-import { CartItemDTO } from "@/modules/Cart/entities/cart";
+import type { CartItemDTO } from "@/modules/Cart/entities/cart";
 import { EmailSubject } from "@/modules/Order/constants/order";
-import { PaymentCallbackData } from "@/modules/Order/entities/orderResponse";
+import type { PaymentCallbackData } from "@/modules/Order/entities/orderResponse";
 import { sendEmail } from "@/modules/Order/services/sendEmail";
 import { EmailError } from "@/modules/Order/ui/EmailError";
 import { EmailSuccess } from "@/modules/Order/ui/EmailSuccess";
@@ -44,19 +45,21 @@ export async function POST(req: NextRequest) {
     if (isPaymentSuccessful) {
       const items = JSON.parse(order?.items as string) as CartItemDTO[];
 
+      const emailElement = createElement(EmailSuccess, {
+        orderId: order.id,
+        items,
+      });
+
       await sendEmail(
         order.email,
         EmailSubject.SUCCESS + order.id,
-        EmailSuccess({
-          orderId: order.id,
-          items,
-        }) as ReactNode,
+        emailElement,
       );
     } else {
       await sendEmail(
         order.email,
         EmailSubject.ERROR + order.id,
-        EmailError({}) as ReactNode,
+        createElement(EmailError),
       );
       throw new Error("Payment is canceled by api");
     }

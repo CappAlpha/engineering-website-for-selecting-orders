@@ -4,7 +4,7 @@ import type { Prisma } from "@prisma/client";
 import { OrderStatus } from "@prisma/client";
 import { hashSync } from "bcrypt";
 import { NextResponse } from "next/server";
-import type { ReactNode } from "react";
+import { createElement } from "react";
 
 import { getUserSession } from "@/modules/Auth/services/getUserSession";
 import { EmailVerification } from "@/modules/Auth/ui/EmailVerification";
@@ -28,6 +28,8 @@ import { prisma } from "../../prisma/prisma-client";
  * @throws Error if cart not found, cart is empty, or other failures
  */
 export const createOrder = async (data: CheckoutFormValues) => {
+  "use server";
+
   const cartToken = await getCartToken();
 
   if (!cartToken) {
@@ -44,6 +46,7 @@ export const createOrder = async (data: CheckoutFormValues) => {
   }
 
   try {
+    // TODO: check DB userId null?
     // Create order
     const order = await prisma.order.create({
       data: {
@@ -82,16 +85,18 @@ export const createOrder = async (data: CheckoutFormValues) => {
     const paymentUrl = paymentData.url;
     const items = JSON.parse(order.items as string) as CartItemDTO[];
 
+    const emailElement = createElement(EmailMakeOrder, {
+      orderId: order.id,
+      totalAmount: order.totalAmount,
+      paymentUrl,
+      items,
+    });
+
     // Send order confirmation email
     await sendEmail(
       data.email,
       `Engineer / Оплатите заказ #${order.id}`,
-      EmailMakeOrder({
-        orderId: order.id,
-        totalAmount: order.totalAmount,
-        paymentUrl,
-        items,
-      }) as ReactNode,
+      emailElement,
     );
 
     return paymentUrl;
@@ -179,10 +184,14 @@ export const registerUser = async (
       },
     });
 
+    const emailElement = createElement(EmailVerification, {
+      code,
+    });
+
     await sendEmail(
       createdUser.email,
       "Engineer / Подтверждение регистрации",
-      EmailVerification({ code }) as ReactNode,
+      emailElement,
     );
   } catch (err) {
     console.error("Error [REGISTER_USER_ACTION]", err);

@@ -6,7 +6,7 @@ interface Props {
   code: string;
 }
 
-export const EmailVerification: FC<Props> = ({ code }) => {
+export const EmailVerification: FC<Readonly<Props>> = ({ code }) => {
   return (
     <div className={s.root}>
       <p>

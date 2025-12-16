@@ -1,6 +1,6 @@
 import { type FC } from "react";
 
-import { CartItemDTO } from "@/modules/Cart/entities/cart";
+import type { CartItemDTO } from "@/modules/Cart/entities/cart";
 
 import s from "./EmailMakeOrder.module.scss";
 
@@ -11,7 +11,7 @@ interface Props {
   items: CartItemDTO[];
 }
 
-export const EmailMakeOrder: FC<Props> = ({
+export const EmailMakeOrder: FC<Readonly<Props>> = ({
   orderId,
   totalAmount,
   paymentUrl,
