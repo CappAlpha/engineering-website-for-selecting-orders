@@ -1,6 +1,6 @@
-import { randomUUID } from "crypto";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { randomUUID } from "node:crypto";
 
 import { getUserSession } from "@/modules/Auth/services/getUserSession";
 import {

@@ -8,7 +8,7 @@
     "start": "next start",
     "lint-staged": "lint-staged",
     "format": "prettier --write .",
-    "knip": "knip",
+    "knip": "knip --dependencies",
     "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio",
     "prisma:migrate": "npx prisma migrate dev --name init",
@@ -30,17 +30,21 @@
     "*.{json,md,html,css}": "prettier --write"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.1.0",
+    "@eslint/js": "^9.39.2",
+    "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7",
+    "@prisma/config": "^7.2.0",
     "@reduxjs/toolkit": "^2.11.2",
     "axios": "^1.13.2",
     "babel-plugin-react-compiler": "^1.0.0",
     "classnames": "^2.5.1",
+    "dotenv": "^17.2.3",
     "next": "^16.0.10",
     "pg": "^8.16.3",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "react-redux": "^9.2.0"
+    "react-redux": "^9.2.0",
+    "typescript-eslint": "^8.50.0"
   },
   "devDependencies": {
     "@emotion/cache": "^11.14.0",
@@ -50,6 +54,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@mui/material": "^7.3.6",
     "@mui/material-nextjs": "^7.3.6",
+    "@next/eslint-plugin-next": "^16.0.10",
     "@react-input/mask": "^2.0.4",
     "@svgr/webpack": "^8.1.0",
     "@trivago/prettier-plugin-sort-imports": "^6.0.0",
@@ -62,10 +67,9 @@
     "@types/react-dom": "^19",
     "bcrypt": "^6.0.0",
     "eslint": "^9.39.2",
-    "eslint-config-next": "^16.0.10",
     "eslint-plugin-react-hooks": "^7.0.1",
     "js-cookie": "^3.0.5",
-    "knip": "^5.74.0",
+    "knip": "^5.75.1",
     "lint-staged": "^16.2.7",
     "next-auth": "^4.24.13",
     "next-sitemap": "^4.2.3",
@@ -82,8 +86,6 @@
     "simple-git-hooks": "^2.13.1",
     "ts-node": "^10.9.2",
     "typescript": "^5",
-    "webpack": "^5.103.0",
-    "webpack-bundle-analyzer": "^5.1.0",
     "zod": "^4.2.1"
   }
 }

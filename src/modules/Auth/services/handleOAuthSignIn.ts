@@ -1,6 +1,6 @@
 import { hashSync } from "bcrypt";
-import { randomUUID } from "crypto";
-import { Account, User } from "next-auth";
+import type { Account, User } from "next-auth";
+import { randomUUID } from "node:crypto";
 
 import { prisma } from "../../../../prisma/prisma-client";
 import { mergeCarts } from "./mergeCarts";
