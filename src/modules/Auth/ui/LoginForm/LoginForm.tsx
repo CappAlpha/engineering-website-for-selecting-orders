@@ -59,7 +59,7 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
   return (
     <FormProvider {...form}>
       <form
-        onSubmit={() => form.handleSubmit(onSubmit)}
+        onSubmit={void form.handleSubmit(onSubmit)}
         className={s.root}
         noValidate
       >
