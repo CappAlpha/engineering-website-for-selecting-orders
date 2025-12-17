@@ -10,7 +10,8 @@ import { useCartQueries } from "@/modules/Cart/hooks/useCartQueries";
 import { Button } from "@/shared/ui/Button";
 import { FormInput } from "@/shared/ui/FormInput";
 
-import { formLoginSchema, TFormLoginValues } from "../../schemas/authSchemas";
+import type { TFormLoginValues } from "../../schemas/authSchemas";
+import { formLoginSchema } from "../../schemas/authSchemas";
 
 import s from "./LoginForm.module.scss";
 
@@ -32,8 +33,12 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
     try {
       const resp = await signIn("credentials", { ...data, redirect: false });
 
-      if (resp?.error) {
-        throw new Error("Неправильный логин или пароль");
+      if (!resp?.ok) {
+        if (String(resp?.error).includes("CredentialsSignin")) {
+          throw new Error("Неправильная почта или пароль");
+        } else {
+          throw new Error(resp?.error ?? undefined);
+        }
       }
 
       toast.success("Вы успешно вошли в аккаунт!", {
@@ -54,7 +59,7 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
   return (
     <FormProvider {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={() => form.handleSubmit(onSubmit)}
         className={s.root}
         noValidate
       >
