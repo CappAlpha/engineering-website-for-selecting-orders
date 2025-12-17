@@ -5,7 +5,7 @@ import cn from "classnames";
 import { useEffect, useRef, useState, type FC } from "react";
 
 import { useLazySearchProductsQuery } from "@/shared/api/client/productsQuery";
-import { CategoryBase } from "@/shared/entities/category";
+import type { CategoryBase } from "@/shared/entities/category";
 import { useDebounce } from "@/shared/hooks/useDebounce";
 import { useOutsideClick } from "@/shared/hooks/useOutsideHook";
 
@@ -70,9 +70,9 @@ export const Search: FC<Props> = ({
   // Performing a search when the debounced query changes
   useEffect(() => {
     if (open || isAdmin) {
-      triggerSearch(debouncedSearchQuery);
+      void triggerSearch(debouncedSearchQuery);
     }
-  }, [debouncedSearchQuery, open, isAdmin]);
+  }, [triggerSearch, debouncedSearchQuery, open, isAdmin]);
 
   // Close component when click outside
   useOutsideClick({
@@ -102,7 +102,7 @@ export const Search: FC<Props> = ({
           groupBy={(option) => getCategoryNameBySlug(option.categorySlug)}
           getOptionLabel={(option) => option.name}
           inputValue={searchQuery}
-          onInputChange={(e, value) => setSearchQuery(value)}
+          onInputChange={(_e, value) => setSearchQuery(value)}
           loading={isLoading}
           loadingText="Загрузка..."
           noOptionsText="Ничего не найдено"

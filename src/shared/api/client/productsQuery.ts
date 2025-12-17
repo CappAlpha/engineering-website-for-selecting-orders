@@ -1,4 +1,4 @@
-import { Product } from "@prisma/client";
+import type { Product } from "@prisma/client";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 import { PageConfig } from "../../constants/pages";
@@ -26,7 +26,7 @@ export const productsApi = createApi({
         url: PageConfig.SEARCH_PRODUCTS,
         params: { q: searchQuery },
       }),
-      providesTags: (result, error, searchQuery) => [
+      providesTags: (_result, _error, searchQuery) => [
         { type: "SearchProducts", id: searchQuery },
       ],
       keepUnusedDataFor: 300,

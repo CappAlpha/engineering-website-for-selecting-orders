@@ -3,7 +3,6 @@
 import type { Prisma } from "@prisma/client";
 import { OrderStatus } from "@prisma/client";
 import { hashSync } from "bcrypt";
-import { NextResponse } from "next/server";
 import { createElement } from "react";
 
 import { getUserSession } from "@/modules/Auth/services/getUserSession";
@@ -124,9 +123,7 @@ export const updateUserInfo = async (data: Prisma.UserUpdateInput) => {
 
   try {
     await prisma.user.update({
-      where: {
-        id: currentUser.id,
-      },
+      where: { id: currentUser.id },
       data: {
         fullName: data.fullName,
         email: data.email,
@@ -143,28 +140,26 @@ export const updateUserInfo = async (data: Prisma.UserUpdateInput) => {
   }
 };
 
+/**
+ * Registers a new user and sends a verification email.
+ * @param data - The user creation data, excluding id.
+ * @throws Error if user already exists, email not verified, or other failures.
+ */
 export const registerUser = async (
   data: Omit<Prisma.UserCreateInput, "id">,
 ) => {
   try {
-    const user = await prisma.user.findUnique({
+    const existingUser = await prisma.user.findUnique({
       where: {
         email: data.email,
       },
     });
 
-    if (user) {
-      if (!user.verified) {
-        return NextResponse.json(
-          { error: "Почта не подтверждена" },
-          { status: 403 },
-        );
+    if (existingUser) {
+      if (!existingUser.verified) {
+        throw new Error("Почта не подтверждена");
       }
-
-      return NextResponse.json(
-        { error: "Пользователь уже существует" },
-        { status: 409 },
-      );
+      throw new Error("Пользователь уже существует");
     }
 
     const createdUser = await prisma.user.create({
@@ -197,6 +192,11 @@ export const registerUser = async (
   }
 };
 
+/**
+ * Creates a new product if it doesn't already exist in the category.
+ * @param data - The product creation schema data.
+ * @throws Error if product already exists in the category or creation fails.
+ */
 export async function createProduct(data: TCreateProductCardSchema) {
   const [categoryName, categorySlug] = data.category.trim().split(",");
   const tagsArray =
@@ -245,7 +245,13 @@ export async function createProduct(data: TCreateProductCardSchema) {
   }
 }
 
-export async function deleteProduct(id: string): Promise<void> {
+/**
+ * Deletes a product and cleans up associated cart items.
+ * Updates the current cart's total if a cart token is present.
+ * @param id - The ID of the product to delete.
+ * @throws Error if product not found or deletion fails.
+ */
+export async function deleteProduct(id: string) {
   try {
     await prisma.$transaction(async (tx) => {
       const existingProduct = await tx.product.findUnique({
@@ -259,24 +265,22 @@ export async function deleteProduct(id: string): Promise<void> {
         throw new Error(`Продукт с id "${id}" не найден`);
       }
 
-      // TODO: Future order page history conflict? make soft delete in DB?
-      await prisma.cartItem.deleteMany({
-        where: {
-          productId: id,
-        },
+      // Delete associated cart items
+      await tx.cartItem.deleteMany({
+        where: { productId: id },
       });
 
-      const cartToken = await getCartToken();
-      if (cartToken) {
-        await updateCartTotalAmount(cartToken);
-      }
-
-      return await prisma.product.delete({
-        where: {
-          id,
-        },
+      // Delete the product
+      await tx.product.delete({
+        where: { id },
       });
     });
+
+    // Update current cart total if token exists (note: consider updating all affected carts in future)
+    const cartToken = await getCartToken();
+    if (cartToken) {
+      await updateCartTotalAmount(cartToken);
+    }
   } catch (err) {
     console.error("[DELETE_PRODUCT_ACTION] Error: ", err);
     throw err;
