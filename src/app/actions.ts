@@ -113,16 +113,16 @@ export const createOrder = async (data: CheckoutFormValues) => {
 
 /**
  * Updates the current user's information in the database.
- * @param data - The user data to update, including fullName, email, and password.
+ * @param data - The user data to update, including fullName, email, password, phone, and address.
  * @throws Error if the user is not found or update operation fails.
  */
 export const updateUserInfo = async (data: Prisma.UserUpdateInput) => {
-  try {
-    const currentUser = await getUserSession();
-    if (!currentUser) {
-      throw new Error("Пользователь не найден");
-    }
+  const currentUser = await getUserSession();
+  if (!currentUser) {
+    throw new Error("Пользователь не найден");
+  }
 
+  try {
     await prisma.user.update({
       where: {
         id: currentUser.id,
@@ -132,13 +132,13 @@ export const updateUserInfo = async (data: Prisma.UserUpdateInput) => {
         email: data.email,
         password: data.password
           ? hashSync(data.password as string, 12)
-          : currentUser.password,
+          : "oauth",
         phone: data.phone,
         address: data.address,
       },
     });
   } catch (err) {
-    console.error("Error [UPDATE_USER_INFO_ACTION]", err);
+    console.error("[UPDATE_USER_INFO_ACTION] Error: ", err);
     throw err;
   }
 };
@@ -184,9 +184,7 @@ export const registerUser = async (
       },
     });
 
-    const emailElement = createElement(EmailVerification, {
-      code,
-    });
+    const emailElement = createElement(EmailVerification, { code });
 
     await sendEmail(
       createdUser.email,
@@ -194,38 +192,34 @@ export const registerUser = async (
       emailElement,
     );
   } catch (err) {
-    console.error("Error [REGISTER_USER_ACTION]", err);
+    console.error("[REGISTER_USER_ACTION] Error: ", err);
     throw err;
   }
 };
 
-export async function createProduct(
-  data: TCreateProductCardSchema,
-): Promise<void> {
+export async function createProduct(data: TCreateProductCardSchema) {
+  const [categoryName, categorySlug] = data.category.trim().split(",");
+  const tagsArray =
+    data.tags
+      ?.split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean) ?? [];
+  const imageUrl = data.imageUrl?.trim() ?? "/images/catalog/placeholder.webp";
+
+  const productData: Prisma.ProductCreateInput = {
+    name: data.name.trim(),
+    description: data.description?.trim() ?? "",
+    imageUrl,
+    tags: [categoryName, ...tagsArray],
+    category: {
+      connect: { slug: categorySlug },
+    },
+    price: Number.parseFloat(data.price),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+
   try {
-    const [categoryName, categorySlug] = data.category.trim().split(",");
-    const tagsArray =
-      data.tags
-        ?.split(",")
-        .map((tag) => tag.trim())
-        .filter(Boolean) ?? [];
-    const imageUrl = data.imageUrl
-      ? data.imageUrl?.trim()
-      : "/images/catalog/placeholder.webp";
-
-    const productData: Prisma.ProductCreateInput = {
-      name: data.name.trim(),
-      description: data.description?.trim() ?? "",
-      imageUrl,
-      tags: [categoryName, ...tagsArray],
-      category: {
-        connect: { slug: categorySlug },
-      },
-      price: Number.parseFloat(data.price),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-
     await prisma.$transaction(async (tx) => {
       const existingProduct = await tx.product.findFirst({
         where: {
@@ -239,14 +233,14 @@ export async function createProduct(
 
       if (existingProduct) {
         throw new Error(
-          `Продукт с названием "${productData.name}" уже есть в данной категории "${categorySlug}"`,
+          `Продукт с названием "${productData.name}" уже существует в категории "${categorySlug}"`,
         );
       }
 
-      return await tx.product.create({ data: productData });
+      await tx.product.create({ data: productData });
     });
   } catch (err) {
-    console.error("[CREATE_PRODUCT_ACTION]", err);
+    console.error("[CREATE_PRODUCT_ACTION] Error: ", err);
     throw err;
   }
 }
@@ -255,16 +249,14 @@ export async function deleteProduct(id: string): Promise<void> {
   try {
     await prisma.$transaction(async (tx) => {
       const existingProduct = await tx.product.findUnique({
-        where: {
-          id,
-        },
+        where: { id },
         select: {
           id: true,
         },
       });
 
       if (!existingProduct) {
-        throw new Error(`Продукт с id "${id}" уже удалён`);
+        throw new Error(`Продукт с id "${id}" не найден`);
       }
 
       // TODO: Future order page history conflict? make soft delete in DB?
@@ -286,7 +278,7 @@ export async function deleteProduct(id: string): Promise<void> {
       });
     });
   } catch (err) {
-    console.error("[DELETE_PRODUCT_ACTION]", err);
+    console.error("[DELETE_PRODUCT_ACTION] Error: ", err);
     throw err;
   }
 }
