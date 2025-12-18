@@ -70,6 +70,7 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
             type: "manual",
             message: "Неправильная почта или пароль",
           });
+          throw new Error("Неправильная почта или пароль");
         } else {
           form.setError("password", {
             type: "manual",
