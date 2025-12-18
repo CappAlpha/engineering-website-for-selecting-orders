@@ -58,16 +58,7 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
 
       if (!resp?.ok) {
         if (String(resp?.error).includes("CredentialsSignin")) {
-          form.setError("password", {
-            type: "manual",
-            message: "Неправильная почта или пароль",
-          });
           throw new Error("Неправильная почта или пароль");
-        } else {
-          form.setError("password", {
-            type: "manual",
-            message: resp?.error ?? "SignIn error",
-          });
         }
 
         lastFailedAtRef.current = Date.now();
@@ -82,6 +73,10 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
       onClose();
     } catch (err) {
       console.error("[Error [LOGIN]]", err);
+      form.setError("password", {
+        type: "manual",
+        message: err instanceof Error ? err.message : "SignIn error",
+      });
       toast.error(
         err instanceof Error ? err.message : "Не удалось войти в аккаунт",
         { icon: "\u274C" },
@@ -121,7 +116,6 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
           loading={form.formState.isSubmitting}
           className={s.loginBtn}
           type="submit"
-          disabled={form.formState.isSubmitting}
         >
           Войти
         </Button>
