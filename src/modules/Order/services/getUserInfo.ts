@@ -1,6 +1,7 @@
-import { UseFormReturn } from "react-hook-form";
+import type { UseFormReturn } from "react-hook-form";
 
-import { CheckoutFormValues } from "@/modules/Order/schemas/checkoutFormSchema";
+import type { CheckoutFormValues } from "@/modules/Order/schemas/checkoutFormSchema";
+import { isRequestCanceled } from "@/shared/utils/isRequestCancelled";
 
 import { Api } from "../../../shared/api/server/apiServer";
 
@@ -21,7 +22,10 @@ export const getUserInfo = async (
   try {
     const response = (await Api.auth.getMe(controller.signal)) as UserResponse;
 
-    const [firstName, lastName] = response.fullName.split(" ");
+    // TODO: change there and in reg form on separate fields
+    const fullName = (response.fullName ?? "").trim().split(/\s+/);
+    const firstName = fullName.shift() ?? "";
+    const lastName = fullName.join(" ");
 
     form.reset({
       ...form.getValues(),
@@ -31,12 +35,10 @@ export const getUserInfo = async (
       phone: response.phone ?? "",
     });
   } catch (err) {
-    if (
-      err instanceof Error &&
-      (err.name === "CanceledError" || err.message.includes("canceled"))
-    ) {
-      return;
+    if (isRequestCanceled(err)) {
+      return () => controller.abort();
     }
+
     console.error("Error get user info:", err);
     setError(true);
   }
