@@ -13,10 +13,8 @@ import { ProductCardLineSkeleton } from "@/modules/Cart/ui/ProductCardLine/Produ
 import { getUserInfo } from "@/modules/Order/services/getUserInfo";
 import { Button } from "@/shared/ui/Button";
 
-import {
-  CheckoutFormValues,
-  checkoutFormSchema,
-} from "../../schemas/checkoutFormSchema";
+import type { CheckoutFormValues } from "../../schemas/checkoutFormSchema";
+import { checkoutFormSchema } from "../../schemas/checkoutFormSchema";
 import { DeliveryForm } from "../DeliveryForm";
 import { OrderItem } from "../OrderItem";
 import { PaymentSidebar } from "../PaymentSidebar";
@@ -80,21 +78,33 @@ export const OrderItems: FC = () => {
     }
   };
 
-  useEffect(() => {
-    if (status === "authenticated" && !isCartEmpty) {
-      getUserInfo(setError, form);
-    }
+  // useEffect(() => {
+  //   if (status === "authenticated" && !isCartEmpty) {
+  //     getUserInfo(setError, form);
+  //   }
 
-    if (error) {
-      console.error("[ORDER_ITEMS] Get user error", error);
-    }
-  }, [status, error, form, setError, isCartEmpty]);
+  //   if (error) {
+  //     console.error("[ORDER_ITEMS] Get user error", error);
+  //   }
+  // }, [status, error, form, setError, isCartEmpty]);
+
+  useEffect(() => {
+    if (status !== "authenticated" || isCartEmpty || error) return;
+
+    const controller = new AbortController();
+
+    void getUserInfo(form, controller.signal, setError);
+
+    return () => {
+      controller.abort();
+    };
+  }, [status, isCartEmpty, form, error, setError]);
 
   return (
     <FormProvider {...form}>
       <form
         className={s.root}
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={void form.handleSubmit(onSubmit)}
         noValidate
       >
         <div className={s.left}>
@@ -102,7 +112,7 @@ export const OrderItems: FC = () => {
             title="1. Корзина"
             isCartEmpty={!isCartEmpty}
             loading={isCartClearing}
-            handleClearCart={handleRemoveAll}
+            handleClearCart={void handleRemoveAll}
           >
             {isCartLoading ? (
               Array.from({

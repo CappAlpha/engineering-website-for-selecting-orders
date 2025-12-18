@@ -12,15 +12,14 @@ interface UserResponse {
 }
 
 export const getUserInfo = async (
-  setError: (error: boolean) => void,
   form: UseFormReturn<CheckoutFormValues>,
+  signal: AbortSignal,
+  setError: (error: boolean) => void,
 ) => {
   setError(false);
 
-  const controller = new AbortController();
-
   try {
-    const response = (await Api.auth.getMe(controller.signal)) as UserResponse;
+    const response = (await Api.auth.getMe(signal)) as UserResponse;
 
     // TODO: change there and in reg form on separate fields
     const fullName = (response.fullName ?? "").trim().split(/\s+/);
@@ -36,12 +35,10 @@ export const getUserInfo = async (
     });
   } catch (err) {
     if (isRequestCanceled(err)) {
-      return () => controller.abort();
+      return;
     }
 
     console.error("Error get user info:", err);
     setError(true);
   }
-
-  return () => controller.abort();
 };
