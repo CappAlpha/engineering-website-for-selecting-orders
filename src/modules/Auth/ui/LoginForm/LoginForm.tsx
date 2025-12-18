@@ -2,17 +2,17 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import { useEffect, useRef, type FC } from "react";
+import { useRef, type FC } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 import { useCartQueries } from "@/modules/Cart/hooks/useCartQueries";
 import { Button } from "@/shared/ui/Button";
 import { FormInput } from "@/shared/ui/FormInput";
+import { ShowPasswordInput } from "@/shared/ui/ShowPasswordInput";
 
 import type { TFormLoginValues } from "../../schemas/authSchemas";
 import { formLoginSchema } from "../../schemas/authSchemas";
-import { ShowPasswordInput } from "../ShowPasswordInput";
 
 import s from "./LoginForm.module.scss";
 
@@ -34,14 +34,6 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
 
   const lastFailedAtRef = useRef<number | null>(null);
   const submittingRef = useRef(false);
-
-  const emailRef = useRef<HTMLInputElement | null>(null);
-
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      emailRef.current?.focus();
-    });
-  }, []);
 
   const inCooldown =
     lastFailedAtRef.current !== null &&
@@ -112,7 +104,8 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
           required
           autoComplete="email"
           inputMode="email"
-          inputRef={emailRef}
+          focused
+          autoFocus
         />
 
         <ShowPasswordInput />
