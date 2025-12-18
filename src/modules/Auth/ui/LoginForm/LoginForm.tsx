@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import { useState, type FC } from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
@@ -34,6 +34,15 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [lastFailedAt, setLastFailedAt] = useState<number | null>(null);
+
+  const emailRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    // Фокус на email при монтировании
+    if (emailRef.current) {
+      emailRef.current.focus();
+    }
+  }, []);
 
   const inCooldown =
     lastFailedAt !== null && Date.now() - lastFailedAt < COOLDOWN_MS;
@@ -101,7 +110,7 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
           required
           autoComplete="email"
           inputMode="email"
-          focused
+          inputRef={emailRef}
         />
 
         <div className={s.passwordRow}>
