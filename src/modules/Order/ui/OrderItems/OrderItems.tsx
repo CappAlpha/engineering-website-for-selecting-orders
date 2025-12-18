@@ -78,16 +78,6 @@ export const OrderItems: FC = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (status === "authenticated" && !isCartEmpty) {
-  //     getUserInfo(setError, form);
-  //   }
-
-  //   if (error) {
-  //     console.error("[ORDER_ITEMS] Get user error", error);
-  //   }
-  // }, [status, error, form, setError, isCartEmpty]);
-
   useEffect(() => {
     if (status !== "authenticated" || isCartEmpty || error) return;
 
