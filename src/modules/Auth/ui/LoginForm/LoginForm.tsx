@@ -40,9 +40,7 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
     Date.now() - lastFailedAtRef.current < COOLDOWN_MS;
 
   const onSubmit = async (data: TFormLoginValues) => {
-    if (submittingRef.current) {
-      return;
-    }
+    if (submittingRef.current) return;
 
     if (inCooldown) {
       form.setError("password", {
@@ -81,6 +79,8 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
         err instanceof Error ? err.message : "Не удалось войти в аккаунт",
         { icon: "\u274C" },
       );
+    } finally {
+      submittingRef.current = false;
     }
   };
 

@@ -11,9 +11,7 @@ export const ShowPasswordInput: FC = () => {
   const [show, setShow] = useState(false);
 
   const { watch } = useFormContext();
-  console.log(watch);
   const passwordValue = watch("password") as string;
-  console.log(passwordValue);
 
   return (
     <div className={s.root}>
