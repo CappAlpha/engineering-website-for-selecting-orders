@@ -94,7 +94,8 @@ export const OrderItems: FC = () => {
     <FormProvider {...form}>
       <form
         className={s.root}
-        onSubmit={void form.handleSubmit(onSubmit)}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSubmit={form.handleSubmit(onSubmit)}
         noValidate
       >
         <div className={s.left}>
@@ -102,7 +103,8 @@ export const OrderItems: FC = () => {
             title="1. Корзина"
             isCartEmpty={!isCartEmpty}
             loading={isCartClearing}
-            handleClearCart={void handleRemoveAll}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            handleClearCart={handleRemoveAll}
           >
             {isCartLoading ? (
               Array.from({
