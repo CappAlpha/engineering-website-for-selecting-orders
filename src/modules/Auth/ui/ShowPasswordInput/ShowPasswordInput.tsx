@@ -2,7 +2,7 @@ import { useState, type FC } from "react";
 
 import { FormInput } from "@/shared/ui/FormInput";
 
-import { EyeClose, EyeOpen } from "../../../../../public/icon";
+import { EyeClosed, EyeOpen } from "../../../../../public/icon";
 
 import s from "./ShowPasswordInput.module.scss";
 
@@ -24,7 +24,7 @@ export const ShowPasswordInput: FC = () => {
         className={s.togglePassword}
         onClick={() => setShow((v) => !v)}
       >
-        {show ? <EyeClose /> : <EyeOpen />}
+        {show ? <EyeClosed /> : <EyeOpen />}
       </button>
     </div>
   );

@@ -1,7 +1,7 @@
 export { default as AngleDown } from "./icons/angle-down.svg";
 export { default as Arrow } from "./icons/arrow.svg";
 export { default as Envelope } from './icons/envelope.svg';
-export { default as EyeClose } from './icons/eye-closed.svg';
+export { default as EyeClosed } from './icons/eye-closed.svg';
 export { default as EyeOpen } from './icons/eye-open.svg';
 export { default as Goods } from "./icons/goods.svg";
 export { default as Login } from "./icons/login.svg";
