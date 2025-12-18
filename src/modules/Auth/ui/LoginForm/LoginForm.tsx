@@ -20,7 +20,7 @@ interface Props {
   onClose: VoidFunction;
 }
 
-const COOLDOWN_MS = 1000;
+const COOLDOWN_MS = 3000;
 
 export const LoginForm: FC<Props> = ({ onClose }) => {
   const form = useForm<TFormLoginValues>({

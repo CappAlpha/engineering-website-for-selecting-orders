@@ -1,5 +1,5 @@
 import { useState, type FC } from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 
 import { FormInput } from "@/shared/ui/FormInput";
 
@@ -10,8 +10,12 @@ import s from "./ShowPasswordInput.module.scss";
 export const ShowPasswordInput: FC = () => {
   const [show, setShow] = useState(false);
 
-  const { watch } = useFormContext();
-  const passwordValue = watch("password") as string;
+  const { control } = useFormContext();
+  const passwordValue = useWatch({
+    control,
+    name: "password",
+    defaultValue: "",
+  }) as string;
 
   return (
     <div className={s.root}>
