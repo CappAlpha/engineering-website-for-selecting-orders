@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "@prisma/client";
+import type { User } from "@prisma/client";
 import { useMask } from "@react-input/mask";
 import Cookies from "js-cookie";
 import { signOut } from "next-auth/react";
@@ -15,11 +15,10 @@ import { CART_TOKEN_NAME } from "@/modules/Cart/constants/cart";
 import { AddressInput } from "@/shared/ui/AddressInput";
 import { Button } from "@/shared/ui/Button";
 import { FormInput } from "@/shared/ui/FormInput";
+import { ShowPasswordInput } from "@/shared/ui/ShowPasswordInput";
 
-import {
-  TFormChangeUserValues,
-  formChangeUserSchema,
-} from "../../schemas/changeUserSchema";
+import type { TFormChangeUserValues } from "../../schemas/changeUserSchema";
+import { formChangeUserSchema } from "../../schemas/changeUserSchema";
 
 import s from "./ProfileForm.module.scss";
 
@@ -94,7 +93,7 @@ export const ProfileForm: FC<Props> = ({ data }) => {
 
       <FormProvider {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={() => form.handleSubmit(onSubmit)}
           className={s.form}
           noValidate
         >
@@ -111,13 +110,7 @@ export const ProfileForm: FC<Props> = ({ data }) => {
             autoComplete="new-email"
             inputMode="email"
           />
-          <FormInput
-            name="password"
-            label="Новый пароль"
-            type="password"
-            autoComplete="new-password"
-            inputMode="text"
-          />
+          <ShowPasswordInput label="Новый пароль" autoComplete="new-password" />
           <FormInput
             name="confirmPassword"
             label="Повторите пароль"
@@ -161,7 +154,7 @@ export const ProfileForm: FC<Props> = ({ data }) => {
             <div className={s.line} />
 
             <Button
-              onClick={onClickSignOut}
+              onClick={() => onClickSignOut}
               loading={form.formState.isSubmitting}
               className={s.exitBtn}
             >

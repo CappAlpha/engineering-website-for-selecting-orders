@@ -87,8 +87,7 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
   return (
     <FormProvider {...form}>
       <form
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={() => form.handleSubmit(onSubmit)}
         className={s.root}
         noValidate
       >
@@ -103,7 +102,7 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
           autoFocus
         />
 
-        <ShowPasswordInput />
+        <ShowPasswordInput autoComplete="current-password" />
 
         {/* TODO: add forgot password modal? */}
         {/* <div className={s.optionsRow}>

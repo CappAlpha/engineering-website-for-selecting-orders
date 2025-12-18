@@ -7,7 +7,15 @@ import { EyeClosed, EyeOpen } from "../../../../public/icon";
 
 import s from "./ShowPasswordInput.module.scss";
 
-export const ShowPasswordInput: FC = () => {
+type Props = {
+  label?: string;
+  autoComplete?: string;
+};
+
+export const ShowPasswordInput: FC<Props> = ({
+  label = "Пароль",
+  autoComplete,
+}) => {
   const [show, setShow] = useState(false);
 
   const { control } = useFormContext();
@@ -21,10 +29,10 @@ export const ShowPasswordInput: FC = () => {
     <div className={s.root}>
       <FormInput
         name="password"
-        label="Пароль"
+        label={label}
         type={show ? "text" : "password"}
         required
-        autoComplete="current-password"
+        autoComplete={autoComplete}
         inputMode="text"
         className={s.input}
       />

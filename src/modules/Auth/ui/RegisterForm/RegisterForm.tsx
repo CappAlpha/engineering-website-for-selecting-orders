@@ -8,11 +8,10 @@ import toast from "react-hot-toast";
 import { registerUser } from "@/app/actions";
 import { Button } from "@/shared/ui/Button";
 import { FormInput } from "@/shared/ui/FormInput";
+import { ShowPasswordInput } from "@/shared/ui/ShowPasswordInput";
 
-import {
-  formRegisterSchema,
-  TFormRegisterValues,
-} from "../../schemas/authSchemas";
+import type { TFormRegisterValues } from "../../schemas/authSchemas";
+import { formRegisterSchema } from "../../schemas/authSchemas";
 
 import s from "./RegisterForm.module.scss";
 
@@ -57,7 +56,7 @@ export const RegisterForm: FC<Props> = ({ onClose }) => {
   return (
     <FormProvider {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={() => form.handleSubmit(onSubmit)}
         className={s.root}
         noValidate
       >
@@ -69,13 +68,7 @@ export const RegisterForm: FC<Props> = ({ onClose }) => {
           required
           autoComplete="new-email"
         />
-        <FormInput
-          name="password"
-          label="Пароль"
-          type="password"
-          required
-          autoComplete="new-password"
-        />
+        <ShowPasswordInput autoComplete="new-password" />
         <FormInput
           name="confirmPassword"
           label="Повторите пароль"
