@@ -16,6 +16,8 @@ export const getUserInfo = async (
   signal: AbortSignal,
   setError: (error: boolean) => void,
 ) => {
+  if (signal.aborted) return;
+
   setError(false);
 
   try {
@@ -34,9 +36,7 @@ export const getUserInfo = async (
       phone: response.phone ?? "",
     });
   } catch (err) {
-    if (isRequestCanceled(err)) {
-      return;
-    }
+    if (isRequestCanceled(err)) return;
 
     console.error("Error get user info:", err);
     setError(true);
