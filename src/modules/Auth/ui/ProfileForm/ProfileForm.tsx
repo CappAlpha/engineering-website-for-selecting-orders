@@ -93,7 +93,8 @@ export const ProfileForm: FC<Props> = ({ data }) => {
 
       <FormProvider {...form}>
         <form
-          onSubmit={() => form.handleSubmit(onSubmit)}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onSubmit={form.handleSubmit(onSubmit)}
           className={s.form}
           noValidate
         >
@@ -154,7 +155,8 @@ export const ProfileForm: FC<Props> = ({ data }) => {
             <div className={s.line} />
 
             <Button
-              onClick={() => onClickSignOut}
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onClick={onClickSignOut}
               loading={form.formState.isSubmitting}
               className={s.exitBtn}
             >

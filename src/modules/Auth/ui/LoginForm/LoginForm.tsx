@@ -87,7 +87,8 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
   return (
     <FormProvider {...form}>
       <form
-        onSubmit={() => form.handleSubmit(onSubmit)}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSubmit={form.handleSubmit(onSubmit)}
         className={s.root}
         noValidate
       >
