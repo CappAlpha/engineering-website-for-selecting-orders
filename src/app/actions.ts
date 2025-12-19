@@ -45,11 +45,11 @@ export const createOrder = async (data: CheckoutFormValues) => {
   }
 
   try {
-    // TODO: check DB userId null?
     // Create order
     const order = await prisma.order.create({
       data: {
         token: cartToken,
+        userId: userCart.userId,
         totalAmount: userCart.totalAmount,
         status: OrderStatus.PENDING,
         items: JSON.stringify(userCart.items),
