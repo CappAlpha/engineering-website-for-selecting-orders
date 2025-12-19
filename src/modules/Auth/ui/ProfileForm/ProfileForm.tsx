@@ -103,6 +103,7 @@ export const ProfileForm: FC<Props> = ({ data }) => {
             label="Полное имя"
             type="text"
             inputMode="text"
+            autoComplete="name"
           />
           <FormInput
             name="email"
@@ -126,7 +127,7 @@ export const ProfileForm: FC<Props> = ({ data }) => {
             placeholder="+7 (999) 999-99-99"
             type="tel"
             inputMode="tel"
-            autoComplete="tel"
+            autoComplete="tel-national"
           />
           <Controller
             control={form.control}

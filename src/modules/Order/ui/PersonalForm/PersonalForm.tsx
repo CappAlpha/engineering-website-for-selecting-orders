@@ -21,6 +21,7 @@ export const PersonalForm: FC = () => {
         placeholder="Александр"
         required
         inputMode="text"
+        autoComplete="given-name"
         className={s.input}
       />
       <FormInput
@@ -29,6 +30,7 @@ export const PersonalForm: FC = () => {
         placeholder="Иванов"
         required
         inputMode="text"
+        autoComplete="family-name"
         className={s.input}
       />
       <FormInput
@@ -41,7 +43,6 @@ export const PersonalForm: FC = () => {
         autoComplete="email"
         className={s.input}
       />
-      {/* TODO: fix number autocomplete */}
       <FormInput
         inputRef={inputRef}
         name="phone"
@@ -50,7 +51,7 @@ export const PersonalForm: FC = () => {
         type="tel"
         required
         inputMode="tel"
-        autoComplete="tel"
+        autoComplete="tel-national"
         className={s.input}
       />
     </div>
