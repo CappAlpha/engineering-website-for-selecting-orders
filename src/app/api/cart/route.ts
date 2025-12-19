@@ -47,7 +47,6 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    // TODO: Future order page history conflict? make soft delete in DB?
     const totalAmount =
       userCart?.items.reduce(
         (acc, item) => acc + calcCartTotalPrice(item),
