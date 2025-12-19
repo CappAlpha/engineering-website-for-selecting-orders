@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import { useRef, type FC } from "react";
+import { type FC } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
@@ -20,8 +20,6 @@ interface Props {
   onClose: VoidFunction;
 }
 
-const COOLDOWN_MS = 3000;
-
 export const LoginForm: FC<Props> = ({ onClose }) => {
   const form = useForm<TFormLoginValues>({
     resolver: zodResolver(formLoginSchema),
@@ -32,25 +30,7 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
   });
   const { refetchCart } = useCartQueries();
 
-  const lastFailedAtRef = useRef<number | null>(null);
-  const submittingRef = useRef(false);
-
-  const inCooldown =
-    lastFailedAtRef.current !== null &&
-    Date.now() - lastFailedAtRef.current < COOLDOWN_MS;
-
   const onSubmit = async (data: TFormLoginValues) => {
-    if (submittingRef.current) return;
-
-    if (inCooldown) {
-      form.setError("password", {
-        type: "manual",
-        message: "Слишком частые попытки попробуйте позже",
-      });
-      return;
-    }
-
-    submittingRef.current = true;
     try {
       const resp = await signIn("credentials", { ...data, redirect: false });
 
@@ -59,7 +39,6 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
           throw new Error("Неправильная почта или пароль");
         }
 
-        lastFailedAtRef.current = Date.now();
         throw new Error(resp?.error ?? "SignIn error");
       }
 
@@ -79,8 +58,6 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
         err instanceof Error ? err.message : "Не удалось войти в аккаунт",
         { icon: "\u274C" },
       );
-    } finally {
-      submittingRef.current = false;
     }
   };
 
