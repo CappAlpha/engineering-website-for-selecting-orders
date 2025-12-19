@@ -14,6 +14,7 @@ import { updateCartTotalAmount } from "@/modules/Cart/services/updateCartTotalAm
 import type { TCreateProductCardSchema } from "@/modules/Catalog/schemas/createProductCardSchema";
 import type { CheckoutFormValues } from "@/modules/Order/schemas/checkoutFormSchema";
 import { createPayment } from "@/modules/Order/services/createPayment";
+import { getPaymentUrlById } from "@/modules/Order/services/getPaymentUrlById";
 import { sendEmail } from "@/modules/Order/services/sendEmail";
 import { EmailMakeOrder } from "@/modules/Order/ui/EmailMakeOrder";
 import { getCartToken } from "@/shared/lib/getCartToken";
@@ -30,18 +31,31 @@ export const createOrder = async (data: CheckoutFormValues) => {
   "use server";
 
   const cartToken = await getCartToken();
-
-  if (!cartToken) {
-    throw new Error("Токен корзины не найден");
-  }
+  if (!cartToken) throw new Error("Токен корзины не найден");
 
   // Find cart
   const userCart = await findCartWithProducts(cartToken);
-  if (!userCart) {
-    throw new Error("Корзина не найдена");
-  }
-  if (userCart.totalAmount === 0) {
-    throw new Error("Корзина пуста");
+  if (!userCart) throw new Error("Корзина не найдена");
+  if (userCart.totalAmount === 0) throw new Error("Корзина пуста");
+
+  const existing = await prisma.order.findFirst({
+    where: { token: cartToken, status: OrderStatus.PENDING },
+  });
+  if (existing) {
+    if (existing.paymentId) {
+      const url = await getPaymentUrlById(existing.paymentId);
+      return url;
+    }
+    const paymentData = await createPayment({
+      orderId: existing.id,
+      amount: existing.totalAmount,
+      description: `Оплата заказа #${existing.id}`,
+    });
+    await prisma.order.update({
+      where: { id: existing.id },
+      data: { paymentId: paymentData.id },
+    });
+    return paymentData.url;
   }
 
   try {
@@ -61,9 +75,6 @@ export const createOrder = async (data: CheckoutFormValues) => {
       },
     });
 
-    // Clear cart after order creation
-    await cartClear(userCart);
-
     // Create payment order
     const paymentData = await createPayment({
       description: `Оплата заказа #${order.id}`,
@@ -71,15 +82,16 @@ export const createOrder = async (data: CheckoutFormValues) => {
       amount: order.totalAmount,
     });
 
-    if (!paymentData) {
-      throw new Error("Данные платежа не получены");
-    }
+    if (!paymentData) throw new Error("Данные платежа не получены");
 
     // Update order with paymentId
     await prisma.order.update({
       where: { id: order.id },
       data: { paymentId: paymentData.id },
     });
+
+    // Clear cart after order creation
+    await cartClear(userCart);
 
     const paymentUrl = paymentData.url;
     const items = JSON.parse(order.items as string) as CartItemDTO[];

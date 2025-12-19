@@ -112,9 +112,7 @@ export const OrderItems: FC = () => {
               }).map((_, index) => <ProductCardLineSkeleton key={index} />)
             ) : !isCartLoading && isCartEmpty ? (
               <div className={s.empty}>
-                <p className={s.emptyText}>
-                  Корзина пуста вернитесь обратно в Каталог
-                </p>
+                <p className={s.emptyText}>Корзина пуста</p>
                 <Button className={s.catalogBtn} href="/">
                   Каталог
                 </Button>
