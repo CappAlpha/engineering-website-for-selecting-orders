@@ -2,12 +2,11 @@
 
 import { Autocomplete } from "@mui/material";
 import cn from "classnames";
-import { useEffect, useRef, useState, type FC } from "react";
+import { useEffect, useMemo, useRef, useState, type FC } from "react";
 
 import { useLazySearchProductsQuery } from "@/shared/api/client/productsQuery";
 import type { CategoryBase } from "@/shared/entities/category";
 import { useDebounce } from "@/shared/hooks/useDebounce";
-import { useOutsideClick } from "@/shared/hooks/useOutsideHook";
 
 import { SearchGroup } from "./SearchGroup";
 import { SearchInput } from "./SearchInput";
@@ -32,6 +31,8 @@ export const Search: FC<Props> = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [open, setOpen] = useState(false);
 
+  const isAutocompleteOpen = isAdmin || open;
+
   const containerRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -39,27 +40,38 @@ export const Search: FC<Props> = ({
   const [triggerSearch, { data: products = [], isLoading, error }] =
     useLazySearchProductsQuery();
 
-  // Get category name by slug
-  const getCategoryNameBySlug = (categorySlug: string) =>
-    categories.find((category) => categorySlug === category.slug)?.name ??
-    DEFAULT_CATEGORY_NAME;
+  const categoryNameMap = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const category of categories) {
+      map.set(category.slug, category.name);
+    }
+    return map;
+  }, [categories]);
 
-  const categoryIndexMap = new Map(
-    categories.map((category, index) => [category.slug, index]),
-  );
+  const getCategoryNameBySlug = (slug: string) =>
+    categoryNameMap.get(slug) ?? DEFAULT_CATEGORY_NAME;
 
-  const getCategoryIndex = (categorySlug: string) =>
-    categoryIndexMap.get(categorySlug) ?? categories.length;
+  const categoryIndexMap = useMemo(() => {
+    const map = new Map<string, number>();
+    categories.forEach((category, index) => {
+      map.set(category.slug, index);
+    });
+    return map;
+  }, [categories]);
 
-  const sortedProducts = [...products].sort((a, b) => {
-    const indexA = getCategoryIndex(a.categorySlug);
-    const indexB = getCategoryIndex(b.categorySlug);
-    return indexA - indexB;
-  });
+  const getCategoryIndex = (slug: string): number =>
+    categoryIndexMap.get(slug) ?? categories.length;
+
+  const sortedProducts = useMemo(() => {
+    return [...products].sort((a, b) => {
+      const indexA = getCategoryIndex(a.categorySlug);
+      const indexB = getCategoryIndex(b.categorySlug);
+      return indexA - indexB;
+    });
+  }, [products, categoryNameMap, getCategoryIndex, categories.length]);
 
   const onClose = () => {
     setOpen(false);
-    setSearchQuery("");
     inputRef.current?.blur();
   };
 
@@ -69,17 +81,17 @@ export const Search: FC<Props> = ({
 
   // Performing a search when the debounced query changes
   useEffect(() => {
-    if (open || isAdmin) {
+    if (isAutocompleteOpen && debouncedSearchQuery.trim()) {
       void triggerSearch(debouncedSearchQuery);
     }
   }, [triggerSearch, debouncedSearchQuery, open, isAdmin]);
 
   // Close component when click outside
-  useOutsideClick({
-    elementRef: containerRef,
-    handler: onClose,
-    attached: open,
-  });
+  // useOutsideClick({
+  //   elementRef: containerRef,
+  //   handler: onClose,
+  //   attached: open,
+  // });
 
   // Render  error
   if (error) {
@@ -95,7 +107,7 @@ export const Search: FC<Props> = ({
       {!isAdmin && <div className={cn(s.bg, !open && s.hidden)} />}
       <div ref={containerRef} className={cn(s.root, className)}>
         <Autocomplete
-          open={open || isAdmin}
+          open={isAutocompleteOpen}
           onOpen={onOpen}
           onClose={onClose}
           options={sortedProducts}
@@ -108,6 +120,9 @@ export const Search: FC<Props> = ({
           noOptionsText="Ничего не найдено"
           clearOnEscape={true}
           fullWidth
+          autoHighlight
+          selectOnFocus
+          autoComplete
           disablePortal
           renderInput={SearchInput}
           renderGroup={SearchGroup}
