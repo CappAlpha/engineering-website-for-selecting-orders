@@ -2,7 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import { type FC } from "react";
+import { startTransition, type FC } from "react";
+import type { SubmitHandler } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
@@ -27,45 +28,54 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
       email: "",
       password: "",
     },
+    mode: "onBlur",
+    reValidateMode: "onChange",
   });
   const { refetchCart } = useCartQueries();
 
-  const onSubmit = async (data: TFormLoginValues) => {
+  const onSubmit: SubmitHandler<TFormLoginValues> = async (data) => {
     try {
-      const resp = await signIn("credentials", { ...data, redirect: false });
+      const response = await signIn("credentials", {
+        ...data,
+        redirect: false,
+      });
 
-      if (!resp?.ok) {
-        if (String(resp?.error).includes("CredentialsSignin")) {
-          throw new Error("Неправильная почта или пароль");
-        }
+      if (!response?.ok) {
+        const errorMessage = response?.error?.includes("CredentialsSignin")
+          ? "Неправильная почта или пароль"
+          : response?.error || "Произошла ошибка при входе";
 
-        throw new Error(resp?.error ?? "SignIn error");
+        throw new Error(errorMessage);
       }
 
       toast.success("Вы успешно вошли в аккаунт!", {
         icon: "\u2705",
       });
 
-      await refetchCart();
       onClose();
+      startTransition(() => {
+        void refetchCart();
+      });
     } catch (err) {
-      console.error("[Error [LOGIN]]", err);
+      console.error("[LOGIN_FORM]", err);
+
+      const message = err instanceof Error ? err.message : "Произошла ошибка";
+
       form.setError("password", {
         type: "manual",
-        message: err instanceof Error ? err.message : "SignIn error",
+        message,
       });
-      toast.error(
-        err instanceof Error ? err.message : "Не удалось войти в аккаунт",
-        { icon: "\u274C" },
-      );
+
+      toast.error(message, { icon: "\u274C" });
     }
   };
 
   return (
     <FormProvider {...form}>
       <form
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={(e) => {
+          void form.handleSubmit(onSubmit)(e);
+        }}
         className={s.root}
         noValidate
       >
@@ -77,7 +87,6 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
           autoComplete="email"
           inputMode="email"
           focused
-          autoFocus
         />
 
         <ShowPasswordInput autoComplete="current-password" />
@@ -91,6 +100,7 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
 
         <Button
           loading={form.formState.isSubmitting}
+          disabled={!form.formState.isValid}
           className={s.loginBtn}
           type="submit"
         >
