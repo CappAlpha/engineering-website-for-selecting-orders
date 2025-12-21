@@ -28,6 +28,8 @@ export const RegisterForm: FC<Props> = ({ onClose }) => {
       fullName: "",
       confirmPassword: "",
     },
+    mode: "onBlur",
+    reValidateMode: "onChange",
   });
 
   const onSubmit = async (data: TFormRegisterValues) => {

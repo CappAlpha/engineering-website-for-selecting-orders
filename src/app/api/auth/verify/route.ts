@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 import { prisma } from "../../../../../prisma/prisma-client";
 
@@ -6,7 +7,7 @@ export const GET = async (req: NextRequest) => {
   const code = req.nextUrl.searchParams.get("code");
 
   if (!code) {
-    console.error("[VERIFY_GET] Verification code not found");
+    console.error("[VERIFY_GET] Verification code not found in url");
     return NextResponse.redirect(new URL("/?wrongCode", req.url));
   }
 

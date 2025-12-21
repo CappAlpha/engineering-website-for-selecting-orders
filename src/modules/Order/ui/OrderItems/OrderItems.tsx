@@ -46,6 +46,8 @@ export const OrderItems: FC = () => {
       comment: "",
       time: "",
     },
+    mode: "onBlur",
+    reValidateMode: "onChange",
   });
 
   const { watch } = form;

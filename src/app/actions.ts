@@ -147,7 +147,7 @@ export const updateUserInfo = async (data: Prisma.UserUpdateInput) => {
       },
     });
   } catch (err) {
-    console.error("[UPDATE_USER_INFO_ACTION] Error: ", err);
+    console.error("[UPDATE_USER_INFO_ACTION] Server error: ", err);
     throw err;
   }
 };
@@ -199,7 +199,7 @@ export const registerUser = async (
       emailElement,
     );
   } catch (err) {
-    console.error("[REGISTER_USER_ACTION] Error: ", err);
+    console.error("[REGISTER_USER_ACTION] Server error: ", err);
     throw err;
   }
 };
@@ -252,7 +252,7 @@ export async function createProduct(data: TCreateProductCardSchema) {
       await tx.product.create({ data: productData });
     });
   } catch (err) {
-    console.error("[CREATE_PRODUCT_ACTION] Error: ", err);
+    console.error("[CREATE_PRODUCT_ACTION] Server error: ", err);
     throw err;
   }
 }
@@ -294,7 +294,7 @@ export async function deleteProduct(id: string) {
       await updateCartTotalAmount(cartToken);
     }
   } catch (err) {
-    console.error("[DELETE_PRODUCT_ACTION] Error: ", err);
+    console.error("[DELETE_PRODUCT_ACTION] Server error: ", err);
     throw err;
   }
 }
