@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import { startTransition, type FC } from "react";
+import { startTransition } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -21,7 +21,7 @@ interface Props {
   onClose: VoidFunction;
 }
 
-export const LoginForm: FC<Props> = ({ onClose }) => {
+export const LoginForm = ({ onClose }: Props) => {
   const form = useForm<TFormLoginValues>({
     resolver: zodResolver(formLoginSchema),
     defaultValues: {
@@ -53,8 +53,8 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
       });
 
       onClose();
-      startTransition(() => {
-        void refetchCart();
+      startTransition(async () => {
+        await refetchCart();
       });
     } catch (err) {
       console.error("[LOGIN_FORM]", err);
@@ -100,7 +100,6 @@ export const LoginForm: FC<Props> = ({ onClose }) => {
 
         <Button
           loading={form.formState.isSubmitting}
-          disabled={!form.formState.isValid}
           className={s.loginBtn}
           type="submit"
         >
