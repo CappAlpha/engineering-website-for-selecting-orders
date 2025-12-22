@@ -12,12 +12,12 @@ export const SearchInput = (params: AutocompleteRenderInputParams) => {
       variant="filled"
       label="Поиск"
       className={s.root}
-      // slotProps={{
-      //   input: {
-      //     ...params.InputProps,
-      //     endAdornment: params.InputProps?.endAdornment,
-      //   },
-      // }}
+      slotProps={{
+        input: {
+          ...params.InputProps,
+          endAdornment: params.InputProps?.endAdornment,
+        },
+      }}
     />
   );
 };

@@ -102,6 +102,7 @@ export const Search = ({ categories, isAdmin = false, className }: Props) => {
           loading={isLoading}
           loadingText="Загрузка..."
           noOptionsText="Ничего не найдено"
+          clearOnBlur
           clearOnEscape
           fullWidth
           autoHighlight
