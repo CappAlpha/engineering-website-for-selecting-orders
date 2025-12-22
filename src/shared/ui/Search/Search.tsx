@@ -87,6 +87,7 @@ export const Search = ({ categories, isAdmin = false, className }: Props) => {
 
   return (
     <>
+      {/* TODO: fix overlay on input */}
       {!isAdmin && <div className={cn(s.bg, !open && s.hidden)} />}
       <div className={cn(s.root, className)}>
         <Autocomplete
