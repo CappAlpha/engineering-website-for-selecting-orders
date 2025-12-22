@@ -2,7 +2,7 @@
 
 import { Autocomplete } from "@mui/material";
 import cn from "classnames";
-import { useEffect, useMemo, useRef, useState, type FC } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { useLazySearchProductsQuery } from "@/shared/api/client/productsQuery";
 import type { CategoryBase } from "@/shared/entities/category";
@@ -23,56 +23,46 @@ interface Props {
   className?: string;
 }
 
-export const Search: FC<Props> = ({
-  categories,
-  isAdmin = false,
-  className,
-}) => {
+export const Search = ({ categories, isAdmin = false, className }: Props) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [open, setOpen] = useState(false);
 
   const isAutocompleteOpen = isAdmin || open;
 
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
   const debouncedSearchQuery = useDebounce(searchQuery, DEBOUNCE_DELAY);
+
   const [triggerSearch, { data: products = [], isLoading, error }] =
     useLazySearchProductsQuery();
 
-  const categoryNameMap = useMemo(() => {
-    const map = new Map<string, string>();
-    for (const category of categories) {
-      map.set(category.slug, category.name);
-    }
-    return map;
-  }, [categories]);
+  const { categoryNameMap, categoryIndexMap } = useMemo(() => {
+    const nameMap = new Map<string, string>();
+    const indexMap = new Map<string, number>();
 
-  const getCategoryNameBySlug = (slug: string) =>
-    categoryNameMap.get(slug) ?? DEFAULT_CATEGORY_NAME;
-
-  const categoryIndexMap = useMemo(() => {
-    const map = new Map<string, number>();
     categories.forEach((category, index) => {
-      map.set(category.slug, index);
+      nameMap.set(category.slug, category.name);
+      indexMap.set(category.slug, index);
     });
-    return map;
+
+    return { categoryNameMap: nameMap, categoryIndexMap: indexMap };
   }, [categories]);
 
-  const getCategoryIndex = (slug: string): number =>
-    categoryIndexMap.get(slug) ?? categories.length;
+  const getCategoryNameBySlug = useCallback(
+    (slug: string) => categoryNameMap.get(slug) ?? DEFAULT_CATEGORY_NAME,
+    [categoryNameMap],
+  );
 
   const sortedProducts = useMemo(() => {
+    const fallbackIndex = categories.length;
+
     return [...products].sort((a, b) => {
-      const indexA = getCategoryIndex(a.categorySlug);
-      const indexB = getCategoryIndex(b.categorySlug);
+      const indexA = categoryIndexMap.get(a.categorySlug) ?? fallbackIndex;
+      const indexB = categoryIndexMap.get(b.categorySlug) ?? fallbackIndex;
       return indexA - indexB;
     });
-  }, [products, categoryNameMap, getCategoryIndex, categories.length]);
+  }, [products, categoryIndexMap, categories.length]);
 
   const onClose = () => {
     setOpen(false);
-    inputRef.current?.blur();
   };
 
   const onOpen = () => {
@@ -81,19 +71,12 @@ export const Search: FC<Props> = ({
 
   // Performing a search when the debounced query changes
   useEffect(() => {
-    if (isAutocompleteOpen && debouncedSearchQuery.trim()) {
-      void triggerSearch(debouncedSearchQuery);
-    }
-  }, [triggerSearch, debouncedSearchQuery, open, isAdmin]);
+    const q = debouncedSearchQuery.trim();
+    if (!isAutocompleteOpen || !q) return;
 
-  // Close component when click outside
-  // useOutsideClick({
-  //   elementRef: containerRef,
-  //   handler: onClose,
-  //   attached: open,
-  // });
+    void triggerSearch(q);
+  }, [debouncedSearchQuery, isAutocompleteOpen, triggerSearch]);
 
-  // Render  error
   if (error) {
     return (
       <div className={cn(s.root, className)}>
@@ -105,7 +88,7 @@ export const Search: FC<Props> = ({
   return (
     <>
       {!isAdmin && <div className={cn(s.bg, !open && s.hidden)} />}
-      <div ref={containerRef} className={cn(s.root, className)}>
+      <div className={cn(s.root, className)}>
         <Autocomplete
           open={isAutocompleteOpen}
           onOpen={onOpen}
@@ -118,7 +101,7 @@ export const Search: FC<Props> = ({
           loading={isLoading}
           loadingText="Загрузка..."
           noOptionsText="Ничего не найдено"
-          clearOnEscape={true}
+          clearOnEscape
           fullWidth
           autoHighlight
           selectOnFocus
