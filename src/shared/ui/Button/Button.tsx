@@ -1,7 +1,8 @@
-import { ButtonBaseProps } from "@mui/material";
+import type { ButtonBaseProps } from "@mui/material";
 import cn from "classnames";
 import Link from "next/link";
-import { FC, type MouseEvent, type ReactNode } from "react";
+import type { FC } from "react";
+import { type MouseEvent, type ReactNode } from "react";
 
 import s from "./Button.module.scss";
 
@@ -10,6 +11,7 @@ interface ButtonProps {
   size?: "m" | "s" | "l";
   noPadding?: boolean;
   onClick?: (event: MouseEvent) => void;
+  onMouseDown?: (event: MouseEvent) => void;
   children?: ReactNode;
   className?: string;
   type?: ButtonBaseProps["type"];
@@ -24,6 +26,7 @@ export const Button: FC<ButtonProps> = ({
   size = "m",
   noPadding = false,
   onClick,
+  onMouseDown,
   children,
   className,
   type = "button",
@@ -47,7 +50,12 @@ export const Button: FC<ButtonProps> = ({
       {children}
     </Link>
   ) : (
-    <button className={styles} onClick={onClick} type={type}>
+    <button
+      className={styles}
+      onClick={onClick}
+      onMouseDown={onMouseDown}
+      type={type}
+    >
       {children}
     </button>
   );

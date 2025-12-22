@@ -1,9 +1,10 @@
 "use client";
 
-import { Product } from "@prisma/client";
+import type { Product } from "@prisma/client";
+import cn from "classnames";
 import Image from "next/image";
 import Link from "next/link";
-import { HTMLAttributes, Key, MouseEvent } from "react";
+import { memo, useCallback, type HTMLAttributes, type MouseEvent } from "react";
 import toast from "react-hot-toast";
 
 import { deleteProduct } from "@/app/actions";
@@ -13,30 +14,33 @@ import { Button } from "../../Button";
 
 import s from "./SearchOption.module.scss";
 
-interface AutocompleteOptionProps extends HTMLAttributes<HTMLLIElement> {
-  key: Key;
+type Props = HTMLAttributes<HTMLLIElement> & {
+  option: Product;
   isAdmin?: boolean;
-}
+};
 
-export const SearchOption = (
-  props: AutocompleteOptionProps,
-  option: Product,
-) => {
-  const { key, isAdmin, ...otherProps } = props;
+export const SearchOption = memo(function SearchOption({
+  option,
+  isAdmin,
+  className,
+  ...liProps
+}: Props) {
+  const onClickDeleteProduct = useCallback(
+    async (e: MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
 
-  const onClickDeleteProduct = async (e: MouseEvent, id: string) => {
-    e.preventDefault();
-    e.nativeEvent.stopImmediatePropagation();
-
-    await toast.promise(deleteProduct(id), {
-      loading: "Удаляем...",
-      success: "Товар удалён из базы!",
-      error: (error) => error.message,
-    });
-  };
+      await toast.promise(deleteProduct(option.id), {
+        loading: "Удаляем...",
+        success: "Товар удалён из базы!",
+        error: (err: unknown) =>
+          err instanceof Error ? err.message : "Не удалось удалить товар",
+      });
+    },
+    [option.id],
+  );
 
   return (
-    <li key={key + option.id} {...otherProps} className={s.root}>
+    <li {...liProps} className={cn(s.root, className)}>
       <Link href={`/${option.categorySlug}/${option.id}`} className={s.link}>
         <Image
           className={s.img}
@@ -48,16 +52,22 @@ export const SearchOption = (
         />
         <span className={s.name}>{option.name}</span>
         <span className={s.price}>{option.price} ₽</span>
-        {isAdmin && (
-          <Button
-            onClick={(e: MouseEvent) => onClickDeleteProduct(e, option.id)}
-            color="transparent"
-            className={s.btn}
-          >
-            <Trash className={s.icon} />
-          </Button>
-        )}
       </Link>
+
+      {isAdmin && (
+        <Button
+          type="button"
+          onMouseDown={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onClick={() => onClickDeleteProduct}
+          color="transparent"
+          className={s.btn}
+        >
+          <Trash className={s.icon} />
+        </Button>
+      )}
     </li>
   );
-};
+});

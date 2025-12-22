@@ -111,9 +111,9 @@ export const Search = ({ categories, isAdmin = false, className }: Props) => {
           disablePortal
           renderInput={SearchInput}
           renderGroup={SearchGroup}
-          renderOption={(props, option) =>
-            SearchOption({ ...props, isAdmin }, option)
-          }
+          renderOption={(props, option) => (
+            <SearchOption {...props} option={option} isAdmin={isAdmin} />
+          )}
           inputMode="search"
         />
       </div>
