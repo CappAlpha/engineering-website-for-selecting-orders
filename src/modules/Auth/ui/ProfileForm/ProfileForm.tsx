@@ -5,7 +5,6 @@ import type { User } from "@prisma/client";
 import { useMask } from "@react-input/mask";
 import Cookies from "js-cookie";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { type FC } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -27,8 +26,6 @@ interface Props {
 }
 
 export const ProfileForm: FC<Props> = ({ data }) => {
-  const route = useRouter();
-
   const isOauth = data.provider;
 
   // TODO: fix autocomplete
@@ -63,7 +60,7 @@ export const ProfileForm: FC<Props> = ({ data }) => {
         icon: "\u2705",
       });
 
-      route.refresh();
+      globalThis.location.reload();
     } catch (err) {
       console.error("[Error [CHANGE_USER_DATA]]", err);
       toast.error(
@@ -122,6 +119,7 @@ export const ProfileForm: FC<Props> = ({ data }) => {
                 label="Новый пароль"
                 autoComplete="new-password"
               />
+              {/* TODO: disable copy paste to this input? */}
               <FormInput
                 name="confirmPassword"
                 label="Повторите пароль"
