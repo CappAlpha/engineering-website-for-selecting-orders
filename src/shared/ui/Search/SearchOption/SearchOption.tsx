@@ -35,6 +35,7 @@ export const SearchOption = memo(function SearchOption({
         error: (err: unknown) =>
           err instanceof Error ? err.message : "Не удалось удалить товар",
       });
+      // TODO: add update to list after delete
     },
     [option.id],
   );
