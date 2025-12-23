@@ -12,6 +12,7 @@ import { cartClear } from "@/modules/Cart/services/cartClear";
 import { findCartWithProducts } from "@/modules/Cart/services/findCartWithProducts";
 import { updateCartTotalAmount } from "@/modules/Cart/services/updateCartTotalAmount";
 import type { TCreateProductCardSchema } from "@/modules/Catalog/schemas/createProductCardSchema";
+import { OrderConfig } from "@/modules/Order/constants/order";
 import type { CheckoutFormValues } from "@/modules/Order/schemas/checkoutFormSchema";
 import { createPayment } from "@/modules/Order/services/createPayment";
 import { getPaymentUrlById } from "@/modules/Order/services/getPaymentUrlById";
@@ -38,15 +39,40 @@ export const createOrder = async (data: CheckoutFormValues) => {
   if (!userCart) throw new Error("Корзина не найдена");
   if (userCart.totalAmount === 0) throw new Error("Корзина пуста");
 
-  const existing = await prisma.order.findFirst({
+  const lifetimeMs = Number(OrderConfig.LIFETIME) * 60_000;
+  const staleBefore = new Date(Date.now() - lifetimeMs);
+
+  // Cancel stale orders
+  await prisma.order.updateMany({
+    where: {
+      token: cartToken,
+      status: OrderStatus.PENDING,
+      createdAt: { lt: staleBefore },
+    },
+    data: { status: OrderStatus.CANCELLED },
+  });
+
+  // Find existing order
+  let existing = await prisma.order.findFirst({
     where: { token: cartToken, status: OrderStatus.PENDING },
     orderBy: { id: "desc" },
   });
 
+  if (existing && existing.totalAmount !== userCart.totalAmount) {
+    await prisma.order.update({
+      where: { id: existing.id },
+      data: { status: OrderStatus.CANCELLED },
+    });
+    existing = null;
+  }
+
   if (existing) {
     if (existing.paymentId) {
       const url = await getPaymentUrlById(existing.paymentId);
-      if (url) return url;
+      if (url) {
+        await cartClear(userCart);
+        return url;
+      }
     }
 
     const paymentData = await createPayment({
