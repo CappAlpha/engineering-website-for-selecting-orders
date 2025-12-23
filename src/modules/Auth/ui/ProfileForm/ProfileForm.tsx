@@ -51,7 +51,7 @@ export const ProfileForm: FC<Props> = ({ data }) => {
       await updateUserInfo({
         email: data.email,
         fullName: data.fullName,
-        password: isOauth ? "oauth" : data.password,
+        password: data.password,
         phone: data.phone,
         address: data.address,
       });
@@ -60,7 +60,7 @@ export const ProfileForm: FC<Props> = ({ data }) => {
         icon: "\u2705",
       });
 
-      globalThis.location.reload();
+      form.reset({ password: "", confirmPassword: "" });
     } catch (err) {
       console.error("[Error [CHANGE_USER_DATA]]", err);
       toast.error(
