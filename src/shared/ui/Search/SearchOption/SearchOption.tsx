@@ -63,7 +63,8 @@ export const SearchOption = memo(function SearchOption({
             e.preventDefault();
             e.stopPropagation();
           }}
-          onClick={void onClickDeleteProduct}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClick={onClickDeleteProduct}
           color="transparent"
           className={s.btn}
         >
