@@ -189,6 +189,7 @@ export const updateUserInfo = async (data: Prisma.UserUpdateInput) => {
 export const registerUser = async (
   data: Omit<Prisma.UserCreateInput, "id">,
 ) => {
+  // TODO: delete user if verification expired?
   try {
     const existingUser = await prisma.user.findUnique({
       where: {

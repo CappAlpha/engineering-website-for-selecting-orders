@@ -7,16 +7,14 @@ import { Controller, FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 import { createProduct } from "@/app/actions";
-import { CategoryBase } from "@/shared/entities/category";
+import type { CategoryBase } from "@/shared/entities/category";
 import { Button } from "@/shared/ui/Button";
 import { FormInput } from "@/shared/ui/FormInput";
 import { Selector } from "@/shared/ui/Selector";
 
 import { Plus } from "../../../../../public/icon";
-import {
-  TCreateProductCardSchema,
-  createProductCardSchema,
-} from "../../schemas/createProductCardSchema";
+import type { TCreateProductCardSchema } from "../../schemas/createProductCardSchema";
+import { createProductCardSchema } from "../../schemas/createProductCardSchema";
 
 import s from "./ProductCardCreate.module.scss";
 
@@ -46,6 +44,7 @@ export const ProductCardCreate: FC<Props> = ({ categories }) => {
       });
 
       form.reset();
+      // TODO: add update to list after add
     } catch (err) {
       console.error("[CREATE_PRODUCT_ERROR]", err);
       toast.error(
@@ -61,6 +60,7 @@ export const ProductCardCreate: FC<Props> = ({ categories }) => {
       <div className={s.root}>
         <h2 className={s.title}>Добавить товар</h2>
         <form
+          //eslint-disable-next-line @typescript-eslint/no-misused-promises
           onSubmit={form.handleSubmit(onSubmit)}
           className={cn(s.form, isSubmitting && s.disable)}
           noValidate
