@@ -51,7 +51,9 @@ export const SearchOption = memo(function SearchOption({
           loading="lazy"
         />
         <span className={s.name}>{option.name}</span>
-        <span className={s.price}>{option.price} ₽</span>
+        <span className={cn(s.price, isAdmin && s.priceAdmin)}>
+          {option.price} ₽
+        </span>
       </Link>
 
       {isAdmin && (

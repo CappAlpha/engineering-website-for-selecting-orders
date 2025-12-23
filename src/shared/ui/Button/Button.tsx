@@ -1,8 +1,7 @@
 import type { ButtonBaseProps } from "@mui/material";
 import cn from "classnames";
 import Link from "next/link";
-import type { FC } from "react";
-import { type MouseEvent, type ReactNode } from "react";
+import { type FC, type MouseEvent, type ReactNode } from "react";
 
 import s from "./Button.module.scss";
 
