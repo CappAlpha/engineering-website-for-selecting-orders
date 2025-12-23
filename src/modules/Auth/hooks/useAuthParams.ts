@@ -45,9 +45,9 @@ export const useAuthParams = () => {
       router.replace("/");
 
       if (type === "success") {
-        toast.success(message);
+        toast.success(message, { duration: 5000 });
       } else {
-        toast.error(message);
+        toast.error(message, { duration: 5000 });
       }
     }
   }, [router, searchParams]);
