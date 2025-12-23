@@ -32,15 +32,15 @@
   }
 
   :global(.MuiFilledInput-root) {
-    background-color: #fff;
+    background-color: var(--input-gray);
 
     &:hover {
-      background-color: #fff;
+      background-color: var(--input-gray);
     }
   }
 
   :global(.MuiFilledInput-root.Mui-focused) {
-    background-color: #fff;
+    background-color: var(--input-gray);
   }
 }
 
