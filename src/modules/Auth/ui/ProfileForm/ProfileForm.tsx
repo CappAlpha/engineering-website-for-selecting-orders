@@ -60,7 +60,10 @@ export const ProfileForm: FC<Props> = ({ data }) => {
         icon: "\u2705",
       });
 
-      form.reset({ password: "", confirmPassword: "" }, { keepValues: true });
+      form.reset(
+        { password: "", confirmPassword: "" },
+        { keepDirtyValues: true },
+      );
     } catch (err) {
       console.error("[Error [CHANGE_USER_DATA]]", err);
       toast.error(
