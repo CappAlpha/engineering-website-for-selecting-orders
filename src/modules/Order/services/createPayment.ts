@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { OrderConfig } from "@/modules/Order/constants/order";
 
-import { PaymentResponseData } from "../entities/orderResponse";
+import type { PaymentResponseData } from "../entities/orderResponse";
 
 interface Props {
   description: string;
@@ -11,13 +11,9 @@ interface Props {
 }
 
 /**
- * Creates a payment invoice using the CrystalPay API.
- *
- * @param details - An object containing the payment details.
- * @param details.description - Description of the payment.
- * @param details.orderId - Unique identifier for the order.
- * @param details.amount - The total amount to be paid.
- * @returns A promise that resolves with the response from the CrystalPay API.
+ * Create payment in CrystalPay
+ * @param details - Payment details
+ * @returns Payment data
  */
 export const createPayment = async (details: Props) => {
   const { data } = await axios.post<PaymentResponseData>(
@@ -33,6 +29,10 @@ export const createPayment = async (details: Props) => {
       redirect_url: process.env.NEXT_PUBLIC_PAY_CALLBACK_URL,
     },
   );
+
+  if (data.error) {
+    throw new Error(`CrystalPay error: ${JSON.stringify(data)}`);
+  }
 
   return data;
 };

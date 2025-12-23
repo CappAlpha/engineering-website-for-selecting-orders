@@ -10,6 +10,11 @@ function parseCrystalPayDate(s: string): number {
   return Date.UTC(Y, M - 1, D, h, m, sec);
 }
 
+/**
+ * Get payment url by id
+ * @param paymentId - Payment id
+ * @returns Payment url or null
+ */
 export const getPaymentUrlById = async (
   paymentId: string,
 ): Promise<string | null> => {

@@ -40,21 +40,25 @@ export const createOrder = async (data: CheckoutFormValues) => {
 
   const existing = await prisma.order.findFirst({
     where: { token: cartToken, status: OrderStatus.PENDING },
+    orderBy: { id: "desc" },
   });
   if (existing) {
     if (existing.paymentId) {
       const url = await getPaymentUrlById(existing.paymentId);
-      return url;
+      if (url) return url;
     }
+
     const paymentData = await createPayment({
       orderId: existing.id,
       amount: existing.totalAmount,
       description: `Оплата заказа #${existing.id}`,
     });
+
     await prisma.order.update({
       where: { id: existing.id },
       data: { paymentId: paymentData.id },
     });
+
     return paymentData.url;
   }
 
