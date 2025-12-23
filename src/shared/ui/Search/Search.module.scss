@@ -30,6 +30,18 @@
   &:focus {
     outline: var(--gray-border) 1px solid;
   }
+
+  :global(.MuiFilledInput-root) {
+    background-color: #fff;
+
+    &:hover {
+      background-color: #fff;
+    }
+  }
+
+  :global(.MuiFilledInput-root.Mui-focused) {
+    background-color: #fff;
+  }
 }
 
 .error {
