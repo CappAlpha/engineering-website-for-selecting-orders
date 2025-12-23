@@ -60,10 +60,8 @@ export const ProfileForm: FC<Props> = ({ data }) => {
         icon: "\u2705",
       });
 
-      form.reset(
-        { password: "", confirmPassword: "" },
-        { keepDirtyValues: true },
-      );
+      // TOOD: fix label not on top after reset
+      form.reset({ password: "", confirmPassword: "" });
     } catch (err) {
       console.error("[Error [CHANGE_USER_DATA]]", err);
       toast.error(

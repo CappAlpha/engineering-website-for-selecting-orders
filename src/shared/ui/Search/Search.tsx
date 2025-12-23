@@ -115,6 +115,11 @@ export const Search = ({ categories, isAdmin = false, className }: Props) => {
             <SearchOption {...props} option={option} isAdmin={isAdmin} />
           )}
           inputMode="search"
+          sx={{
+            "& .MuiFilledInput-root": { backgroundColor: "#fff" },
+            "& .MuiFilledInput-root:hover": { backgroundColor: "#fff" },
+            "& .MuiFilledInput-root.Mui-focused": { backgroundColor: "#fff" },
+          }}
         />
       </div>
     </>
