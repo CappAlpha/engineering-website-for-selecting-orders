@@ -42,6 +42,7 @@ export const createOrder = async (data: CheckoutFormValues) => {
     where: { token: cartToken, status: OrderStatus.PENDING },
     orderBy: { id: "desc" },
   });
+
   if (existing) {
     if (existing.paymentId) {
       const url = await getPaymentUrlById(existing.paymentId);
@@ -143,9 +144,7 @@ export const updateUserInfo = async (data: Prisma.UserUpdateInput) => {
       data: {
         fullName: data.fullName,
         email: data.email,
-        password: data.password
-          ? hashSync(data.password as string, 12)
-          : "oauth",
+        password: data.password && hashSync(data.password as string, 12),
         phone: data.phone,
         address: data.address,
       },

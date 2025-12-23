@@ -30,8 +30,9 @@ export const getPaymentUrlById = async (
 
     if (data.error) return null;
 
-    if (data.expired_at) {
-      const expiredAt = parseCrystalPayDate(data.expired_at);
+    const expiredAtStr = data?.expired_at as string | undefined;
+    if (expiredAtStr) {
+      const expiredAt = parseCrystalPayDate(expiredAtStr);
       if (expiredAt <= Date.now()) return null;
     }
 
