@@ -63,7 +63,7 @@ export const SearchOption = memo(function SearchOption({
             e.preventDefault();
             e.stopPropagation();
           }}
-          onClick={() => onClickDeleteProduct}
+          onClick={void onClickDeleteProduct}
           color="transparent"
           className={s.btn}
         >

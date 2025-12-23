@@ -9,8 +9,8 @@ interface ButtonProps {
   color?: "grey" | "transparent" | "outline";
   size?: "m" | "s" | "l";
   noPadding?: boolean;
-  onClick?: (event: MouseEvent) => void;
-  onMouseDown?: (event: MouseEvent) => void;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  onMouseDown?: (event: MouseEvent<HTMLButtonElement>) => void;
   children?: ReactNode;
   className?: string;
   type?: ButtonBaseProps["type"];
