@@ -44,8 +44,8 @@ export const SearchOption = memo(function SearchOption({
       <Link href={`/${option.categorySlug}/${option.id}`} className={s.link}>
         <Image
           className={s.img}
-          width={39}
-          height={39}
+          width={40}
+          height={40}
           src={option.imageUrl}
           alt={option.name}
           loading="lazy"
