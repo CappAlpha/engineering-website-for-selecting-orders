@@ -28,6 +28,10 @@ interface Props {
 
 export const ProfileForm: FC<Props> = ({ data }) => {
   const route = useRouter();
+
+  const isOauth = data.provider;
+
+  // TODO: fix autocomplete
   const inputRef = useMask({
     mask: "+7 (___) ___-__-__",
     replacement: { _: /\d/ },
@@ -50,7 +54,7 @@ export const ProfileForm: FC<Props> = ({ data }) => {
       await updateUserInfo({
         email: data.email,
         fullName: data.fullName,
-        password: data.password,
+        password: isOauth ? "oauth" : data.password,
         phone: data.phone,
         address: data.address,
       });
@@ -112,14 +116,21 @@ export const ProfileForm: FC<Props> = ({ data }) => {
             autoComplete="new-email"
             inputMode="email"
           />
-          <ShowPasswordInput label="Новый пароль" autoComplete="new-password" />
-          <FormInput
-            name="confirmPassword"
-            label="Повторите пароль"
-            type="password"
-            autoComplete="new-password"
-            inputMode="text"
-          />
+          {!isOauth && (
+            <>
+              <ShowPasswordInput
+                label="Новый пароль"
+                autoComplete="new-password"
+              />
+              <FormInput
+                name="confirmPassword"
+                label="Повторите пароль"
+                type="password"
+                autoComplete="new-password"
+                inputMode="text"
+              />
+            </>
+          )}
           <FormInput
             inputRef={inputRef}
             name="phone"
