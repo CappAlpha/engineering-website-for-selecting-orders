@@ -1,15 +1,5 @@
 @use "../../../shared/styles/animations.scss" as *;
 
-.stack {
-  position: relative;
-  isolation: isolate;     
-  z-index: 0;
-}
-
-.stackOpen{
-  z-index: 1000;
-}
-
 .bg {
   position: fixed;
   inset: 0;

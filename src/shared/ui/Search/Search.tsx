@@ -88,36 +88,34 @@ export const Search = ({ categories, isAdmin = false, className }: Props) => {
   return (
     <>
       {/* TODO: fix overlay on input */}
-      <div className={cn(s.stack, isAutocompleteOpen && s.stackOpen)}>
-        {!isAdmin && <div className={cn(s.bg, !open && s.hidden)} />}
-        <div className={cn(s.root, className)}>
-          <Autocomplete
-            open={isAutocompleteOpen}
-            onOpen={onOpen}
-            onClose={onClose}
-            options={sortedProducts}
-            groupBy={(option) => getCategoryNameBySlug(option.categorySlug)}
-            getOptionLabel={(option) => option.name}
-            inputValue={searchQuery}
-            onInputChange={(_e, value) => setSearchQuery(value)}
-            loading={isLoading}
-            loadingText="Загрузка..."
-            noOptionsText="Ничего не найдено"
-            clearOnBlur
-            clearOnEscape
-            fullWidth
-            autoHighlight
-            selectOnFocus
-            autoComplete
-            disablePortal
-            renderInput={SearchInput}
-            renderGroup={SearchGroup}
-            renderOption={(props, option) => (
-              <SearchOption {...props} option={option} isAdmin={isAdmin} />
-            )}
-            inputMode="search"
-          />
-        </div>
+      {!isAdmin && <div className={cn(s.bg, !open && s.hidden)} />}
+      <div className={cn(s.root, className)}>
+        <Autocomplete
+          open={isAutocompleteOpen}
+          onOpen={onOpen}
+          onClose={onClose}
+          options={sortedProducts}
+          groupBy={(option) => getCategoryNameBySlug(option.categorySlug)}
+          getOptionLabel={(option) => option.name}
+          inputValue={searchQuery}
+          onInputChange={(_e, value) => setSearchQuery(value)}
+          loading={isLoading}
+          loadingText="Загрузка..."
+          noOptionsText="Ничего не найдено"
+          clearOnBlur
+          clearOnEscape
+          fullWidth
+          autoHighlight
+          selectOnFocus
+          autoComplete
+          disablePortal
+          renderInput={SearchInput}
+          renderGroup={SearchGroup}
+          renderOption={(props, option) => (
+            <SearchOption {...props} option={option} isAdmin={isAdmin} />
+          )}
+          inputMode="search"
+        />
       </div>
     </>
   );
