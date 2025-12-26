@@ -8,6 +8,9 @@ import {
   verifyEmail,
 } from "@/shared/api/server/verify";
 import { Button } from "@/shared/ui/Button";
+import { FormInput } from "@/shared/ui/FormInput";
+
+import s from "./VerifyForm.module.scss";
 
 interface Props {
   uid: string;
@@ -74,10 +77,11 @@ export const VerifyForm = ({ uid, onVerified }: Props) => {
   };
 
   return (
-    <div>
+    <div className={s.root}>
       <p>Мы отправили код на вашу почту. Введите 6-значный код:</p>
 
-      <input
+      <FormInput
+        name="verifyCode"
         inputMode="numeric"
         value={code}
         onChange={(e) =>
@@ -87,11 +91,15 @@ export const VerifyForm = ({ uid, onVerified }: Props) => {
       />
 
       <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
-        <Button onClick={handleVerify} disabled={loading || code.length !== 6}>
+        <Button
+          className={s.btn}
+          onClick={handleVerify}
+          disabled={loading || code.length !== 6}
+        >
           {loading ? "Проверяем..." : "Подтвердить"}
         </Button>
 
-        <Button onClick={handleResend} disabled={resending}>
+        <Button className={s.btn} onClick={handleResend} disabled={resending}>
           {resending ? "Отправляем..." : "Отправить ещё раз"}
         </Button>
       </div>
