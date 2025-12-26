@@ -2,6 +2,7 @@
 
 import { Fade, Modal } from "@mui/material";
 import { signIn } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState, type FC } from "react";
 
 import { useCartQueries } from "@/modules/Cart/hooks/useCartQueries";
@@ -11,6 +12,7 @@ import { Login, Plus, Registration } from "../../../../../public/icon";
 import { AuthFormHeader } from "../AuthFormHeader";
 import { LoginForm } from "../LoginForm";
 import { RegisterForm } from "../RegisterForm";
+import { VerifyForm } from "../VerifyForm";
 
 import s from "./AuthModal.module.scss";
 
@@ -19,12 +21,23 @@ interface Props {
   onClose: VoidFunction;
 }
 
+type BaseAuthType = "login" | "register" | "verify";
+
 export const AuthModal: FC<Props> = ({ open, onClose }) => {
-  const [authType, setAuthType] = useState<"login" | "register">("login");
+  const [baseAuthType, setBaseAuthType] = useState<BaseAuthType>("login");
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { refetchCart } = useCartQueries();
 
+  const verify = searchParams.get("verify") === "1";
+  const verifyUid = searchParams.get("uid");
+  const isVerifyMode = open && verify && Boolean(verifyUid);
+
   const onSwitchAuthType = () => {
-    setAuthType((prevType) => (prevType === "login" ? "register" : "login"));
+    setBaseAuthType((prevType) =>
+      prevType === "login" ? "register" : "login",
+    );
   };
 
   const handleGoogleLogin = async () => {
@@ -32,8 +45,36 @@ export const AuthModal: FC<Props> = ({ open, onClose }) => {
     await refetchCart();
   };
 
+  const handleClickGoogle = () => void handleGoogleLogin();
+
+  const clearVerifyFromUrl = () => {
+    const sp = new URLSearchParams(searchParams.toString());
+    sp.delete("verify");
+    sp.delete("uid");
+
+    const qs = sp.toString();
+    router.replace(qs ? `?${qs}` : "?", { scroll: false });
+  };
+
   const handleClose = () => {
+    clearVerifyFromUrl();
+    setBaseAuthType("login");
     onClose();
+  };
+
+  const openVerify = (uid: string) => {
+    const sp = new URLSearchParams(searchParams.toString());
+    sp.set("verify", "1");
+    sp.set("uid", uid);
+    router.replace(`?${sp.toString()}`, { scroll: false });
+  };
+
+  const onVerified = () => {
+    void (async () => {
+      await refetchCart();
+      router.push("/?verified");
+      handleClose();
+    })();
   };
 
   return (
@@ -49,9 +90,21 @@ export const AuthModal: FC<Props> = ({ open, onClose }) => {
           >
             <Plus className={s.closeIcon} />
           </Button>
+
           <div className={s.wrap}>
-            {authType === "login" ? (
-              //  Login user
+            {isVerifyMode ? (
+              <>
+                <AuthFormHeader
+                  title="Подтверждение почты"
+                  description="Введите код из письма"
+                  icon={<Registration />}
+                />
+
+                {verifyUid && (
+                  <VerifyForm uid={verifyUid} onVerified={onVerified} />
+                )}
+              </>
+            ) : baseAuthType === "login" ? (
               <>
                 <AuthFormHeader
                   title="Вход в аккаунт"
@@ -61,27 +114,28 @@ export const AuthModal: FC<Props> = ({ open, onClose }) => {
 
                 <LoginForm onClose={handleClose} />
 
-                <Button onClick={handleGoogleLogin} className={s.loginBtn}>
+                <Button onClick={handleClickGoogle} className={s.loginBtn}>
                   Google
                 </Button>
               </>
             ) : (
-              // Registration user
               <>
                 <AuthFormHeader title="Регистрация" icon={<Registration />} />
 
-                <RegisterForm onClose={handleClose} />
+                <RegisterForm onNeedVerify={openVerify} />
               </>
             )}
 
-            <Button
-              onClick={onSwitchAuthType}
-              className={s.switchBtn}
-              color="transparent"
-              noPadding
-            >
-              {authType === "login" ? "Регистрация" : "Вход в аккаунт"}
-            </Button>
+            {!isVerifyMode && (
+              <Button
+                onClick={onSwitchAuthType}
+                className={s.switchBtn}
+                color="transparent"
+                noPadding
+              >
+                {baseAuthType === "login" ? "Регистрация" : "Вход в аккаунт"}
+              </Button>
+            )}
           </div>
         </div>
       </Fade>

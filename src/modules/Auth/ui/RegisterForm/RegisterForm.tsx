@@ -16,10 +16,10 @@ import { formRegisterSchema } from "../../schemas/authSchemas";
 import s from "./RegisterForm.module.scss";
 
 interface Props {
-  onClose: VoidFunction;
+  onNeedVerify: (uid: string) => void;
 }
 
-export const RegisterForm: FC<Props> = ({ onClose }) => {
+export const RegisterForm: FC<Props> = ({ onNeedVerify }) => {
   const form = useForm<TFormRegisterValues>({
     resolver: zodResolver(formRegisterSchema),
     defaultValues: {
@@ -34,7 +34,7 @@ export const RegisterForm: FC<Props> = ({ onClose }) => {
 
   const onSubmit = async (data: TFormRegisterValues) => {
     try {
-      await registerUser({
+      const res = await registerUser({
         email: data.email,
         fullName: data.fullName,
         password: data.password,
@@ -44,7 +44,9 @@ export const RegisterForm: FC<Props> = ({ onClose }) => {
         icon: "\u2705",
       });
 
-      onClose();
+      onNeedVerify(res.uid);
+
+      form.reset();
     } catch (err) {
       console.error("[REGISTRATION]", err);
       toast.error(

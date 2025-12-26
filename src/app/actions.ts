@@ -5,8 +5,14 @@ import { OrderStatus } from "@prisma/client";
 import { hashSync } from "bcrypt";
 import { createElement } from "react";
 
+import { OTP_TTL_MINUTES } from "@/modules/Auth/constants/verified";
 import { getUserSession } from "@/modules/Auth/services/getUserSession";
 import { EmailVerification } from "@/modules/Auth/ui/EmailVerification";
+import {
+  generateOtp,
+  getOtpExpiresAt,
+  hashOtp,
+} from "@/modules/Auth/utils/generateVerificationCode";
 import type { CartItemDTO } from "@/modules/Cart/entities/cart";
 import { cartClear } from "@/modules/Cart/services/cartClear";
 import { findCartWithProducts } from "@/modules/Cart/services/findCartWithProducts";
@@ -189,7 +195,6 @@ export const updateUserInfo = async (data: Prisma.UserUpdateInput) => {
 export const registerUser = async (
   data: Omit<Prisma.UserCreateInput, "id">,
 ) => {
-  // TODO: delete user if verification expired?
   try {
     const existingUser = await prisma.user.findUnique({
       where: {
@@ -198,36 +203,70 @@ export const registerUser = async (
     });
 
     if (existingUser) {
-      if (!existingUser.verified) {
-        throw new Error("Почта не подтверждена");
+      if (existingUser.provider) {
+        throw new Error(
+          "Этот email зарегистрирован через твоего провайдера. Войди через провайдер.",
+        );
       }
-      throw new Error("Пользователь уже существует");
+      if (existingUser.verified) {
+        throw new Error("Пользователь уже существует");
+      }
     }
 
-    const createdUser = await prisma.user.create({
-      data: {
-        fullName: data.fullName,
-        email: data.email,
-        password: hashSync(data.password, 12),
+    const user =
+      existingUser ??
+      (await prisma.user.create({
+        data: {
+          fullName: data.fullName,
+          email: data.email,
+          password: hashSync(data.password, 12),
+        },
+      }));
+
+    const code = generateOtp();
+    const codeHash = hashOtp(code);
+    const expiresAt = getOtpExpiresAt();
+
+    // anti spam resend (no more than once every 60 seconds)
+    const existingCode = await prisma.verificationCode.findUnique({
+      where: { userId: user.id },
+    });
+    if (
+      existingCode?.lastSentAt &&
+      Date.now() - existingCode.lastSentAt.getTime() < 60_000
+    ) {
+      throw new Error("Код уже отправлен, попробуй через минуту");
+    }
+
+    await prisma.verificationCode.upsert({
+      where: { userId: user.id },
+      update: {
+        codeHash,
+        expiresAt,
+        attempts: 0,
+        lastSentAt: new Date(),
+      },
+      create: {
+        userId: user.id,
+        codeHash,
+        expiresAt,
+        attempts: 0,
+        lastSentAt: new Date(),
       },
     });
 
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-
-    await prisma.verificationCode.create({
-      data: {
-        code,
-        userId: createdUser.id,
-      },
+    const emailElement = createElement(EmailVerification, {
+      code,
+      ttlMinutes: OTP_TTL_MINUTES,
     });
-
-    const emailElement = createElement(EmailVerification, { code });
 
     await sendEmail(
-      createdUser.email,
+      user.email,
       "Engineer / Подтверждение регистрации",
       emailElement,
     );
+
+    return { ok: true, uid: user.id };
   } catch (err) {
     console.error("[REGISTER_USER_ACTION] Server error: ", err);
     throw err;

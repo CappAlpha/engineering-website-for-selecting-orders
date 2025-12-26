@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { getUserSession } from "@/modules/Auth/services/getUserSession";
 import { ProfileForm } from "@/modules/Auth/ui/ProfileForm";
 import { ProductCardCreate } from "@/modules/Catalog/ui/ProductCardCreate";
-import { CategoryBase } from "@/shared/entities/category";
+import type { CategoryBase } from "@/shared/entities/category";
 import { Breadcrumbs } from "@/shared/ui/Breadcrumbs";
 import { Search } from "@/shared/ui/Search";
 
