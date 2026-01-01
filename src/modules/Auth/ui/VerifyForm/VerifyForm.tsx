@@ -94,12 +94,13 @@ export const VerifyForm = ({ uid, onVerified }: Props) => {
         <Button
           className={s.btn}
           onClick={handleVerify}
-          disabled={loading || code.length !== 6}
+          disabled={code.length !== 6}
+          loading={loading}
         >
           {loading ? "Проверяем..." : "Подтвердить"}
         </Button>
 
-        <Button className={s.btn} onClick={handleResend} disabled={resending}>
+        <Button className={s.btn} onClick={handleResend} loading={resending}>
           {resending ? "Отправляем..." : "Отправить ещё раз"}
         </Button>
       </div>
