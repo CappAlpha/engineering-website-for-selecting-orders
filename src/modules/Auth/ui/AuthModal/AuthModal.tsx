@@ -80,7 +80,7 @@ export const AuthModal: FC<Props> = ({ open, onClose }) => {
   return (
     <Modal open={open} onClose={handleClose} className={s.root} keepMounted>
       <Fade in={open}>
-        <div className={s.content} role="dialog">
+        <dialog className={s.content}>
           <Button
             onClick={handleClose}
             className={s.close}
@@ -137,7 +137,7 @@ export const AuthModal: FC<Props> = ({ open, onClose }) => {
               </Button>
             )}
           </div>
-        </div>
+        </dialog>
       </Fade>
     </Modal>
   );

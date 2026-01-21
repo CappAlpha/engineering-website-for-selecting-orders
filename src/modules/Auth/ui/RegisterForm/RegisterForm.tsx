@@ -50,6 +50,7 @@ export const RegisterForm: FC<Props> = ({ onNeedVerify }) => {
     } catch (err) {
       console.error("[REGISTRATION]", err);
       toast.error(
+        // TODO: change message and improve error log
         `Не удалось зарегистрироваться!
         Либо такой пользователь уже существует`,
         { icon: "\u274C" },
@@ -60,7 +61,6 @@ export const RegisterForm: FC<Props> = ({ onNeedVerify }) => {
   return (
     <FormProvider {...form}>
       <form
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={form.handleSubmit(onSubmit)}
         className={s.root}
         noValidate

@@ -10,7 +10,7 @@ export default tsEslint.config(
       ".next/**",
       "node_modules/**",
       "prisma/generated/**",
-      "prisma/**/client/*.d.ts", 
+      "prisma/**/client/*.d.ts",
     ],
   },
 
@@ -28,6 +28,12 @@ export default tsEslint.config(
     rules: {
       ...reactHooks.configs.recommended.rules,
       "@typescript-eslint/consistent-type-imports": "warn",
+      "@typescript-eslint/no-misused-promises": [
+        "error",
+        {
+          checksVoidReturn: false,
+        },
+      ],
     },
   },
 
